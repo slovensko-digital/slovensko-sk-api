@@ -4,8 +4,6 @@ jobs:
     working_directory: ~/slovensko-digital/podaas
 
     docker:
-      - image: circleci/java:10.0.2
-
       - image: circleci/jruby:9.2.0.0
         environment:
           RAILS_ENV: test
