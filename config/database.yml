@@ -1,0 +1,26 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 50
+
+development:
+  <<: *default
+  host: localhost
+  database: podaas_ecosystem_development
+  username: podaas_ecosystem
+  password: podaas_ecosystem
+
+test:
+  <<: *default
+  host: localhost
+  database: podaas_ecosystem_test
+  username: podaas_ecosystem
+  password: podaas_ecosystem
+
+staging:
+  url: <%= ENV['DATABASE_URL'] %>
+  pool: 30
+
+production:
+  url: <%= ENV['DATABASE_URL'] %>
+  pool: 50
