@@ -14,3 +14,15 @@ gem 'puma', '~> 3.11'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+group :development, :test do
+  gem 'dotenv-rails'
+  gem 'factory_bot_rails'
+  gem 'rspec-rails'
+  gem 'pry'
+end
+
+group :development do
+  gem 'annotate'
+  gem 'listen'
+end
