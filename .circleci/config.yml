@@ -1,0 +1,32 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/slovensko-digital/podaas
+
+    docker:
+      - image: circleci/java:10.0.2
+
+      - image: circleci/jruby:9.2.0.0
+        environment:
+          RAILS_ENV: test
+
+      - image: circleci/postgres:11
+        environment:
+          POSTGRES_USER: ubuntu
+          POSTGRES_PASSWORD: ''
+
+    steps:
+      - checkout
+
+      - run: java -version
+
+      - run: ruby --version
+      - restore_cache: { keys: ['{{ checksum "Gemfile.lock" }}'] }
+      - run: bundle install --path vendor/bundle
+      - save_cache: { key: '{{ checksum "Gemfile.lock" }}', paths: [vendor/bundle] }
+
+      - run: dockerize -wait tcp://localhost:5432 -timeout 60s
+      - run: mv .circleci/database.yml config/database.yml
+      - run: bundle exec rake db:create db:schema:load --trace
+
+      - run: bundle exec rspec
