@@ -4,9 +4,9 @@ jobs:
     working_directory: ~/slovensko-digital/podaas
 
     docker:
-      - image: circleci/openjdk:8
+      # TODO add Java image here to force proper version (probably still uses 1.8 by default)
 
-      - image: circleci/jruby:9.2.0.0
+      - image: circleci/jruby:9.2.0.0-jdk
         environment:
           RAILS_ENV: test
 
