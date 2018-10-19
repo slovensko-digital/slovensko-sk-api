@@ -5,6 +5,8 @@ set -e
 version=3.5.4
 url=http://tux.rainside.sk/apache/maven/maven-3/$version/binaries/apache-maven-$version-bin.tar.gz
 
+cd "$(dirname "$0")"
+
 curl -L --silent $url > apache-maven-$version.tar.gz
 tar xf apache-maven-$version.tar.gz
 rm apache-maven-$version.tar.gz
