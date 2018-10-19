@@ -19,6 +19,9 @@ jobs:
       - checkout
 
       - run: java -version
+      - restore_cache: { keys: ['{{ checksum "lib/upvs/pom.xml" }}'] }
+      - run: lib/upvs/compile
+      - save_cache: { key: '{{ checksum "lib/upvs/pom.xml" }}', paths: [~/.m2] }
 
       - run: ruby --version
       - restore_cache: { keys: ['{{ checksum "Gemfile.lock" }}'] }
