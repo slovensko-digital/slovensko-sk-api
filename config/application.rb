@@ -43,4 +43,5 @@ require 'java'
   define_method(package) { accessor }
 end
 
+require 'timeout'
 require 'upvs'
