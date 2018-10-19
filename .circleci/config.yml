@@ -4,6 +4,8 @@ jobs:
     working_directory: ~/slovensko-digital/podaas
 
     docker:
+      # TODO add Java image here to force version 10 on CI
+
       - image: circleci/jruby:9.2.0.0
         environment:
           RAILS_ENV: test
