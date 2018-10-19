@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- TODO remove this file in favor of Java code  -->
+
+<configuration>
+  <define scope="local" name="upvs.log.console" class="digital.slovensko.upvs.log.PropertyResolver">
+    <propertyKey>upvs.log.console</propertyKey>
+    <propertyDefault>CONSOLE</propertyDefault>
+  </define>
+
+  <define scope="local" name="upvs.log.level" class="digital.slovensko.upvs.log.PropertyResolver">
+    <propertyKey>upvs.log.level</propertyKey>
+    <propertyDefault>INFO</propertyDefault>
+  </define>
+
+  <define scope="local" name="upvs.log.pattern" class="digital.slovensko.upvs.log.PropertyResolver">
+    <propertyKey>upvs.log.level</propertyKey>
+    <propertyDefault>%d{HH:mm:ss.SSS} [%thread] %level: %logger{42} - %msg%n</propertyDefault>
+  </define>
+
+  <define scope="local" name="upvs.log.file" class="digital.slovensko.upvs.log.PropertyResolver">
+    <propertyKey>upvs.log.file</propertyKey>
+    <propertyDefault>FILE</propertyDefault>
+  </define>
+
+  <define scope="local" name="upvs.log.file.pattern" class="digital.slovensko.upvs.log.PropertyResolver">
+    <propertyKey>upvs.log.file.pattern</propertyKey>
+    <propertyDefault>log/upvs-%d{yyyyMMdd}.log</propertyDefault>
+  </define>
+
+  <define scope="local" name="upvs.log.file.history" class="digital.slovensko.upvs.log.PropertyResolver">
+    <propertyKey>upvs.log.file.history</propertyKey>
+    <propertyDefault>12</propertyDefault>
+  </define>
+
+  <define scope="local" name="upvs.log.file.size" class="digital.slovensko.upvs.log.PropertyResolver">
+    <propertyKey>upvs.log.file.size</propertyKey>
+    <propertyDefault>200MB</propertyDefault>
+  </define>
+
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>${upvs.log.pattern}</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <encoder>
+      <pattern>${upvs.log.pattern}</pattern>
+    </encoder>
+    <append>true</append>
+    <prudent>true</prudent>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${upvs.log.file.pattern}</fileNamePattern>
+      <maxHistory>${upvs.log.file.history}</maxHistory>
+      <totalSizeCap>${upvs.log.file.size}</totalSizeCap>
+    </rollingPolicy>
+  </appender>
+
+  <appender name="OFF" class="ch.qos.logback.core.helpers.NOPAppender" />
+
+  <logger name="ch.qos.logback" level="WARN" />
+  <logger name="org.apache.cxf" level="${upvs.log.level}" />
+
+  <root level="${upvs.log.level}">
+    <appender-ref ref="${upvs.log.console}" />
+    <appender-ref ref="${upvs.log.file}" />
+  </root>
+</configuration>

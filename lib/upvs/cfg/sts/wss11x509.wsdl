@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="STSEndPoint" targetNamespace="http://xmlns.oracle.com/sts/schema/sts-11g.xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:tns="http://xmlns.oracle.com/sts/schema/sts-11g.xsd" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wst12="http://schemas.xmlsoap.org/ws/2005/02/trust" xmlns:wst13="http://docs.oasis-open.org/ws-sx/ws-trust/200512" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata">
+  <wsp1_2:Policy ns1:Id="wss10_x509_certificates_sign_encrypt" xmlns:ns1="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy">
+    <wsp1_2:ExactlyOne>
+      <wsp1_2:All>
+        <wsam:Addressing />
+        <ns2:AsymmetricBinding xmlns:ns2="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+          <wsp1_2:Policy>
+            <wsp1_2:ExactlyOne>
+              <wsp1_2:All>
+                <ns2:AlgorithmSuite>
+                  <wsp1_2:Policy>
+                    <wsp1_2:ExactlyOne>
+                      <wsp1_2:All>
+                        <ns2:Basic256 />
+                      </wsp1_2:All>
+                    </wsp1_2:ExactlyOne>
+                  </wsp1_2:Policy>
+                </ns2:AlgorithmSuite>
+                <ns2:IncludeTimestamp />
+                <ns2:InitiatorToken>
+                  <wsp1_2:Policy>
+                    <wsp1_2:ExactlyOne>
+                      <wsp1_2:All>
+                        <ns2:X509Token ns2:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+                          <wsp1_2:Policy>
+                            <wsp1_2:ExactlyOne>
+                              <wsp1_2:All>
+                                <ns2:WssX509V3Token10 />
+                              </wsp1_2:All>
+                            </wsp1_2:ExactlyOne>
+                          </wsp1_2:Policy>
+                        </ns2:X509Token>
+                      </wsp1_2:All>
+                    </wsp1_2:ExactlyOne>
+                  </wsp1_2:Policy>
+                </ns2:InitiatorToken>
+                <ns2:Layout>
+                  <wsp1_2:Policy>
+                    <wsp1_2:ExactlyOne>
+                      <wsp1_2:All>
+                        <ns2:Strict />
+                      </wsp1_2:All>
+                    </wsp1_2:ExactlyOne>
+                  </wsp1_2:Policy>
+                </ns2:Layout>
+                <ns2:OnlySignEntireHeadersAndBody />
+                <ns2:RecipientToken>
+                  <wsp1_2:Policy>
+                    <wsp1_2:ExactlyOne>
+                      <wsp1_2:All>
+                        <ns2:X509Token ns2:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never">
+                          <wsp1_2:Policy>
+                            <wsp1_2:ExactlyOne>
+                              <wsp1_2:All>
+                                <ns2:WssX509V3Token10 />
+                              </wsp1_2:All>
+                            </wsp1_2:ExactlyOne>
+                          </wsp1_2:Policy>
+                        </ns2:X509Token>
+                      </wsp1_2:All>
+                    </wsp1_2:ExactlyOne>
+                  </wsp1_2:Policy>
+                </ns2:RecipientToken>
+              </wsp1_2:All>
+            </wsp1_2:ExactlyOne>
+          </wsp1_2:Policy>
+        </ns2:AsymmetricBinding>
+        <ns3:Wss10 xmlns:ns3="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+          <wsp1_2:Policy>
+            <wsp1_2:ExactlyOne>
+              <wsp1_2:All>
+                <ns3:MustSupportRefKeyIdentifier />
+              </wsp1_2:All>
+            </wsp1_2:ExactlyOne>
+          </wsp1_2:Policy>
+        </ns3:Wss10>
+      </wsp1_2:All>
+    </wsp1_2:ExactlyOne>
+  </wsp1_2:Policy>
+  <wsp1_2:Policy ns1:Id="sign_body" xmlns:ns1="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy">
+    <wsp1_2:ExactlyOne>
+      <wsp1_2:All>
+        <ns2:SignedParts xmlns:ns2="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <ns2:Body />
+        </ns2:SignedParts>
+      </wsp1_2:All>
+    </wsp1_2:ExactlyOne>
+  </wsp1_2:Policy>
+  <wsdl:types>
+    <xs:schema>
+      <xs:import namespace="http://docs.oasis-open.org/ws-sx/ws-trust/200512" schemaLocation="wss11x509.xsd" />
+      <xs:import namespace="http://schemas.xmlsoap.org/ws/2005/02/trust" schemaLocation="wss11x509_1_2_3_4_5_6_7.xsd" />
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="RequestSecurityTokenMsgV13">
+    <wsdl:part element="wst13:RequestSecurityToken" name="request13" />
+  </wsdl:message>
+  <wsdl:message name="RequestSecurityTokenResponseCollectionMsgV13">
+    <wsdl:part element="wst13:RequestSecurityTokenResponseCollection" name="responseCollection13" />
+  </wsdl:message>
+  <wsdl:message name="RequestSecurityTokenResponseMsgV13">
+    <wsdl:part element="wst13:RequestSecurityTokenResponse" name="response13" />
+  </wsdl:message>
+  <wsdl:message name="RequestSecurityTokenCollectionMsgV13">
+    <wsdl:part element="wst13:RequestSecurityTokenCollection" name="request13" />
+  </wsdl:message>
+  <wsdl:portType name="SecurityTokenService">
+    <wsdl:operation name="IssueTokenV13">
+      <wsdl:input message="tns:RequestSecurityTokenMsgV13" />
+      <wsdl:output message="tns:RequestSecurityTokenResponseCollectionMsgV13" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="STS" type="tns:SecurityTokenService">
+    <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="IssueTokenV13">
+      <soap12:operation soapAction="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue" soapActionRequired="false" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <PolicyReference URI="#wss10_x509_certificates_sign_encrypt" xmlns="http://schemas.xmlsoap.org/ws/2004/09/policy" />
+        <PolicyReference URI="#sign_body" xmlns="http://schemas.xmlsoap.org/ws/2004/09/policy" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="wss11x509-serviceSoap12">
+    <wsdl:port binding="tns:STS" name="wss11x509-port">
+      <soap:address location="https://authws.vyvoj.upvs.globaltel.sk/sts/wss11x509" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

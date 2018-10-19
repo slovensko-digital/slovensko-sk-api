@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://gov.sk/eGov/IService" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="BizTalkServiceInstance" targetNamespace="http://gov.sk/eGov/IService">
+  <wsp:Policy wsu:Id="ServiceSkTalk3Token_IService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:TransportBinding xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken>
+                  <wsp:Policy />
+                </sp:HttpsToken>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+            <sp:IncludeTimestamp />
+          </wsp:Policy>
+        </sp:TransportBinding>
+        <sp:SignedSupportingTokens xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+          <wsp:Policy>
+            <sp:IssuedToken sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+              <Issuer xmlns="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+                <Address xmlns="http://www.w3.org/2005/08/addressing">https://a1-dnv.upvsp-vyvoj.local:8081/sts/wss11x509</Address>
+              </Issuer>
+              <sp:RequestSecurityTokenTemplate>
+                <trust:TokenType xmlns:trust="http://docs.oasis-open.org/ws-sx/ws-trust/200512">http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0</trust:TokenType>
+                <trust:KeyType xmlns:trust="http://docs.oasis-open.org/ws-sx/ws-trust/200512">http://docs.oasis-open.org/ws-sx/ws-trust/200512/Bearer</trust:KeyType>
+                <trust:SecondaryParameters xmlns:trust="http://docs.oasis-open.org/ws-sx/ws-trust/200512">
+                  <trust:TokenType>http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0</trust:TokenType>
+                  <trust:KeyType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/Bearer</trust:KeyType>
+                </trust:SecondaryParameters>
+              </sp:RequestSecurityTokenTemplate>
+              <wsp:Policy>
+                <sp:RequireInternalReference />
+              </wsp:Policy>
+            </sp:IssuedToken>
+          </wsp:Policy>
+        </sp:SignedSupportingTokens>
+        <sp:Wss11 xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+          <wsp:Policy />
+        </sp:Wss11>
+        <sp:Trust13 xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+          <wsp:Policy>
+            <sp:MustSupportIssuedTokens />
+            <sp:RequireClientEntropy />
+            <sp:RequireServerEntropy />
+          </wsp:Policy>
+        </sp:Trust13>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://microsoft.com/wsdl/types/">
+      <xs:simpleType name="guid">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">&amp;#xD;
+            The representation of a GUID, generally the id of an element.&amp;#xD;</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="UnicodeNameString">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="[\p{L}\p{Nd}_\-\(\)\{\}]*" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://gov.sk/eGov/IService">
+      <xs:import namespace="http://gov.sk/SKTalkMessage" />
+      <xs:element name="Receive">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q1="http://gov.sk/SKTalkMessage" minOccurs="0" maxOccurs="1" name="message" type="q1:SKTalkMessage" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ReceiveResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="ReceiveResult" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://gov.sk/SKTalkMessage" elementFormDefault="qualified" targetNamespace="http://gov.sk/SKTalkMessage">
+      <xs:import namespace="http://microsoft.com/wsdl/types/" />
+      <xs:complexType name="SKTalkMessage">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="EnvelopeVersion" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Header">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="1" name="MessageInfo" type="tns:SKTalkMessageHeaderMessageInfo" />
+                <xs:element minOccurs="0" maxOccurs="1" name="SenderInfo">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element minOccurs="0" maxOccurs="1" name="SecurityMethod" type="xs:string" />
+                      <xs:element minOccurs="0" maxOccurs="1" name="SecurityToken">
+                        <xs:complexType>
+                          <xs:sequence>
+                            <xs:any minOccurs="0" maxOccurs="unbounded" />
+                          </xs:sequence>
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element minOccurs="0" maxOccurs="1" name="Identity">
+                        <xs:complexType>
+                          <xs:sequence>
+                            <xs:any minOccurs="0" maxOccurs="unbounded" />
+                          </xs:sequence>
+                        </xs:complexType>
+                      </xs:element>
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element minOccurs="0" maxOccurs="1" name="RoutingInfo" type="tns:ArrayOfSKTalkMessageHeaderComponent" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="Body">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:any minOccurs="0" maxOccurs="unbounded" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ArrayOfSKTalkMessageHeaderComponent">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="Component">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="1" name="URI" type="xs:anyURI" />
+                <xs:element minOccurs="0" maxOccurs="1" name="Product" type="xs:string" />
+                <xs:element minOccurs="0" maxOccurs="1" name="Version" type="xs:string" />
+                <xs:element minOccurs="0" maxOccurs="1" name="Timestamp" type="xs:dateTime" />
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="ProcessingInfo">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element minOccurs="0" maxOccurs="1" name="RaisedBy" type="xs:string" />
+                      <xs:element minOccurs="0" maxOccurs="1" name="Number" type="xs:integer" />
+                      <xs:element minOccurs="1" maxOccurs="1" name="Type">
+                        <xs:simpleType>
+                          <xs:restriction base="xs:string">
+                            <xs:enumeration value="debug" />
+                            <xs:enumeration value="error" />
+                            <xs:enumeration value="fatal" />
+                            <xs:enumeration value="info" />
+                            <xs:enumeration value="warn" />
+                          </xs:restriction>
+                        </xs:simpleType>
+                      </xs:element>
+                      <xs:element minOccurs="0" maxOccurs="1" name="Text" type="xs:string" />
+                      <xs:element minOccurs="0" maxOccurs="1" name="Location" type="xs:string" />
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element minOccurs="0" maxOccurs="1" name="ComponentSignature">
+                  <xs:complexType />
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="SKTalkMessageHeaderMessageInfo">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="Class">
+            <xs:simpleType>
+              <xs:restriction xmlns:q1="http://microsoft.com/wsdl/types/" base="q1:UnicodeNameString">
+                <xs:minLength value="4" />
+                <xs:maxLength value="256" />
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="PospID">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:minLength value="1" />
+                <xs:maxLength value="256" />
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="PospVersion">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:minLength value="1" />
+                <xs:maxLength value="256" />
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          <xs:element xmlns:q2="http://microsoft.com/wsdl/types/" minOccurs="1" maxOccurs="1" name="MessageID" type="q2:guid" />
+          <xs:element xmlns:q3="http://microsoft.com/wsdl/types/" minOccurs="1" maxOccurs="1" name="CorrelationID" type="q3:guid" />
+          <xs:element xmlns:q4="http://microsoft.com/wsdl/types/" minOccurs="0" maxOccurs="1" name="ReferenceID" type="q4:guid" />
+          <xs:element minOccurs="0" maxOccurs="1" name="BusinessID">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:minLength value="0" />
+                <xs:maxLength value="256" />
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="ChannelInfo" type="tns:ArrayOfChannelInfoTypeChannel" />
+          <xs:element minOccurs="0" maxOccurs="1" name="ChannelInfoReply" type="tns:ArrayOfChannelInfoTypeChannel" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ArrayOfChannelInfoTypeChannel">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="Channel">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="1" name="ChannelInfoURI" type="xs:anyURI" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="IService_Receive_InputMessage">
+    <wsdl:part name="parameters" element="tns:Receive" />
+  </wsdl:message>
+  <wsdl:message name="IService_Receive_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReceiveResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IService">
+    <wsdl:operation name="Receive">
+      <wsdl:input wsaw:Action="http://gov.sk/eGov/IService/Receive" message="tns:IService_Receive_InputMessage" />
+      <wsdl:output wsaw:Action="http://gov.sk/eGov/IService/ReceiveResponse" message="tns:IService_Receive_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServiceSkTalk3Token_IService" type="tns:IService">
+    <wsp:PolicyReference URI="#ServiceSkTalk3Token_IService_policy" />
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Receive">
+      <soap12:operation soapAction="http://gov.sk/eGov/IService/Receive" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="BizTalkServiceInstance">
+    <wsdl:port name="ServiceSkTalk3Token_IService" binding="tns:ServiceSkTalk3Token_IService">
+      <soap12:address location="https://vyvoj.upvs.globaltel.sk/g2g/G2GServiceBus/ServiceSkTalk3Token.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
