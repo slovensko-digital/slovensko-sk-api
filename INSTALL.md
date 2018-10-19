@@ -45,7 +45,7 @@ Podpíšte pomocou [xmlsectool](http://shibboleth.net/downloads/tools/xmlsectool
 > 
 > Ďakujem.
 
-**Ako prílohy priložte `podaas-fix-sts.crt`, `podaas-fix-sp.crt` a `podaas-fix-sp.signed.metadata.xml`.**
+**Ako prílohu priložte do jedného súboru zozipované `podaas-fix-sts.crt`, `podaas-fix-sp.crt` a `podaas-fix-sp.signed.metadata.xml`.** Emailový server na strane dodávateľa to inak odmietne!
 
 
 ### 9. Vykonanie akceptačného testovania (UAT)
