@@ -12,15 +12,15 @@ import org.springframework.core.io.Resource;
 
 import digital.slovensko.upvs.log.PropertyResolver;
 
-public final class Upvs {
+public final class UpvsProxy {
   private final ApplicationContext context;
 
-  private final Sktalk sktalk;
+  private final SktalkProxy sktalk;
 
-  public Upvs(final Map<String, String> properties) {
+  public UpvsProxy(final Map<String, String> properties) {
     this.context = new Context(new MapPropertySource("upvs", new LinkedHashMap<>(properties)));
 
-    this.sktalk = this.context.getBean(Sktalk.class);
+    this.sktalk = this.context.getBean(SktalkProxy.class);
 
     PropertyResolver.load(properties); // TODO remove
   }
@@ -41,7 +41,7 @@ public final class Upvs {
     }
   }
 
-  public Sktalk sktalk() {
+  public SktalkProxy sktalk() {
     return this.sktalk;
   }
 }
