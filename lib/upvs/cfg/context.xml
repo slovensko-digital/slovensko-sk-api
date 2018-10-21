@@ -86,7 +86,7 @@
   <bean id="stsClient" abstract="true" class="org.apache.cxf.ws.security.trust.STSClient">
     <constructor-arg ref="cxf" />
     <property name="location" value="${upvs.sts.address}" />
-    <property name="wsdlLocation" value="services/sts/wss11x509.wsdl" />
+    <property name="wsdlLocation" value="sts/wss11x509.wsdl" />
     <property name="serviceName" value="{http://xmlns.oracle.com/sts/schema/sts-11g.xsd}wss11x509-serviceSoap12" />
     <property name="endpointName" value="{http://xmlns.oracle.com/sts/schema/sts-11g.xsd}wss11x509-port" />
     <property name="allowRenewing" value="false" />
@@ -101,9 +101,6 @@
   </bean>
 
   <!-- client definitions for STS -->
-  <bean id="stsClient-ieksService" parent="stsClient" />
-  <bean id="stsClient-iServiceBus" parent="stsClient" />
-  <bean id="stsClient-identityService" parent="stsClient" />
   <bean id="stsClient-skTalkService" parent="stsClient" />
 
   <!-- security settings for SKTalk -->
@@ -119,7 +116,7 @@
   <jaxws:client id="skTalkService"
                 address="${upvs.sktalk.address}"
                 serviceClass="sk.gov.egov.iservice.IService"
-                wsdlLocation="services/sktalk/ServiceSkTalk3Token.wsdl"
+                wsdlLocation="sktalk/ServiceSkTalk3Token.wsdl"
                 endpointName="n:ServiceSkTalk3Token_IService"
                 serviceName="n:BizTalkServiceInstance"
                 xmlns:n="http://gov.sk/eGov/IService">
