@@ -35,7 +35,6 @@ module Podaas
 end
 
 # Require libraries
-
 require 'java'
 
 %w(com digital java javax org sk).each do |package|
@@ -43,5 +42,5 @@ require 'java'
   define_method(package) { accessor }
 end
 
-require 'timeout'
+require 'safe_timeout'
 require 'upvs'

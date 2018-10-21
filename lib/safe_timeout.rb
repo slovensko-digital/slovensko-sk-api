@@ -1,8 +1,4 @@
-if defined? Timeout
-  raise 'Timeout already defined, maybe accidentally required from standard library?'
-end
-
-module Timeout
+module SafeTimeout
   extend self
 
   def timeout(seconds, error_class = nil)
@@ -41,3 +37,5 @@ module Timeout
 
   private_constant :ESH
 end
+
+SafeTimeoutError = java.util.concurrent.TimeoutException
