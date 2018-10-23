@@ -33,3 +33,14 @@ module Podaas
     config.api_only = true
   end
 end
+
+# Require libraries
+require 'java'
+
+%w(com digital java javax org sk).each do |package|
+  accessor = Module.const_get("Java::#{package.camelize}")
+  define_method(package) { accessor }
+end
+
+require 'safe_timeout'
+require 'upvs'

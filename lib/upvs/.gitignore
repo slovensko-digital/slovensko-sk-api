@@ -1,0 +1,10 @@
+.classpath
+.metadata
+.project
+.settings
+
+*.local
+
+/bin/*
+/log/*
+/tmp/*
