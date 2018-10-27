@@ -15,11 +15,14 @@ import digital.slovensko.upvs.log.PropertyResolver;
 public final class UpvsProxy {
   private final ApplicationContext context;
 
+  private final IamProxy iam;
+
   private final SktalkProxy sktalk;
 
   public UpvsProxy(final Map<String, String> properties) {
     this.context = new Context(new MapPropertySource("upvs", new LinkedHashMap<>(properties)));
 
+    this.iam = this.context.getBean(IamProxy.class);
     this.sktalk = this.context.getBean(SktalkProxy.class);
 
     PropertyResolver.load(properties); // TODO remove
@@ -39,6 +42,10 @@ public final class UpvsProxy {
 
       return resource.exists() ? resource : new FileSystemResource(path);
     }
+  }
+
+  public IamProxy iam() {
+    return this.iam;
   }
 
   public SktalkProxy sktalk() {
