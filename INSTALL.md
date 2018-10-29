@@ -12,9 +12,45 @@ Máme dobrú a zlú správu. Tá zlá správa je, že na zfunkčnenie tohto komp
 
 ### 3. Podpis DIZ
 
-### 4. Vytvorenie infraštruktúrneho prepojenia do FIX prostredia
+### 4. Žiadosť o vytvorenie infraštruktúrneho prepojenia
 
-### 5. Zriadenie prístupov do FIX prostredia
+> Adresát: integracie@globaltel.sk, integracie@nases.gov.sk
+> 
+> Predmet:  **&lt;skratka projektu&gt;** – FIX/PROD – INFRA – Požiadavka - Pridelenie adresného rozsahu
+> 
+> Dobrý deň,
+> 
+> týmto žiadam o pridelenie adresného rozsahu pre tunel do FIX/PROD prostredia a zaslanie potrebného XLS pre špecifikáciu komunikácie.
+>
+> Ďakujem.
+
+NASES Vám zašle naspäť XLS dokument, ktorý bude treba doplniť nasledovne:
+
+1. V prvej záložke `Základné údaje` nájdete `Pridelený koordinovaný rozsah pre služby v tuneloch ES:` napríklad `100.66.0.128/28`. Od tohto rozsahu sa odvíjajú nasledujúce nastavenia.
+2. V prvej záložke vyplňte potrebné kontaktné údaje pre externý subjekt (to ste Vy)
+3. V tretej záložke `Integračné a aplikačné endpointy` vyplňte všetky riadky stĺpca `Rozhranie ES TunelIP` tak, že pre FIX prostredie uvediete piatu adresu rozsahu (t.j. pre rozsah `100.66.0.128/28` to bude `100.66.0.128 + 5` = `100.66.0.133`) a pre PROD prostredie desiatu adresu rozsahu `100.55.0.128 + 10` = `100.66.0.138`. 
+4. V tretej záložke `Integračné a aplikačné endpointy` následne označte červeným pozadím riadky s rozhraním `IAM-WS - 1.7, 2.0` toto sa nepoužíva, ostatné riadky označte zeleným pozadím. Teda: `schranka - EKR`, `UIR (URP, URZ - BPM)`, `USR (SB-Ext. Zbernica)` aj `IAM-STS.` 
+5. V štvrtej záložke `GUI Endpointy Test-Fix` povoľte prístup z internetu cez GUI pre Portal 1.7, 2.0, Prihlasenie IAM, Formulare, eFormulare, schranka - eDesk 1.7, 2.0. 
+6. V štvrtej záložke `GUI Endpointy Test-Fix` do `IP GW ES pre povolenie pristupu ku GUI rozhraniam:` uveďte verejnú IP adresu stroja, cez ktorý sa pristupovať k portálu pre účely testovania.
+7. V piatej záložke `DNS` uveďte ako `IP ES Site` pre FIX tretiu adresu rozsahu (t.j. pre rozsah `100.66.0.128/28` to bude `100.66.0.128 + 3` = `100.66.0.131`) a pre PROD štvrtú adresu rozsahu (t.j. pre rozsah `100.66.0.128/28` to bude `100.66.0.128 + 4` = `100.66.0.132`)  
+8. V záložke `IPsec LAN to LAN` uveďte do `Remote VPN gateway IP address ( ES site )` verejnú IP adresu stroja, kde bude bežať tento komponent (resp. koniec IPsec tunela)
+
+XLS zašlite ako prílohu k emailu:
+
+> Adresát: integracie@globaltel.sk, integracie@nases.gov.sk
+> 
+> Predmet:  **&lt;skratka projektu&gt;** - FIX/PROD - INFRA - Požiadavka - Vytvorenie infraštruktúrneho prepojenia
+> 
+> Dobrý deň,
+> 
+> týmto žiadam o zriadenie tunela do FIX/PROD prostredia. Vyplnenú konfiguráciu posielam v prílohe.
+>
+> Ďakujem.
+
+### 5. Vytvorenie infraštruktúrneho prepojenia
+
+
+### 6. Zriadenie prístupov do FIX prostredia
 
 `keytool -genkeypair -alias podaassts --keyalg RSA --keysize 2048 --sigalg sha512WithRSA -validity 730 -keypass password -keystore podaas-fix-sts.keystore -storepass password -dname "CN=tech.podaas.upvsfix.ext.podaas.slovensko.digital"`
 
@@ -48,6 +84,6 @@ Podpíšte pomocou [xmlsectool](http://shibboleth.net/downloads/tools/xmlsectool
 **Ako prílohu priložte do jedného súboru zozipované `podaas-fix-sts.crt`, `podaas-fix-sp.crt` a `podaas-fix-sp.signed.metadata.xml`.** Emailový server na strane dodávateľa to inak odmietne!
 
 
-### 9. Vykonanie akceptačného testovania (UAT)
+### 7. Vykonanie akceptačného testovania (UAT)
 
-### 10. Prechod do produkcie
+### 8. Prechod do produkcie
