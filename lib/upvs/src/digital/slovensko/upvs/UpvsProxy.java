@@ -41,7 +41,7 @@ public final class UpvsProxy {
     }
   }
 
-  public SktalkProxy sktalk() {
+  public SktalkProxy getSktalkProxy() {
     return this.sktalk;
   }
 }
