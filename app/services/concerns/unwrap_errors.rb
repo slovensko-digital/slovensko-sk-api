@@ -1,3 +1,5 @@
+# TODO remove this: handle such unwrapping on API controller level or describe API errors with full stack trace
+
 module UnwrapErrors
   extend ActiveSupport::Concern
 
