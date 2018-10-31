@@ -8,6 +8,4 @@ require File.join(root, 'bin', 'upvs-0.0.0.jar')
 
 # alter Java classes for Ruby usage
 
-class digital::slovensko::upvs::UpvsProxy
-  %w(iam sktalk).each { |scope| alias_method(scope, "get_#{scope}_proxy") }
-end
+# TODO

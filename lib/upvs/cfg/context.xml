@@ -101,8 +101,33 @@
   </bean>
 
   <!-- client definitions for STS -->
+  <bean id="stsClient-ieksService" parent="stsClient" />
   <bean id="stsClient-identityService" parent="stsClient" />
   <bean id="stsClient-skTalkService" parent="stsClient" />
+
+  <!-- security settings for EKS -->
+  <http:conduit name="{http://schemas.gov.sk/edesk/eksService/1}CustomBinding_IEKSService.http-conduit">
+    <http:tlsClientParameters>
+      <sec:trustManagers>
+        <sec:keyStore type="${upvs.ssl.truststore.type}" password="${upvs.ssl.truststore.password}" resource="${upvs.ssl.truststore.file}" />
+      </sec:trustManagers>
+    </http:tlsClientParameters>
+  </http:conduit>
+  
+  <!-- client definition for EKS -->
+  <jaxws:client id="ieksService"
+                address="${upvs.eks.address}"
+                serviceClass="sk.gov.schemas.edesk.eksservice._1.IEKSService"
+                wsdlLocation="services/eks/EKSService.wsdl"
+                endpointName="n:CustomBinding_IEKSService"
+                serviceName="n:EKSService"
+                xmlns:n="http://schemas.gov.sk/edesk/eksService/1">
+
+    <jaxws:properties>
+      <entry key="org.apache.cxf.message.Message.ENDPOINT_ADDRESS" value="${upvs.eks.address}" />
+      <entry key="security.sts.client" value-ref="stsClient-ieksService" />
+    </jaxws:properties>
+  </jaxws:client>
 
   <!-- security settings for IAM -->
   <http:conduit name="{http://schemas.gov.sk/identity/service/1.7}iamwsport.http-conduit">
