@@ -1,8 +1,8 @@
 module UpvsEnvironment
   extend self
 
-  def sktalk_service(key)
-    SktalkService.new(upvs_properties(key))
+  def sktalk_receiver(key)
+    SktalkReceiver.new(upvs_properties(key))
   end
 
   def upvs_properties(key)

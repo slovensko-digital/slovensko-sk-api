@@ -1,4 +1,4 @@
-class UpvsService
+class UpvsProxy
   include ForceTimeout
   include UnwrapErrors
 

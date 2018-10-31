@@ -1,8 +1,8 @@
 require_relative '../../config/environment'
 
-sktalk_service = UpvsEnvironment.sktalk_service(nil)
+receiver = UpvsEnvironment.sktalk_receiver(nil)
 
 message = File.read('tmp/egov_application_csru_generic.xml')
-result = sktalk_service.receive(message)
+result = receiver.receive(message)
 
 puts result

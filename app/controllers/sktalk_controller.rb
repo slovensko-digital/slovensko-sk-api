@@ -3,7 +3,8 @@ class SktalkController < ApplicationController
     render_bad_request('No credentials') and return unless params[:key].present?
     render_bad_request('No message') and return unless params[:message].present?
 
-    result = service.receive(params[:message])
+    receiver = UpvsEnvironment.sktalk_receiver(params[:key])
+    result = receiver.receive(params[:message])
 
     render status: :ok, json: { result: result }
   rescue SafeTimeoutError
@@ -13,10 +14,6 @@ class SktalkController < ApplicationController
   end
 
   private
-
-  def service
-    UpvsEnvironment.sktalk_service(params[:key])
-  end
 
   def render_bad_request(message)
     render status: :bad_request, json: { message: message }
