@@ -1,6 +1,7 @@
-class UpvsProxy
+# TODO cache Upvs objects here - consider Java vs Ruby cache
+
+class UpvsProxy < SimpleDelegator
   def initialize(properties)
-    # TODO cache Upvs objects here - consider Java vs Ruby cache
-    @upvs = digital.slovensko.upvs.UpvsProxy.new(properties)
+    super digital.slovensko.upvs.UpvsProxy.new(properties)
   end
 end
