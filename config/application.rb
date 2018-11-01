@@ -40,7 +40,7 @@ require 'java'
 # Define shortcuts to known Java packages
 %w(com digital java javax org sk).each do |package|
   accessor = Module.const_get("Java::#{package.camelize}")
-  define_method(package) { accessor }
+  Kernel.define_method(package) { accessor }
 end
 
 # Require libraries
