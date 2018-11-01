@@ -118,7 +118,7 @@
   <jaxws:client id="ieksService"
                 address="${upvs.eks.address}"
                 serviceClass="sk.gov.schemas.edesk.eksservice._1.IEKSService"
-                wsdlLocation="services/eks/EKSService.wsdl"
+                wsdlLocation="eks/EKSService.wsdl"
                 endpointName="n:CustomBinding_IEKSService"
                 serviceName="n:EKSService"
                 xmlns:n="http://schemas.gov.sk/edesk/eksService/1">
