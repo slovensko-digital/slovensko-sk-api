@@ -5,6 +5,10 @@ module UpvsEnvironment
     SktalkReceiver.new(upvs_proxy(key))
   end
 
+  def sktalk_saver(key)
+    SktalkSaver.new(sktalk_receiver(key))
+  end
+
   def upvs_properties(key)
     # TODO
 
