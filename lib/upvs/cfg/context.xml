@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- TODO remove this file in favor of Java code  -->
+<!-- TODO remove EKS service as it is not needed here -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:cxf="http://cxf.apache.org/core"
@@ -22,15 +23,15 @@
   <context:component-scan base-package="digital.slovensko.upvs" />
   <context:property-placeholder />
   <context:annotation-config />
-  
+
   <bean id="logger" abstract="true">
     <property name="limit" value="-1" />
     <property name="prettyLogging" value="true" />
   </bean>
-  
+
   <bean id="inLogger" class="org.apache.cxf.interceptor.LoggingInInterceptor" parent="logger" />
   <bean id="outLogger" class="org.apache.cxf.interceptor.LoggingOutInterceptor" parent="logger" />
-  
+
   <cxf:bus>
     <cxf:features>
       <wsa:addressing allowDuplicates="false" />
@@ -113,7 +114,7 @@
       </sec:trustManagers>
     </http:tlsClientParameters>
   </http:conduit>
-  
+
   <!-- client definition for EKS -->
   <jaxws:client id="ieksService"
                 address="${upvs.eks.address}"
@@ -161,7 +162,7 @@
       </sec:trustManagers>
     </http:tlsClientParameters>
   </http:conduit>
-  
+
   <!-- client definition for SKTalk -->
   <jaxws:client id="skTalkService"
                 address="${upvs.sktalk.address}"
