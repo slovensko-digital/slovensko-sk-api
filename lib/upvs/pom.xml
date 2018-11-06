@@ -128,6 +128,12 @@
               <sourceRoot>${project.build.directory}/cxf-codegen-plugin-sources</sourceRoot>
               <wsdlOptions>
                 <wsdlOption>
+                  <wsdl>${basedir}/cfg/eks/EKSService.wsdl</wsdl>
+                </wsdlOption>
+                <wsdlOption>
+                  <wsdl>${basedir}/cfg/iam/GetIdentityService.wsdl</wsdl>
+                </wsdlOption>
+                <wsdlOption>
                   <wsdl>${basedir}/cfg/sktalk/ServiceSkTalk3Token.wsdl</wsdl>
                 </wsdlOption>
                 <wsdlOption>

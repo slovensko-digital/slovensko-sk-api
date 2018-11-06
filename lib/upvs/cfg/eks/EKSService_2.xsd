@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII.Model" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII.Model">
+  <xs:complexType name="Message">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Body" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Class" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CorrelationId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DateDelivery" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="IdMessage" type="xs:long" />
+      <xs:element minOccurs="0" name="MessageId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SkTalk" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Title" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Message" nillable="true" type="tns:Message" />
+  <xs:complexType name="ArrayResultOfMessage3PnOaN_Pm">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ArrayResultOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII.Model" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="Message" Namespace="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII.Model" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="TotalCount" type="xs:int" />
+      <xs:element minOccurs="0" name="Values" nillable="true" type="tns:ArrayOfMessage" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayResultOfMessage3PnOaN_Pm" nillable="true" type="tns:ArrayResultOfMessage3PnOaN_Pm" />
+  <xs:complexType name="ArrayOfMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Message" nillable="true" type="tns:Message" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMessage" nillable="true" type="tns:ArrayOfMessage" />
+  <xs:complexType name="Filter">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Items" nillable="true" type="tns:ArrayOfFilterItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Filter" nillable="true" type="tns:Filter" />
+  <xs:complexType name="ArrayOfFilterItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="FilterItem" nillable="true" type="tns:FilterItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFilterItem" nillable="true" type="tns:ArrayOfFilterItem" />
+  <xs:complexType name="FilterItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Value" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="FilterItem" nillable="true" type="tns:FilterItem" />
+  <xs:complexType name="MessagePart">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Class" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Data" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MimeType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PartId" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MessagePart" nillable="true" type="tns:MessagePart" />
+  <xs:complexType name="ArrayResultOfFolder3PnOaN_Pm">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ArrayResultOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII.Model" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="Folder" Namespace="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII.Model" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="TotalCount" type="xs:int" />
+      <xs:element minOccurs="0" name="Values" nillable="true" type="tns:ArrayOfFolder" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayResultOfFolder3PnOaN_Pm" nillable="true" type="tns:ArrayResultOfFolder3PnOaN_Pm" />
+  <xs:complexType name="ArrayOfFolder">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Folder" nillable="true" type="tns:Folder" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFolder" nillable="true" type="tns:ArrayOfFolder" />
+  <xs:complexType name="Folder">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="IdFolder" type="xs:int" />
+      <xs:element minOccurs="0" name="IdFolderParent" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SystemFolder" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Folder" nillable="true" type="tns:Folder" />
+</xs:schema>

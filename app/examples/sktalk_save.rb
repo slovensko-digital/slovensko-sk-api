@@ -1,8 +1,8 @@
 require_relative '../../config/environment'
 
-receiver = UpvsEnvironment.sktalk_receiver(nil)
+saver = UpvsEnvironment.sktalk_saver(nil)
 
 message = File.read('tmp/egov_application_csru_generic.xml')
-result = receiver.receive(message)
+result = saver.save_to_outbox(message)
 
 puts result

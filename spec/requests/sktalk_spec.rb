@@ -1,15 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe 'SKTalk' do
-  let(:sktalk_service) { double }
+  let(:sktalk_receiver) { double }
 
   before(:example) do
-    allow(UpvsEnvironment).to receive(:sktalk_service).with('KEY').and_return(sktalk_service)
+    allow(UpvsEnvironment).to receive(:sktalk_receiver).with('KEY').and_return(sktalk_receiver)
   end
 
   describe 'POST /sktalk/receive' do
     it 'receives message' do
-      expect(sktalk_service).to receive(:receive).with('<xml>').and_return(0)
+      expect(sktalk_receiver).to receive(:receive).with('<xml>').and_return(0)
 
       post '/sktalk/receive', params: { key: 'KEY', message: '<xml>' }
 

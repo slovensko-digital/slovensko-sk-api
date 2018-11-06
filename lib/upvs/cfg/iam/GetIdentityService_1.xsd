@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema version="1.0" targetNamespace="http://schemas.gov.sk/identity/identityData/1.7" xmlns:tns="http://schemas.gov.sk/identity/identityData/1.7" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="IdentityData">
+    <xs:sequence>
+      <xs:element name="PhysicalPerson" type="tns:PhysicalPersonType" minOccurs="0" />
+      <xs:element name="CorporateBody" type="tns:CorporateBodyType" minOccurs="0" />
+      <xs:element name="PhysicalAddress" type="tns:PhysicalAddressType" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="TelephoneAddress" type="tns:TelephoneAddressType" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="InternetAddress" type="tns:InternetAddressType" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="ID" type="tns:IDType" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="GeneralData" type="tns:GeneralDataType" minOccurs="0" />
+      <xs:element name="UPVSAttributes" type="tns:UPVSAttributesType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PhysicalPersonType">
+    <xs:sequence>
+      <xs:element name="PersonName" type="tns:PersonNameType" minOccurs="0" />
+      <xs:element name="AlternativeName" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="MaritalStatus" type="xs:string" default="0" minOccurs="0" />
+      <xs:element name="Sex" type="tns:CodeListType" minOccurs="0" />
+      <xs:element name="Birth" type="tns:BirthType" minOccurs="0" />
+      <xs:element name="Death" type="tns:DeathType" minOccurs="0" />
+      <xs:element name="Nationality" type="tns:CodeListType" minOccurs="0" />
+      <xs:element name="Confession" type="xs:string" minOccurs="0" />
+      <xs:element name="Occupation" type="tns:CodeListType" minOccurs="0" />
+      <xs:element name="RelatedPerson" type="tns:RelatedPersonType" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="BankConnection" type="tns:BankConnectionType" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="IdentityTypeDetail" type="tns:CodeListType" minOccurs="0" />
+      <xs:element name="PCO" type="xs:string" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PersonNameType">
+    <xs:sequence>
+      <xs:element name="FormattedName" type="xs:string" minOccurs="0" />
+      <xs:element name="LegalName" type="xs:string" minOccurs="0" />
+      <xs:element name="GivenName" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="PreferredGivenName" type="xs:string" minOccurs="0" />
+      <xs:element name="OtherName" type="xs:string" minOccurs="0" />
+      <xs:element name="FamilyName" type="tns:FamilyNameType" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="GivenFamilyName" type="tns:FamilyNameType" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="Affix" type="tns:AffixType" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="FamilyNameType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="primary" type="xs:boolean" />
+        <xs:attribute name="prefix" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="AffixType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="type" type="tns:EAffixType" />
+        <xs:attribute name="position" type="tns:EAffixPosition" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="CodeListType">
+    <xs:sequence>
+      <xs:element name="Id" type="xs:string" />
+      <xs:element name="TitleSk" type="xs:string" />
+      <xs:element name="Desc" type="xs:string" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="BirthType">
+    <xs:sequence>
+      <xs:element name="DateOfBirth" type="xs:date" />
+      <xs:element name="County" type="tns:CodeListType" minOccurs="0" />
+      <xs:element name="Municipality" type="tns:CodeListType" minOccurs="0" />
+      <xs:element name="District" type="xs:string" minOccurs="0" />
+      <xs:element name="Country" type="tns:CodeListType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DeathType">
+    <xs:sequence>
+      <xs:element name="DateOfDeath" type="xs:date" minOccurs="0" />
+      <xs:element name="County" type="tns:CodeListType" minOccurs="0" />
+      <xs:element name="Municipality" type="tns:CodeListType" minOccurs="0" />
+      <xs:element name="District" type="xs:string" minOccurs="0" />
+      <xs:element name="Country" type="tns:CodeListType" minOccurs="0" />
+      <xs:element name="Status" type="tns:CodeListType" />
+      <xs:element name="DateOfStatusChange" type="xs:date" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RelatedPersonType">
+    <xs:sequence>
+      <xs:element name="TypeOfRelation" type="tns:CodeListType" />
+      <xs:element name="PhysicalPerson" type="tns:PhysicalPersonType" minOccurs="0" />
+      <xs:element name="ID" type="tns:IDType" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="IDType">
+    <xs:sequence>
+      <xs:element name="IdentifierType" type="tns:CodeListType" minOccurs="0" />
+      <xs:element name="IdentifierValue" type="xs:string" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="specified" type="xs:boolean" />
+  </xs:complexType>
+  <xs:complexType name="BankConnectionType">
+    <xs:sequence>
+      <xs:element name="Holder" type="tns:HolderType" minOccurs="0" />
+      <xs:element name="BankName" type="xs:string" nillable="true" minOccurs="0" />
+      <xs:element name="DomesticBankConnection" type="tns:DomesticBankConnectionType" minOccurs="0" />
+      <xs:element name="InternationalBankConnection" type="tns:InternationalBankConnectionType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="HolderType">
+    <xs:sequence>
+      <xs:element name="PersonName" type="tns:PersonNameType" minOccurs="0" />
+      <xs:element name="CorporateBodyName" type="xs:string" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DomesticBankConnectionType">
+    <xs:sequence>
+      <xs:element name="FormattedDomesticBankConnection" type="xs:string" minOccurs="0" />
+      <xs:element name="AccountNumberPrefix" type="xs:string" minOccurs="0" />
+      <xs:element name="AccountNumber" type="xs:string" minOccurs="0" />
+      <xs:element name="BankCode" type="xs:string" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="InternationalBankConnectionType">
+    <xs:sequence>
+      <xs:element name="IBAN" type="xs:string" minOccurs="0" />
+      <xs:element name="BIC" type="xs:string" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CorporateBodyType">
+    <xs:sequence>
+      <xs:element name="CorporateBodyName" type="xs:string" />
+      <xs:element name="CorporateBodyAlternativeName" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="LegalForm" type="tns:CodeListType" />
+      <xs:element name="OrganizationUnit" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="Establishment" type="xs:date" minOccurs="0" />
+      <xs:element name="Termination" type="xs:date" minOccurs="0" />
+      <xs:element name="BankConnection" type="tns:BankConnectionType" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="Activities" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="OtherLegalFacts" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="Equity" type="tns:EquityType" minOccurs="0" />
+      <xs:element name="Stakeholder" type="tns:StakeholderType" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="Sid" type="xs:string" minOccurs="0" />
+      <xs:element name="OrgId" type="xs:int" minOccurs="0" />
+      <xs:element name="Suspension" type="tns:SuspensionType" minOccurs="0" />
+      <xs:element name="DateOfStatusChange" type="xs:date" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="EquityType">
+    <xs:sequence>
+      <xs:element name="Currency" type="xs:string" nillable="true" minOccurs="0" />
+      <xs:element name="EquityValue" type="xs:float" minOccurs="0" />
+      <xs:element name="EquityValuePaid" type="xs:float" minOccurs="0" />
+      <xs:element name="EquityValueApproved" type="xs:float" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="StakeholderType">
+    <xs:sequence>
+      <xs:element name="StakeholderForm" type="xs:string" minOccurs="0" />
+      <xs:element name="PhysicalPerson" type="tns:PhysicalPersonType" minOccurs="0" />
+      <xs:element name="CorporateBody" type="tns:CorporateBodyType" minOccurs="0" />
+      <xs:element name="ID" type="tns:IDType" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SuspensionType">
+    <xs:sequence>
+      <xs:element name="DateFrom" type="xs:date" />
+      <xs:element name="DateTo" type="xs:date" minOccurs="0" />
+      <xs:element name="Reason" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PhysicalAddressType">
+    <xs:sequence>
+      <xs:element name="AddressLine" type="xs:string" minOccurs="0" />
+      <xs:element name="Country" type="tns:CodeListType" minOccurs="0" />
+      <xs:element name="Region" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="County" type="tns:CodeListType" minOccurs="0" />
+      <xs:element name="Municipality" type="tns:CodeListType" minOccurs="0" />
+      <xs:element name="District" type="xs:string" minOccurs="0" />
+      <xs:element name="StreetName" type="xs:string" minOccurs="0" />
+      <xs:element name="BuildingNumber" type="xs:string" minOccurs="0" />
+      <xs:element name="PropertyRegistrationNumber" type="xs:integer" minOccurs="0" />
+      <xs:element name="Unit" type="xs:string" minOccurs="0" />
+      <xs:element name="AddressRegisterEntry" type="xs:string" minOccurs="0" />
+      <xs:element name="AddressPoint" type="tns:AddressPointType" minOccurs="0" />
+      <xs:element name="BuildingIndex" type="xs:integer" minOccurs="0" />
+      <xs:element name="DeliveryAddress" type="tns:DeliveryAddressType" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="type" type="tns:EPhysicalAddressType" />
+    <xs:attribute name="specified" type="xs:boolean" />
+  </xs:complexType>
+  <xs:complexType name="AddressPointType">
+    <xs:sequence>
+      <xs:element name="XYH" type="tns:XYHType" minOccurs="0" />
+      <xs:element name="BLH" type="tns:BLHType" minOccurs="0" />
+      <xs:element name="AddressPointID" type="xs:float" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="XYHType">
+    <xs:sequence>
+      <xs:element name="AxisX" type="xs:float" minOccurs="0" />
+      <xs:element name="AxisY" type="xs:float" minOccurs="0" />
+      <xs:element name="HeightH" type="xs:float" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="BLHType">
+    <xs:sequence>
+      <xs:element name="AxisB" type="xs:float" minOccurs="0" />
+      <xs:element name="AxisL" type="xs:float" minOccurs="0" />
+      <xs:element name="AxisH" type="xs:float" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DeliveryAddressType">
+    <xs:sequence>
+      <xs:element name="PostalCode" type="xs:string" minOccurs="0" />
+      <xs:element name="PostOfficeBox" type="xs:string" minOccurs="0" />
+      <xs:element name="Recipient" type="tns:RecipientType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RecipientType">
+    <xs:sequence>
+      <xs:element name="PersonName" type="tns:PersonNameType" minOccurs="0" />
+      <xs:element name="AdditionalText" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="OrganizationUnit" type="xs:string" minOccurs="0" />
+      <xs:element name="CorporateBodyName" type="xs:string" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TelephoneAddressType">
+    <xs:sequence>
+      <xs:element name="TelephoneType" type="tns:CodeListType" minOccurs="0" />
+      <xs:element name="TelephoneNumber" type="tns:TelephoneNumberType" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TelephoneNumberType">
+    <xs:sequence>
+      <xs:element name="FormattedNumber" type="xs:string" nillable="true" minOccurs="0" />
+      <xs:element name="InternationalCountryCode" type="xs:string" minOccurs="0" />
+      <xs:element name="NationalNumber" type="xs:string" minOccurs="0" />
+      <xs:element name="AreaCityCode" type="xs:string" minOccurs="0" />
+      <xs:element name="SubscriberNumber" type="xs:string" minOccurs="0" />
+      <xs:element name="Extension" type="xs:string" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="InternetAddressType">
+    <xs:sequence>
+      <xs:element name="Address" type="xs:anyURI" minOccurs="0" />
+      <xs:element name="DsigKeyInfo" type="xs:base64Binary" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GeneralDataType">
+    <xs:sequence>
+      <xs:element name="FormattedName" type="xs:string" minOccurs="0" />
+      <xs:element name="IdentityType" type="tns:EIdentityType" />
+      <xs:element name="EGovIdentifier" type="tns:EGovIdentifierType" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="Uri" type="xs:string" minOccurs="0" />
+      <xs:element name="Suffix" type="xs:integer" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="EGovIdentifierType">
+    <xs:sequence>
+      <xs:element name="SectorIdentifier" type="xs:string" minOccurs="0" />
+      <xs:element name="Identifier" type="xs:string" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="UPVSAttributesType">
+    <xs:sequence>
+      <xs:element name="Location" type="xs:string" minOccurs="0" />
+      <xs:element name="LocationActivated" type="xs:boolean" minOccurs="0" />
+      <xs:element name="eDeskStatus" type="tns:EeDeskStatus" minOccurs="0" />
+      <xs:element name="eDeskDeliveryLimited" type="xs:boolean" minOccurs="0" />
+      <xs:element name="eDeskCuetEnabled" type="xs:boolean" minOccurs="0" />
+      <xs:element name="eDeskNumber" type="xs:string" minOccurs="0" />
+      <xs:element name="IdentityStatus" type="tns:EStates" minOccurs="0" />
+      <xs:element name="PreferredLanguage" type="tns:EPreferredLanguages" minOccurs="0" />
+      <xs:element name="RE_IdentityID" type="xs:string" minOccurs="0" />
+      <xs:element name="eNotifyEmailAllowed" type="xs:boolean" minOccurs="0" />
+      <xs:element name="eNotifySmsAllowed" type="xs:boolean" minOccurs="0" />
+      <xs:element name="eNotifyEmergencyAllowed" type="xs:boolean" minOccurs="0" />
+      <xs:element name="eNotifyPreferredChannel" type="tns:EPreferredChannel" minOccurs="0" />
+      <xs:element name="eNotifyPreferredCalendar" type="xs:string" minOccurs="0" />
+      <xs:element name="eDeskRemoteUri" type="xs:anyURI" minOccurs="0" />
+      <xs:element name="OrganizacnaZlozkaOVM" type="xs:boolean" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="EAffixType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="AristocraticTitle" />
+      <xs:enumeration value="FormOfAddress" />
+      <xs:enumeration value="Generation" />
+      <xs:enumeration value="Qualification" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="EAffixPosition">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Prefix" />
+      <xs:enumeration value="Postfix" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="EPhysicalAddressType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="StreetAddress" />
+      <xs:enumeration value="ContactAddress" />
+      <xs:enumeration value="PostOfficeBoxAddress" />
+      <xs:enumeration value="MilitaryAddress" />
+      <xs:enumeration value="Undefined" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="EIdentityType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NATURAL_PERSON" />
+      <xs:enumeration value="LEGAL_ENTITY" />
+      <xs:enumeration value="TECHNICAL_ACCOUNT" />
+      <xs:enumeration value="ADMINISTRATOR_CPAP" />
+      <xs:enumeration value="EMPLOYEE_OF_PUBLIC_ADMINISTRATION" />
+      <xs:enumeration value="INSTITUTION_OF_PUBLIC_ADMINISTRATION" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="EeDeskStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NONEXISTENT" />
+      <xs:enumeration value="CREATED" />
+      <xs:enumeration value="ACTIVE" />
+      <xs:enumeration value="DELIVERABLE" />
+      <xs:enumeration value="DISABLED" />
+      <xs:enumeration value="DELETED" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="EStates">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="REGISTERED" />
+      <xs:enumeration value="ACTIVATED" />
+      <xs:enumeration value="VERIFIED" />
+      <xs:enumeration value="BLOCKED" />
+      <xs:enumeration value="DEACTIVATED" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="EPreferredLanguages">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SK" />
+      <xs:enumeration value="EN" />
+      <xs:enumeration value="PL" />
+      <xs:enumeration value="CZ" />
+      <xs:enumeration value="HU" />
+      <xs:enumeration value="RU" />
+      <xs:enumeration value="DE" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="EPreferredChannel">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SMS" />
+      <xs:enumeration value="EMAIL" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions targetNamespace="http://schemas.gov.sk/identity/service/1.7" name="IdentityServicesExt" xmlns:wssutil="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:tns="http://schemas.gov.sk/identity/service/1.7" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:UsingPolicy wssutil:Required="true" />
+  <wsp:Policy wssutil:Id="Wssp1.2-2007-Saml2.0-Bearer-Https.xml">
+    <!-- NOTE: Resolves error on verifying message against security policy -->
+    <!--
+    <ns1:TransportBinding xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+      <wsp:Policy>
+        <ns1:TransportToken>
+          <wsp:Policy>
+            <ns1:HttpsToken>
+              <wsp:Policy />
+            </ns1:HttpsToken>
+          </wsp:Policy>
+        </ns1:TransportToken>
+        <ns1:AlgorithmSuite>
+          <wsp:Policy>
+            <ns1:Basic256 />
+          </wsp:Policy>
+        </ns1:AlgorithmSuite>
+        <ns1:Layout>
+          <wsp:Policy>
+            <ns1:Lax />
+          </wsp:Policy>
+        </ns1:Layout>
+        <ns1:IncludeTimestamp />
+      </wsp:Policy>
+    </ns1:TransportBinding>
+    <ns2:SupportingTokens xmlns:ns2="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+      <wsp:Policy>
+        <ns2:SamlToken ns2:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+          <wsp:Policy>
+            <ns2:WssSamlV20Token11 />
+          </wsp:Policy>
+        </ns2:SamlToken>
+      </wsp:Policy>
+    </ns2:SupportingTokens>
+    -->
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:TransportBinding xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken>
+                  <wsp:Policy />
+                </sp:HttpsToken>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+            <sp:IncludeTimestamp />
+          </wsp:Policy>
+        </sp:TransportBinding>
+        <sp:SignedSupportingTokens xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+          <wsp:Policy>
+            <sp:IssuedToken sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+              <Issuer xmlns="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+                <Address xmlns="http://www.w3.org/2005/08/addressing">https://a1-dnv.upvsp-vyvoj.local:8081/sts/wss11x509</Address>
+              </Issuer>
+              <sp:RequestSecurityTokenTemplate>
+                <trust:TokenType xmlns:trust="http://docs.oasis-open.org/ws-sx/ws-trust/200512">
+                  http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0
+                </trust:TokenType>
+                <trust:KeyType xmlns:trust="http://docs.oasis-open.org/ws-sx/ws-trust/200512">
+                  http://docs.oasis-open.org/ws-sx/ws-trust/200512/Bearer
+                </trust:KeyType>
+                <trust:SecondaryParameters xmlns:trust="http://docs.oasis-open.org/ws-sx/ws-trust/200512">
+                  <trust:TokenType>
+                    http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0
+                  </trust:TokenType>
+                  <trust:KeyType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/Bearer
+                  </trust:KeyType>
+                </trust:SecondaryParameters>
+              </sp:RequestSecurityTokenTemplate>
+              <wsp:Policy>
+                <sp:RequireInternalReference />
+              </wsp:Policy>
+            </sp:IssuedToken>
+          </wsp:Policy>
+        </sp:SignedSupportingTokens>
+        <sp:Wss11 xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+          <wsp:Policy />
+        </sp:Wss11>
+        <sp:Trust13 xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+          <wsp:Policy>
+            <sp:MustSupportIssuedTokens />
+            <sp:RequireClientEntropy />
+            <sp:RequireServerEntropy />
+          </wsp:Policy>
+        </sp:Trust13>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <types>
+    <xsd:schema>
+      <xsd:import namespace="http://schemas.gov.sk/identity/service/1.7" schemaLocation="GetIdentityService.xsd" />
+    </xsd:schema>
+    <xsd:schema>
+      <xsd:import namespace="http://schemas.gov.sk/identity/identityData/1.7" schemaLocation="GetIdentityService_1.xsd" />
+    </xsd:schema>
+  </types>
+  <message name="GetIdentity">
+    <part name="parameters" element="tns:GetIdentityRequest" />
+  </message>
+  <message name="GetIdentityResponse">
+    <part name="parameters" element="tns:GetIdentityResponse" />
+  </message>
+  <message name="GetIdentityFault">
+    <part name="fault" element="tns:GetIdentityFault" />
+  </message>
+  <message name="GetRolesForIdentity">
+    <part name="parameters" element="tns:GetRolesForIdentityRequest" />
+  </message>
+  <message name="GetRolesForIdentityResponse">
+    <part name="parameters" element="tns:GetRolesForIdentityResponse" />
+  </message>
+  <message name="GetRolesForIdentityFault">
+    <part name="fault" element="tns:GetRolesForIdentityFault" />
+  </message>
+  <message name="IsIdentityInRole">
+    <part name="parameters" element="tns:IsIdentityInRoleRequest" />
+  </message>
+  <message name="IsIdentityInRoleResponse">
+    <part name="parameters" element="tns:IsIdentityInRoleResponse" />
+  </message>
+  <message name="IsIdentityInRoleFault">
+    <part name="fault" element="tns:IsIdentityInRoleFault" />
+  </message>
+  <message name="GetEdeskHistory">
+    <part name="parameters" element="tns:GetEdeskHistoryRequest" />
+  </message>
+  <message name="GetEdeskHistoryResponse">
+    <part name="parameters" element="tns:GetEdeskHistoryResponse" />
+  </message>
+  <message name="GetEdeskHistoryFault">
+    <part name="fault" element="tns:GetEdeskHistoryFault" />
+  </message>
+  <message name="GetEdeskInfo">
+    <part name="parameters" element="tns:GetEdeskInfoRequest" />
+  </message>
+  <message name="GetEdeskInfoResponse">
+    <part name="parameters" element="tns:GetEdeskInfoResponse" />
+  </message>
+  <message name="GetEdeskInfoFault">
+    <part name="fault" element="tns:GetEdeskInfoFault" />
+  </message>
+  <message name="GetDelegations">
+    <part name="parameters" element="tns:GetDelegationsRequest" />
+  </message>
+  <message name="GetDelegationsResponse">
+    <part name="parameters" element="tns:GetDelegationsResponse" />
+  </message>
+  <message name="GetDelegationsFault">
+    <part name="fault" element="tns:GetDelegationsFault" />
+  </message>
+  <message name="GetCurrentDelegation">
+    <part name="parameters" element="tns:GetCurrentDelegationRequest" />
+  </message>
+  <message name="GetCurrentDelegationResponse">
+    <part name="parameters" element="tns:GetCurrentDelegationResponse" />
+  </message>
+  <message name="GetCurrentDelegationFault">
+    <part name="fault" element="tns:GetCurrentDelegationFault" />
+  </message>
+  <message name="GetDelegationDetail">
+    <part name="parameters" element="tns:GetDelegationDetailRequest" />
+  </message>
+  <message name="GetDelegationDetailResponse">
+    <part name="parameters" element="tns:GetDelegationDetailResponse" />
+  </message>
+  <message name="GetDelegationDetailFault">
+    <part name="fault" element="tns:GetDelegationDetailFault" />
+  </message>
+  <portType name="IdentityServices">
+    <operation name="GetIdentity">
+      <input message="tns:GetIdentity" />
+      <output message="tns:GetIdentityResponse" />
+      <fault message="tns:GetIdentityFault" name="GetIdentityFault" />
+    </operation>
+    <operation name="GetRolesForIdentity">
+      <input message="tns:GetRolesForIdentity" />
+      <output message="tns:GetRolesForIdentityResponse" />
+      <fault message="tns:GetRolesForIdentityFault" name="GetRolesForIdentityFault" />
+    </operation>
+    <operation name="IsIdentityInRole">
+      <input message="tns:IsIdentityInRole" />
+      <output message="tns:IsIdentityInRoleResponse" />
+      <fault message="tns:IsIdentityInRoleFault" name="IsIdentityInRoleFault" />
+    </operation>
+    <operation name="GetEdeskHistory">
+      <input message="tns:GetEdeskHistory" />
+      <output message="tns:GetEdeskHistoryResponse" />
+      <fault message="tns:GetEdeskHistoryFault" name="GetEdeskHistoryFault" />
+    </operation>
+    <operation name="GetEdeskInfo">
+      <input message="tns:GetEdeskInfo" />
+      <output message="tns:GetEdeskInfoResponse" />
+      <fault message="tns:GetEdeskInfoFault" name="GetEdeskInfoFault" />
+    </operation>
+    <operation name="GetDelegations">
+      <input message="tns:GetDelegations" />
+      <output message="tns:GetDelegationsResponse" />
+      <fault message="tns:GetDelegationsFault" name="GetDelegationsFault" />
+    </operation>
+    <operation name="GetCurrentDelegation">
+      <input message="tns:GetCurrentDelegation" />
+      <output message="tns:GetCurrentDelegationResponse" />
+      <fault message="tns:GetCurrentDelegationFault" name="GetCurrentDelegationFault" />
+    </operation>
+    <operation name="GetDelegationDetail">
+      <input message="tns:GetDelegationDetail" />
+      <output message="tns:GetDelegationDetailResponse" />
+      <fault message="tns:GetDelegationDetailFault" name="GetDelegationDetailFault" />
+    </operation>
+  </portType>
+  <binding name="iamwsportBinding" type="tns:IdentityServices">
+    <wsp:PolicyReference URI="#Wssp1.2-2007-Saml2.0-Bearer-Https.xml" />
+    <soap12:binding transport="http://www.w3.org/2003/05/soap/bindings/HTTP/" style="document" />
+    <operation name="GetIdentity">
+      <soap12:operation soapAction="" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+      <fault name="GetIdentityFault">
+        <soap12:fault name="GetIdentityFault" use="literal" />
+      </fault>
+    </operation>
+    <operation name="GetRolesForIdentity">
+      <soap12:operation soapAction="" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+      <fault name="GetRolesForIdentityFault">
+        <soap12:fault name="GetRolesForIdentityFault" use="literal" />
+      </fault>
+    </operation>
+    <operation name="IsIdentityInRole">
+      <soap12:operation soapAction="" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+      <fault name="IsIdentityInRoleFault">
+        <soap12:fault name="IsIdentityInRoleFault" use="literal" />
+      </fault>
+    </operation>
+    <operation name="GetEdeskHistory">
+      <soap12:operation soapAction="" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+      <fault name="GetEdeskHistoryFault">
+        <soap12:fault name="GetEdeskHistoryFault" use="literal" />
+      </fault>
+    </operation>
+    <operation name="GetEdeskInfo">
+      <soap12:operation soapAction="" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+      <fault name="GetEdeskInfoFault">
+        <soap12:fault name="GetEdeskInfoFault" use="literal" />
+      </fault>
+    </operation>
+    <operation name="GetDelegations">
+      <soap12:operation soapAction="" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+      <fault name="GetDelegationsFault">
+        <soap12:fault name="GetDelegationsFault" use="literal" />
+      </fault>
+    </operation>
+    <operation name="GetCurrentDelegation">
+      <soap12:operation soapAction="" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+      <fault name="GetCurrentDelegationFault">
+        <soap12:fault name="GetCurrentDelegationFault" use="literal" />
+      </fault>
+    </operation>
+    <operation name="GetDelegationDetail">
+      <soap12:operation soapAction="" />
+      <input>
+        <soap12:body use="literal" />
+      </input>
+      <output>
+        <soap12:body use="literal" />
+      </output>
+      <fault name="GetDelegationDetailFault">
+        <soap12:fault name="GetDelegationDetailFault" use="literal" />
+      </fault>
+    </operation>
+  </binding>
+  <service name="IdentityServicesExt">
+    <port name="iamwsport" binding="tns:iamwsportBinding">
+      <soap12:address location="https://authws.vyvoj.upvs.globaltel.sk/iamws17/GetIdentityService" />
+    </port>
+  </service>
+</definitions>

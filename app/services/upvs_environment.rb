@@ -1,8 +1,12 @@
 module UpvsEnvironment
   extend self
 
-  def sktalk_service(key)
-    SktalkService.new(upvs_properties(key))
+  def sktalk_receiver(key)
+    SktalkReceiver.new(upvs_proxy(key))
+  end
+
+  def sktalk_saver(key)
+    SktalkSaver.new(sktalk_receiver(key))
   end
 
   def upvs_properties(key)
@@ -28,5 +32,9 @@ module UpvsEnvironment
       'upvs.crypto.keystore.password' => ENV['UPVS_KS_PASS'],
       'upvs.crypto.keystore.key' => ENV['UPVS_KS_KEY'],
     }
+  end
+
+  def upvs_proxy(key)
+    UpvsProxy.new(upvs_properties(key))
   end
 end
