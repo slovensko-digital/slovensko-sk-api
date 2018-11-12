@@ -44,5 +44,4 @@ require 'java'
 end
 
 # Require libraries
-require 'safe_timeout'
 require 'upvs'

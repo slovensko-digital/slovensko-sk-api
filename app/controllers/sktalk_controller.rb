@@ -7,10 +7,14 @@ class SktalkController < ApplicationController
     result = receiver.receive(params[:message])
 
     render status: :ok, json: { result: result }
-  rescue SafeTimeoutError
-    render_timeout
   rescue
-    render_internal_server_error
+
+    # TODO check the whole full causal chain
+    if $!.cause&.cause.is_a?(java.net.SocketTimeoutException)
+      render_timeout
+    else
+      render_internal_server_error
+    end
   end
 
   private
