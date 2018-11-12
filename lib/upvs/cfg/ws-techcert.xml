@@ -19,44 +19,13 @@
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-  <context:component-scan base-package="digital.slovensko.upvs" />
-  <context:property-placeholder />
-  <context:annotation-config />
-
-  <bean id="logger" abstract="true">
-    <property name="limit" value="-1" />
-    <property name="prettyLogging" value="true" />
-  </bean>
-
-  <bean id="inLogger" class="org.apache.cxf.interceptor.LoggingInInterceptor" parent="logger" />
-  <bean id="outLogger" class="org.apache.cxf.interceptor.LoggingOutInterceptor" parent="logger" />
-
-  <cxf:bus>
-    <cxf:features>
-      <wsa:addressing allowDuplicates="false" />
-    </cxf:features>
-    <cxf:inInterceptors>
-      <ref bean="inLogger" />
-    </cxf:inInterceptors>
-    <cxf:inFaultInterceptors>
-      <ref bean="inLogger" />
-    </cxf:inFaultInterceptors>
-    <cxf:outInterceptors>
-      <ref bean="outLogger" />
-    </cxf:outInterceptors>
-    <cxf:outFaultInterceptors>
-      <ref bean="outLogger" />
-    </cxf:outFaultInterceptors>
-  </cxf:bus>
-
-  <!-- signature crypto for STS -->
   <bean id="upvsSignatureCrypto" class="org.apache.wss4j.common.crypto.Merlin">
     <constructor-arg index="0">
       <util:properties>
-        <prop key="org.apache.wss4j.crypto.merlin.keystore.file">${upvs.crypto.keystore.file}</prop>
-        <prop key="org.apache.wss4j.crypto.merlin.keystore.type">${upvs.crypto.keystore.type}</prop>
-        <prop key="org.apache.wss4j.crypto.merlin.keystore.alias">${upvs.crypto.keystore.alias}</prop>
-        <prop key="org.apache.wss4j.crypto.merlin.keystore.password">${upvs.crypto.keystore.password}</prop>
+        <prop key="org.apache.wss4j.crypto.merlin.keystore.file">${upvs.sts.keystore.file}</prop>
+        <prop key="org.apache.wss4j.crypto.merlin.keystore.type">${upvs.sts.keystore.type}</prop>
+        <prop key="org.apache.wss4j.crypto.merlin.keystore.alias">${upvs.sts.keystore.alias}</prop>
+        <prop key="org.apache.wss4j.crypto.merlin.keystore.password">${upvs.sts.keystore.private.password}</prop>
       </util:properties>
     </constructor-arg>
     <constructor-arg index="1">
@@ -67,22 +36,19 @@
     </constructor-arg>
   </bean>
 
-  <!-- callback handler for STS -->
   <bean id="upvsCallbackHandler" class="digital.slovensko.upvs.security.PasswordCallbackHandler">
-    <constructor-arg index="0" value="${upvs.crypto.keystore.alias}" />
-    <constructor-arg index="1" value="${upvs.crypto.keystore.key}" />
+    <constructor-arg index="0" value="${upvs.sts.keystore.alias}" />
+    <constructor-arg index="1" value="${upvs.sts.keystore.private.password}" />
   </bean>
 
-  <!-- security settings for STS -->
   <http:conduit name="{http://xmlns.oracle.com/sts/schema/sts-11g.xsd}wss11x509-port.http-conduit">
     <http:tlsClientParameters>
       <sec:trustManagers>
-        <sec:keyStore type="${upvs.ssl.truststore.type}" password="${upvs.ssl.truststore.password}" resource="${upvs.ssl.truststore.file}" />
+        <sec:keyStore type="${upvs.tls.truststore.type}" password="${upvs.tls.truststore.password}" resource="${upvs.tls.truststore.file}" />
       </sec:trustManagers>
     </http:tlsClientParameters>
   </http:conduit>
 
-  <!-- client definitions for STS -->
   <bean id="stsClient" abstract="true" class="org.apache.cxf.ws.security.trust.STSClient">
     <constructor-arg ref="cxf" />
     <property name="location" value="${upvs.sts.address}" />
@@ -91,7 +57,6 @@
     <property name="endpointName" value="{http://xmlns.oracle.com/sts/schema/sts-11g.xsd}wss11x509-port" />
     <property name="allowRenewing" value="false" />
     <property name="sendRenewing" value="false" />
-    <property name="onBehalfOf" value="${sts.onBehalfOf}" />
     <property name="properties">
       <map>
         <entry key="org.apache.cxf.message.Message.ENDPOINT_ADDRESS" value="${upvs.sts.address}" />
@@ -100,31 +65,4 @@
       </map>
     </property>
   </bean>
-
-  <!-- client definitions for STS -->
-  <bean id="stsClient-skTalkService" parent="stsClient" />
-
-  <!-- security settings for SKTalk -->
-  <http:conduit name="{http://gov.sk/eGov/IService}ServiceSkTalk3Token_IService.http-conduit">
-    <http:tlsClientParameters>
-      <sec:trustManagers>
-        <sec:keyStore type="${upvs.ssl.truststore.type}" password="${upvs.ssl.truststore.password}" resource="${upvs.ssl.truststore.file}" />
-      </sec:trustManagers>
-    </http:tlsClientParameters>
-  </http:conduit>
-
-  <!-- client definition for SKTalk -->
-  <jaxws:client id="skTalkService"
-                address="${upvs.sktalk.address}"
-                serviceClass="sk.gov.egov.iservice.IService"
-                wsdlLocation="sktalk/ServiceSkTalk3Token.wsdl"
-                endpointName="n:ServiceSkTalk3Token_IService"
-                serviceName="n:BizTalkServiceInstance"
-                xmlns:n="http://gov.sk/eGov/IService">
-
-    <jaxws:properties>
-      <entry key="org.apache.cxf.message.Message.ENDPOINT_ADDRESS" value="${upvs.sktalk.address}" />
-      <entry key="security.sts.client" value-ref="stsClient-skTalkService" />
-    </jaxws:properties>
-  </jaxws:client>
 </beans>
