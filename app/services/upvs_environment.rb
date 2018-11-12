@@ -47,6 +47,14 @@ module UpvsEnvironment
 
       # 'upvs.sts.saml.assertion' => '<saml:Assertion ID="id-BnEV-0Fk187fjW66RG6B1T3-UXpHhY4sm-zLHwTC" IssueInstant="2018-11-07T20:28:55Z" Version="2.0" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">XXX</saml:Assertion>',
       # 'upvs.sts.saml.assertion' => '',
+      #
+      # TODO
+      # 'upvs.sso.issuer' => 'http://dev.podaas.slovensko.digital',
+      # 'upvs.sso.idp.address' => 'https://auth.vyvoj.upvs.globaltel.sk/oamfed/idp/samlv20',
+      # 'upvs.sso.idp.callback' => 'http://localhost:3000/auth/saml/callback',
+
+      'upvs.timeout.connection' => '30000',
+      'upvs.timeout.receive' => '60000',
     }
   end
 

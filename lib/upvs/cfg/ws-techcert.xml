@@ -42,6 +42,7 @@
   </bean>
 
   <http:conduit name="{http://xmlns.oracle.com/sts/schema/sts-11g.xsd}wss11x509-port.http-conduit">
+    <http:client ConnectionTimeout="${upvs.timeout.connection}" ReceiveTimeout="${upvs.timeout.receive}" />
     <http:tlsClientParameters>
       <sec:trustManagers>
         <sec:keyStore type="${upvs.tls.truststore.type}" password="${upvs.tls.truststore.password}" resource="${upvs.tls.truststore.file}" />
