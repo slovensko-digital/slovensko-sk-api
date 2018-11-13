@@ -172,7 +172,7 @@
           <xs:element minOccurs="0" name="Version" nillable="true" type="tns:EFormVersion"/>
         </xs:sequence>
       </xs:complexType>
-      <xs:element name="FormTemplateMetaData" nillable="true" type="tns:FormTemplateMetaData"/>
+      <xs:element name="FormTemplateMetaDataElement" nillable="true" type="tns:FormTemplateMetaData"/>
       <xs:simpleType name="FormTemplateType">
         <xs:restriction base="xs:string">
           <xs:enumeration value="eForm"/>
@@ -209,7 +209,7 @@
           <xs:element minOccurs="0" name="Type" nillable="true" type="xs:string"/>
         </xs:sequence>
       </xs:complexType>
-      <xs:element name="RelatedDocumentMetaData" nillable="true" type="tns:RelatedDocumentMetaData"/>
+      <xs:element name="RelatedDocumentMetaDataElement" nillable="true" type="tns:RelatedDocumentMetaData"/>
       <xs:complexType name="GetRelatedDocumentReq">
         <xs:sequence>
           <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID"/>
