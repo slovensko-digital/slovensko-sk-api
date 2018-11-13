@@ -1,3 +1,6 @@
+# TODO skip in specs for now
+return if Rails.env.test?
+
 # TODO this patch generates requests exactly as in Java demo, this is not needed and may be removed later
 # class OneLogin::RubySaml::Authrequest
 #   def create_xml_document(settings)
