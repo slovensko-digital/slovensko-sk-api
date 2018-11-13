@@ -36,22 +36,14 @@ module UpvsEnvironment
       'upvs.log.java.console.level' => 'INFO',
 
       'upvs.tls.truststore.file' => ENV['UPVS_TLS_TS_FILE'],
-      'upvs.tls.truststore.type' => 'JKS',
       'upvs.tls.truststore.password' => ENV['UPVS_TLS_TS_PASS'],
 
       'upvs.sts.keystore.file' => ENV['UPVS_STS_KS_FILE'],
-      'upvs.sts.keystore.type' => 'JKS',
       'upvs.sts.keystore.password' => ENV['UPVS_STS_KS_PASS'],
       'upvs.sts.keystore.alias' => ENV['UPVS_STS_KS_ALIAS'],
       'upvs.sts.keystore.private.password' => ENV['UPVS_STS_KS_PRIVATE_PASS'],
 
-      # 'upvs.sts.saml.assertion' => '<saml:Assertion ID="id-BnEV-0Fk187fjW66RG6B1T3-UXpHhY4sm-zLHwTC" IssueInstant="2018-11-07T20:28:55Z" Version="2.0" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">XXX</saml:Assertion>',
       # 'upvs.sts.saml.assertion' => '',
-      #
-      # TODO
-      # 'upvs.sso.issuer' => 'http://dev.podaas.slovensko.digital',
-      # 'upvs.sso.idp.address' => 'https://auth.vyvoj.upvs.globaltel.sk/oamfed/idp/samlv20',
-      # 'upvs.sso.idp.callback' => 'http://localhost:3000/auth/saml/callback',
 
       'upvs.timeout.connection' => '30000',
       'upvs.timeout.receive' => '60000',

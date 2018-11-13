@@ -25,7 +25,7 @@
     <http:client ConnectionTimeout="${upvs.timeout.connection}" ReceiveTimeout="${upvs.timeout.receive}" />
     <http:tlsClientParameters>
       <sec:trustManagers>
-        <sec:keyStore type="${upvs.tls.truststore.type}" password="${upvs.tls.truststore.password}" resource="${upvs.tls.truststore.file}" />
+        <sec:keyStore type="JKS" resource="${upvs.tls.truststore.file}" password="${upvs.tls.truststore.password}" />
       </sec:trustManagers>
     </http:tlsClientParameters>
   </http:conduit>
@@ -50,7 +50,7 @@
     <http:client ConnectionTimeout="${upvs.timeout.connection}" ReceiveTimeout="${upvs.timeout.receive}" />
     <http:tlsClientParameters>
       <sec:trustManagers>
-        <sec:keyStore type="${upvs.tls.truststore.type}" password="${upvs.tls.truststore.password}" resource="${upvs.tls.truststore.file}" />
+        <sec:keyStore type="JKS" resource="${upvs.tls.truststore.file}" password="${upvs.tls.truststore.password}" />
       </sec:trustManagers>
     </http:tlsClientParameters>
   </http:conduit>
@@ -75,7 +75,7 @@
     <http:client ConnectionTimeout="${upvs.timeout.connection}" ReceiveTimeout="${upvs.timeout.receive}" />
     <http:tlsClientParameters>
       <sec:trustManagers>
-        <sec:keyStore type="${upvs.tls.truststore.type}" password="${upvs.tls.truststore.password}" resource="${upvs.tls.truststore.file}" />
+        <sec:keyStore type="JKS" resource="${upvs.tls.truststore.file}" password="${upvs.tls.truststore.password}" />
       </sec:trustManagers>
     </http:tlsClientParameters>
   </http:conduit>

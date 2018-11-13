@@ -22,8 +22,8 @@
   <bean id="upvsSignatureCrypto" class="org.apache.wss4j.common.crypto.Merlin">
     <constructor-arg index="0">
       <util:properties>
+        <prop key="org.apache.wss4j.crypto.merlin.keystore.type">JKS</prop>
         <prop key="org.apache.wss4j.crypto.merlin.keystore.file">${upvs.sts.keystore.file}</prop>
-        <prop key="org.apache.wss4j.crypto.merlin.keystore.type">${upvs.sts.keystore.type}</prop>
         <prop key="org.apache.wss4j.crypto.merlin.keystore.alias">${upvs.sts.keystore.alias}</prop>
         <prop key="org.apache.wss4j.crypto.merlin.keystore.password">${upvs.sts.keystore.private.password}</prop>
       </util:properties>
@@ -45,7 +45,7 @@
     <http:client ConnectionTimeout="${upvs.timeout.connection}" ReceiveTimeout="${upvs.timeout.receive}" />
     <http:tlsClientParameters>
       <sec:trustManagers>
-        <sec:keyStore type="${upvs.tls.truststore.type}" password="${upvs.tls.truststore.password}" resource="${upvs.tls.truststore.file}" />
+        <sec:keyStore type="JKS" resource="${upvs.tls.truststore.file}" password="${upvs.tls.truststore.password}" />
       </sec:trustManagers>
     </http:tlsClientParameters>
   </http:conduit>
