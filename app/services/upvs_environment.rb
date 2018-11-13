@@ -36,12 +36,12 @@ module UpvsEnvironment
       'upvs.log.java.console.level' => 'INFO',
 
       'upvs.tls.truststore.file' => ENV['UPVS_TLS_TS_FILE'],
-      'upvs.tls.truststore.password' => ENV['UPVS_TLS_TS_PASS'],
+      'upvs.tls.truststore.password' => ENV['UPVS_TLS_TS_PASSWORD'],
 
       'upvs.sts.keystore.file' => ENV['UPVS_STS_KS_FILE'],
-      'upvs.sts.keystore.password' => ENV['UPVS_STS_KS_PASS'],
       'upvs.sts.keystore.alias' => ENV['UPVS_STS_KS_ALIAS'],
-      'upvs.sts.keystore.private.password' => ENV['UPVS_STS_KS_PRIVATE_PASS'],
+      'upvs.sts.keystore.password' => ENV['UPVS_STS_KS_PASSWORD'],
+      'upvs.sts.keystore.private.password' => ENV['UPVS_STS_KS_PRIVATE_PASSWORD'],
 
       # 'upvs.sts.saml.assertion' => '',
 
