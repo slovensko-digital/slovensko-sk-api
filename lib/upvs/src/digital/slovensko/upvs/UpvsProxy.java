@@ -13,17 +13,16 @@ import org.springframework.core.io.Resource;
 import sk.gov.egov.iservice.IService;
 import sk.gov.schemas.edesk.eksservice._1.IEKSService;
 import sk.gov.schemas.identity.service._1_7.IdentityServices;
+import sk.gov.schemas.servicebus.service._1_0.IServiceBus;
 
 import digital.slovensko.upvs.log.PropertyResolver;
 
 public final class UpvsProxy {
   private final ApplicationContext context;
-
   private final IEKSService eks;
-
   private final IdentityServices iam;
-
   private final IService sktalk;
+  private final IServiceBus eform;
 
   public UpvsProxy(final Map<String, String> properties) {
     this.context = new Context(new MapPropertySource("upvs", new LinkedHashMap<>(properties)));
@@ -31,6 +30,7 @@ public final class UpvsProxy {
     this.eks = this.context.getBean(IEKSService.class);
     this.iam = this.context.getBean(IdentityServices.class);
     this.sktalk = this.context.getBean(IService.class);
+    this.eform = this.context.getBean(IServiceBus.class);
 
     PropertyResolver.load(properties); // TODO remove
   }
@@ -61,5 +61,9 @@ public final class UpvsProxy {
 
   public IService getSktalk() {
     return this.sktalk;
+  }
+
+  public IServiceBus getEform() {
+    return this.eform;
   }
 }
