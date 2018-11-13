@@ -30,9 +30,8 @@ public final class UpvsProxy {
 
   public UpvsProxy(final Map<String, String> properties) {
     Map<String, Object> copy = new LinkedHashMap<>(properties);
-    List<String> configurations = newArrayList("context.xml");
+    List<String> configurations = newArrayList("context.xml", "ws.xml");
 
-    configurations.add("ws.xml");
     configurations.add(copy.containsKey("upvs.sts.saml.assertion") ? "ws-onbehalf.xml" : "ws-techcert.xml");
 
     this.context = new Context(configurations, new MapPropertySource("args", copy));

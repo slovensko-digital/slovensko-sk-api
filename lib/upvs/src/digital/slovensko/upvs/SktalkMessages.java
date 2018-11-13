@@ -74,7 +74,7 @@ public final class SktalkMessages {
     transformer.transform(new DOMSource(result.getNode()), new StreamResult(writer));
 
     String content = writer.getBuffer().toString();
-    content = content.replaceFirst("\\A<ns2:SKTalkMessage xmlns:ns2=\"http://gov.sk/eGov/IService\" xmlns=\"http://gov.sk/SKTalkMessage\">", "<SKTalkMessage xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://gov.sk/SKTalkMessage\">");
+    content = content.replaceFirst("\\A<ns2:SKTalkMessage xmlns:ns2=\"http://gov.sk/eGov/IService\" xmlns=\"http://gov.sk/SKTalkMessage\">", "<SKTalkMessage xmlns=\"http://gov.sk/SKTalkMessage\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">");
     content = content.replaceFirst("</ns2:SKTalkMessage>\\Z", "</SKTalkMessage>");
 
     return content;
