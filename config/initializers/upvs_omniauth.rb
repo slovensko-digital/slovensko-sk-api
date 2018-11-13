@@ -51,8 +51,8 @@ Rails.application.config.middleware.use OmniAuth::Builder do
     request_path: '/auth/saml/login',
     callback_path: '/auth/saml/callback',
 
-    assertion_consumer_service_url: "#{protocol}://#{host}:#{port}/auth/saml/callback",
     issuer: ENV.fetch('UPVS_SP_ISSUER'),
+    assertion_consumer_service_url: "#{protocol}://#{host}:#{port}/auth/saml/callback",
     name_identifier_format: 'urn:oasis:names:tc:SAML:2.0:nameid-format:transient',
     protocol_binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
     sp_name_qualifier: ENV.fetch('UPVS_SP_ISSUER'),
