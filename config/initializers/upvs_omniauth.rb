@@ -1,5 +1,3 @@
-require 'rails/commands/server/server_command'
-
 # TODO skip in specs for now
 return if Rails.env.test?
 
