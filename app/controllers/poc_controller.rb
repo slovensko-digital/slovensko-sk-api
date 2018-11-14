@@ -1,9 +1,9 @@
 # TODO rm
 
 class PocController < ApplicationController
-  def try
-    render status: :unauthorized unless session[:assertion]
+  before_action { render_bad_request('No credentials') unless session[:assertion] }
 
+  def try
     properties = UpvsEnvironment.upvs_properties(nil)
     properties.merge!('upvs.sts.saml.assertion' => session[:assertion])
 
