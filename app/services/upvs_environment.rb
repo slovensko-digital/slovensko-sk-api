@@ -1,17 +1,21 @@
 module UpvsEnvironment
   extend self
 
-  def sktalk_receiver(key)
-    SktalkReceiver.new(upvs_proxy(key))
+  def assertion_store
+    # TODO there is also a ActiveSupport::Cache::Store::RedisStore
+    @assertion_store ||= ActiveSupport::Cache::MemoryStore.new
   end
 
-  def sktalk_saver(key)
-    SktalkSaver.new(sktalk_receiver(key))
+  def sktalk_receiver(assertion)
+    SktalkReceiver.new(upvs_proxy(assertion))
   end
 
-  def upvs_properties(key)
-    # TODO
+  def sktalk_saver(assertion)
+    SktalkSaver.new(sktalk_receiver(assertion))
+  end
 
+  def upvs_properties(assertion)
+    # TODO configure this somehow
     {
       # dev
       'upvs.eks.address' => 'https://edeskii.vyvoj.upvs.globaltel.sk/EKSService.svc',
@@ -35,6 +39,9 @@ module UpvsEnvironment
       # 'upvs.log.file.size' => '',
       'upvs.log.java.console.level' => 'INFO',
 
+      'upvs.timeout.connection' => '30000',
+      'upvs.timeout.receive' => '60000',
+
       'upvs.tls.truststore.file' => ENV['UPVS_TLS_TS_FILE'],
       'upvs.tls.truststore.password' => ENV['UPVS_TLS_TS_PASSWORD'],
 
@@ -43,14 +50,11 @@ module UpvsEnvironment
       'upvs.sts.keystore.password' => ENV['UPVS_STS_KS_PASSWORD'],
       'upvs.sts.keystore.private.password' => ENV['UPVS_STS_KS_PRIVATE_PASSWORD'],
 
-      # 'upvs.sts.saml.assertion' => '',
-
-      'upvs.timeout.connection' => '30000',
-      'upvs.timeout.receive' => '60000',
-    }
+      'upvs.sts.saml.assertion' => assertion,
+    }.compact
   end
 
-  def upvs_proxy(key)
-    UpvsProxy.new(upvs_properties(key))
+  def upvs_proxy(assertion)
+    UpvsProxy.new(upvs_properties(assertion))
   end
 end
