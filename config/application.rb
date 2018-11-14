@@ -35,6 +35,10 @@ module Podaas
     # Add cookies back
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore
+
+    # Set local timezone
+    config.active_record.default_timezone = :utc
+    config.time_zone = 'Europe/Bratislava'
   end
 end
 
