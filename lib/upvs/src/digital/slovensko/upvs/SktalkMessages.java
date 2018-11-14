@@ -29,14 +29,22 @@ public final class SktalkMessages {
 
   private SktalkMessages() {}
 
-  public static SKTalkMessage valueOf(final Object object) throws JAXBException {
-    if (object instanceof SKTalkMessage) {
-      return (SKTalkMessage) object;
-    } else if (object instanceof CharSequence) {
-      return fromXml(object.toString());
+  public static SKTalkMessage copyOf(final Object message) throws JAXBException, TransformerException {
+    if (message instanceof SKTalkMessage) {
+      return fromXml(toXml((SKTalkMessage) message));
+    } else if (message instanceof CharSequence) {
+      return fromXml(message.toString());
     }
 
     throw new IllegalArgumentException();
+  }
+
+  public static SKTalkMessage valueOf(final Object message) throws JAXBException, TransformerException {
+    if (message instanceof SKTalkMessage) {
+      return (SKTalkMessage) message;
+    }
+
+    return copyOf(message);
   }
 
   public static SKTalkMessage fromXml(final String content) throws JAXBException {
