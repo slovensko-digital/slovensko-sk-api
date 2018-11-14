@@ -3,6 +3,7 @@ package digital.slovensko.upvs;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import digital.slovensko.upvs.client.EzClient;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.env.MapPropertySource;
@@ -13,7 +14,6 @@ import org.springframework.core.io.Resource;
 import sk.gov.egov.iservice.IService;
 import sk.gov.schemas.edesk.eksservice._1.IEKSService;
 import sk.gov.schemas.identity.service._1_7.IdentityServices;
-import sk.gov.schemas.servicebus.service._1_0.IServiceBus;
 
 import digital.slovensko.upvs.log.PropertyResolver;
 
@@ -22,7 +22,7 @@ public final class UpvsProxy {
   private final IEKSService eks;
   private final IdentityServices iam;
   private final IService sktalk;
-  private final IServiceBus eform;
+  private final EzClient ezClient;
 
   public UpvsProxy(final Map<String, String> properties) {
     this.context = new Context(new MapPropertySource("upvs", new LinkedHashMap<>(properties)));
@@ -30,7 +30,7 @@ public final class UpvsProxy {
     this.eks = this.context.getBean(IEKSService.class);
     this.iam = this.context.getBean(IdentityServices.class);
     this.sktalk = this.context.getBean(IService.class);
-    this.eform = this.context.getBean(IServiceBus.class);
+    this.ezClient = this.context.getBean(EzClient.class);
 
     PropertyResolver.load(properties); // TODO remove
   }
@@ -63,7 +63,7 @@ public final class UpvsProxy {
     return this.sktalk;
   }
 
-  public IServiceBus getEform() {
-    return this.eform;
+  public EzClient getEzClient() {
+    return this.ezClient;
   }
 }
