@@ -1,7 +1,11 @@
 require_relative '../../config/environment'
 
-ez_client = UpvsEnvironment.upvs_proxy(nil).ez_client
-form_templates = ez_client.find_form_templates.get_form_templates.get_value.get_form_template_id
+service_bus = UpvsEnvironment.upvs_proxy(nil).service_bus
+
+service = sk.gov.schemas.servicebus.service._1.ServiceClassEnum::EFORM_FINDFORMTEMPLATES_SOAP_V_1_0
+request = sk.gov.schemas.servicebusserviceprovider.ness.eformprovider._1.FindFormTemplatesReq.new
+
+form_templates = service_bus.call_service(service, request).get_form_templates.get_value.get_form_template_id
 
 form_templates.each do |ft|
   puts "#{ft.get_identifier.get_value} #{ft.get_version.get_value.get_major}.#{ft.get_version.get_value.get_minor}"
