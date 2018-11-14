@@ -1,0 +1,828 @@
+<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://schemas.gov.sk/ServiceBus/service/1.0" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" name="service" targetNamespace="http://schemas.gov.sk/ServiceBus/service/1.0" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="CustomBinding_IServiceBus_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <!-- Removed as per https://platforma.slovensko.digital/t/upvs-eforms-received-timestamp-does-not-match-the-requirements-includetimestamp/3423 -->
+        <!--<sp:TransportBinding xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">-->
+          <!--<wsp:Policy>-->
+            <!--<sp:TransportToken>-->
+              <!--<wsp:Policy>-->
+                <!--<sp:HttpsToken/>-->
+              <!--</wsp:Policy>-->
+            <!--</sp:TransportToken>-->
+            <!--<sp:AlgorithmSuite>-->
+              <!--<wsp:Policy>-->
+                <!--<sp:Basic256/>-->
+              <!--</wsp:Policy>-->
+            <!--</sp:AlgorithmSuite>-->
+            <!--<sp:Layout>-->
+              <!--<wsp:Policy>-->
+                <!--<sp:Strict/>-->
+              <!--</wsp:Policy>-->
+            <!--</sp:Layout>-->
+            <!--<sp:IncludeTimestamp/>-->
+          <!--</wsp:Policy>-->
+        <!--</sp:TransportBinding>-->
+        <sp:SignedSupportingTokens xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+          <wsp:Policy>
+            <sp:IssuedToken sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+              <Issuer xmlns="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+                <Address xmlns="http://www.w3.org/2005/08/addressing">https://authws.vyvoj.upvs.globaltel.sk/sts/wss11x509</Address>
+              </Issuer>
+              <sp:RequestSecurityTokenTemplate>
+                <trust:TokenType xmlns:trust="http://docs.oasis-open.org/ws-sx/ws-trust/200512">
+                  http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0
+                </trust:TokenType>
+                <trust:KeyType xmlns:trust="http://docs.oasis-open.org/ws-sx/ws-trust/200512">
+                  http://docs.oasis-open.org/ws-sx/ws-trust/200512/Bearer
+                </trust:KeyType>
+                <trust:SecondaryParameters xmlns:trust="http://docs.oasis-open.org/ws-sx/ws-trust/200512">
+                  <trust:TokenType xmlns:trust="http://docs.oasis-open.org/ws-sx/ws-trust/200512">
+                    http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0
+                  </trust:TokenType>
+                  <trust:KeyType xmlns:trust="http://docs.oasis-open.org/ws-sx/ws-trust/200512">
+                    http://docs.oasis-open.org/ws-sx/ws-trust/200512/Bearer
+                  </trust:KeyType>
+                </trust:SecondaryParameters>
+              </sp:RequestSecurityTokenTemplate>
+              <wsp:Policy>
+                <sp:RequireInternalReference />
+              </wsp:Policy>
+            </sp:IssuedToken>
+          </wsp:Policy>
+        </sp:SignedSupportingTokens>
+        <sp:Wss11 xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+          <wsp:Policy />
+        </sp:Wss11>
+        <sp:Trust13 xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+          <wsp:Policy>
+            <sp:MustSupportIssuedTokens />
+            <sp:RequireClientEntropy />
+            <sp:RequireServerEntropy />
+          </wsp:Policy>
+        </sp:Trust13>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xs:schema xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="anyType" nillable="true" type="xs:anyType" />
+      <xs:element name="anyURI" nillable="true" type="xs:anyURI" />
+      <xs:element name="base64Binary" nillable="true" type="xs:base64Binary" />
+      <xs:element name="boolean" nillable="true" type="xs:boolean" />
+      <xs:element name="byte" nillable="true" type="xs:byte" />
+      <xs:element name="dateTime" nillable="true" type="xs:dateTime" />
+      <xs:element name="decimal" nillable="true" type="xs:decimal" />
+      <xs:element name="double" nillable="true" type="xs:double" />
+      <xs:element name="float" nillable="true" type="xs:float" />
+      <xs:element name="int" nillable="true" type="xs:int" />
+      <xs:element name="long" nillable="true" type="xs:long" />
+      <xs:element name="QName" nillable="true" type="xs:QName" />
+      <xs:element name="short" nillable="true" type="xs:short" />
+      <xs:element name="string" nillable="true" type="xs:string" />
+      <xs:element name="unsignedByte" nillable="true" type="xs:unsignedByte" />
+      <xs:element name="unsignedInt" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="unsignedLong" nillable="true" type="xs:unsignedLong" />
+      <xs:element name="unsignedShort" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="char" nillable="true" type="tns:char" />
+      <xs:simpleType name="char">
+        <xs:restriction base="xs:int" />
+      </xs:simpleType>
+      <xs:element name="duration" nillable="true" type="tns:duration" />
+      <xs:simpleType name="duration">
+        <xs:restriction base="xs:duration">
+          <xs:pattern value="\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?" />
+          <xs:minInclusive value="-P10675199DT2H48M5.4775808S" />
+          <xs:maxInclusive value="P10675199DT2H48M5.4775807S" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="guid" nillable="true" type="tns:guid" />
+      <xs:simpleType name="guid">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:attribute name="FactoryType" type="xs:QName" />
+      <xs:attribute name="Id" type="xs:ID" />
+      <xs:attribute name="Ref" type="xs:IDREF" />
+    </xs:schema>
+    <xs:schema xmlns:tns="http://schemas.gov.sk/ServiceBusServiceProvider/Ness/eFormProvider/1.0" elementFormDefault="qualified" targetNamespace="http://schemas.gov.sk/ServiceBusServiceProvider/Ness/eFormProvider/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="GetFormTemplateMetaDataReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetFormTemplateMetaDataReq" nillable="true" type="tns:GetFormTemplateMetaDataReq" />
+      <xs:complexType name="FormTemplateID">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Identifier" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Version" nillable="true" type="tns:EFormVersion" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="FormTemplateID" nillable="true" type="tns:FormTemplateID" />
+      <xs:complexType name="EFormVersion">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Major" type="xs:int" />
+          <xs:element minOccurs="0" name="Minor" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="EFormVersion" nillable="true" type="tns:EFormVersion" />
+      <xs:complexType name="GetFormTemplateMetaDataRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="MetaData" nillable="true" type="tns:FormTemplateMetaData" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetFormTemplateMetaDataRes" nillable="true" type="tns:GetFormTemplateMetaDataRes" />
+      <xs:complexType name="FormTemplateMetaData">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="AccessGroup" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Agenda" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Gestor" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Identifier" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Keywords" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Publisher" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Section" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Source" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Title" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Type" type="tns:FormTemplateType" />
+          <xs:element minOccurs="0" name="ValidDateFrom" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="ValidDateTo" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="Version" nillable="true" type="tns:EFormVersion" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="FormTemplateMetaDataElement" nillable="true" type="tns:FormTemplateMetaData" />
+      <xs:simpleType name="FormTemplateType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="eForm" />
+          <xs:enumeration value="teForm" />
+          <xs:enumeration value="POSP" />
+          <xs:enumeration value="NOTIFY" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="FormTemplateType" nillable="true" type="tns:FormTemplateType" />
+      <xs:complexType name="GetRelatedDocumentListReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetRelatedDocumentListReq" nillable="true" type="tns:GetRelatedDocumentListReq" />
+      <xs:complexType name="GetRelatedDocumentListRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="RelatedDocuments" nillable="true" type="tns:ArrayOfRelatedDocumentMetaData" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetRelatedDocumentListRes" nillable="true" type="tns:GetRelatedDocumentListRes" />
+      <xs:complexType name="ArrayOfRelatedDocumentMetaData">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="RelatedDocumentMetaData" nillable="true" type="tns:RelatedDocumentMetaData" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfRelatedDocumentMetaData" nillable="true" type="tns:ArrayOfRelatedDocumentMetaData" />
+      <xs:complexType name="RelatedDocumentMetaData">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Identifier" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Language" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Type" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="RelatedDocumentMetaDataElement" nillable="true" type="tns:RelatedDocumentMetaData" />
+      <xs:complexType name="GetRelatedDocumentReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+          <xs:element minOccurs="0" name="RelatedDocument" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetRelatedDocumentReq" nillable="true" type="tns:GetRelatedDocumentReq" />
+      <xs:complexType name="GetRelatedDocumentRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+          <xs:element minOccurs="0" name="RelatedDocument" nillable="true" type="tns:RelatedDocument" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetRelatedDocumentRes" nillable="true" type="tns:GetRelatedDocumentRes" />
+      <xs:complexType name="RelatedDocument">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Data" nillable="true" type="xs:base64Binary" />
+          <xs:element minOccurs="0" name="MetaData" nillable="true" type="tns:RelatedDocumentMetaData" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="RelatedDocument" nillable="true" type="tns:RelatedDocument" />
+      <xs:complexType name="FindFormTemplatesReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Criteria" nillable="true" type="tns:SearchCriteria" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="FindFormTemplatesReq" nillable="true" type="tns:FindFormTemplatesReq" />
+      <xs:complexType name="SearchCriteria">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+          <xs:element minOccurs="0" name="FreeText" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Keywords" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Publisher" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Title" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Type" type="tns:FormTemplateType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="SearchCriteria" nillable="true" type="tns:SearchCriteria" />
+      <xs:complexType name="FindFormTemplatesRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FormTemplates" nillable="true" type="tns:ArrayOfFormTemplateID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="FindFormTemplatesRes" nillable="true" type="tns:FindFormTemplatesRes" />
+      <xs:complexType name="ArrayOfFormTemplateID">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="FormTemplateID" nillable="true" type="tns:FormTemplateID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfFormTemplateID" nillable="true" type="tns:ArrayOfFormTemplateID" />
+      <xs:complexType name="GetEDocFromXMLReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Data" nillable="true" type="xs:base64Binary" />
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetEDocFromXMLReq" nillable="true" type="tns:GetEDocFromXMLReq" />
+      <xs:complexType name="GetEDocFromXMLRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="EDoc" nillable="true" type="tns:EDocument" />
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetEDocFromXMLRes" nillable="true" type="tns:GetEDocFromXMLRes" />
+      <xs:complexType name="EDocument">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Data" nillable="true" type="xs:base64Binary" />
+          <xs:element minOccurs="0" name="Title" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="EDocument" nillable="true" type="tns:EDocument" />
+      <xs:complexType name="GetEDocReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetEDocReq" nillable="true" type="tns:GetEDocReq" />
+      <xs:complexType name="GetEDocRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="EDoc" nillable="true" type="tns:EDocument" />
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetEDocRes" nillable="true" type="tns:GetEDocRes" />
+      <xs:complexType name="GetEmptyEFormReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetEmptyEFormReq" nillable="true" type="tns:GetEmptyEFormReq" />
+      <xs:complexType name="GetEmptyEFormRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+          <xs:element minOccurs="0" name="RelatedDocument" nillable="true" type="tns:RelatedDocument" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetEmptyEFormRes" nillable="true" type="tns:GetEmptyEFormRes" />
+      <xs:complexType name="GetFormTemplateStatusReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetFormTemplateStatusReq" nillable="true" type="tns:GetFormTemplateStatusReq" />
+      <xs:complexType name="GetFormTemplateStatusRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FormStatus" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetFormTemplateStatusRes" nillable="true" type="tns:GetFormTemplateStatusRes" />
+      <xs:complexType name="SubscribeForChangesReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="EndpointUrl" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="SearchCriteria" nillable="true" type="tns:SubscriberSearchCriteria" />
+          <xs:element minOccurs="0" name="SubscribedGestor" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="SubscribedPublisher" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="SubscribeForChangesReq" nillable="true" type="tns:SubscribeForChangesReq" />
+      <xs:complexType name="SubscriberSearchCriteria">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+          <xs:element minOccurs="0" name="FreeText" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Gestor" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Keywords" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Publisher" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Status" type="tns:SearchFormTemplateStatus" />
+          <xs:element minOccurs="0" name="Title" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Type" type="tns:SearchFormTemplateType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="SubscriberSearchCriteria" nillable="true" type="tns:SubscriberSearchCriteria" />
+      <xs:simpleType name="SearchFormTemplateStatus">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="All" />
+          <xs:enumeration value="PUBLISHED" />
+          <xs:enumeration value="INVALIDATED" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="SearchFormTemplateStatus" nillable="true" type="tns:SearchFormTemplateStatus" />
+      <xs:simpleType name="SearchFormTemplateType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="All" />
+          <xs:enumeration value="eForm" />
+          <xs:enumeration value="teForm" />
+          <xs:enumeration value="POSP" />
+          <xs:enumeration value="NOTIFY" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="SearchFormTemplateType" nillable="true" type="tns:SearchFormTemplateType" />
+      <xs:complexType name="SubscribeForChangesRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ResultCode" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="SubscribeForChangesRes" nillable="true" type="tns:SubscribeForChangesRes" />
+      <xs:complexType name="UnsubscribeForChangesReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="SubscribedGestor" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="SubscribedPublisher" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="UnsubscribeForChangesReq" nillable="true" type="tns:UnsubscribeForChangesReq" />
+      <xs:complexType name="UnsubscribeForChangesRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ResultCode" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="UnsubscribeForChangesRes" nillable="true" type="tns:UnsubscribeForChangesRes" />
+      <xs:complexType name="ChangeSubscriberSearchCriteriaReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="SearchCriteria" nillable="true" type="tns:SubscriberSearchCriteria" />
+          <xs:element minOccurs="0" name="SubscribedGestor" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="SubscribedPublisher" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ChangeSubscriberSearchCriteriaReq" nillable="true" type="tns:ChangeSubscriberSearchCriteriaReq" />
+      <xs:complexType name="ChangeSubscriberSearchCriteriaRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ResultCode" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ChangeSubscriberSearchCriteriaRes" nillable="true" type="tns:ChangeSubscriberSearchCriteriaRes" />
+      <xs:complexType name="ChangeSubscriberEndpointUrlReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="EndpointUrl" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="SubscribedGestor" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="SubscribedPublisher" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ChangeSubscriberEndpointUrlReq" nillable="true" type="tns:ChangeSubscriberEndpointUrlReq" />
+      <xs:complexType name="ChangeSubscriberEndpointUrlRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ResultCode" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ChangeSubscriberEndpointUrlRes" nillable="true" type="tns:ChangeSubscriberEndpointUrlRes" />
+      <xs:complexType name="GetSubscriberEndpointUrlReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="SubscribedGestor" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="SubscribedPublisher" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetSubscriberEndpointUrlReq" nillable="true" type="tns:GetSubscriberEndpointUrlReq" />
+      <xs:complexType name="GetSubscriberEndpointUrlRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="EndpointUrl" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ResultCode" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetSubscriberEndpointUrlRes" nillable="true" type="tns:GetSubscriberEndpointUrlRes" />
+      <xs:complexType name="GetSubscriberSearchCriteriaReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="SubscribedGestor" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="SubscribedPublisher" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetSubscriberSearchCriteriaReq" nillable="true" type="tns:GetSubscriberSearchCriteriaReq" />
+      <xs:complexType name="GetSubscriberSearchCriteriaRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ResultCode" type="xs:int" />
+          <xs:element minOccurs="0" name="SearchCriteria" nillable="true" type="tns:SubscriberSearchCriteria" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetSubscriberSearchCriteriaRes" nillable="true" type="tns:GetSubscriberSearchCriteriaRes" />
+      <xs:complexType name="GetRelatedDocumentByTypeReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+          <xs:element minOccurs="0" name="RelatedDocumentLanguage" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="RelatedDocumentType" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetRelatedDocumentByTypeReq" nillable="true" type="tns:GetRelatedDocumentByTypeReq" />
+      <xs:complexType name="GetRelatedDocumentByTypeRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+          <xs:element minOccurs="0" name="RelatedDocument" nillable="true" type="tns:RelatedDocument" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetRelatedDocumentByTypeRes" nillable="true" type="tns:GetRelatedDocumentByTypeRes" />
+      <xs:complexType name="TransformRelatedDocumentReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FOTransform" type="xs:boolean" />
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+          <xs:element minOccurs="0" name="RelatedDocumentXML" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="RelatedDocumentXSLT" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="TransformRelatedDocumentReq" nillable="true" type="tns:TransformRelatedDocumentReq" />
+      <xs:complexType name="TransformRelatedDocumentRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="EDoc" nillable="true" type="tns:EDocument" />
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="TransformRelatedDocumentRes" nillable="true" type="tns:TransformRelatedDocumentRes" />
+      <xs:complexType name="TransformRelatedDocumentFromXMLReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FOTransform" type="xs:boolean" />
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+          <xs:element minOccurs="0" name="RelatedDocumentXML" nillable="true" type="xs:base64Binary" />
+          <xs:element minOccurs="0" name="RelatedDocumentXSLT" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="TransformRelatedDocumentFromXMLReq" nillable="true" type="tns:TransformRelatedDocumentFromXMLReq" />
+      <xs:complexType name="TransformRelatedDocumentFromXMLRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="EDoc" nillable="true" type="tns:EDocument" />
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="TransformRelatedDocumentFromXMLRes" nillable="true" type="tns:TransformRelatedDocumentFromXMLRes" />
+      <xs:complexType name="TransformRelatedDocumentByTypeReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FOTransform" type="xs:boolean" />
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+          <xs:element minOccurs="0" name="RelatedDocumentXMLLanguage" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="RelatedDocumentXMLType" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="RelatedDocumentXSLTLanguage" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="RelatedDocumentXSLTType" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="TransformRelatedDocumentByTypeReq" nillable="true" type="tns:TransformRelatedDocumentByTypeReq" />
+      <xs:complexType name="TransformRelatedDocumentByTypeRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="EDoc" nillable="true" type="tns:EDocument" />
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="TransformRelatedDocumentByTypeRes" nillable="true" type="tns:TransformRelatedDocumentByTypeRes" />
+      <xs:complexType name="TransformRelatedDocumentFromXMLByTypeReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FOTransform" type="xs:boolean" />
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+          <xs:element minOccurs="0" name="RelatedDocumentXML" nillable="true" type="xs:base64Binary" />
+          <xs:element minOccurs="0" name="RelatedDocumentXSLTLanguage" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="RelatedDocumentXSLTType" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="TransformRelatedDocumentFromXMLByTypeReq" nillable="true" type="tns:TransformRelatedDocumentFromXMLByTypeReq" />
+      <xs:complexType name="TransformRelatedDocumentFromXMLByTypeRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="EDoc" nillable="true" type="tns:EDocument" />
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="TransformRelatedDocumentFromXMLByTypeRes" nillable="true" type="tns:TransformRelatedDocumentFromXMLByTypeRes" />
+      <xs:complexType name="GetFormTemplateReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetFormTemplateReq" nillable="true" type="tns:GetFormTemplateReq" />
+      <xs:complexType name="GetFormTemplateRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="EFormTemplate" nillable="true" type="tns:FormTemplate" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetFormTemplateRes" nillable="true" type="tns:GetFormTemplateRes" />
+      <xs:complexType name="FormTemplate">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Data" nillable="true" type="xs:base64Binary" />
+          <xs:element minOccurs="0" name="MetaData" nillable="true" type="tns:FormTemplateMetaData" />
+          <xs:element minOccurs="0" name="RelatedDocuments" nillable="true" type="tns:ArrayOfRelatedDocument" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="FormTemplate" nillable="true" type="tns:FormTemplate" />
+      <xs:complexType name="ArrayOfRelatedDocument">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="RelatedDocument" nillable="true" type="tns:RelatedDocument" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfRelatedDocument" nillable="true" type="tns:ArrayOfRelatedDocument" />
+      <xs:complexType name="SetFormTemplateStatusReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FormStatus" type="tns:FormTemplateStatus" />
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="SetFormTemplateStatusReq" nillable="true" type="tns:SetFormTemplateStatusReq" />
+      <xs:simpleType name="FormTemplateStatus">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="PUBLISHED" />
+          <xs:enumeration value="INVALIDATED" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="FormTemplateStatus" nillable="true" type="tns:FormTemplateStatus" />
+      <xs:complexType name="SetFormTemplateStatusRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+          <xs:element minOccurs="0" name="ResultCode" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="SetFormTemplateStatusRes" nillable="true" type="tns:SetFormTemplateStatusRes" />
+      <xs:complexType name="GetFilledEFormReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ActorID" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Data" nillable="true" type="xs:base64Binary" />
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+          <xs:element minOccurs="0" name="SubjectID" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetFilledEFormReq" nillable="true" type="tns:GetFilledEFormReq" />
+      <xs:complexType name="GetFilledEFormRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Data" nillable="true" type="xs:base64Binary" />
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetFilledEFormRes" nillable="true" type="tns:GetFilledEFormRes" />
+      <xs:complexType name="GetEFormPackageReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+          <xs:element minOccurs="0" name="PackageType" type="tns:EFormPackageType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetEFormPackageReq" nillable="true" type="tns:GetEFormPackageReq" />
+      <xs:simpleType name="EFormPackageType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="ZIP" />
+          <xs:enumeration value="XML" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="EFormPackageType" nillable="true" type="tns:EFormPackageType" />
+      <xs:complexType name="GetEFormPackageRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FormPackage" nillable="true" type="tns:EFormPackage" />
+          <xs:element minOccurs="0" name="Identifier" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="InternalIdentifier" nillable="true" type="tns:FormTemplateID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetEFormPackageRes" nillable="true" type="tns:GetEFormPackageRes" />
+      <xs:complexType name="EFormPackage">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Data" nillable="true" type="xs:base64Binary" />
+          <xs:element minOccurs="0" name="PackageType" type="tns:EFormPackageType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="EFormPackage" nillable="true" type="tns:EFormPackage" />
+      <xs:complexType name="GetEFormTemplateManifestXMLReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetEFormTemplateManifestXMLReq" nillable="true" type="tns:GetEFormTemplateManifestXMLReq" />
+      <xs:complexType name="GetEFormTemplateManifestXMLRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Data" nillable="true" type="xs:base64Binary" />
+          <xs:element minOccurs="0" name="Identifier" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="InternalIdentifier" nillable="true" type="tns:FormTemplateID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetEFormTemplateManifestXMLRes" nillable="true" type="tns:GetEFormTemplateManifestXMLRes" />
+      <xs:complexType name="GetEFormTemplateAttachmentsXMLReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetEFormTemplateAttachmentsXMLReq" nillable="true" type="tns:GetEFormTemplateAttachmentsXMLReq" />
+      <xs:complexType name="GetEFormTemplateAttachmentsXMLRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Data" nillable="true" type="xs:base64Binary" />
+          <xs:element minOccurs="0" name="Identifier" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="InternalIdentifier" nillable="true" type="tns:FormTemplateID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetEFormTemplateAttachmentsXMLRes" nillable="true" type="tns:GetEFormTemplateAttachmentsXMLRes" />
+      <xs:complexType name="GetEFormTemplateMetaXMLReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetEFormTemplateMetaXMLReq" nillable="true" type="tns:GetEFormTemplateMetaXMLReq" />
+      <xs:complexType name="GetEFormTemplateMetaXMLRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Data" nillable="true" type="xs:base64Binary" />
+          <xs:element minOccurs="0" name="Identifier" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="InternalIdentifier" nillable="true" type="tns:FormTemplateID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetEFormTemplateMetaXMLRes" nillable="true" type="tns:GetEFormTemplateMetaXMLRes" />
+      <xs:complexType name="GetEFormPackageArtefactReq">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FormTemplate" nillable="true" type="tns:FormTemplateID" />
+          <xs:element minOccurs="0" name="FullPath" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetEFormPackageArtefactReq" nillable="true" type="tns:GetEFormPackageArtefactReq" />
+      <xs:complexType name="GetEFormPackageArtefactRes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Artefact" nillable="true" type="tns:EFormPackageArtefact" />
+          <xs:element minOccurs="0" name="Identifier" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="InternalIdentifier" nillable="true" type="tns:FormTemplateID" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="GetEFormPackageArtefactRes" nillable="true" type="tns:GetEFormPackageArtefactRes" />
+      <xs:complexType name="EFormPackageArtefact">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Data" nillable="true" type="xs:base64Binary" />
+          <xs:element minOccurs="0" name="FullPath" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="EFormPackageArtefact" nillable="true" type="tns:EFormPackageArtefact" />
+    </xs:schema>
+    <xs:schema xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xs:complexType name="ArrayOfstring">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfstring" nillable="true" type="tns:ArrayOfstring" />
+      <xs:complexType name="ArrayOfanyType">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="anyType" nillable="true" type="xs:anyType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfanyType" nillable="true" type="tns:ArrayOfanyType" />
+      <xs:complexType name="ArrayOfint">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="int" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfint" nillable="true" type="tns:ArrayOfint" />
+      <xs:complexType name="ArrayOfguid">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="guid" type="ser:guid" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfguid" nillable="true" type="tns:ArrayOfguid" />
+      <xs:complexType name="ArrayOfunsignedInt">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="unsignedInt" type="xs:unsignedInt" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfunsignedInt" nillable="true" type="tns:ArrayOfunsignedInt" />
+      <xs:complexType name="ArrayOfbase64Binary">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="base64Binary" nillable="true" type="xs:base64Binary" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfbase64Binary" nillable="true" type="tns:ArrayOfbase64Binary" />
+      <xs:complexType name="ArrayOfKeyValueOfstringstring">
+        <xs:annotation>
+          <xs:appinfo>
+            <IsDictionary xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsDictionary>
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="KeyValueOfstringstring">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Key" nillable="true" type="xs:string" />
+                <xs:element name="Value" nillable="true" type="xs:string" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfKeyValueOfstringstring" nillable="true" type="tns:ArrayOfKeyValueOfstringstring" />
+      <xs:complexType name="ArrayOfanyURI">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="anyURI" nillable="true" type="xs:anyURI" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfanyURI" nillable="true" type="tns:ArrayOfanyURI" />
+    </xs:schema>
+    <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/System.Xml.Linq" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/System.Xml.Linq" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="ArrayOfXElement">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="XElement" nillable="true">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:any minOccurs="0" processContents="lax" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfXElement" nillable="true" type="tns:ArrayOfXElement" />
+    </xs:schema>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://schemas.gov.sk/ServiceBus/service/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="CallService">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="serviceClass" nillable="false" type="tns:ServiceClassEnum" />
+            <xs:element minOccurs="0" name="serviceParameter" nillable="true" type="xs:anyType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CallServiceResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="CallServiceResult" nillable="true" type="xs:anyType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:simpleType name="ServiceClassEnum">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NESS_EFORM_GETFORMTEMPLATEMETADATA_SOAP_V_1_0" />
+          <xs:enumeration value="NESS_EFORM_GETRELATEDDOCUMENTLIST_SOAP_V_1_0" />
+          <xs:enumeration value="NESS_EFORM_GETRELATEDDOCUMENT_SOAP_V_1_0" />
+          <xs:enumeration value="NESS_EFORM_FINDFORMTEMPLATES_SOAP_V_1_0" />
+          <xs:enumeration value="NESS_EFORM_GETEDOCFROMXML_SOAP_V_1_0" />
+          <xs:enumeration value="NESS_EFORM_GETEDOC_SOAP_V_1_0" />
+          <xs:enumeration value="NESS_EFORM_GETEMPTYEFORM_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_GETFORMTEMPLATEMETADATA_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_GETRELATEDDOCUMENTLIST_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_GETRELATEDDOCUMENT_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_GETFORMTEMPLATESTATUS_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_FINDFORMTEMPLATES_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_GETEDOCFROMXML_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_GETEDOC_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_GETEMPTYEFORM_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_SUBSCRIBEFORCHANGES_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_UNSUBSCRIBEFORCHANGES_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_CHANGESUBSCRIBERSEARCHCRITERIA_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_CHANGESUBSCRIBERENDPOINTURL_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_GETSUBSCRIBERENDPOINTURL_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_GETSUBSCRIBERSEARCHCRITERIA_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_GETRELATEDDOCUMENTBYTYPE_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_TRANSFORMRELATEDDOCUMENT_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_TRANSFORMRELATEDDOCUMENTFROMXML_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_TRANSFORMRELATEDDOCUMENTBYTYPE_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_TRANSFORMRELATEDDOCUMENTFROMXMLBYTYPE_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_GETFORMTEMPLATE_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_SETFORMTEMPLATESTATUS_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_GETFILLEDEFORM_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_GETFORMTEMPLATEADDONS_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_GETADDONSDOCUMENTLIST_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_GETEFORMPACKAGE_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_GETEFORMTEMPLATEMANIFESTXML_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_GETEFORMTEMPLATEATTACHMENTSXML_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_GETEFORMTEMPLATEMETAXML_SOAP_V_1_0" />
+          <xs:enumeration value="EFORM_GETEFORMPACKAGEARTEFACT_SOAP_V_1_0" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="IServiceBus_CallService_InputMessage">
+    <wsdl:part name="parameters" element="tns:CallService" />
+  </wsdl:message>
+  <wsdl:message name="IServiceBus_CallService_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CallServiceResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IServiceBus">
+    <wsdl:operation name="CallService">
+      <wsdl:input wsaw:Action="http://schemas.gov.sk/ServiceBus/service/1.0/IServiceBus/CallService" message="tns:IServiceBus_CallService_InputMessage" />
+      <wsdl:output wsaw:Action="http://schemas.gov.sk/ServiceBus/service/1.0/IServiceBus/CallServiceResponse" message="tns:IServiceBus_CallService_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CustomBinding_IServiceBus" type="tns:IServiceBus">
+    <wsp:PolicyReference URI="#CustomBinding_IServiceBus_policy" />
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CallService">
+      <soap12:operation soapAction="http://schemas.gov.sk/ServiceBus/service/1.0/IServiceBus/CallService" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="service">
+    <wsdl:port name="CustomBinding_IServiceBus" binding="tns:CustomBinding_IServiceBus">
+      <soap12:address location="http://localhost/Routing/ServiceBusToken.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -131,6 +131,9 @@
                   <wsdl>${basedir}/cfg/eks/EKSService.wsdl</wsdl>
                 </wsdlOption>
                 <wsdlOption>
+                  <wsdl>${basedir}/cfg/ez/ServiceBusToken_eFormProvider.wsdl</wsdl>
+                </wsdlOption>
+                <wsdlOption>
                   <wsdl>${basedir}/cfg/iam/GetIdentityService.wsdl</wsdl>
                 </wsdlOption>
                 <wsdlOption>

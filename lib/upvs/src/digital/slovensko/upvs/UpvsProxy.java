@@ -14,6 +14,7 @@ import org.springframework.core.io.Resource;
 import sk.gov.egov.iservice.IService;
 import sk.gov.schemas.edesk.eksservice._1.IEKSService;
 import sk.gov.schemas.identity.service._1_7.IdentityServices;
+import sk.gov.schemas.servicebus.service._1_0.IServiceBus;
 
 import digital.slovensko.upvs.log.PropertyResolver;
 
@@ -23,6 +24,8 @@ public final class UpvsProxy {
   private final ApplicationContext context;
 
   private final IEKSService eks;
+
+  private final IServiceBus ez;
 
   private final IdentityServices iam;
 
@@ -37,6 +40,7 @@ public final class UpvsProxy {
     this.context = new Context(configurations, new MapPropertySource("args", copy));
 
     this.eks = this.context.getBean(IEKSService.class);
+    this.ez = this.context.getBean(IServiceBus.class);
     this.iam = this.context.getBean(IdentityServices.class);
     this.sktalk = this.context.getBean(IService.class);
 
@@ -61,6 +65,10 @@ public final class UpvsProxy {
 
   public IEKSService getEks() {
     return this.eks;
+  }
+
+  public IServiceBus getEz() {
+    return this.ez;
   }
 
   public IdentityServices getIam() {
