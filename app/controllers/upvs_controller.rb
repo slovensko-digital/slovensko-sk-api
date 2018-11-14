@@ -13,6 +13,8 @@ class UpvsController < ApplicationController
     namespaces = response.namespaces.slice('xmlns:saml', 'xmlns:dsig', 'xmlns:xsi')
     namespaces.each { |namespace, name| assertion[namespace] = name }
 
+    session[:assertion] = assertion.to_xml
+
     render xml: assertion
   end
 
