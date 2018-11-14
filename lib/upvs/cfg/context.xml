@@ -105,7 +105,7 @@
   <bean id="stsClient-ieksService" parent="stsClient" />
   <bean id="stsClient-identityService" parent="stsClient" />
   <bean id="stsClient-skTalkService" parent="stsClient" />
-  <bean id="stsClient-eFormService" parent="stsClient" />
+  <bean id="stsClient-iServiceBus" parent="stsClient" />
 
   <!-- security settings for EKS -->
   <http:conduit name="{http://schemas.gov.sk/edesk/eksService/1}CustomBinding_IEKSService.http-conduit">
@@ -179,27 +179,27 @@
     </jaxws:properties>
   </jaxws:client>
 
-  <!--&lt;!&ndash; security settings for eForm &ndash;&gt;-->
-  <!--<http:conduit name="{http://schemas.gov.sk/ServiceBus/service/1.0}ServiceSkTalk3Token_IService.http-conduit">-->
-    <!--<http:tlsClientParameters>-->
-      <!--<sec:trustManagers>-->
-        <!--<sec:keyStore type="${upvs.ssl.truststore.type}" password="${upvs.ssl.truststore.password}" resource="${upvs.ssl.truststore.file}" />-->
-      <!--</sec:trustManagers>-->
-    <!--</http:tlsClientParameters>-->
-  <!--</http:conduit>-->
+  <!-- security settings for EZ -->
+  <http:conduit name="{http://schemas.gov.sk/ServiceBus/service/1.0}CustomBinding_IServiceBus.http-conduit">
+    <http:tlsClientParameters>
+      <sec:trustManagers>
+        <sec:keyStore type="${upvs.ssl.truststore.type}" password="${upvs.ssl.truststore.password}" resource="${upvs.ssl.truststore.file}" />
+      </sec:trustManagers>
+    </http:tlsClientParameters>
+  </http:conduit>
 
-  <!-- client definition for eForm -->
-  <jaxws:client id="eFormService"
-                address="${upvs.sktalk.address}"
+  <!-- client definition for EZ -->
+  <jaxws:client id="iServiceBus"
+                address="${upvs.ez.address}"
                 serviceClass="sk.gov.schemas.servicebus.service._1_0.IServiceBus"
-                wsdlLocation="eform/eFormService.wsdl"
+                wsdlLocation="ez/ServiceBusToken_eFormProvider.wsdl"
                 endpointName="n:CustomBinding_IServiceBus"
                 serviceName="n:service"
                 xmlns:n="http://schemas.gov.sk/ServiceBus/service/1.0">
 
     <jaxws:properties>
-      <entry key="org.apache.cxf.message.Message.ENDPOINT_ADDRESS" value="${upvs.sktalk.address}" />
-      <entry key="security.sts.client" value-ref="stsClient-eFormService" />
+      <entry key="org.apache.cxf.message.Message.ENDPOINT_ADDRESS" value="${upvs.ez.address}" />
+      <entry key="security.sts.client" value-ref="stsClient-iServiceBus" />
     </jaxws:properties>
   </jaxws:client>
 </beans>

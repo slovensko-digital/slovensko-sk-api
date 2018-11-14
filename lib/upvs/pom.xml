@@ -128,7 +128,7 @@
               <sourceRoot>${project.build.directory}/cxf-codegen-plugin-sources</sourceRoot>
               <wsdlOptions>
                 <wsdlOption>
-                  <wsdl>${basedir}/cfg/eform/eFormService.wsdl</wsdl>
+                  <wsdl>${basedir}/cfg/ez/ServiceBusToken_eFormProvider.wsdl</wsdl>
                 </wsdlOption>
                 <wsdlOption>
                   <wsdl>${basedir}/cfg/eks/EKSService.wsdl</wsdl>
