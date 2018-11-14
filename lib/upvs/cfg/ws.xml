@@ -50,7 +50,7 @@
     <http:client ConnectionTimeout="${upvs.timeout.connection}" ReceiveTimeout="${upvs.timeout.receive}" />
     <http:tlsClientParameters>
       <sec:trustManagers>
-        <sec:keyStore type="${upvs.ssl.truststore.type}" password="${upvs.ssl.truststore.password}" resource="${upvs.ssl.truststore.file}" />
+        <sec:keyStore type="JKS" resource="${upvs.tls.truststore.file}" password="${upvs.tls.truststore.password}" />
       </sec:trustManagers>
     </http:tlsClientParameters>
   </http:conduit>
