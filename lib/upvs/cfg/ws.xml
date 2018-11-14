@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- TODO remove this file in favor of Java code  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:cxf="http://cxf.apache.org/core"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:http="http://cxf.apache.org/transports/http/configuration"
+       xmlns:sec="http://cxf.apache.org/configuration/security"
+       xmlns:wsa="http://cxf.apache.org/ws/addressing"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+                           http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+                           http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
+                           http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/configuration/security.xsd
+                           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+  <bean id="stsClient-ieksService" parent="stsClient" />
+
+  <http:conduit name="{http://schemas.gov.sk/edesk/eksService/1}CustomBinding_IEKSService.http-conduit">
+    <http:client ConnectionTimeout="${upvs.timeout.connection}" ReceiveTimeout="${upvs.timeout.receive}" />
+    <http:tlsClientParameters>
+      <sec:trustManagers>
+        <sec:keyStore type="JKS" resource="${upvs.tls.truststore.file}" password="${upvs.tls.truststore.password}" />
+      </sec:trustManagers>
+    </http:tlsClientParameters>
+  </http:conduit>
+
+  <jaxws:client id="ieksService"
+                address="${upvs.eks.address}"
+                serviceClass="sk.gov.schemas.edesk.eksservice._1.IEKSService"
+                wsdlLocation="eks/EKSService.wsdl"
+                endpointName="n:CustomBinding_IEKSService"
+                serviceName="n:EKSService"
+                xmlns:n="http://schemas.gov.sk/edesk/eksService/1">
+
+    <jaxws:properties>
+      <entry key="org.apache.cxf.message.Message.ENDPOINT_ADDRESS" value="${upvs.eks.address}" />
+      <entry key="security.sts.client" value-ref="stsClient-ieksService" />
+    </jaxws:properties>
+  </jaxws:client>
+
+  <bean id="stsClient-iServiceBus" parent="stsClient" />
+
+  <http:conduit name="{http://schemas.gov.sk/ServiceBus/service/1.0}CustomBinding_IServiceBus.http-conduit">
+    <http:client ConnectionTimeout="${upvs.timeout.connection}" ReceiveTimeout="${upvs.timeout.receive}" />
+    <http:tlsClientParameters>
+      <sec:trustManagers>
+        <sec:keyStore type="${upvs.ssl.truststore.type}" password="${upvs.ssl.truststore.password}" resource="${upvs.ssl.truststore.file}" />
+      </sec:trustManagers>
+    </http:tlsClientParameters>
+  </http:conduit>
+
+  <jaxws:client id="iServiceBus"
+                address="${upvs.ez.address}"
+                serviceClass="sk.gov.schemas.servicebus.service._1_0.IServiceBus"
+                wsdlLocation="ez/ServiceBusToken_eFormProvider.wsdl"
+                endpointName="n:CustomBinding_IServiceBus"
+                serviceName="n:service"
+                xmlns:n="http://schemas.gov.sk/ServiceBus/service/1.0">
+
+    <jaxws:properties>
+      <entry key="org.apache.cxf.message.Message.ENDPOINT_ADDRESS" value="${upvs.ez.address}" />
+      <entry key="security.sts.client" value-ref="stsClient-iServiceBus" />
+    </jaxws:properties>
+  </jaxws:client>
+
+  <bean id="stsClient-identityService" parent="stsClient" />
+
+  <http:conduit name="{http://schemas.gov.sk/identity/service/1.7}iamwsport.http-conduit">
+    <http:client ConnectionTimeout="${upvs.timeout.connection}" ReceiveTimeout="${upvs.timeout.receive}" />
+    <http:tlsClientParameters>
+      <sec:trustManagers>
+        <sec:keyStore type="JKS" resource="${upvs.tls.truststore.file}" password="${upvs.tls.truststore.password}" />
+      </sec:trustManagers>
+    </http:tlsClientParameters>
+  </http:conduit>
+
+  <jaxws:client id="identityService"
+                address="${upvs.iam.address}"
+                serviceClass="sk.gov.schemas.identity.service._1_7.IdentityServices"
+                wsdlLocation="iam/GetIdentityService.wsdl"
+                endpointName="n:iamwsport"
+                serviceName="n:IdentityServicesExt"
+                xmlns:n="http://schemas.gov.sk/identity/service/1.7">
+
+    <jaxws:properties>
+      <entry key="org.apache.cxf.message.Message.ENDPOINT_ADDRESS" value="${upvs.iam.address}" />
+      <entry key="security.sts.client" value-ref="stsClient-identityService" />
+    </jaxws:properties>
+  </jaxws:client>
+
+  <bean id="stsClient-skTalkService" parent="stsClient" />
+
+  <http:conduit name="{http://gov.sk/eGov/IService}ServiceSkTalk3Token_IService.http-conduit">
+    <http:client ConnectionTimeout="${upvs.timeout.connection}" ReceiveTimeout="${upvs.timeout.receive}" />
+    <http:tlsClientParameters>
+      <sec:trustManagers>
+        <sec:keyStore type="JKS" resource="${upvs.tls.truststore.file}" password="${upvs.tls.truststore.password}" />
+      </sec:trustManagers>
+    </http:tlsClientParameters>
+  </http:conduit>
+
+  <jaxws:client id="skTalkService"
+                address="${upvs.sktalk.address}"
+                serviceClass="sk.gov.egov.iservice.IService"
+                wsdlLocation="sktalk/ServiceSkTalk3Token.wsdl"
+                endpointName="n:ServiceSkTalk3Token_IService"
+                serviceName="n:BizTalkServiceInstance"
+                xmlns:n="http://gov.sk/eGov/IService">
+
+    <jaxws:properties>
+      <entry key="org.apache.cxf.message.Message.ENDPOINT_ADDRESS" value="${upvs.sktalk.address}" />
+      <entry key="security.sts.client" value-ref="stsClient-skTalkService" />
+    </jaxws:properties>
+  </jaxws:client>
+</beans>

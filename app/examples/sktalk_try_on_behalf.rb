@@ -1,7 +1,7 @@
 require_relative '../../config/environment'
 
 properties = UpvsEnvironment.upvs_properties(nil)
-upvs = digital.slovensko.upvs.UpvsProxy_StsOnBehalf.new(properties)
+upvs = digital.slovensko.upvs.UpvsProxy.new(properties)
 
 receiver = SktalkReceiver.new(upvs)
 saver = SktalkSaver.new(receiver)

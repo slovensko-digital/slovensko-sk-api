@@ -47,7 +47,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
   host, port = Rails::Server::Options.new.parse!(ARGV).slice(:Host, :Port).values
 
   # Assemble settings
-  settings = idp_metadata.merge!(
+  settings = idp_metadata.merge(
     request_path: '/auth/saml/login',
     callback_path: '/auth/saml/callback',
 

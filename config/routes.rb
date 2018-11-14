@@ -8,6 +8,11 @@ Rails.application.routes.draw do
     post :callback
   end
 
+  # TODO rm
+  namespace :poc do
+    get :try
+  end
+
   namespace :sktalk do
     post :receive
   end
