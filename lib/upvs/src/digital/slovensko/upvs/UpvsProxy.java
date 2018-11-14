@@ -22,7 +22,7 @@ public final class UpvsProxy {
   private final IEKSService eks;
   private final IdentityServices iam;
   private final IService sktalk;
-  private final IServiceBus serviceBus;
+  private final IServiceBus ez;
 
   public UpvsProxy(final Map<String, String> properties) {
     this.context = new Context(new MapPropertySource("upvs", new LinkedHashMap<>(properties)));
@@ -30,7 +30,7 @@ public final class UpvsProxy {
     this.eks = this.context.getBean(IEKSService.class);
     this.iam = this.context.getBean(IdentityServices.class);
     this.sktalk = this.context.getBean(IService.class);
-    this.serviceBus = this.context.getBean(IServiceBus.class);
+    this.ez = this.context.getBean(IServiceBus.class);
 
     PropertyResolver.load(properties); // TODO remove
   }
@@ -63,7 +63,7 @@ public final class UpvsProxy {
     return this.sktalk;
   }
 
-  public IServiceBus getServiceBus() {
-    return this.serviceBus;
+  public IServiceBus getEz() {
+    return this.ez;
   }
 }
