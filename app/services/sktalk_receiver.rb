@@ -7,6 +7,7 @@ class SktalkReceiver
 
   def receive(message)
     message = SktalkMessages.from_xml(message)
+
     @upvs.sktalk.receive(message)
   end
 end
