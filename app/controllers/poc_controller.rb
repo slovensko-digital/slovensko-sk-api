@@ -4,13 +4,15 @@ class PocController < ApplicationController
   before_action { render_bad_request('No credentials') unless session[:key] }
   before_action { render_unauthorized unless assertion }
 
+  before_action { render_bad_request('No recipient') if params[:recipient_id].blank? }
+
   def try
     upvs = UpvsEnvironment.upvs_proxy(assertion)
 
     receiver = SktalkReceiver.new(upvs)
     saver = SktalkSaver.new(receiver)
 
-    message = SktalkMessages.from_xml(File.read('tmp/egov_application_csru_generic.xml'))
+    message = SktalkMessages.from_xml(File.read('app/examples/fixtures/egov_application_csru_generic.xml'))
     info = message.header.message_info
     info.message_id = SecureRandom.uuid
     info.correlation_id = SecureRandom.uuid
@@ -18,7 +20,7 @@ class PocController < ApplicationController
     container = body.xpath('/:MessageContainer')
     container.xpath('./:MessageId').first.content = info.message_id
     container.xpath('./:SenderId').first.content = Nokogiri::XML.parse(assertion).xpath('//saml:Attribute[@Name="SubjectID"]').first.content
-    container.xpath('./:RecipientId').first.content = 'ico://sk/8311237188'
+    container.xpath('./:RecipientId').first.content = params[:recipient_id]
     message = SktalkMessages.to_xml(message)
 
     receive_result = receiver.receive(message)

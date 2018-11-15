@@ -1,0 +1,49 @@
+<SKTalkMessage xmlns="http://gov.sk/SKTalkMessage" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <EnvelopeVersion>3.0</EnvelopeVersion>
+  <Header>
+    <MessageInfo>
+      <Class>EGOV_APPLICATION</Class>
+      <PospID>csru_generic</PospID>
+      <PospVersion>1.7</PospVersion>
+      <MessageID>?</MessageID>
+      <CorrelationID>?</CorrelationID>
+      <ChannelInfo />
+      <ChannelInfoReply />
+    </MessageInfo>
+    <SenderInfo />
+  </Header>
+  <Body>
+    <MessageContainer xmlns="http://schemas.gov.sk/core/MessageContainer/1.0">
+      <MessageId>?</MessageId>
+      <SenderId>?</SenderId>
+      <RecipientId>?</RecipientId>
+      <MessageType>is_49247_csru_generic</MessageType>
+      <MessageSubject>Poskytovanie konsolidovaných údajov o subjekte</MessageSubject>
+      <SenderBusinessReference />
+      <RecipientBusinessReference />
+      <Object Id="00000000-0000-0000-0000-000000000000" Name="Poskytnutie konsolidovaných údajov o subjekte" Description="..." Class="FORM" IsSigned="false" MimeType="application/x-eform-xml" Encoding="XML">
+        <csru_generic xmlns="http://schemas.gov.sk/form/csru_generic/1.7" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <title>
+            <subject>
+              <subjectType>OtherSubject</subjectType>
+            </subject>
+            <otherSubject>
+              <subjectIdentityType>CorporateBody</subjectIdentityType>
+              <corporateBody>
+                <subjectCorporateBodyFullName>Služby Slovensko.Digital, s.r.o.</subjectCorporateBodyFullName>
+                <subjectCorporateBodyIdentifier>50881337</subjectCorporateBodyIdentifier>
+              </corporateBody>
+            </otherSubject>
+            <datasets>
+              <checkBoxRpo>0</checkBoxRpo>
+              <checkBoxDebtsSOCP>0</checkBoxDebtsSOCP>
+              <checkBoxDebtsVSZP>0</checkBoxDebtsVSZP>
+              <checkBoxDebtsUNION>0</checkBoxDebtsUNION>
+              <checkBoxDebtsDOVERA>0</checkBoxDebtsDOVERA>
+            </datasets>
+          </title>
+        </csru_generic>
+      </Object>
+    </MessageContainer>
+  </Body>
+</SKTalkMessage>
