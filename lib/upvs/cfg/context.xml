@@ -3,21 +3,15 @@
 <!-- TODO remove this file in favor of Java code  -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:cxf="http://cxf.apache.org/core"
-       xmlns:jaxws="http://cxf.apache.org/jaxws"
-       xmlns:http="http://cxf.apache.org/transports/http/configuration"
-       xmlns:sec="http://cxf.apache.org/configuration/security"
-       xmlns:wsa="http://cxf.apache.org/ws/addressing"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:cxf="http://cxf.apache.org/core"
+       xmlns:http="http://cxf.apache.org/transports/http/configuration"
+       xmlns:wsa="http://cxf.apache.org/ws/addressing"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
-                           http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
                            http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
-                           http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/configuration/security.xsd
                            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
   <context:component-scan base-package="digital.slovensko.upvs" />
   <context:property-placeholder />
