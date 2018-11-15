@@ -55,4 +55,4 @@ require 'java'
 end
 
 # Require libraries
-require 'upvs'
+# require 'upvs'
