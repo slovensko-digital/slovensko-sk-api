@@ -32,12 +32,16 @@ Rails.application.config.middleware.use OmniAuth::Builder do
     config.logger = Rails.logger
   end
 
-  # Read service provider keystore
-  keystore = java.security.KeyStore.get_instance('JKS')
-  encoder = java.util.Base64.get_mime_encoder(76, "\n".bytes.to_java(:byte))
-  keystore.load(java.io.FileInputStream.new(ENV.fetch('UPVS_SP_KS_FILE')), ENV.fetch('UPVS_SP_KS_PASSWORD').chars.to_java(:char))
-  certificate = encoder.encode_to_string(keystore.get_certificate(ENV.fetch('UPVS_SP_KS_ALIAS')).get_encoded)
-  private_key = encoder.encode_to_string(keystore.get_key(ENV.fetch('UPVS_SP_KS_ALIAS'), ENV.fetch('UPVS_SP_KS_PRIVATE_PASSWORD').chars.to_java(:char)).get_encoded)
+  begin
+    # Read service provider keystore
+    keystore = java.security.KeyStore.get_instance('JKS')
+    encoder = java.util.Base64.get_mime_encoder(76, "\n".bytes.to_java(:byte))
+    keystore.load(java.io.FileInputStream.new(ENV.fetch('UPVS_SP_KS_FILE')), ENV.fetch('UPVS_SP_KS_PASSWORD').chars.to_java(:char))
+    certificate = encoder.encode_to_string(keystore.get_certificate(ENV.fetch('UPVS_SP_KS_ALIAS')).get_encoded)
+    private_key = encoder.encode_to_string(keystore.get_key(ENV.fetch('UPVS_SP_KS_ALIAS'), ENV.fetch('UPVS_SP_KS_PRIVATE_PASSWORD').chars.to_java(:char)).get_encoded)
+  rescue java.lang.Throwable => e
+    raise "#{e.class}: #{e.message}" # TODO
+  end
 
   # Read identity provider metadata
   idp_metadata = OneLogin::RubySaml::IdpMetadataParser.new.parse_to_hash(File.read(ENV.fetch('UPVS_IDP_METADATA')))
