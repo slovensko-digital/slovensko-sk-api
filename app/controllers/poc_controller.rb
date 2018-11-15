@@ -30,6 +30,7 @@ class PocController < ApplicationController
   private
 
   def assertion
-    @assertion ||= UpvsEnvironment.assertion_store.read(session[:key])
+    encrypted_assertion = UpvsEnvironment.assertion_store.read(session[:key])
+    UpvsEnvironment.assertion_encryptor.decrypt_and_verify(encrypted_assertion)
   end
 end

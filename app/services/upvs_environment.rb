@@ -1,8 +1,13 @@
 module UpvsEnvironment
   extend self
 
+  def assertion_encryptor
+    @assertion_encryptor ||= ActiveSupport::MessageEncryptor.new(ENV.fetch('PODAAS_ASSERTION_KEY'))
+  end
+
   def assertion_store
     # TODO there is also a ActiveSupport::Cache::Store::RedisStore
+    # TODO configure namespace, compression, expiration, etc.
     @assertion_store ||= ActiveSupport::Cache::MemoryStore.new
   end
 
