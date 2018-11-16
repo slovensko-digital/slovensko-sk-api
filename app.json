@@ -1,6 +1,7 @@
 {
   "scripts": {
     "dokku": {
+      "predeploy": "lib/upvs/compile",
       "postdeploy": "rake db:migrate"
     }
   }
