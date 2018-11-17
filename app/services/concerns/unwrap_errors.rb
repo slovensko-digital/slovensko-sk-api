@@ -4,11 +4,10 @@ module UnwrapErrors
   extend ActiveSupport::Concern
 
   WRAPPERS = [
-    # TODO disable for now
-    # Java::com.google.common.util.concurrent.ExecutionError,
-    # Java::com.google.common.util.concurrent.UncheckedExecutionException,
-    # Java::java.util.concurrent.ExecutionException,
-    # Java::java.lang.reflect.UndeclaredThrowableException,
+    Java::com.google.common.util.concurrent.ExecutionError,
+    Java::com.google.common.util.concurrent.UncheckedExecutionException,
+    Java::java.util.concurrent.ExecutionException,
+    Java::java.lang.reflect.UndeclaredThrowableException,
   ]
 
   included do

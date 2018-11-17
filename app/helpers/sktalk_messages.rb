@@ -1,2 +1,1 @@
-# TODO disable for now
-# SktalkMessages = digital::slovensko::upvs::SktalkMessages
+SktalkMessages = digital::slovensko::upvs::SktalkMessages

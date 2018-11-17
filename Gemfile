@@ -1,3 +1,16 @@
+def ensure_upvs_package_existence!
+  root = File.expand_path(File.join('lib', 'upvs'), __dir__)
+  main = File.join(root, 'bin', 'upvs-0.0.0.jar')
+
+  unless File.exists?(main)
+    result = system(ENV, File.join(root, 'compile'), out: File::NULL)
+    raise 'Error packing UPVS library into JAR file' unless result
+  end
+end
+
+# TODO use custom Dockerfile instead of this dirty hack
+ensure_upvs_package_existence!
+
 source 'https://rubygems.org'
 
 ruby '2.5.0', engine: 'jruby', engine_version: '9.2.0.0'
