@@ -3,7 +3,8 @@ def ensure_upvs_package_existence!
   main = File.join(root, 'bin', 'upvs-0.0.0.jar')
 
   unless File.exists?(main)
-    result = system(ENV, File.join(root, 'compile'), out: File::NULL)
+    env = ENV.to_h.merge('JAVA_HOME' => '/app/vendor/jvm')
+    result = system(env, File.join(root, 'compile'), out: File::NULL)
     raise 'Error packing UPVS library into JAR file' unless result
   end
 end
