@@ -1,9 +1,8 @@
 # TODO rm
 
 class PocController < ApplicationController
-  before_action { render_bad_request('No credentials') unless session[:key] }
-  before_action { render_unauthorized unless assertion }
-
+  before_action { render_bad_request('No credentials') if params[:key].blank? }
+  before_action { render_unauthorized if assertion.blank? }
   before_action { render_bad_request('No recipient') if params[:recipient_id].blank? }
 
   def try
@@ -32,6 +31,6 @@ class PocController < ApplicationController
   private
 
   def assertion
-    @assertion ||= UpvsEnvironment.assertion_store.read(session[:key])
+    @assertion ||= UpvsEnvironment.assertion_store.read(params[:key])
   end
 end

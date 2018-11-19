@@ -8,14 +8,12 @@ class UpvsController < ApplicationController
   end
 
   def callback
-    response = Nokogiri::XML.parse(auth['extra']['response_object'].response)
-    assertion = response.xpath('//saml:Assertion').first
-    namespaces = response.namespaces.slice('xmlns:saml', 'xmlns:dsig', 'xmlns:xsi')
-    namespaces.each { |namespace, name| assertion[namespace] = name }
+    decrypted_document = auth['extra']['response_object'].decrypted_document
+    assertion = REXML::XPath.first(decrypted_document, '//saml:Assertion')
 
-    UpvsEnvironment.assertion_store.write(session[:key] = SecureRandom.uuid, assertion.to_xml)
+    UpvsEnvironment.assertion_store.write(session[:key] = SecureRandom.uuid, assertion.to_s)
 
-    render xml: assertion
+    render json: session[:key]
   end
 
   def logout
