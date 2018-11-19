@@ -1,4 +1,4 @@
-FROM jruby:9.2.0.0
+FROM jruby:9.2.4.0
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs openjdk-8-jdk
 RUN mkdir /app
 WORKDIR /app
