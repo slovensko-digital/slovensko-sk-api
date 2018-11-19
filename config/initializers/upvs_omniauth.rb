@@ -1,31 +1,6 @@
 # TODO skip in specs for now
 return if Rails.env.test?
 
-# TODO this patch generates requests exactly as in Java demo, this is not needed and may be removed later
-# class OneLogin::RubySaml::Authrequest
-#   def create_xml_document(settings)
-#     document = XMLSecurity::Document.new
-#     document.uuid = uuid
-#
-#     root = document.add_element('saml2p:AuthnRequest', 'xmlns:saml2p' => 'urn:oasis:names:tc:SAML:2.0:protocol')
-#     root.attributes['AssertionConsumerServiceURL'] = settings.assertion_consumer_service_url
-#     root.attributes['Destination'] = settings.idp_sso_target_url
-#     root.attributes['ForceAuthn'] = settings.force_authn
-#     root.attributes['ID'] = uuid
-#     root.attributes['IsPassive'] = settings.passive
-#     root.attributes['IssueInstant'] = Time.now.utc.strftime('%Y-%m-%dT%H:%M:%S.%LZ')
-#     root.attributes['ProtocolBinding'] = settings.protocol_binding
-#     root.attributes['Version'] = '2.0'
-#
-#     issuer = root.add_element('saml2:Issuer', 'xmlns:saml2' => 'urn:oasis:names:tc:SAML:2.0:assertion')
-#     issuer.text = settings.issuer
-#
-#     root.add_element('saml2p:NameIDPolicy', 'AllowCreate' => 'true', 'Format' => settings.name_identifier_format, 'SPNameQualifier' => settings.sp_name_qualifier)
-#
-#     document
-#   end
-# end
-
 Rails.application.config.middleware.use OmniAuth::Builder do
   configure do |config|
     config.path_prefix = '/auth'
