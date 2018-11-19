@@ -1,5 +1,5 @@
-FROM jruby:9.2.4.0
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs openjdk-8-jdk
+FROM jruby:9.2.4.0-jdk-alpine
+RUN apk update && apk add build-base nodejs postgresql-dev curl
 RUN mkdir /app
 WORKDIR /app
 COPY Gemfile Gemfile
