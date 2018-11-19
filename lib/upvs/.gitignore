@@ -8,5 +8,3 @@
 /bin/*
 /log/*
 /tmp/*
-
-!/bin/upvs-0.0.0.jar
