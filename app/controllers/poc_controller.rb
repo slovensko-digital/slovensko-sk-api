@@ -11,7 +11,7 @@ class PocController < ApplicationController
     receiver = SktalkReceiver.new(upvs)
     saver = SktalkSaver.new(receiver)
 
-    message = SktalkMessages.from_xml(File.read('spec/examples/fixtures/egov_application_csru_generic.xml'))
+    message = SktalkMessages.from_xml(File.read('spec/examples/fixtures/egov_application_general_agenda.xml'))
     info = message.header.message_info
     info.message_id = SecureRandom.uuid
     info.correlation_id = SecureRandom.uuid
