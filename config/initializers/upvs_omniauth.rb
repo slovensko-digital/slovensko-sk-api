@@ -3,7 +3,6 @@ return if Rails.env.test?
 
 Rails.application.config.middleware.use OmniAuth::Builder do
   configure do |config|
-    config.path_prefix = '/auth'
     config.logger = Rails.logger
   end
 
@@ -26,8 +25,15 @@ Rails.application.config.middleware.use OmniAuth::Builder do
 
   # Assemble settings
   settings = idp_metadata.merge(
-    request_path: '/auth/saml/login',
+    request_path: '/auth/saml',
     callback_path: '/auth/saml/callback',
+
+    # Generates paths:
+    # /auth/saml
+    # /auth/saml/callback
+    # /auth/saml/metadata
+    # /auth/saml/slo
+    # /auth/saml/spslo
 
     issuer: sp_metadata['entityID'],
     assertion_consumer_service_url: sp_metadata['SPSSODescriptor']['AssertionConsumerService'].first['Location'],
@@ -56,6 +62,9 @@ Rails.application.config.middleware.use OmniAuth::Builder do
     force_authn: false,
     passive: false,
   )
+
+  # TODO look at settings here, check RubySaml::Settings.single_logout_service_url (assertion_consumer_logout_service_url)
+  # binding.pry
 
   provider :saml, settings
 end
