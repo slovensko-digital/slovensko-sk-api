@@ -49,7 +49,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
       logout_requests_signed: true,
       logout_responses_signed: true,
       want_assertions_signed: true,
-      want_assertions_encrypted: true,
+      want_assertions_encrypted: false,
       want_name_id: true,
       metadata_signed: true,
       embed_sign: true,

@@ -1,0 +1,32 @@
+<SKTalkMessage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://gov.sk/SKTalkMessage">
+  <EnvelopeVersion>3.0</EnvelopeVersion>
+  <Header>
+    <MessageInfo>
+      <Class>EGOV_APPLICATION</Class>
+      <PospID>App.GeneralAgenda</PospID>
+      <PospVersion>1.9</PospVersion>
+      <MessageID>?</MessageID>
+      <CorrelationID>?</CorrelationID>
+      <ChannelInfo />
+      <ChannelInfoReply />
+    </MessageInfo>
+    <SenderInfo />
+  </Header>
+  <Body>
+    <MessageContainer xmlns="http://schemas.gov.sk/core/MessageContainer/1.0">
+      <MessageId>?</MessageId>
+      <SenderId>?</SenderId>
+      <RecipientId>?</RecipientId>
+      <MessageType>App.GeneralAgenda</MessageType>
+      <MessageSubject>Všeobecná agenda</MessageSubject>
+      <SenderBusinessReference />
+      <RecipientBusinessReference />
+      <Object Id="eb8eb80c-c4ae-42a6-94cf-8614b6551583" Name="Všeobecná agenda.xml" Description="Všeobecná agenda" Class="FORM" IsSigned="false" MimeType="application/x-eform-xml" Encoding="XML">
+        <GeneralAgenda xmlns="http://schemas.gov.sk/form/App.GeneralAgenda/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <subject>Nazov</subject>
+          <text>Text</text>
+        </GeneralAgenda>
+      </Object>
+    </MessageContainer>
+  </Body>
+</SKTalkMessage>
