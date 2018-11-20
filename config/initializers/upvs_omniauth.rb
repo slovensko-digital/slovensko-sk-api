@@ -37,6 +37,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
 
     issuer: sp_metadata['entityID'],
     assertion_consumer_service_url: sp_metadata['SPSSODescriptor']['AssertionConsumerService'].first['Location'],
+    single_logout_service_url: sp_metadata['SPSSODescriptor']['SingleLogoutService'].first['Location'],
     name_identifier_format: 'urn:oasis:names:tc:SAML:2.0:nameid-format:transient',
     protocol_binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
     sp_name_qualifier: sp_metadata['entityID'],
@@ -62,9 +63,6 @@ Rails.application.config.middleware.use OmniAuth::Builder do
     force_authn: false,
     passive: false,
   )
-
-  # TODO look at settings here, check RubySaml::Settings.single_logout_service_url (assertion_consumer_logout_service_url)
-  # binding.pry
 
   provider :saml, settings
 end
