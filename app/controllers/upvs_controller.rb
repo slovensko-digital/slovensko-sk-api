@@ -11,8 +11,9 @@ class UpvsController < ApplicationController
   end
 
   def callback
-    decrypted_document = auth['extra']['response_object'].decrypted_document
-    assertion = REXML::XPath.first(decrypted_document, '//saml:Assertion')
+    response = auth['extra']['response_object']
+    document = response.decrypted_document || response.document
+    assertion = REXML::XPath.first(document, '//saml:Assertion')
 
     UpvsEnvironment.assertion_store.write(session[:key] = SecureRandom.uuid, assertion.to_s)
 
@@ -20,8 +21,6 @@ class UpvsController < ApplicationController
   end
 
   def logout
-    # TODO check notes in omniauth_saml first, then update this:
-
     if params[:SAMLResponse]
       UpvsEnvironment.assertion_store.delete(session[:key])
 
