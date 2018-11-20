@@ -42,6 +42,9 @@ Rails.application.config.middleware.use OmniAuth::Builder do
     protocol_binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
     sp_name_qualifier: sp_metadata['entityID'],
 
+    # TODO this somehow does not get executed, see: https://github.com/omniauth/omniauth-saml#single-logout
+    # idp_slo_session_destroy: proc { |env, session| binding.pry },
+
     certificate: certificate,
     private_key: private_key,
 

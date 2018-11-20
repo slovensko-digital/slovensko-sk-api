@@ -20,6 +20,7 @@ class UpvsController < ApplicationController
     render status: :ok, json: { message: 'Signed in', key: session[:key] }
   end
 
+  # TODO logout via IDP works, logout via SP signs out here but user remains signed in at IDP
   def logout
     if params[:SAMLResponse]
       UpvsEnvironment.assertion_store.delete(session[:key])
