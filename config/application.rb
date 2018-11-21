@@ -55,4 +55,5 @@ require 'java'
 end
 
 # Require libraries
+require 'keystore'
 require 'upvs'
