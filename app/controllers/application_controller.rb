@@ -15,7 +15,7 @@ class ApplicationController < ActionController::API
   end
 
   def render_payload_too_large
-    render status: :request_timeout, json: { message: 'Message size limit exceeded' }
+    render status: :payload_too_large, json: { message: 'Message size limit exceeded' }
   end
 
   def render_too_many_requests
