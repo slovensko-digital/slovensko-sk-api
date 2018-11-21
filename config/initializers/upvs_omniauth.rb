@@ -3,7 +3,6 @@ return if Rails.env.test?
 
 Rails.application.config.middleware.use OmniAuth::Builder do
   configure do |config|
-    config.path_prefix = '/auth'
     config.logger = Rails.logger
   end
 
@@ -26,14 +25,25 @@ Rails.application.config.middleware.use OmniAuth::Builder do
 
   # Assemble settings
   settings = idp_metadata.merge(
-    request_path: '/auth/saml/login',
+    request_path: '/auth/saml',
     callback_path: '/auth/saml/callback',
+
+    # Generates paths:
+    # /auth/saml
+    # /auth/saml/callback
+    # /auth/saml/metadata
+    # /auth/saml/slo
+    # /auth/saml/spslo
 
     issuer: sp_metadata['entityID'],
     assertion_consumer_service_url: sp_metadata['SPSSODescriptor']['AssertionConsumerService'].first['Location'],
+    single_logout_service_url: sp_metadata['SPSSODescriptor']['SingleLogoutService'].first['Location'],
     name_identifier_format: 'urn:oasis:names:tc:SAML:2.0:nameid-format:transient',
     protocol_binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
     sp_name_qualifier: sp_metadata['entityID'],
+
+    # TODO this somehow does not get executed, see: https://github.com/omniauth/omniauth-saml#single-logout
+    # idp_slo_session_destroy: proc { |env, session| binding.pry },
 
     certificate: certificate,
     private_key: private_key,
@@ -43,7 +53,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
       logout_requests_signed: true,
       logout_responses_signed: true,
       want_assertions_signed: true,
-      want_assertions_encrypted: false,
+      want_assertions_encrypted: true,
       want_name_id: true,
       metadata_signed: true,
       embed_sign: true,
