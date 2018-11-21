@@ -1,41 +1,33 @@
 class UpvsController < ApplicationController
-  # TODO
-  # protect_from_forgery with: :exception
-  # skip_before_action :verify_authenticity_token
-
-  before_action(only: :login) { render_bad_request('Already signed in') if session[:key] }
-  before_action(only: :logout) { render_bad_request('Already signed out') unless session[:key] }
-
   def login
     redirect_to url_for('/auth/saml')
   end
 
   def callback
-    response = auth['extra']['response_object']
-    document = response.decrypted_document || response.document
-    assertion = REXML::XPath.first(document, '//saml:Assertion')
+    response = request.env['omniauth.auth']['extra']['response_object']
+    token = authenticator.generate_token(response)
 
-    UpvsEnvironment.assertion_store.write(session[:key] = SecureRandom.uuid, assertion.to_s)
-
-    render status: :ok, json: { message: 'Signed in', key: session[:key] }
+    render status: :ok, json: { message: 'Signed in', token: token }
   end
 
-  # TODO logout via IDP works, logout via SP signs out here but user remains signed in at IDP
   def logout
-    if params[:SAMLResponse]
-      UpvsEnvironment.assertion_store.delete(session[:key])
+    if params[:token].present?
+      authenticator.invalidate_token(params[:token])
 
-      session[:key] = nil
+      reset_session # TODO ???
 
       render status: :ok, json: { message: 'Signed out' }
     else
-      redirect_to url_for('/auth/saml/spslo')
+      render_bad_request('No credentials')
     end
-  end
 
-  private
-
-  def auth
-    request.env['omniauth.auth']
+    # TODO rewrite this: logout via IDP works, logout via SP signs out here but user remains signed in at IDP
+    # if params[:SAMLResponse]
+    #   UpvsEnvironment.assertion_store.delete(params[:key])
+    #
+    #   render status: :ok, json: { message: 'Signed out' }
+    # else
+    #   redirect_to url_for('/auth/saml/spslo')
+    # end
   end
 end

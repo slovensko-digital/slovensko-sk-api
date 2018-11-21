@@ -3,7 +3,19 @@ module UpvsEnvironment
 
   def assertion_store
     # TODO there is also a ActiveSupport::Cache::Store::RedisStore
-    @assertion_store ||= ActiveSupport::Cache::MemoryStore.new
+    @assertion_store ||= ActiveSupport::Cache::MemoryStore.new(
+      namespace: 'upvs-assertions',
+      size: 128.megabytes,
+      compress: true,
+    )
+  end
+
+  def token_authenticator
+    @token_authenticator ||= TokenAuthenticator.new(
+      assertion_store: assertion_store,
+      private_key: OpenSSL::PKey::RSA.generate(2048), # TODO load this from env like: OpenSSL::PKey::RSA.new(Base64.decode64(KeyStore.new(...).private_key(...)))
+      issuer: authentication_settings[:issuer],
+    )
   end
 
   def sktalk_receiver(assertion)
