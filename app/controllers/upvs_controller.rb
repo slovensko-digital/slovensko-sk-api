@@ -12,6 +12,8 @@ class UpvsController < ApplicationController
     redirect_to login_callback_url(token)
   end
 
+  # TODO do we want API tokens or UPVS tokens on logout? (login callback yields UPVS tokens, 3rd party signs them as API tokens)
+
   def logout
     authenticator.invalidate_token(params[:token])
 
@@ -30,7 +32,7 @@ class UpvsController < ApplicationController
   private
 
   def authenticator
-    ApiEnvironment.token_authenticator
+    UpvsEnvironment.token_authenticator
   end
 
   def login_callback_url(token)
