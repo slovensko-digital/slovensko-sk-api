@@ -3,11 +3,9 @@
 # See https://tools.ietf.org/html/rfc7519#section-4
 
 class TokenAuthenticator
-  def initialize(assertion_store:, private_key:, issuer:, audience: nil)
+  def initialize(assertion_store:, private_key:)
     @assertion_store = assertion_store
     @private_key = private_key
-    @issuer = issuer
-    @audience = audience
   end
 
   def generate_token(response)
@@ -16,9 +14,6 @@ class TokenAuthenticator
 
     @assertion_store.synchronize do
       payload = {
-        iss: @issuer,
-        sub: response.attributes['SubjectID'],
-        aud: @audience,
         exp: response.not_on_or_after.to_i,
         nbf: response.not_before.to_i,
         iat: Time.parse(assertion.attributes['IssueInstant']).to_i,
@@ -33,9 +28,9 @@ class TokenAuthenticator
 
   def invalidate_token(token)
     @assertion_store.synchronize do
-      payload, _, _ = verify_token(token)
-
-      @assertion_store.delete(payload['jti'])
+      verify_token(token) do |payload, _, _|
+        @assertion_store.delete(payload['jti'])
+      end
     end
   end
 
@@ -43,17 +38,12 @@ class TokenAuthenticator
     assertion = nil
     options = {
       algorithm: 'RS256',
-      iss: @issuer,
-      # sub: ,
-      aud: @audience,
-      verify_iss: true,
-      # verify_sub: true, # TODO verify sub somehow? otherwise remove sub or it can be tampered with
-      verify_aud: true,
       verify_iat: true,
       verify_jti: -> (jti) { assertion = @assertion_store.read(jti) },
     }
 
-    JWT.decode(token, @private_key.public_key, true, options) + [assertion]
+    payload, header = JWT.decode(token, @private_key.public_key, true, options)
+    block_given? ? yield(payload, header, assertion) : assertion
   end
 
   private
