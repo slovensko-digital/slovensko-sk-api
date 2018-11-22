@@ -12,8 +12,8 @@ Rails.application.routes.draw do
   end
 
   # TODO rm
-  namespace :poc do
-    get :try
+  namespace :tp do
+    post :callback
   end
 
   scope :api do
