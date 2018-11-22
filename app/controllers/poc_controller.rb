@@ -1,11 +1,12 @@
 # TODO rm
 
-class PocController < ApplicationController
-  before_action { render_bad_request('No credentials') if params[:key].blank? }
-  before_action { render_unauthorized if assertion.blank? }
+class PocController < ApiController
+  before_action { render_bad_request('No credentials') if params[:token].blank? }
   before_action { render_bad_request('No recipient') if params[:recipient_id].blank? }
 
   def try
+    assertion = authenticator.verify_token(params[:token])
+
     upvs = UpvsEnvironment.upvs_proxy(assertion)
 
     receiver = SktalkReceiver.new(upvs)
@@ -26,11 +27,5 @@ class PocController < ApplicationController
     save_to_outbox_result = saver.save_to_outbox(message)
 
     render json: { message: message, receive_result: receive_result, save_to_outbox_result: save_to_outbox_result }
-  end
-
-  private
-
-  def assertion
-    @assertion ||= UpvsEnvironment.assertion_store.read(params[:key])
   end
 end
