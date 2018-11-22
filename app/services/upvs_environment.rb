@@ -13,8 +13,7 @@ module UpvsEnvironment
   def token_authenticator
     @token_authenticator ||= TokenAuthenticator.new(
       assertion_store: assertion_store,
-      private_key: OpenSSL::PKey::RSA.generate(2048), # TODO load this from env like: OpenSSL::PKey::RSA.new(Base64.decode64(KeyStore.new(...).private_key(...)))
-      issuer: authentication_settings[:issuer],
+      private_key: OpenSSL::PKey::RSA.new(Base64.decode64(ENV.fetch('UPVS_TOKEN_PRIVATE_KEY')))
     )
   end
 

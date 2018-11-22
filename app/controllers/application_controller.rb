@@ -6,10 +6,6 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def authenticator
-    UpvsEnvironment.token_authenticator
-  end
-
   # TODO maybe render HTML error message here
   def render_unauthorized
     self.headers['WWW-Authenticate'] = 'Token realm="PODAAS"'

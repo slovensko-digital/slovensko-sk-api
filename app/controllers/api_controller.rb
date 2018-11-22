@@ -1,4 +1,4 @@
-class ApplicationController < ActionController::API
+class ApiController < ActionController::API
   rescue_from StandardError, with: :render_internal_server_error unless Rails.env.development?
   rescue_from JWT::DecodeError, with: :render_unauthorized
   rescue_from java.net.SocketTimeoutException, with: :render_request_timeout
@@ -20,7 +20,7 @@ class ApplicationController < ActionController::API
   private
 
   def authenticator
-    UpvsEnvironment.token_authenticator
+    ApiEnvironment.token_authenticator
   end
 
   def render_bad_request(message)
