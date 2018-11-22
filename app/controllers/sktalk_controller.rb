@@ -1,19 +1,29 @@
-class SktalkController < ApplicationController
+class SktalkController < ApiController
+  before_action { render_bad_request('No credentials') if params[:token].blank? }
+  before_action { render_bad_request('No message') if params[:message].blank? }
+
   def receive
-    render_bad_request('No credentials') and return unless params[:key].present?
-    render_bad_request('No message') and return unless params[:message].present?
+    assertion = authenticator.verify_token(params[:token])
+    receive_result = receiver(assertion).receive(params[:message])
 
-    receiver = UpvsEnvironment.sktalk_receiver(params[:key])
-    result = receiver.receive(params[:message])
+    render status: :ok, json: { receive_result: receive_result }
+  end
 
-    render status: :ok, json: { result: result }
-  rescue
+  def receive_and_save_to_outbox
+    assertion = authenticator.verify_token(params[:token])
+    receive_result = receiver(assertion).receive(params[:message])
+    save_to_outbox_result = saver(assertion).save_to_outbox(params[:message])
 
-    # TODO check the whole full causal chain
-    if $!.cause&.cause.is_a?(java.net.SocketTimeoutException)
-      render_timeout
-    else
-      render_internal_server_error
-    end
+    render json: { receive_result: receive_result, save_to_outbox_result: save_to_outbox_result }
+  end
+
+  private
+
+  def receiver(assertion)
+    UpvsEnvironment.sktalk_receiver(assertion)
+  end
+
+  def saver(assertion)
+    UpvsEnvironment.sktalk_saver(assertion)
   end
 end

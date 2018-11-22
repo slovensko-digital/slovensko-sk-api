@@ -16,7 +16,10 @@ Rails.application.routes.draw do
     get :try
   end
 
-  namespace :sktalk do
-    post :receive
+  scope :api do
+    namespace :sktalk do
+      post :receive
+      post :receive_and_save_to_outbox
+    end
   end
 end
