@@ -1,4 +1,6 @@
 class UpvsController < ApplicationController
+  skip_before_action :verify_authenticity_token
+
   def login
     redirect_to url_for('/auth/saml')
   end
