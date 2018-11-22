@@ -13,7 +13,7 @@ Rails.application.routes.draw do
 
   # TODO rm
   namespace :tp do
-    post :callback
+    get :callback
   end
 
   scope :api do
