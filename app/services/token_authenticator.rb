@@ -19,13 +19,13 @@ class TokenAuthenticator
         iss: @issuer,
         sub: response.attributes['SubjectID'],
         aud: @audience,
-        exp: exp = response.not_on_or_after.to_i,
+        exp: response.not_on_or_after.to_i,
         nbf: response.not_before.to_i,
         iat: Time.parse(assertion.attributes['IssueInstant']).to_i,
-        jti: jti = generate_jti,
+        jti: generate_jti,
       }
 
-      @assertion_store.write(jti, assertion, expires_in: exp)
+      @assertion_store.write(payload[:jti], assertion, expires_in: payload[:exp])
 
       JWT.encode(payload, @private_key, 'RS256')
     end
