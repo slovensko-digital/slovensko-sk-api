@@ -9,8 +9,7 @@ class TokenAuthenticator
   end
 
   def generate_token(response)
-    document = response.decrypted_document || response.document
-    assertion = REXML::XPath.first(document, '//saml:Assertion')
+    assertion = AssertionParser.new.parse(response)
 
     @assertion_store.synchronize do
       payload = {
