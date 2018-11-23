@@ -21,10 +21,6 @@ module UpvsEnvironment
     SktalkReceiver.new(upvs_proxy(assertion))
   end
 
-  def sktalk_saver(assertion)
-    SktalkSaver.new(sktalk_receiver(assertion))
-  end
-
   def upvs_properties(assertion)
     environment = case ENV.fetch('UPVS_ENV')
     when 'dev'

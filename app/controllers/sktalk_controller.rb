@@ -12,7 +12,7 @@ class SktalkController < ApiController
   def receive_and_save_to_outbox
     assertion = authenticator.verify_token(params[:token])
     receive_result = receiver(assertion).receive(params[:message])
-    save_to_outbox_result = saver(assertion).save_to_outbox(params[:message])
+    save_to_outbox_result = receiver(assertion).save_to_outbox(params[:message])
 
     render json: { receive_result: receive_result, save_to_outbox_result: save_to_outbox_result }
   end
@@ -21,9 +21,5 @@ class SktalkController < ApiController
 
   def receiver(assertion)
     UpvsEnvironment.sktalk_receiver(assertion)
-  end
-
-  def saver(assertion)
-    UpvsEnvironment.sktalk_saver(assertion)
   end
 end
