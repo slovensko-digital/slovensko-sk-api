@@ -9,7 +9,7 @@ class TokenAuthenticator
   end
 
   def generate_token(response)
-    assertion = AssertionParser.new.parse(response)
+    assertion = parse_assertion(response)
 
     @assertion_store.synchronize do
       payload = {
@@ -52,5 +52,20 @@ class TokenAuthenticator
       jti = SecureRandom.uuid
       return jti unless @assertion_store.exist?(jti)
     end
+  end
+
+  def parse_assertion(response)
+    document = response.decrypted_document || response.document
+    assertion = REXML::XPath.first(document, '//saml:Assertion')
+
+    # force namespaces directly on element, otherwise they are not present
+    assertion.namespaces.slice('dsig', 'saml', 'xsi').each do |prefix, uri|
+      assertion.add_namespace(prefix, uri)
+    end
+
+    # force double quotes on attributes, actually preserve response format
+    assertion.context[:attribute_quote] = :quote
+
+    assertion
   end
 end
