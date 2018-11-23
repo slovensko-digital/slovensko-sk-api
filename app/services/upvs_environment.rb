@@ -13,7 +13,7 @@ module UpvsEnvironment
   def token_authenticator
     @token_authenticator ||= TokenAuthenticator.new(
       assertion_store: assertion_store,
-      private_key: OpenSSL::PKey::RSA.new(Base64.decode64(ENV.fetch('UPVS_TOKEN_PRIVATE_KEY')))
+      private_key: OpenSSL::PKey::RSA.new(File.read(ENV.fetch('UPVS_TOKEN_PRIVATE_KEY')))
     )
   end
 
@@ -83,9 +83,15 @@ module UpvsEnvironment
     environment.merge(security)
   end
 
+  # TODO remove this in favor of #upvs_proxy_cache.fetch(assertion) { ... }
   def upvs_proxy(assertion)
     UpvsProxy.new(upvs_properties(assertion))
   end
+
+  # TODO add proxy cache like this:
+  # def upvs_proxy_cache
+  #   @upvs_proxy_cache ||= ...
+  # end
 
   def authentication_settings
     return @authentication_settings if @authentication_settings
