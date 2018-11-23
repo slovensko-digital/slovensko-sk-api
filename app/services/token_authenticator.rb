@@ -20,7 +20,7 @@ class TokenAuthenticator
         jti: generate_jti,
       }
 
-      @assertion_store.write(payload[:jti], assertion, expires_in: payload[:exp])
+      @assertion_store.write(payload[:jti], assertion.to_s, expires_in: payload[:exp])
 
       JWT.encode(payload, @private_key, 'RS256')
     end
