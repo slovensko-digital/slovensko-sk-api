@@ -1,5 +1,5 @@
 class HealthController < ApplicationController
   def index
-    render status: :ok
+    render status: :ok, json: { status: :ok }
   end
 end
