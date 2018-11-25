@@ -1,8 +1,6 @@
 require_relative 'boot'
 
 require 'rails'
-require 'rails/command'
-require 'rails/commands/server/server_command'
 
 # Pick the frameworks you want:
 require 'active_model/railtie'
@@ -55,4 +53,5 @@ require 'java'
 end
 
 # Require libraries
+require 'keystore'
 require 'upvs'

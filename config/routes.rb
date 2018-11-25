@@ -11,12 +11,16 @@ Rails.application.routes.draw do
     post :callback
   end
 
-  # TODO rm
-  namespace :poc do
-    get :try
-  end
+  scope :api do
 
-  namespace :sktalk do
-    post :receive
+    # TODO rm
+    namespace :poc do
+      get :try
+    end
+
+    namespace :sktalk do
+      post :receive
+      post :receive_and_save_to_outbox
+    end
   end
 end

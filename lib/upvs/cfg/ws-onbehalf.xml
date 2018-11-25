@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- TODO remove this file in favor of Java code  -->
+<!-- TODO remove this file in favor of Java code, see https://cwiki.apache.org/confluence/display/CXF20DOC/WS-Trust -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:http="http://cxf.apache.org/transports/http/configuration"
