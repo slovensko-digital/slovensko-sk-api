@@ -12,7 +12,7 @@ module ApiEnvironment
   def token_authenticator
     @token_authenticator ||= TokenWrapper.new(
       token_authenticator: UpvsEnvironment.token_authenticator,
-      public_key: OpenSSL::PKey::RSA.new(File.read(ENV.fetch('API_TOKEN_PUBLIC_KEY'))),
+      public_key: OpenSSL::PKey::RSA.new(File.read(ENV.fetch('API_TOKEN_PUBLIC_KEY_FILE'))),
     )
   end
 end

@@ -13,7 +13,7 @@ module UpvsEnvironment
   def token_authenticator
     @token_authenticator ||= TokenAuthenticator.new(
       assertion_store: assertion_store,
-      private_key: OpenSSL::PKey::RSA.new(File.read(ENV.fetch('UPVS_TOKEN_PRIVATE_KEY')))
+      private_key: OpenSSL::PKey::RSA.new(File.read(ENV.fetch('UPVS_TOKEN_PRIVATE_KEY_FILE')))
     )
   end
 
@@ -92,8 +92,8 @@ module UpvsEnvironment
   def authentication_settings
     return @authentication_settings if @authentication_settings
 
-    idp_metadata = OneLogin::RubySaml::IdpMetadataParser.new.parse_to_hash(File.read(ENV.fetch('UPVS_IDP_METADATA')))
-    sp_metadata = Hash.from_xml(File.read(ENV.fetch('UPVS_SP_METADATA'))).fetch('EntityDescriptor')
+    idp_metadata = OneLogin::RubySaml::IdpMetadataParser.new.parse_to_hash(File.read(ENV.fetch('UPVS_IDP_METADATA_FILE')))
+    sp_metadata = Hash.from_xml(File.read(ENV.fetch('UPVS_SP_METADATA_FILE'))).fetch('EntityDescriptor')
     keystore = KeyStore.new(ENV.fetch('UPVS_SP_KS_FILE'), ENV.fetch('UPVS_SP_KS_PASSWORD'))
 
     @authentication_settings ||= idp_metadata.merge(
