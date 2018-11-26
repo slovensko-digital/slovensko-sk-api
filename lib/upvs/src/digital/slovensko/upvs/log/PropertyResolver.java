@@ -22,7 +22,7 @@ import static java.util.Collections.emptyMap;
 import static com.google.common.collect.ImmutableMap.copyOf;
 
 public final class PropertyResolver extends PropertyDefinerBase {
-  private static Map<String, String> properties = emptyMap();
+  private static Map<String, Object> properties = emptyMap();
 
   private String propertyKey;
 
@@ -30,7 +30,7 @@ public final class PropertyResolver extends PropertyDefinerBase {
 
   public PropertyResolver() {}
 
-  public static void load(final Map<String, String> properties) {
+  public static void load(final Map<String, Object> properties) {
     synchronized (PropertyResolver.class) {
       PropertyResolver.properties = copyOf(properties);
 
@@ -57,7 +57,7 @@ public final class PropertyResolver extends PropertyDefinerBase {
   }
 
   private static void reconfigureJavaLoggingLevelOnConsoleHandlers() {
-    Level level = Level.parse(properties.getOrDefault("upvs.log.java.console.level", "OFF"));
+    Level level = Level.parse(properties.getOrDefault("upvs.log.java.console.level", "OFF").toString());
     Logger logger = LogManager.getLogManager().getLogger("");
 
     for (Handler handler: logger.getHandlers()) {

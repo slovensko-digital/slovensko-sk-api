@@ -21,7 +21,7 @@ module UpvsEnvironment
     SktalkReceiver.new(upvs_proxy(assertion))
   end
 
-  def upvs_properties(assertion)
+  def upvs_properties(assertion: nil)
     environment = case ENV.fetch('UPVS_ENV')
     when 'dev'
       {
@@ -34,8 +34,8 @@ module UpvsEnvironment
         'upvs.log.file.pattern' => 'log/upvs-%d{yyyyMMdd}.log',
         'upvs.log.java.console.level' => 'INFO',
 
-        'upvs.timeout.connection' => '30000',
-        'upvs.timeout.receive' => '60000',
+        'upvs.timeout.connection' => 30000,
+        'upvs.timeout.receive' => 60000,
       }
     when 'fix'
       {
@@ -50,8 +50,8 @@ module UpvsEnvironment
         'upvs.log.console' => 'OFF',
         'upvs.log.file.pattern' => 'log/upvs-%d{yyyyMMdd}.log',
 
-        'upvs.timeout.connection' => '30000',
-        'upvs.timeout.receive' => '60000',
+        'upvs.timeout.connection' => 30000,
+        'upvs.timeout.receive' => 60000,
       }
     when 'prod'
       {
@@ -64,6 +64,8 @@ module UpvsEnvironment
       raise 'Unknown environment'
     end
 
+    environment.merge!('upvs.log.console' => 'OFF') if Rails.env.test?
+
     security = {
       'upvs.tls.truststore.file' => ENV['UPVS_TLS_TS_FILE'],
       'upvs.tls.truststore.password' => ENV['UPVS_TLS_TS_PASSWORD'],
@@ -72,16 +74,16 @@ module UpvsEnvironment
       'upvs.sts.keystore.alias' => ENV['UPVS_STS_KS_ALIAS'],
       'upvs.sts.keystore.password' => ENV['UPVS_STS_KS_PASSWORD'],
       'upvs.sts.keystore.private.password' => ENV['UPVS_STS_KS_PRIVATE_PASSWORD'],
-
-      'upvs.sts.saml.assertion' => assertion,
     }
+
+    security.merge!('upvs.sts.saml.assertion' => assertion) if assertion
 
     environment.merge(security)
   end
 
   # TODO remove this in favor of #upvs_proxy_cache.fetch(assertion) { ... }
   def upvs_proxy(assertion)
-    UpvsProxy.new(upvs_properties(assertion))
+    UpvsProxy.new(upvs_properties(assertion: assertion))
   end
 
   # TODO add proxy cache like this:

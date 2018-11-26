@@ -31,10 +31,12 @@ public final class UpvsProxy {
 
   private final IService sktalk;
 
-  public UpvsProxy(final Map<String, String> properties) {
+  public UpvsProxy(final Map<String, Object> properties) {
     Map<String, Object> copy = new LinkedHashMap<>(properties);
-    List<String> configurations = newArrayList("context.xml", "ws.xml");
 
+    PropertyResolver.load(copy);
+
+    List<String> configurations = newArrayList("context.xml", "ws.xml");
     configurations.add(copy.containsKey("upvs.sts.saml.assertion") ? "ws-onbehalf.xml" : "ws-techcert.xml");
 
     this.context = new Context(configurations, new MapPropertySource("args", copy));
@@ -43,8 +45,6 @@ public final class UpvsProxy {
     this.ez = this.context.getBean(IServiceBus.class);
     this.iam = this.context.getBean(IdentityServices.class);
     this.sktalk = this.context.getBean(IService.class);
-
-    PropertyResolver.load(properties);
   }
 
   private static final class Context extends ClassPathXmlApplicationContext {
