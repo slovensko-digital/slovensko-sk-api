@@ -21,7 +21,7 @@ module UpvsEnvironment
     SktalkReceiver.new(upvs_proxy(assertion))
   end
 
-  def upvs_properties(assertion: nil)
+  def properties(assertion: nil)
     environment = case ENV.fetch('UPVS_ENV')
     when 'dev'
       {
@@ -83,7 +83,7 @@ module UpvsEnvironment
 
   # TODO remove this in favor of #upvs_proxy_cache.fetch(assertion) { ... }
   def upvs_proxy(assertion)
-    UpvsProxy.new(upvs_properties(assertion: assertion))
+    UpvsProxy.new(properties(assertion: assertion))
   end
 
   # TODO add proxy cache like this:
