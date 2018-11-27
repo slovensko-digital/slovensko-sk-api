@@ -3,9 +3,9 @@
 # See https://tools.ietf.org/html/rfc7519#section-4
 
 class TokenAuthenticator
-  def initialize(assertion_store:, private_key:)
+  def initialize(assertion_store:, key_pair:)
     @assertion_store = assertion_store
-    @private_key = private_key
+    @key_pair = key_pair
   end
 
   def generate_token(response)
@@ -21,7 +21,7 @@ class TokenAuthenticator
 
       @assertion_store.write(payload[:jti], assertion.to_s, expires_in: payload[:exp])
 
-      JWT.encode(payload, @private_key, 'RS256')
+      JWT.encode(payload, @key_pair, 'RS256')
     end
   end
 
@@ -41,7 +41,7 @@ class TokenAuthenticator
       verify_jti: -> (jti) { assertion = @assertion_store.read(jti) },
     }
 
-    payload, header = JWT.decode(token, @private_key.public_key, true, options)
+    payload, header = JWT.decode(token, @key_pair.public_key, true, options)
     block_given? ? yield(payload, header, assertion) : assertion
   end
 
