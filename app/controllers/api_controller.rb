@@ -1,5 +1,8 @@
 class ApiController < ActionController::API
-  rescue_from StandardError, with: :render_internal_server_error unless Rails.env.development?
+
+  # TODO fix https://guides.rubyonrails.org/action_controller_overview.html#rescue-from
+  #rescue_from StandardError, with: :render_internal_server_error unless Rails.env.development?
+
   rescue_from JWT::DecodeError, with: :render_unauthorized
   rescue_from java.net.SocketTimeoutException, with: :render_request_timeout
 
@@ -12,9 +15,9 @@ class ApiController < ActionController::API
 
   # clear last raised error so it does not tamper the cause of the unwrapped error on subsequent raise
 
-  rescue_from(*wrappers) do |error|
+  rescue_from(*wrappers) do |exception|
     $! = nil
-    raise error.cause
+    raise exception.cause
   end
 
   private
