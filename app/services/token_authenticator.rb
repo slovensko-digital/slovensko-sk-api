@@ -74,9 +74,9 @@ class TokenAuthenticator
   end
 
   def assertion_to_s(assertion)
-    formatter = REXML::Formatters::Pretty.new(2)
+    formatter = REXML::Formatters::Pretty.new(0)
     formatter.compact = true
-
-    String.new.tap { |buffer| formatter.write(assertion, buffer) }
+    formatter.write(assertion, buffer = '')
+    buffer.remove("\n")
   end
 end
