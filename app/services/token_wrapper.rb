@@ -6,6 +6,10 @@ class TokenWrapper
 
   def unwrap(token)
     payload = JWT.decode(token, @public_key, true, algorithm: 'RS256').first
+
+    # TODO force cty: "JWT" header check because this JWT carries another JWT in it
+    # TODO force claim checks on jti (replay attacks) and exp here
+
     @token_authenticator.verify_token(payload['obo'])
   end
 

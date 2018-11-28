@@ -1,6 +1,8 @@
 class UpvsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
+  # TODO add support for more callback urls (get from param -> check against env -> store in session -> redirect on success)
+
   def login
     redirect_to url_for('/auth/saml')
   end
@@ -12,7 +14,7 @@ class UpvsController < ApplicationController
     redirect_to login_callback_url(token)
   end
 
-  # TODO do we want API tokens or UPVS tokens on logout? (login callback yields UPVS tokens, 3rd party signs them as API tokens)
+  # TODO do we want API tokens or UPVS tokens on logout?
 
   def logout
     authenticator.invalidate_token(params[:token])

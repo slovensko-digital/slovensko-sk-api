@@ -1,5 +1,3 @@
-# TODO specs must cover every claim verification!
-
 # See https://tools.ietf.org/html/rfc7519#section-4
 
 class TokenAuthenticator
