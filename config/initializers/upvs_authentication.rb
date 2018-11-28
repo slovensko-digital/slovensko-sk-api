@@ -1,5 +1,4 @@
-# TODO skip in specs for now
-return if Rails.env.test?
+# Be sure to restart your server when you modify this file.
 
 Rails.application.config.middleware.use OmniAuth::Builder do
   configure do |config|
