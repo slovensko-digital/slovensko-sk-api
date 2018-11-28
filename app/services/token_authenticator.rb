@@ -13,13 +13,17 @@ class TokenAuthenticator
       payload = {
         exp: response.not_on_or_after.to_i,
         nbf: response.not_before.to_i,
-        iat: Time.parse(assertion.attributes['IssueInstant']).to_i,
+        iat: Time.parse(assertion.attributes['IssueInstant']).to_f,
         jti: generate_jti,
       }
 
-      @assertion_store.write(payload[:jti], assertion.to_s, expires_in: payload[:exp])
+      jti = payload[:jti]
+      ass = assertion_to_s(assertion)
+      exp = payload[:exp] - Time.now.to_f
 
-      JWT.encode(payload, @key_pair, 'RS256')
+      raise ArgumentError if exp <= 0
+
+      JWT.encode(payload, @key_pair, 'RS256').tap { @assertion_store.write(jti, ass, expires_in: exp) }
     end
   end
 
@@ -32,15 +36,15 @@ class TokenAuthenticator
   end
 
   def verify_token(token)
-    assertion = nil
+    ass = nil
     options = {
       algorithm: 'RS256',
       verify_iat: true,
-      verify_jti: -> (jti) { assertion = @assertion_store.read(jti) },
+      verify_jti: -> (jti) { ass = @assertion_store.read(jti) },
     }
 
     payload, header = JWT.decode(token, @key_pair.public_key, true, options)
-    block_given? ? yield(payload, header, assertion) : assertion
+    block_given? ? yield(payload, header, ass) : ass
   end
 
   private
@@ -56,6 +60,8 @@ class TokenAuthenticator
     document = response.decrypted_document || response.document
     assertion = REXML::XPath.first(document, '//saml:Assertion')
 
+    raise ArgumentError unless assertion
+
     # force namespaces directly on element, otherwise they are not present
     assertion.namespaces.slice('dsig', 'saml', 'xsi').each do |prefix, uri|
       assertion.add_namespace(prefix, uri)
@@ -65,5 +71,12 @@ class TokenAuthenticator
     assertion.context[:attribute_quote] = :quote
 
     assertion
+  end
+
+  def assertion_to_s(assertion)
+    formatter = REXML::Formatters::Pretty.new(2)
+    formatter.compact = true
+
+    String.new.tap { |buffer| formatter.write(assertion, buffer) }
   end
 end
