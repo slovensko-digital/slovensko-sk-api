@@ -9,6 +9,8 @@ class TokenAuthenticator
   def generate_token(response)
     assertion = parse_assertion(response)
 
+    # TODO maybe return some user specific data in payload here
+
     @assertion_store.synchronize do
       payload = {
         exp: response.not_on_or_after.to_i,
