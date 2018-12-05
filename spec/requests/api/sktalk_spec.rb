@@ -1,16 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe 'SKTalk API' do
-  let(:key_pair) { OpenSSL::PKey::RSA.new(2048) }
-
-  let(:token_authenticator) { TokenWrapper.new(token_authenticator: UpvsEnvironment.token_authenticator, public_key: key_pair.public_key) }
   let(:sktalk_receiver) { instance_double(SktalkReceiver) }
 
   let!(:token) do
     response = OneLogin::RubySaml::Response.new(file_fixture('oam/response_success.xml').read)
     token = travel_to(response.not_before) { UpvsEnvironment.token_authenticator.generate_token(response) }
 
-    JWT.encode({ obo: token }, key_pair, 'RS256')
+    JWT.encode({ obo: token }, api_token_key_pair, 'RS256')
   end
 
   let!(:message) { file_fixture('sktalk/egov_application_general_agenda.xml').read }
@@ -18,7 +15,6 @@ RSpec.describe 'SKTalk API' do
   before(:example) do
     assertion = file_fixture('oam/response_success_assertion.xml').read.strip
 
-    allow(ApiEnvironment).to receive(:token_authenticator).and_return(token_authenticator)
     allow(UpvsEnvironment).to receive(:sktalk_receiver).with(assertion).and_return(sktalk_receiver)
   end
 
