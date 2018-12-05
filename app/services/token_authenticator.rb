@@ -38,14 +38,17 @@ class TokenAuthenticator
   end
 
   def verify_token(token)
-    ass = nil
     options = {
       algorithm: 'RS256',
       verify_iat: true,
-      verify_jti: -> (jti) { ass = @assertion_store.read(jti) },
+      verify_jti: true,
     }
 
     payload, header = JWT.decode(token, @key_pair.public_key, true, options)
+
+    jti = payload['jti']
+    ass = @assertion_store.read(jti) || raise(JWT::InvalidJtiError)
+
     block_given? ? yield(payload, header, ass) : ass
   end
 
