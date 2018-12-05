@@ -3,11 +3,11 @@ require 'rails_helper'
 RSpec.describe 'UPVS SAML Authentication' do
   before(:example) do
     OmniAuth.config.test_mode = true
+    OmniAuth.config.mock_auth[:saml] = nil
   end
 
   after(:example) do
     OmniAuth.config.test_mode = false
-    OmniAuth.config.mock_auth[:saml] = nil
   end
 
   describe 'GET /auth/saml/login' do
