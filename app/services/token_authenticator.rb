@@ -1,27 +1,31 @@
-# TODO specs must cover every claim verification!
-
 # See https://tools.ietf.org/html/rfc7519#section-4
 
 class TokenAuthenticator
-  def initialize(assertion_store:, private_key:)
+  def initialize(assertion_store:, key_pair:)
     @assertion_store = assertion_store
-    @private_key = private_key
+    @key_pair = key_pair
   end
 
   def generate_token(response)
     assertion = parse_assertion(response)
 
+    # TODO maybe return some user specific data in payload here
+
     @assertion_store.synchronize do
       payload = {
         exp: response.not_on_or_after.to_i,
         nbf: response.not_before.to_i,
-        iat: Time.parse(assertion.attributes['IssueInstant']).to_i,
+        iat: Time.parse(assertion.attributes['IssueInstant']).to_f,
         jti: generate_jti,
       }
 
-      @assertion_store.write(payload[:jti], assertion.to_s, expires_in: payload[:exp])
+      jti = payload[:jti]
+      ass = assertion_to_s(assertion)
+      exp = payload[:exp] - Time.now.to_f
 
-      JWT.encode(payload, @private_key, 'RS256')
+      raise ArgumentError if exp <= 0
+
+      JWT.encode(payload, @key_pair, 'RS256').tap { @assertion_store.write(jti, ass, expires_in: exp) }
     end
   end
 
@@ -34,15 +38,18 @@ class TokenAuthenticator
   end
 
   def verify_token(token)
-    assertion = nil
     options = {
       algorithm: 'RS256',
       verify_iat: true,
-      verify_jti: -> (jti) { assertion = @assertion_store.read(jti) },
+      verify_jti: true,
     }
 
-    payload, header = JWT.decode(token, @private_key.public_key, true, options)
-    block_given? ? yield(payload, header, assertion) : assertion
+    payload, header = JWT.decode(token, @key_pair.public_key, true, options)
+
+    jti = payload['jti']
+    ass = @assertion_store.read(jti) || raise(JWT::InvalidJtiError)
+
+    block_given? ? yield(payload, header, ass) : ass
   end
 
   private
@@ -58,6 +65,8 @@ class TokenAuthenticator
     document = response.decrypted_document || response.document
     assertion = REXML::XPath.first(document, '//saml:Assertion')
 
+    raise ArgumentError unless assertion
+
     # force namespaces directly on element, otherwise they are not present
     assertion.namespaces.slice('dsig', 'saml', 'xsi').each do |prefix, uri|
       assertion.add_namespace(prefix, uri)
@@ -67,5 +76,12 @@ class TokenAuthenticator
     assertion.context[:attribute_quote] = :quote
 
     assertion
+  end
+
+  def assertion_to_s(assertion)
+    formatter = REXML::Formatters::Pretty.new(0)
+    formatter.compact = true
+    formatter.write(assertion, buffer = '')
+    buffer.remove("\n")
   end
 end

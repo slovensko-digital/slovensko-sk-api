@@ -13,7 +13,7 @@ module UpvsEnvironment
   def token_authenticator
     @token_authenticator ||= TokenAuthenticator.new(
       assertion_store: assertion_store,
-      private_key: OpenSSL::PKey::RSA.new(File.read(ENV.fetch('UPVS_TOKEN_PRIVATE_KEY_FILE')))
+      key_pair: OpenSSL::PKey::RSA.new(File.read(ENV.fetch('UPVS_TOKEN_PRIVATE_KEY_FILE')))
     )
   end
 
@@ -21,7 +21,7 @@ module UpvsEnvironment
     SktalkReceiver.new(upvs_proxy(assertion))
   end
 
-  def upvs_properties(assertion)
+  def properties(assertion: nil)
     environment = case ENV.fetch('UPVS_ENV')
     when 'dev'
       {
@@ -34,8 +34,8 @@ module UpvsEnvironment
         'upvs.log.file.pattern' => 'log/upvs-%d{yyyyMMdd}.log',
         'upvs.log.java.console.level' => 'INFO',
 
-        'upvs.timeout.connection' => '30000',
-        'upvs.timeout.receive' => '60000',
+        'upvs.timeout.connection' => 30000,
+        'upvs.timeout.receive' => 60000,
       }
     when 'fix'
       {
@@ -50,8 +50,8 @@ module UpvsEnvironment
         'upvs.log.console' => 'OFF',
         'upvs.log.file.pattern' => 'log/upvs-%d{yyyyMMdd}.log',
 
-        'upvs.timeout.connection' => '30000',
-        'upvs.timeout.receive' => '60000',
+        'upvs.timeout.connection' => 30000,
+        'upvs.timeout.receive' => 60000,
       }
     when 'prod'
       {
@@ -64,6 +64,8 @@ module UpvsEnvironment
       raise 'Unknown environment'
     end
 
+    environment.merge!('upvs.log.console' => 'OFF') if Rails.env.test?
+
     security = {
       'upvs.tls.truststore.file' => ENV['UPVS_TLS_TS_FILE'],
       'upvs.tls.truststore.password' => ENV['UPVS_TLS_TS_PASSWORD'],
@@ -72,16 +74,16 @@ module UpvsEnvironment
       'upvs.sts.keystore.alias' => ENV['UPVS_STS_KS_ALIAS'],
       'upvs.sts.keystore.password' => ENV['UPVS_STS_KS_PASSWORD'],
       'upvs.sts.keystore.private.password' => ENV['UPVS_STS_KS_PRIVATE_PASSWORD'],
-
-      'upvs.sts.saml.assertion' => assertion,
     }
+
+    security.merge!('upvs.sts.saml.assertion' => assertion) if assertion
 
     environment.merge(security)
   end
 
   # TODO remove this in favor of #upvs_proxy_cache.fetch(assertion) { ... }
   def upvs_proxy(assertion)
-    UpvsProxy.new(upvs_properties(assertion))
+    UpvsProxy.new(properties(assertion: assertion))
   end
 
   # TODO add proxy cache like this:
@@ -90,6 +92,9 @@ module UpvsEnvironment
   # end
 
   def authentication_settings
+    # TODO remove the next line to support live UPVS specs, need to figure out how to bring /security into CI first
+    return {} if Rails.env.test?
+
     return @authentication_settings if @authentication_settings
 
     idp_metadata = OneLogin::RubySaml::IdpMetadataParser.new.parse_to_hash(File.read(ENV.fetch('UPVS_IDP_METADATA_FILE')))

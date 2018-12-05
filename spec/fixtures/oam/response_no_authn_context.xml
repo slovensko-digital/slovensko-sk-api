@@ -1,0 +1,29 @@
+<samlp:Response xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:enc="http://www.w3.org/2001/04/xmlenc#" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:x500="urn:oasis:names:tc:SAML:2.0:profiles:attribute:X500" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Destination="http://localhost:3000/auth/saml/callback" ID="id-W7wSEo7XBgsaFe5J1vNCk6mr4TUL3iYJ2S4qqRKE" InResponseTo="_dbe09605-0e1b-4c67-a7fb-b2362eb970a9" IssueInstant="2018-11-06T10:11:24Z" Version="2.0">
+  <saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">https://auth.vyvoj.upvs.globaltel.sk/oam/fed</saml:Issuer>
+  <dsig:Signature>
+    <dsig:SignedInfo>
+      <dsig:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+      <dsig:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+      <dsig:Reference URI="#id-W7wSEo7XBgsaFe5J1vNCk6mr4TUL3iYJ2S4qqRKE">
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+          <dsig:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+        <dsig:DigestValue>9L+PxYr7+JlIl/HqXd8Vdhxvxko=</dsig:DigestValue>
+      </dsig:Reference>
+    </dsig:SignedInfo>
+    <dsig:SignatureValue>GAAEIv3BI3mTREPM5BZGNNg+VLaGApz4Gwpl/nxI1cffeWKbWudtM1LcZfW4bKKFLL5IP/FsfXXNC+a4wMt8rUr+wSx9QKCtZOoF3rij70LDd3Lt7dhm6Lr3V2lu+M/E4i8h46O566yoHp7bf8+m/KUDYXOrWJD27gQqkc7r3Cc=</dsig:SignatureValue>
+    <dsig:KeyInfo>
+      <dsig:X509Data>
+        <dsig:X509Certificate>MIICrzCCAZegAwIBAgIKOVEtRQAAAAACQDANBgkqhkiG9w0BAQsFADAaMRgwFgYDVQQDEw9jYS5zbG92ZW5za28uc2swHhcNMTcwOTE4MDgyMDMyWhcNMjAwOTE4MDgzMDMyWjAgMR4wHAYDVQQDExVpZHAudXB2c3Atdnl2b2oubG9jYWwwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAL2+PWpWbEn21Qw9M+NcHaBX8/OzDpJCyC1+iTF1tFtfyYTTtHo6NUB8YO2hP5NjULaaRwmBbR+CvTh55SrrW/hGhoK3f7tLc2o4bCkYtBXhG1EKYm6iVnbXgLZMMlgtp2jKTqBNz5gCvoUyWf+FS1v/P9dJvHW2Qr0QDUhstJFHAgMBAAGjdTBzMA4GA1UdDwEB/wQEAwIE8DATBgNVHSUEDDAKBggrBgEFBQcDATAdBgNVHQ4EFgQUUm6dRXgrgz36oL1S8F3Kyxw0XIEwHwYDVR0jBBgwFoAUKlO3Thprk0Xf6VQr2tu4TpoSzoYwDAYDVR0TAQH/BAIwADANBgkqhkiG9w0BAQsFAAOCAQEARt8dcM5gegLKKpVlZn7XmGMebdQnkr5mmNbGv8dl3foKDk58qbfaj8c0ZDpCOc7xKbdpYZ5iXxH8xnGfJMbMPZJ1WSz5Mg/VWRLTWXkPjJz1yG7YQJ0Bi84FglZ5WWaY+DWZXHltBxTRit6bHncY7MdVGjLF4HdBhfK/Hrafr7ycVul+boAeOHwNCbFOv2kLrKUJC4oSUZd/7m9Jz51NqBesYGAVGd2UkJrtBTHiAeY50mKL04+h/eZhmrqC3/aBqns3xSRvrTZQEDkt3a+t6heIdpLh99tUshNSLuUOVfoFVkTlbO2dumUsHLPnfFXKgi8642qWTiDPdRhLnkO98A==</dsig:X509Certificate>
+      </dsig:X509Data>
+    </dsig:KeyInfo>
+  </dsig:Signature>
+  <samlp:Status>
+    <samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Requester">
+      <samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:NoAuthnContext"/>
+    </samlp:StatusCode>
+    <samlp:StatusMessage>No authentication scheme could be selected based on the requested authentication context</samlp:StatusMessage>
+  </samlp:Status>
+</samlp:Response>

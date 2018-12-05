@@ -1,7 +1,9 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  rescue_from StandardError, with: :render_internal_server_error unless Rails.env.development?
+  # TODO fix https://guides.rubyonrails.org/action_controller_overview.html#rescue-from
+  #rescue_from StandardError, with: :render_internal_server_error unless Rails.env.development?
+
   rescue_from JWT::DecodeError, with: :render_unauthorized
 
   private
