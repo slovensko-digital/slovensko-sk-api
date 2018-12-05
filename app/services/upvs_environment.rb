@@ -92,6 +92,9 @@ module UpvsEnvironment
   # end
 
   def authentication_settings
+    # TODO remove the next line to support live UPVS specs, need to figure out how to bring /security into CI first
+    return {} if Rails.env.test?
+
     return @authentication_settings if @authentication_settings
 
     idp_metadata = OneLogin::RubySaml::IdpMetadataParser.new.parse_to_hash(File.read(ENV.fetch('UPVS_IDP_METADATA_FILE')))

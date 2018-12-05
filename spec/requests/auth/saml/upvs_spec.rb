@@ -1,6 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe 'UPVS SAML Authentication' do
+  before(:example) do
+    OmniAuth.config.test_mode = true
+  end
+
+  after(:example) do
+    OmniAuth.config.test_mode = false
+    OmniAuth.config.mock_auth[:saml] = nil
+  end
+
   describe 'GET /auth/saml/login' do
     it 'redirects to IDP with request' do
       get '/auth/saml/login'
@@ -8,7 +17,7 @@ RSpec.describe 'UPVS SAML Authentication' do
       follow_redirect!
 
       expect(response.status).to eq(302)
-      expect(response.location).to start_with('https://auth.vyvoj.upvs.globaltel.sk/oamfed/idp/samlv20?SAMLRequest=')
+      expect(response.location).to end_with('/auth/saml/callback')
     end
   end
 
@@ -33,6 +42,8 @@ RSpec.describe 'UPVS SAML Authentication' do
       before(:example) { travel_to '2018-11-28T20:26:16Z' }
 
       it 'redirects to custom login callback location' do
+        OmniAuth.config.add_mock(:saml, extra: { response_object: OneLogin::RubySaml::Response.new(idp_response) })
+
         post '/auth/saml/callback', params: { SAMLResponse: idp_response }
 
         expect(response.status).to eq(302)
