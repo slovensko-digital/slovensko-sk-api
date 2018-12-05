@@ -47,7 +47,9 @@ class TokenAuthenticator
     payload, header = JWT.decode(token, @key_pair.public_key, true, options)
 
     jti = payload['jti']
-    ass = @assertion_store.read(jti) || raise(JWT::InvalidJtiError)
+    ass = @assertion_store.read(jti)
+
+    raise JWT::InvalidJtiError unless ass
 
     block_given? ? yield(payload, header, ass) : ass
   end
