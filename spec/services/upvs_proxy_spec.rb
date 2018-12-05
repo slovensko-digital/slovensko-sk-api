@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe UpvsProxy do
+RSpec.describe UpvsProxy, :upvs do
   let(:properties) { UpvsEnvironment.properties }
 
   subject { described_class.new(properties) }

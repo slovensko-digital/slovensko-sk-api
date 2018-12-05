@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SktalkReceiver do
+RSpec.describe SktalkReceiver, :upvs do
   let(:properties) { UpvsEnvironment.properties }
   let(:upvs) { UpvsProxy.new(properties) }
 
