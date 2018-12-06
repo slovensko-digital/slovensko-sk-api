@@ -20,6 +20,14 @@ paths:
     get:
       tags: [Authentication]
       description: Logins to ÚPVS. After a successful login it redirects back to a 3rd party callback URL with an ÚPVS token.
+      parameters:
+      - name: callback
+        in: query
+        required: true
+        description: Login callback URL.
+        schema:
+          type: string
+          format: URL
       responses:
         302:
           description: Redirect to ÚPVS login.
@@ -29,7 +37,7 @@ paths:
           $ref: '#/components/responses/internalServerError'
       callbacks:
         login:
-          '3rd party callback URL': # TODO parameterize this in /login:get:parameters:callback
+          '{$request.query.callback}?token=JWT':
             get:
               parameters:
               - name: token
@@ -48,6 +56,13 @@ paths:
       tags: [Authentication]
       description: Logouts from ÚPVS.
       parameters:
+      - name: callback
+        in: query
+        required: true
+        description: Logout callback URL.
+        schema:
+          type: string
+          format: URL
       - name: token
         in: query
         required: true
@@ -64,7 +79,7 @@ paths:
           $ref: '#/components/responses/internalServerError'
       callbacks:
         login:
-          '3rd party callback URL': # TODO parameterize this in /login:get:parameters:callback
+          '{$request.query.callback}':
             get:
               responses:
                 200:
