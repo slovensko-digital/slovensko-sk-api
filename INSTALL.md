@@ -62,7 +62,7 @@ XLS zašlite ako prílohu k emailu:
 
 `keytool -export -keystore podaas-fix-sp.keystore -alias podaassp -storepass password -rfc > podaas-fix-sp.pem`
 
-Vytvorte `podaas-fix-sp.metadata.xml` zo súboru `install/podaas-sp.metadata.xml.template`. Treba nahradniť entityID, dva verejné klúče (skopírovaním z `podaas-fix-sp.pem`) a endpointy, kde bude **testovacia** verzia bežať.
+Vytvorte `podaas-fix-sp.metadata.xml` zo súboru [podaas-sp.metadata.xml](doc/templates/podaas-sp.metadata.xml). Treba nahradniť entityID, dva verejné klúče (skopírovaním z `podaas-fix-sp.pem`) a endpointy, kde bude **testovacia** verzia bežať.
 
 Podpíšte pomocou [xmlsectool](http://shibboleth.net/downloads/tools/xmlsectool/latest/).
 
