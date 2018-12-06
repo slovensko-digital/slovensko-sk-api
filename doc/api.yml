@@ -11,6 +11,7 @@ info:
 paths:
   /health:
     get:
+      tags: [Status]
       description: Performs health check.
       responses:
         200:
@@ -20,6 +21,7 @@ paths:
 
   /login:
     get:
+      tags: [Authentication]
       description: Logins to ÚPVS. After a successful login it redirects back to a 3rd party callback URL with an ÚPVS token.
       responses:
         302:
@@ -46,6 +48,7 @@ paths:
 
   /logout:
     get:
+      tags: [Authentication]
       description: Logouts from ÚPVS.
       parameters:
       - name: token
@@ -74,6 +77,7 @@ paths:
 
   /api/sktalk/receive:
     post:
+      tags: [Operations]
       description: Receives SKTalk message.
       parameters:
       - name: token
@@ -121,6 +125,7 @@ paths:
 
   /api/sktalk/receive_and_save_to_outbox:
     post:
+      tags: [Operations]
       description: Receives SKTalk message and saves it to outbox.
       parameters:
       - name: token
