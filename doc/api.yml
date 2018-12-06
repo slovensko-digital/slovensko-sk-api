@@ -1,0 +1,276 @@
+openapi: 3.0.0
+
+info:
+  version: 0.0.1
+  title: PODAAS
+  contact:
+    name: Slovensko.Digital
+    url: slovensko.digital
+    email: kontakt@slovensko.digital
+
+paths:
+  /health:
+    get:
+      description: Performs health check.
+      responses:
+        200:
+          description: Successful health check.
+        500:
+          description: Unsuccessful health check.
+
+  /login:
+    get:
+      description: Logins to ÚPVS. After a successful login it redirects back to a 3rd party callback URL with an ÚPVS token.
+      responses:
+        302:
+          description: Redirect to ÚPVS login.
+        401:
+          $ref: '#/components/responses/unauthorized'
+        500:
+          $ref: '#/components/responses/internalServerError'
+      callbacks:
+        login:
+          '3rd party callback URL': # TODO parameterize this in /login:get:parameters:callback
+            get:
+              parameters:
+              - name: token
+                in: query
+                required: true
+                description: ÚPVS token in JWT format.
+                schema:
+                  type: string
+                  format: JWT
+              responses:
+                200:
+                  description: 3rd party server returns this code if it accepts the callback.
+
+  /logout:
+    get:
+      description: Logouts from ÚPVS.
+      parameters:
+      - name: token
+        in: query
+        required: true
+        description: ÚPVS token in JWT format.
+        schema:
+          type: string
+          format: JWT
+      responses:
+        302:
+          description: Redirect to 3rd party callback.
+        401:
+          $ref: '#/components/responses/unauthorized'
+        500:
+          $ref: '#/components/responses/internalServerError'
+      callbacks:
+        login:
+          '3rd party callback URL': # TODO parameterize this in /login:get:parameters:callback
+            get:
+              responses:
+                200:
+                  description: 3rd party server returns this code if it accepts the callback.
+      security:
+      - upvsTokenAuthentication: []
+
+  /api/sktalk/receive:
+    post:
+      description: Receives SKTalk message.
+      parameters:
+      - name: token
+        in: query
+        required: true
+        description: API token in JWT format.
+        schema:
+          type: string
+          format: JWT
+      - name: sktalk_message
+        in: query
+        required: true
+        description: SKTalk message in XML format.
+        schema:
+          type: string
+          format: XML
+      responses:
+        200:
+          description: SKTalk message received.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  receive_result:
+                    type: integer
+                required:
+                - receive_result
+                example:
+                  receive_result: 0
+        400:
+          $ref: '#/components/responses/badRequest'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        408:
+          $ref: '#/components/responses/requestTimeout'
+        413:
+          $ref: '#/components/responses/payloadTooLarge'
+        429:
+          $ref: '#/components/responses/tooManyRequests'
+        500:
+          $ref: '#/components/responses/internalServerError'
+      security:
+      - apiTokenAuthentication: []
+
+  /api/sktalk/receive_and_save_to_outbox:
+    post:
+      description: Receives SKTalk message and saves it to outbox.
+      parameters:
+      - name: token
+        in: query
+        required: true
+        description: API token in JWT format.
+        schema:
+          type: string
+          format: JWT
+      - name: sktalk_message
+        in: query
+        required: true
+        description: SKTalk message in XML format.
+        schema:
+          type: string
+          format: XML
+      responses:
+        200:
+          description: SKTalk message received and saved to outbox.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  receive_result:
+                    type: integer
+                  save_to_outbox_result:
+                    type: integer
+                required:
+                - receive_result
+                - save_to_outbox_result
+                example:
+                  receive_result: 0
+                  save_to_outbox_result: 0
+        400:
+          $ref: '#/components/responses/badRequest'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        408:
+          $ref: '#/components/responses/requestTimeout'
+        413:
+          $ref: '#/components/responses/payloadTooLarge'
+        429:
+          $ref: '#/components/responses/tooManyRequests'
+        500:
+          $ref: '#/components/responses/internalServerError'
+      security:
+      - apiTokenAuthentication: []
+
+components:
+  responses:
+    badRequest:
+      description: Parameters missing or mismatched.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+            required:
+            - message
+            example:
+              message: No credentials
+
+    unauthorized:
+      description: Authentication failed.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+            required:
+            - message
+            example:
+              message: Bad credentials
+      headers:
+        WWW-Authenticate:
+          description: Applicable challenge
+          schema:
+            type: string
+            example: Token realm="PODAAS"
+
+    requestTimeout:
+      description: Operation timed out.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+            required:
+            - message
+            example:
+              message: Operation timeout exceeded
+
+    payloadTooLarge:
+      description: Too large payload received.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+            required:
+            - message
+            example:
+              message: Payload size limit exceeded
+
+    tooManyRequests:
+      description: Too many requests received in a given amount of time.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+            required:
+            - message
+            example:
+              message: Request rate limit exceeded
+
+    internalServerError:
+      description: Unknown error occured.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+            required:
+            - message
+            example:
+              message: Unknown error
+
+  securitySchemes:
+    apiTokenAuthentication:
+      description: Requires JWT created by a 3rd party containing ÚPVS token. JWT is encoded with RS256 and verified against EXP and JTI claims.
+      type: apiKey
+      name: token
+      in: query
+
+    upvsTokenAuthentication:
+      description: Requires JWT received after a successful login. JWT is encoded with RS256 and verified against EXP, NBF, IAT and JTI claims.
+      type: apiKey
+      name: token
+      in: query
