@@ -8,17 +8,14 @@ info:
     url: slovensko.digital
     email: kontakt@slovensko.digital
 
-paths:
-  /health:
-    get:
-      tags: [Status]
-      description: Performs health check.
-      responses:
-        200:
-          description: Successful health check.
-        500:
-          description: Unsuccessful health check.
+servers:
+- description: Production server with ÚPVS prod environment.
+  url: https://podaas.ekosystem.slovensko.digital
 
+- description: Production server with ÚPVS fix environment.
+  url: https://podaas.ekosystem.staging.slovensko.digital
+
+paths:
   /login:
     get:
       tags: [Authentication]
