@@ -41,10 +41,14 @@ class TokenAuthenticator
     options = {
       algorithm: 'RS256',
       verify_iat: true,
-      verify_jti: true,
+      verify_jti: -> (jti) { jti =~ UUID },
     }
 
     payload, header = JWT.decode(token, @key_pair.public_key, true, options)
+
+    raise JWT::ExpiredSignature unless payload['exp'].is_a?(Integer)
+    raise JWT::ImmatureSignature unless payload['nbf'].is_a?(Integer)
+    raise JWT::InvalidIatError unless payload['iat'].is_a?(Numeric)
 
     jti = payload['jti']
     ass = @assertion_store.read(jti)
@@ -55,6 +59,8 @@ class TokenAuthenticator
   end
 
   private
+
+  UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 
   def generate_jti
     loop do
@@ -86,4 +92,6 @@ class TokenAuthenticator
     formatter.write(assertion, buffer = '')
     buffer.remove("\n")
   end
+
+  private_constant :UUID
 end
