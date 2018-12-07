@@ -1,6 +1,9 @@
 # See https://tools.ietf.org/html/rfc7519#section-4
 
 class TokenAuthenticator
+  EXP_IN = 20.minutes
+  JTI_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
+
   def initialize(assertion_store:, key_pair:)
     @assertion_store = assertion_store
     @key_pair = key_pair
@@ -12,20 +15,21 @@ class TokenAuthenticator
     # TODO maybe return some user specific data in payload here
 
     @assertion_store.synchronize do
-      payload = {
-        exp: response.not_on_or_after.to_i,
-        nbf: response.not_before.to_i,
-        iat: Time.parse(assertion.attributes['IssueInstant']).to_f,
-        jti: generate_jti,
-      }
+      exp = response.not_on_or_after.to_i
+      nbf = response.not_before.to_i
+      iat = Time.parse(assertion.attributes['IssueInstant']).to_f
 
-      jti = payload[:jti]
+      raise ArgumentError if exp != iat + EXP_IN || nbf != iat
+
+      jti = generate_jti
       ass = assertion_to_s(assertion)
-      exp = payload[:exp] - Time.now.to_f
 
-      raise ArgumentError if exp <= 0
+      payload = { exp: exp, nbf: nbf, iat: iat, jti: jti }
+      exp_in = exp - Time.now.to_f
 
-      JWT.encode(payload, @key_pair, 'RS256').tap { @assertion_store.write(jti, ass, expires_in: exp) }
+      raise ArgumentError if exp_in <= 0
+
+      JWT.encode(payload, @key_pair, 'RS256').tap { @assertion_store.write(jti, ass, expires_in: exp_in) }
     end
   end
 
@@ -41,16 +45,23 @@ class TokenAuthenticator
     options = {
       algorithm: 'RS256',
       verify_iat: true,
-      verify_jti: -> (jti) { jti =~ UUID },
+      verify_jti: -> (jti) { jti =~ JTI_PATTERN },
     }
 
     payload, header = JWT.decode(token, @key_pair.public_key, true, options)
 
-    raise JWT::ExpiredSignature unless payload['exp'].is_a?(Integer)
-    raise JWT::ImmatureSignature unless payload['nbf'].is_a?(Integer)
-    raise JWT::InvalidIatError unless payload['iat'].is_a?(Numeric)
+    raise JWT::VerificationError if header.keys != ['alg']
+    raise JWT::VerificationError if payload.keys - ['exp', 'nbf', 'iat', 'jti'] != []
 
-    jti = payload['jti']
+    exp, nbf, iat, jti = payload['exp'], payload['nbf'], payload['iat'], payload['jti']
+
+    raise JWT::ExpiredSignature unless exp.is_a?(Integer)
+    raise JWT::ImmatureSignature unless nbf.is_a?(Integer)
+    raise JWT::InvalidIatError unless iat.is_a?(Numeric)
+
+    raise JWT::VerificationError if exp.to_i != iat.to_f + EXP_IN
+    raise JWT::VerificationError if nbf.to_i != iat.to_f
+
     ass = @assertion_store.read(jti)
 
     raise JWT::InvalidJtiError unless ass
@@ -59,8 +70,6 @@ class TokenAuthenticator
   end
 
   private
-
-  UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 
   def generate_jti
     loop do
@@ -92,6 +101,4 @@ class TokenAuthenticator
     formatter.write(assertion, buffer = '')
     buffer.remove("\n")
   end
-
-  private_constant :UUID
 end

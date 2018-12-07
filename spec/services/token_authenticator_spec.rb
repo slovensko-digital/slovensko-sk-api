@@ -78,7 +78,35 @@ RSpec.describe TokenAuthenticator do
       end
     end
 
-    context 'expiration check failure' do
+    context 'response creation to expiration relation check failure' do
+      before(:example) { expect(response).to receive(:not_on_or_after).and_wrap_original { |m| m.call + 1.minute }}
+
+      it 'raises argument error' do
+        expect { subject.generate_token(response) }.to raise_error(ArgumentError)
+      end
+
+      it 'does not write anything to assertion store' do
+        suppress(ArgumentError) { subject.generate_token(response) }
+
+        expect(assertion_store.inspect).to match('entries=0,')
+      end
+    end
+
+    context 'response creation to usage relation check failure' do
+      before(:example) { expect(response).to receive(:not_before).and_wrap_original { |m| m.call - 1.minute }}
+
+      it 'raises argument error' do
+        expect { subject.generate_token(response) }.to raise_error(ArgumentError)
+      end
+
+      it 'does not write anything to assertion store' do
+        suppress(ArgumentError) { subject.generate_token(response) }
+
+        expect(assertion_store.inspect).to match('entries=0,')
+      end
+    end
+
+    context 'response expiration check failure' do
       before(:example) { travel_to Time.now + 20.minutes }
 
       it 'raises argument error' do
@@ -146,10 +174,10 @@ RSpec.describe TokenAuthenticator do
   end
 
   describe '#verify_token' do
-    def generate_token(exp: 1543437976, nbf: 1543436776, iat: 1543436776.0, jti: SecureRandom.uuid)
-      payload = { exp: exp, nbf: nbf, iat: iat, jti: jti }
+    def generate_token(exp: 1543437976, nbf: 1543436776, iat: 1543436776.0, jti: SecureRandom.uuid, header: {}, **payload)
+      payload.merge!(exp: exp, nbf: nbf, iat: iat, jti: jti)
       assertion_store.write(jti, assertion) if jti
-      JWT.encode(payload.compact, key_pair, 'RS256')
+      JWT.encode(payload.compact, key_pair, 'RS256', header)
     end
 
     it 'returns assertion' do
@@ -158,7 +186,7 @@ RSpec.describe TokenAuthenticator do
 
     it 'verifies format' do
       expect { subject.verify_token(nil) }.to raise_error(JWT::DecodeError)
-      expect { subject.verify_token('TOKEN') }.to raise_error(JWT::DecodeError)
+      expect { subject.verify_token('NON-JWT') }.to raise_error(JWT::DecodeError)
     end
 
     it 'verifies algorithm' do
@@ -173,19 +201,31 @@ RSpec.describe TokenAuthenticator do
       expect { subject.verify_token(token) }.to raise_error(JWT::VerificationError)
     end
 
-    it 'verifies blank EXP claim' do
+    it 'verifies header' do
+      token = generate_token(header: { typ: 'JWT' })
+
+      expect { subject.verify_token(token) }.to raise_error(JWT::VerificationError)
+    end
+
+    it 'verifies payload' do
+      token = generate_token(obo: 'JWT')
+
+      expect { subject.verify_token(token) }.to raise_error(JWT::VerificationError)
+    end
+
+    it 'verifies EXP claim presence' do
       token = generate_token(exp: nil)
 
       expect { subject.verify_token(token) }.to raise_error(JWT::ExpiredSignature)
     end
 
-    it 'verifies incorrect EXP claim' do
+    it 'verifies EXP claim format' do
       token = generate_token(exp: 'non-integer-value')
 
       expect { subject.verify_token(token) }.to raise_error(JWT::ExpiredSignature)
     end
 
-    it 'verifies invalid EXP claim' do
+    it 'verifies EXP claim value' do
       token = generate_token
 
       travel_to Time.now + 20.minutes
@@ -193,19 +233,25 @@ RSpec.describe TokenAuthenticator do
       expect { subject.verify_token(token) }.to raise_error(JWT::ExpiredSignature)
     end
 
-    it 'verifies blank NBF claim' do
+    it 'verifies EXP to IAT claim relation' do
+      token = generate_token(exp: (response.not_on_or_after + 1.minute).to_i)
+
+      expect { subject.verify_token(token) }.to raise_error(JWT::VerificationError)
+    end
+
+    it 'verifies NBF claim presence' do
       token = generate_token(nbf: nil)
 
       expect { subject.verify_token(token) }.to raise_error(JWT::ImmatureSignature)
     end
 
-    it 'verifies incorrect NBF claim' do
+    it 'verifies NBF claim format' do
       token = generate_token(nbf: 'non-integer-value')
 
       expect { subject.verify_token(token) }.to raise_error(JWT::ImmatureSignature)
     end
 
-    it 'verifies invalid NBF claim' do
+    it 'verifies NBF claim value' do
       token = generate_token
 
       travel_to Time.now - 0.1.seconds
@@ -213,37 +259,43 @@ RSpec.describe TokenAuthenticator do
       expect { subject.verify_token(token) }.to raise_error(JWT::ImmatureSignature)
     end
 
-    it 'verifies blank IAT claim' do
+    it 'verifies NBF to IAT claim relation' do
+      token = generate_token(nbf: (response.not_before - 1.minute).to_i)
+
+      expect { subject.verify_token(token) }.to raise_error(JWT::VerificationError)
+    end
+
+    it 'verifies IAT claim presence' do
       token = generate_token(iat: nil)
 
       expect { subject.verify_token(token) }.to raise_error(JWT::InvalidIatError)
     end
 
-    it 'verifies incorrect IAT claim' do
+    it 'verifies IAT claim format' do
       token = generate_token(iat: 'non-numeric-value')
 
       expect { subject.verify_token(token) }.to raise_error(JWT::InvalidIatError)
     end
 
-    it 'verifies invalid IAT claim' do
+    it 'verifies IAT claim value' do
       token = generate_token(iat: Time.now + 0.1.seconds)
 
       expect { subject.verify_token(token) }.to raise_error(JWT::InvalidIatError)
     end
 
-    it 'verifies blank JTI claim' do
+    it 'verifies JTI claim presence' do
       token = generate_token(jti: nil)
 
       expect { subject.verify_token(token) }.to raise_error(JWT::InvalidJtiError)
     end
 
-    it 'verifies incorrect JTI claim' do
+    it 'verifies JTI claim format' do
       token = generate_token(jti: 'non-uuid-value')
 
       expect { subject.verify_token(token) }.to raise_error(JWT::InvalidJtiError)
     end
 
-    it 'verifies invalid JTI claim' do
+    it 'verifies JTI claim value' do
       token = generate_token
 
       assertion_store.clear
