@@ -1,4 +1,4 @@
-# See https://tools.ietf.org/html/rfc7519#section-4
+# See https://tools.ietf.org/html/rfc7519
 
 class TokenAuthenticator
   EXP_IN = 20.minutes
@@ -50,8 +50,8 @@ class TokenAuthenticator
 
     payload, header = JWT.decode(token, @key_pair.public_key, true, options)
 
-    raise JWT::VerificationError if header.keys != ['alg']
-    raise JWT::VerificationError if payload.keys - ['exp', 'nbf', 'iat', 'jti'] != []
+    raise JWT::DecodeError if header.keys != ['alg']
+    raise JWT::InvalidPayload if payload.keys - ['exp', 'nbf', 'iat', 'jti'] != []
 
     exp, nbf, iat, jti = payload['exp'], payload['nbf'], payload['iat'], payload['jti']
 
@@ -59,8 +59,8 @@ class TokenAuthenticator
     raise JWT::ImmatureSignature unless nbf.is_a?(Integer)
     raise JWT::InvalidIatError unless iat.is_a?(Numeric)
 
-    raise JWT::VerificationError if exp.to_i != iat.to_f + EXP_IN
-    raise JWT::VerificationError if nbf.to_i != iat.to_f
+    raise JWT::InvalidPayload if exp != iat + EXP_IN
+    raise JWT::InvalidPayload if nbf != iat
 
     ass = @assertion_store.read(jti)
 

@@ -158,7 +158,7 @@ RSpec.describe TokenAuthenticator do
       expect(assertion_store.inspect).to match('entries=0,')
     end
 
-    context 'verification failure' do
+    context 'token verification failure' do
       before(:example) { expect(subject).to receive(:verify_token).with(token).and_raise(JWT::DecodeError) }
 
       it 'raises decode error' do
@@ -204,13 +204,13 @@ RSpec.describe TokenAuthenticator do
     it 'verifies header' do
       token = generate_token(header: { typ: 'JWT' })
 
-      expect { subject.verify_token(token) }.to raise_error(JWT::VerificationError)
+      expect { subject.verify_token(token) }.to raise_error(JWT::DecodeError)
     end
 
     it 'verifies payload' do
       token = generate_token(obo: 'JWT')
 
-      expect { subject.verify_token(token) }.to raise_error(JWT::VerificationError)
+      expect { subject.verify_token(token) }.to raise_error(JWT::InvalidPayload)
     end
 
     it 'verifies EXP claim presence' do
@@ -236,7 +236,7 @@ RSpec.describe TokenAuthenticator do
     it 'verifies EXP to IAT claim relation' do
       token = generate_token(exp: (response.not_on_or_after + 1.minute).to_i)
 
-      expect { subject.verify_token(token) }.to raise_error(JWT::VerificationError)
+      expect { subject.verify_token(token) }.to raise_error(JWT::InvalidPayload)
     end
 
     it 'verifies NBF claim presence' do
@@ -262,7 +262,7 @@ RSpec.describe TokenAuthenticator do
     it 'verifies NBF to IAT claim relation' do
       token = generate_token(nbf: (response.not_before - 1.minute).to_i)
 
-      expect { subject.verify_token(token) }.to raise_error(JWT::VerificationError)
+      expect { subject.verify_token(token) }.to raise_error(JWT::InvalidPayload)
     end
 
     it 'verifies IAT claim presence' do
