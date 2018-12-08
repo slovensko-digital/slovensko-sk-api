@@ -2,9 +2,9 @@ module UpvsEnvironment
   extend self
 
   def assertion_store
-    # TODO there is also a ActiveSupport::Cache::Store::RedisStore
+    # TODO use ActiveSupport::Cache::Store::RedisStore to maintain persistence
     @assertion_store ||= ActiveSupport::Cache::MemoryStore.new(
-      namespace: 'upvs-assertions',
+      namespace: 'upvs-token-assertions',
       size: 128.megabytes,
       compress: true,
     )
