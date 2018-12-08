@@ -7,7 +7,10 @@ RSpec.describe 'SKTalk API' do
     response = OneLogin::RubySaml::Response.new(file_fixture('oam/response_success.xml').read)
     token = travel_to(response.not_before) { UpvsEnvironment.token_authenticator.generate_token(response) }
 
-    JWT.encode({ obo: token }, api_token_key_pair, 'RS256')
+    header = { cty: 'JWT' }
+    payload = { exp: response.not_on_or_after.to_i, jti: SecureRandom.uuid, obo: token }
+
+    JWT.encode(payload, api_token_key_pair, 'RS256', header)
   end
 
   let!(:message) { file_fixture('sktalk/egov_application_general_agenda.xml').read }
