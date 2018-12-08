@@ -129,12 +129,20 @@ RSpec.describe TokenWrapper do
 
       token = generate_token(obo: obo)
 
-      expect { subject.verify_token(token) }.to raise_error(JWT::DecodeError)
+      expect { subject.verify_token(token) }.to raise_error(JWT::VerificationError)
     end
 
     context 'token replay attacks' do
-      it 'can not be verified twice in first 20 minutes' do
-        token = generate_token
+      let(:assertion_store) { UpvsEnvironment.assertion_store }
+
+      def generate_obo(exp: 1543437976, nbf: 1543436776)
+        payload = { exp: exp, nbf: nbf, iat: nbf.to_f, jti: SecureRandom.uuid }
+        assertion_store.write(payload[:jti], assertion)
+        JWT.encode(payload.compact, upvs_token_key_pair, 'RS256')
+      end
+
+      it 'can not verify the same token twice in the first 20 minutes' do
+        token = generate_token(obo: generate_obo)
 
         subject.verify_token(token)
 
@@ -143,14 +151,50 @@ RSpec.describe TokenWrapper do
         expect { subject.verify_token(token) }.to raise_error(JWT::InvalidJtiError)
       end
 
-      it 'can not be verified again on or after 20 minutes' do
-        token = generate_token
+      it 'can not verify the same token again on or after 20 minutes' do
+        token = generate_token(obo: generate_obo)
 
         subject.verify_token(token)
 
         travel_to Time.now + 20.minutes
 
         expect { subject.verify_token(token) }.to raise_error(JWT::ExpiredSignature)
+      end
+
+      it 'can not verify another token with the same JTI in the first 20 minutes' do
+        jti = SecureRandom.uuid
+
+        o1 = generate_obo(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
+        t1 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o1)
+
+        subject.verify_token(t1)
+
+        travel_to Time.now + 10.minutes
+
+        o2 = generate_obo(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
+        t2 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o2)
+
+        travel_to Time.now + 10.minutes - 0.1.seconds
+
+        expect { subject.verify_token(t2) }.to raise_error(JWT::InvalidJtiError)
+      end
+
+      it 'can verify another token with the same JTI again on or after 20 minutes' do
+        jti = SecureRandom.uuid
+
+        o1 = generate_obo(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
+        t1 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o1)
+
+        subject.verify_token(t1)
+
+        travel_to Time.now + 10.minutes
+
+        o2 = generate_obo(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
+        t2 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o2)
+
+        travel_to Time.now + 10.minutes
+
+        expect { subject.verify_token(t2) }.not_to raise_error
       end
     end
 
