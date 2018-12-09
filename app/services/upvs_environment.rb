@@ -1,6 +1,7 @@
 module UpvsEnvironment
   extend self
 
+  # TODO move to api_environment ??
   def assertion_store
     # TODO use ActiveSupport::Cache::Store::RedisStore to maintain persistence
     @assertion_store ||= ActiveSupport::Cache::MemoryStore.new(
@@ -10,6 +11,7 @@ module UpvsEnvironment
     )
   end
 
+  # TODO move to api_environment as obo_token_authenticator
   def token_authenticator
     @token_authenticator ||= TokenAuthenticator.new(
       assertion_store: assertion_store,

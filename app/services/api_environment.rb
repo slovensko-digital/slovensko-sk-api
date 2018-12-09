@@ -9,6 +9,7 @@ module ApiEnvironment
     ENV.fetch('API_LOGOUT_CALLBACK_URL')
   end
 
+  # TODO rename to api_token_authenticator
   def token_authenticator
     @token_authenticator ||= TokenWrapper.new(
       token_authenticator: UpvsEnvironment.token_authenticator,
@@ -17,6 +18,7 @@ module ApiEnvironment
     )
   end
 
+  # TODO rename
   def jti_cache
     # TODO use ActiveSupport::Cache::Store::RedisStore to maintain persistence
     @token_identifier_cache ||= ActiveSupport::Cache::MemoryStore.new(
