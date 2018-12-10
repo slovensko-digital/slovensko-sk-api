@@ -29,7 +29,7 @@ class TokenWrapper
     exp, jti = payload['exp'], payload['jti']
 
     raise JWT::ExpiredSignature unless exp.is_a?(Integer)
-    raise JWT::InvalidPayload if !exp.is_a?(Integer) || exp > (Time.now + MAX_EXP_IN).to_i
+    raise JWT::InvalidPayload if exp > (Time.now + MAX_EXP_IN).to_i
 
     @jti_cache.synchronize do
       raise JWT::InvalidJtiError if @jti_cache.exist?(jti)
