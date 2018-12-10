@@ -89,7 +89,7 @@ RSpec.describe TokenWrapper do
     end
 
     it 'verifies JTI claim format' do
-      token = generate_token(jti: 'non-uuid-value')
+      token = generate_token(jti: 'non-alphanumeric-value')
 
       expect { subject.verify_token(token) }.to raise_error(JWT::InvalidJtiError)
     end
