@@ -15,7 +15,7 @@ RSpec.describe TokenAuthenticator do
 
   describe '#generate_token' do
     it 'returns token' do
-      token = subject.generate_token(response)
+      token = subject.generate_token(response, audience: ['sktalk/receive'])
 
       payload, header = JWT.decode(token, key_pair.public_key, false)
 
@@ -24,6 +24,9 @@ RSpec.describe TokenAuthenticator do
       )
 
       expect(payload).to match(
+        'iss' => 'ico://sk/50158635',
+        'sub' => 'rc://sk/8314451337_tisici_janko',
+        'aud' => ['sktalk/receive'],
         'exp' => 1543437976,
         'nbf' => 1543436776,
         'iat' => 1543436776.0,
@@ -174,8 +177,8 @@ RSpec.describe TokenAuthenticator do
   end
 
   describe '#verify_token' do
-    def generate_token(exp: 1543437976, nbf: 1543436776, iat: 1543436776.0, jti: SecureRandom.uuid, header: {}, **payload)
-      payload.merge!(exp: exp, nbf: nbf, iat: iat, jti: jti)
+    def generate_token(iss: 'ico://sk/50158635', sub: 'rc://sk/8314451337_tisici_janko', aud: nil, exp: 1543437976, nbf: 1543436776, iat: 1543436776.0, jti: SecureRandom.uuid, header: {}, **payload)
+      payload.merge!(iss: iss, sub: sub, aud: aud, exp: exp, nbf: nbf, iat: iat, jti: jti)
       assertion_store.write(jti, assertion) if jti
       JWT.encode(payload.compact, key_pair, 'RS256', header)
     end
@@ -201,16 +204,40 @@ RSpec.describe TokenAuthenticator do
       expect { subject.verify_token(token) }.to raise_error(JWT::VerificationError)
     end
 
-    it 'verifies header' do
-      token = generate_token(header: { typ: 'JWT' })
+    it 'verifies ISS claim presence' do
+      token = generate_token(iss: nil)
 
-      expect { subject.verify_token(token) }.to raise_error(JWT::DecodeError)
+      expect { subject.verify_token(token) }.to raise_error(JWT::InvalidIssuerError)
     end
 
-    it 'verifies payload' do
-      token = generate_token(obo: 'JWT')
+    it 'verifies ISS claim value' do
+      token = generate_token(iss: 'another-issuer')
 
-      expect { subject.verify_token(token) }.to raise_error(JWT::InvalidPayload)
+      expect { subject.verify_token(token) }.to raise_error(JWT::InvalidIssuerError)
+    end
+
+    it 'verifies SUB claim presence' do
+      token = generate_token(sub: nil)
+
+      expect { subject.verify_token(token) }.to raise_error(JWT::InvalidSubError)
+    end
+
+    it 'verifies SUB claim value' do
+      token = generate_token(sub: 'another-subject')
+
+      expect { subject.verify_token(token) }.to raise_error(JWT::InvalidSubError)
+    end
+
+    it 'verifies AUD claim presence' do
+      token = generate_token(aud: nil)
+
+      expect { subject.verify_token(token, audience: 'audience-to-verify') }.to raise_error(JWT::InvalidAudError)
+    end
+
+    it 'verifies AUD claim value' do
+      token = generate_token(aud: ['audience-to-support'])
+
+      expect { subject.verify_token(token, audience: 'audience-to-verify') }.to raise_error(JWT::InvalidAudError)
     end
 
     it 'verifies EXP claim presence' do

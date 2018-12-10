@@ -1,6 +1,7 @@
 # See https://tools.ietf.org/html/rfc7519
 
 class TokenAuthenticator
+  ISS = 'ico://sk/50158635'
   EXP_IN = 20.minutes
   JTI_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 
@@ -9,12 +10,12 @@ class TokenAuthenticator
     @key_pair = key_pair
   end
 
-  def generate_token(response)
+  def generate_token(response, audience: nil)
     assertion = parse_assertion(response)
 
-    # TODO maybe return some user specific data in payload here
-
     @assertion_store.synchronize do
+      sub = response.attributes['SubjectID'].to_s
+      aud = audience.to_a
       exp = response.not_on_or_after.to_i
       nbf = response.not_before.to_i
       iat = Time.parse(assertion.attributes['IssueInstant']).to_f
@@ -24,7 +25,7 @@ class TokenAuthenticator
       jti = generate_jti
       ass = assertion_to_s(assertion)
 
-      payload = { exp: exp, nbf: nbf, iat: iat, jti: jti }
+      payload = { iss: ISS, sub: sub, aud: aud, exp: exp, nbf: nbf, iat: iat, jti: jti }
       exp_in = exp - Time.now.to_f
 
       raise ArgumentError if exp_in <= 0
@@ -41,19 +42,20 @@ class TokenAuthenticator
     end
   end
 
-  def verify_token(token)
+  def verify_token(token, audience: nil)
     options = {
       algorithm: 'RS256',
+      iss: ISS,
+      aud: audience,
+      verify_iss: true,
+      verify_sub: false,
+      verify_aud: audience.present?,
       verify_iat: true,
       verify_jti: -> (jti) { jti =~ JTI_PATTERN },
     }
 
     payload, header = JWT.decode(token, @key_pair.public_key, true, options)
-
-    raise JWT::DecodeError if header.keys != ['alg']
-    raise JWT::InvalidPayload if payload.keys - ['exp', 'nbf', 'iat', 'jti'] != []
-
-    exp, nbf, iat, jti = payload['exp'], payload['nbf'], payload['iat'], payload['jti']
+    sub, exp, nbf, iat, jti = payload['sub'], payload['exp'], payload['nbf'], payload['iat'], payload['jti']
 
     raise JWT::ExpiredSignature unless exp.is_a?(Integer)
     raise JWT::ImmatureSignature unless nbf.is_a?(Integer)
@@ -65,6 +67,7 @@ class TokenAuthenticator
     ass = @assertion_store.read(jti)
 
     raise JWT::InvalidJtiError unless ass
+    raise JWT::InvalidSubError if sub != parse_subject(ass)
 
     block_given? ? yield(payload, header, ass) : ass
   end
@@ -93,6 +96,12 @@ class TokenAuthenticator
     assertion.context[:attribute_quote] = :quote
 
     assertion
+  end
+
+  def parse_subject(raw)
+    assertion = REXML::Document.new(raw)
+
+    REXML::XPath.first(assertion, '//saml:Attribute[@Name="SubjectID"]/saml:AttributeValue').text
   end
 
   def assertion_to_s(assertion)
