@@ -82,7 +82,7 @@ RSpec.describe TokenAuthenticator do
     end
 
     context 'response creation to expiration relation check failure' do
-      before(:example) { expect(response).to receive(:not_on_or_after).and_wrap_original { |m| m.call + 1.minute }}
+      before(:example) { expect(response).to receive(:not_on_or_after).and_wrap_original { |m| m.call + 41.minutes }}
 
       it 'raises argument error' do
         expect { subject.generate_token(response) }.to raise_error(ArgumentError)
@@ -261,7 +261,7 @@ RSpec.describe TokenAuthenticator do
     end
 
     it 'verifies EXP to IAT claim relation' do
-      token = generate_token(exp: (response.not_on_or_after + 1.minute).to_i)
+      token = generate_token(exp: (response.not_on_or_after + 41.minutes).to_i)
 
       expect { subject.verify_token(token) }.to raise_error(JWT::InvalidPayload)
     end

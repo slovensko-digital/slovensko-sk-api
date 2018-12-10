@@ -5,7 +5,7 @@
 # TokenWrapper -> ApiTokenAuthenticator: #unwrap -> #verify_token
 
 class TokenWrapper
-  EXP_IN = TokenAuthenticator::EXP_IN
+  MAX_EXP_IN = TokenAuthenticator::MAX_EXP_IN
   JTI_PATTERN = /^[0-9a-z-_]{1,256}$/
 
   def initialize(token_authenticator:, public_key:, jti_cache:)
@@ -29,11 +29,11 @@ class TokenWrapper
     exp, jti = payload['exp'], payload['jti']
 
     raise JWT::ExpiredSignature unless exp.is_a?(Integer)
-    raise JWT::InvalidPayload if !exp.is_a?(Integer) || exp > (Time.now + EXP_IN).to_i
+    raise JWT::InvalidPayload if !exp.is_a?(Integer) || exp > (Time.now + MAX_EXP_IN).to_i
 
     @jti_cache.synchronize do
       raise JWT::InvalidJtiError if @jti_cache.exist?(jti)
-      @jti_cache.write(jti, true, expires_in: EXP_IN)
+      @jti_cache.write(jti, true, expires_in: MAX_EXP_IN)
     end
 
     @token_authenticator.verify_token(payload['obo'], audience: audience)

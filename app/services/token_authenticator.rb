@@ -2,7 +2,7 @@
 
 class TokenAuthenticator
   ISS = 'ico://sk/50158635'
-  EXP_IN = 20.minutes
+  MAX_EXP_IN = 60.minutes
   JTI_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 
   def initialize(assertion_store:, key_pair:)
@@ -20,7 +20,7 @@ class TokenAuthenticator
       nbf = response.not_before.to_i
       iat = Time.parse(assertion.attributes['IssueInstant']).to_f
 
-      raise ArgumentError if exp != iat + EXP_IN || nbf != iat
+      raise ArgumentError if exp > iat + MAX_EXP_IN || exp <= iat || nbf != iat
 
       jti = generate_jti
       ass = assertion_to_s(assertion)
@@ -61,7 +61,7 @@ class TokenAuthenticator
     raise JWT::ImmatureSignature unless nbf.is_a?(Integer)
     raise JWT::InvalidIatError unless iat.is_a?(Numeric)
 
-    raise JWT::InvalidPayload if exp != iat + EXP_IN
+    raise JWT::InvalidPayload if exp > iat + MAX_EXP_IN || exp <= iat
     raise JWT::InvalidPayload if nbf != iat
 
     ass = @assertion_store.read(jti)

@@ -77,7 +77,7 @@ RSpec.describe TokenWrapper do
     end
 
     it 'verifies EXP claim to OBO token relation' do
-      token = generate_token(exp: (Time.now + 20.minutes + 2.seconds).to_i)
+      token = generate_token(exp: (Time.now + 60.minutes + 2.seconds).to_i)
 
       expect { subject.verify_token(token) }.to raise_error(JWT::InvalidPayload)
     end
@@ -161,7 +161,7 @@ RSpec.describe TokenWrapper do
         expect { subject.verify_token(token) }.to raise_error(JWT::ExpiredSignature)
       end
 
-      it 'can not verify another token with the same JTI in the first 20 minutes' do
+      it 'can not verify another token with the same JTI in the first 60 minutes' do
         jti = SecureRandom.uuid
 
         o1 = generate_obo(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
@@ -169,17 +169,17 @@ RSpec.describe TokenWrapper do
 
         subject.verify_token(t1)
 
-        travel_to Time.now + 10.minutes
+        travel_to Time.now + 45.minutes
 
         o2 = generate_obo(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
         t2 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o2)
 
-        travel_to Time.now + 10.minutes - 0.1.seconds
+        travel_to Time.now + 15.minutes - 0.1.seconds
 
         expect { subject.verify_token(t2) }.to raise_error(JWT::InvalidJtiError)
       end
 
-      it 'can verify another token with the same JTI again on or after 20 minutes' do
+      it 'can verify another token with the same JTI again on or after 60 minutes' do
         jti = SecureRandom.uuid
 
         o1 = generate_obo(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
@@ -187,12 +187,12 @@ RSpec.describe TokenWrapper do
 
         subject.verify_token(t1)
 
-        travel_to Time.now + 10.minutes
+        travel_to Time.now + 45.minutes
 
         o2 = generate_obo(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
         t2 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o2)
 
-        travel_to Time.now + 10.minutes
+        travel_to Time.now + 15.minutes
 
         expect { subject.verify_token(t2) }.not_to raise_error
       end
