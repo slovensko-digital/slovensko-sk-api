@@ -6,7 +6,7 @@
 
 class TokenWrapper
   EXP_IN = TokenAuthenticator::EXP_IN
-  JTI_PATTERN = /^[0-9a-z_]{1,256}$/
+  JTI_PATTERN = /^[0-9a-z-_]{1,256}$/
 
   def initialize(token_authenticator:, public_key:, jti_cache:)
     @token_authenticator = token_authenticator
