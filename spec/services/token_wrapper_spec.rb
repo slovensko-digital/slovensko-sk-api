@@ -136,7 +136,7 @@ RSpec.describe TokenWrapper do
       let(:assertion_store) { UpvsEnvironment.assertion_store }
 
       def generate_obo(exp: 1543437976, nbf: 1543436776)
-        payload = { exp: exp, nbf: nbf, iat: nbf.to_f, jti: SecureRandom.uuid }
+        payload = { iss: TokenAuthenticator::ISS, sub: response.attributes['SubjectID'], exp: exp, nbf: nbf, iat: nbf.to_f, jti: SecureRandom.uuid }
         assertion_store.write(payload[:jti], assertion)
         JWT.encode(payload.compact, upvs_token_key_pair, 'RS256')
       end
