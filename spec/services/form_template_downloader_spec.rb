@@ -82,5 +82,23 @@ RSpec.describe FormTemplateDownloader, :model, :live do
       expect { subject.download_xsd_schema(form_template) }.to change{ FormTemplateRelatedDocument.count }.from(0).to(1)
       expect(FormTemplateRelatedDocument.last).to have_attributes(form_template: form_template, language: 'sk', document_type: 'CLS_F_XSD_EDOC')
     end
+
+    describe 'on error' do
+      let (:fault) { double }
+
+      it 'does not raise when the document does not exist' do
+        expect(fault).to receive(:get_fault_string).and_return('06000796')
+        expect(ez).to receive(:call_service).and_raise(Java::JavaxXmlWsSoap::SOAPFaultException.new(fault))
+
+        expect { subject.download_xsd_schema(form_template) }.to_not raise_error
+      end
+
+      it 'breaks otherwise' do
+        expect(fault).to receive(:get_fault_string).and_return('1234')
+        expect(ez).to receive(:call_service).and_raise(Java::JavaxXmlWsSoap::SOAPFaultException.new(fault))
+
+        expect { subject.download_xsd_schema(form_template) }.to raise_error(Java::JavaxXmlWsSoap::SOAPFaultException)
+      end
+    end
   end
 end
