@@ -3,7 +3,7 @@ require 'rails_helper'
 java_import "sk.gov.schemas.servicebusserviceprovider.ness.eformprovider._1.ObjectFactory"
 java_import "sk.gov.schemas.servicebus.service._1.ServiceClassEnum"
 
-RSpec.describe FormTemplateDownloader, :model, :live do
+RSpec.describe FormTemplateDownloader, :model, :upvs do
   let(:properties) { UpvsEnvironment.properties }
   let(:upvs) { UpvsProxy.new(properties) }
   let(:ez) { upvs.ez }
