@@ -15,7 +15,7 @@ RSpec.describe TokenAuthenticator do
 
   describe '#generate_token' do
     it 'returns token' do
-      token = subject.generate_token(response, scopes: ['sktalk/receive'])
+      token = subject.generate_token(response, scopes: ['sktalk:receive'])
 
       payload, header = JWT.decode(token, key_pair.public_key, false)
 
@@ -30,7 +30,7 @@ RSpec.describe TokenAuthenticator do
         'iat' => 1543436776.0,
         'jti' => kind_of(String),
         'name' => 'Janko Tisíci',
-        'scopes' => ['sktalk/receive'],
+        'scopes' => ['sktalk:receive'],
       )
     end
 
