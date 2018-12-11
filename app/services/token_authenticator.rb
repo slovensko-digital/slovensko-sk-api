@@ -42,7 +42,7 @@ class TokenAuthenticator
     end
   end
 
-  def verify_token(token, scopes: nil)
+  def verify_token(token, scopes: [])
     options = {
       algorithm: 'RS256',
       verify_iat: true,
