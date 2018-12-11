@@ -1,9 +1,13 @@
-java_import "sk.gov.schemas.servicebusserviceprovider.ness.eformprovider._1.ObjectFactory"
+module Eform
+  SERVICES = sk.gov.schemas.servicebus.service._1.ServiceClassEnum
 
-module EformObject
-  @object_factory = ObjectFactory.new
+  @object_factory = sk.gov.schemas.servicebusserviceprovider.ness.eformprovider._1.ObjectFactory.new
 
-  def self.build_from_form_template(form_template)
+  def self.object_factory
+    @object_factory
+  end
+
+  def self.build_form_template_id(form_template)
     form_template_id = @object_factory.create_form_template_id
     form_template_id.identifier = @object_factory.create_form_template_id_identifier(form_template.identifier)
 
