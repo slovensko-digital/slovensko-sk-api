@@ -14,7 +14,7 @@ class TokenWrapper
     @jti_cache = jti_cache
   end
 
-  def unwrap(token, audience: nil)
+  def unwrap(token, scopes: nil)
     options = {
       algorithm: 'RS256',
       verify_jti: -> (jti) { jti =~ JTI_PATTERN },
@@ -36,7 +36,7 @@ class TokenWrapper
       @jti_cache.write(jti, true, expires_in: MAX_EXP_IN)
     end
 
-    @token_authenticator.verify_token(payload['obo'], audience: audience)
+    @token_authenticator.verify_token(payload['obo'], scopes: scopes)
   end
 
   alias_method :verify_token, :unwrap

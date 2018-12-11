@@ -1,31 +1,31 @@
 # See https://tools.ietf.org/html/rfc7519
 
 class TokenAuthenticator
-  ISS = 'ico://sk/50158635'
   MAX_EXP_IN = 60.minutes
-  JTI_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 
   def initialize(assertion_store:, key_pair:)
     @assertion_store = assertion_store
     @key_pair = key_pair
   end
 
-  def generate_token(response, audience: nil)
+  def generate_token(response, scopes: nil)
     assertion = parse_assertion(response)
 
     @assertion_store.synchronize do
       sub = response.attributes['SubjectID'].to_s
-      aud = audience.to_a
       exp = response.not_on_or_after.to_i
       nbf = response.not_before.to_i
       iat = Time.parse(assertion.attributes['IssueInstant']).to_f
+
+      name = response.attributes['Subject.FormattedName'].to_s
+      scopes = scopes.to_a
 
       raise ArgumentError if exp > iat + MAX_EXP_IN || exp <= iat || nbf != iat
 
       jti = generate_jti
       ass = assertion_to_s(assertion)
 
-      payload = { iss: ISS, sub: sub, aud: aud, exp: exp, nbf: nbf, iat: iat, jti: jti }
+      payload = { sub: sub, exp: exp, nbf: nbf, iat: iat, jti: jti, name: name, scopes: scopes }
       exp_in = exp - Time.now.to_f
 
       raise ArgumentError if exp_in <= 0
@@ -42,20 +42,15 @@ class TokenAuthenticator
     end
   end
 
-  def verify_token(token, audience: nil)
+  def verify_token(token, scopes: nil)
     options = {
       algorithm: 'RS256',
-      iss: ISS,
-      aud: audience,
-      verify_iss: true,
-      verify_sub: false,
-      verify_aud: audience.present?,
       verify_iat: true,
-      verify_jti: -> (jti) { jti =~ JTI_PATTERN },
+      verify_jti: true,
     }
 
     payload, header = JWT.decode(token, @key_pair.public_key, true, options)
-    sub, exp, nbf, iat, jti = payload['sub'], payload['exp'], payload['nbf'], payload['iat'], payload['jti']
+    exp, nbf, iat, jti = payload['exp'], payload['nbf'], payload['iat'], payload['jti']
 
     raise JWT::ExpiredSignature unless exp.is_a?(Integer)
     raise JWT::ImmatureSignature unless nbf.is_a?(Integer)
@@ -64,10 +59,11 @@ class TokenAuthenticator
     raise JWT::InvalidPayload if exp > iat + MAX_EXP_IN || exp <= iat
     raise JWT::InvalidPayload if nbf != iat
 
+    raise JWT::VerificationError if scopes && (payload['scopes'] & [*scopes]).empty?
+
     ass = @assertion_store.read(jti)
 
     raise JWT::InvalidJtiError unless ass
-    raise JWT::InvalidSubError if sub != parse_subject(ass)
 
     block_given? ? yield(payload, header, ass) : ass
   end
@@ -96,12 +92,6 @@ class TokenAuthenticator
     assertion.context[:attribute_quote] = :quote
 
     assertion
-  end
-
-  def parse_subject(raw)
-    assertion = REXML::Document.new(raw)
-
-    REXML::XPath.first(assertion, '//saml:Attribute[@Name="SubjectID"]/saml:AttributeValue').text
   end
 
   def assertion_to_s(assertion)

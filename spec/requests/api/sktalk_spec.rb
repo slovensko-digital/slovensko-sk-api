@@ -6,8 +6,8 @@ RSpec.describe 'SKTalk API' do
   let!(:token) do
     authenticator = UpvsEnvironment.token_authenticator
     response = OneLogin::RubySaml::Response.new(file_fixture('oam/response_success.xml').read)
-    audience = ['sktalk/receive', 'sktalk/receive_and_save_to_outbox']
-    token = travel_to(response.not_before) { authenticator.generate_token(response, audience: audience) }
+    scopes = ['sktalk:receive', 'sktalk:receive_and_save_to_outbox']
+    token = travel_to(response.not_before) { authenticator.generate_token(response, scopes: scopes) }
 
     header = { cty: 'JWT' }
     payload = { exp: response.not_on_or_after.to_i, jti: SecureRandom.uuid, obo: token }

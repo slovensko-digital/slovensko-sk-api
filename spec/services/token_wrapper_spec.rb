@@ -105,7 +105,7 @@ RSpec.describe TokenWrapper do
     it 'verifies OBO token presence' do
       obo = nil
 
-      expect(upvs_token_authenticator).to receive(:verify_token).with(obo, audience: nil).and_call_original
+      expect(upvs_token_authenticator).to receive(:verify_token).with(obo, scopes: nil).and_call_original
 
       token = generate_token(obo: obo)
 
@@ -115,7 +115,7 @@ RSpec.describe TokenWrapper do
     it 'verifies OBO token format' do
       obo = 'NON-JWT'
 
-      expect(upvs_token_authenticator).to receive(:verify_token).with(obo, audience: nil).and_call_original
+      expect(upvs_token_authenticator).to receive(:verify_token).with(obo, scopes: nil).and_call_original
 
       token = generate_token(obo: obo)
 
@@ -125,7 +125,7 @@ RSpec.describe TokenWrapper do
     it 'verifies OBO token value' do
       obo = generate_token
 
-      expect(upvs_token_authenticator).to receive(:verify_token).with(obo, audience: nil).and_call_original
+      expect(upvs_token_authenticator).to receive(:verify_token).with(obo, scopes: nil).and_call_original
 
       token = generate_token(obo: obo)
 
@@ -136,7 +136,7 @@ RSpec.describe TokenWrapper do
       let(:assertion_store) { UpvsEnvironment.assertion_store }
 
       def generate_obo(exp: 1543437976, nbf: 1543436776)
-        payload = { iss: TokenAuthenticator::ISS, sub: response.attributes['SubjectID'], exp: exp, nbf: nbf, iat: nbf.to_f, jti: SecureRandom.uuid }
+        payload = { exp: exp, nbf: nbf, iat: nbf.to_f, jti: SecureRandom.uuid }
         assertion_store.write(payload[:jti], assertion)
         JWT.encode(payload.compact, upvs_token_key_pair, 'RS256')
       end
