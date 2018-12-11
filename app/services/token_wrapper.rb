@@ -14,7 +14,7 @@ class TokenWrapper
     @jti_cache = jti_cache
   end
 
-  def unwrap(token, scopes: nil)
+  def unwrap(token, scopes: [])
     options = {
       algorithm: 'RS256',
       verify_jti: -> (jti) { jti =~ JTI_PATTERN },
