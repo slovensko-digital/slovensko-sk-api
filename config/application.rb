@@ -40,6 +40,8 @@ module Podaas
     # Set local timezone
     config.active_record.default_timezone = :utc
     config.time_zone = 'Europe/Bratislava'
+
+    config.active_job.queue_adapter = :delayed_job
   end
 end
 
