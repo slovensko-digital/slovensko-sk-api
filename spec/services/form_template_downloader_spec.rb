@@ -1,19 +1,16 @@
 require 'rails_helper'
 
-java_import "sk.gov.schemas.servicebusserviceprovider.ness.eformprovider._1.ObjectFactory"
-java_import "sk.gov.schemas.servicebus.service._1.ServiceClassEnum"
-
 RSpec.describe FormTemplateDownloader, :model, :upvs do
   let(:properties) { UpvsEnvironment.properties }
   let(:upvs) { UpvsProxy.new(properties) }
   let(:ez) { upvs.ez }
-  let(:object_factory) { ObjectFactory.new }
+  let(:object_factory) { Eform.object_factory }
 
   subject { described_class.new(upvs) }
 
   describe '#download_form_templates' do
     let(:response) do
-      response = ez.call_service(ServiceClassEnum::EFORM_FINDFORMTEMPLATES_SOAP_V_1_0, object_factory.create_find_form_templates_req)
+      response = ez.call_service(Eform::SERVICES::EFORM_FINDFORMTEMPLATES_SOAP_V_1_0, object_factory.create_find_form_templates_req)
       array_of_form_template_id = object_factory.create_array_of_form_template_id
       response.form_templates.value.form_template_id.first(3).each { |fti| array_of_form_template_id.form_template_id.add(fti) }
       response.form_templates = object_factory.create_find_form_templates_res_form_templates(array_of_form_template_id)
@@ -21,7 +18,7 @@ RSpec.describe FormTemplateDownloader, :model, :upvs do
     end
 
     it 'calls ez with right arguments' do
-      service_class = ServiceClassEnum::EFORM_FINDFORMTEMPLATES_SOAP_V_1_0
+      service_class = Eform::SERVICES::EFORM_FINDFORMTEMPLATES_SOAP_V_1_0
       request = object_factory.create_find_form_templates_req
 
       expect(ez).to receive(:call_service).with(service_class, instance_of(request.class)).and_return(response)
@@ -45,8 +42,8 @@ RSpec.describe FormTemplateDownloader, :model, :upvs do
     let(:form_template) { create(:form_template, identifier: "App.GeneralAgenda", version_major: 1, version_minor: 9) }
 
     let(:response) do
-      form_template_id = EformObject.build_from_form_template(form_template)
-      service = ServiceClassEnum::EFORM_GETRELATEDDOCUMENTBYTYPE_SOAP_V_1_0
+      form_template_id = Eform.build_form_template_id(form_template)
+      service = Eform::SERVICES::EFORM_GETRELATEDDOCUMENTBYTYPE_SOAP_V_1_0
 
       request = object_factory.create_get_related_document_by_type_req
       request.form_template = object_factory.create_get_related_document_by_type_req_form_template(form_template_id)
@@ -69,7 +66,7 @@ RSpec.describe FormTemplateDownloader, :model, :upvs do
     end
 
     it 'calls ez with right arguments' do
-      service_class = ServiceClassEnum::EFORM_GETRELATEDDOCUMENTBYTYPE_SOAP_V_1_0
+      service_class = Eform::SERVICES::EFORM_GETRELATEDDOCUMENTBYTYPE_SOAP_V_1_0
 
       expect(ez).to receive(:call_service).with(service_class, matching_request(form_template)).and_return(response)
 
