@@ -8,7 +8,7 @@ class TokenAuthenticator
     @key_pair = key_pair
   end
 
-  def generate_token(response, scopes: nil)
+  def generate_token(response, scopes: [])
     assertion = parse_assertion(response)
 
     @assertion_store.synchronize do
