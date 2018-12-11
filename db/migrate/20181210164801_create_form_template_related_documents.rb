@@ -1,7 +1,7 @@
 class CreateFormTemplateRelatedDocuments < ActiveRecord::Migration[5.2]
   def change
     create_table :form_template_related_documents do |t|
-      t.references :form_template, null: false
+      t.references :form_template, null: false, foreign_key: true
       t.string :data, null: false
       t.string :language, null: false
       t.string :document_type, null: false
