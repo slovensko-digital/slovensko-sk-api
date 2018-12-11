@@ -292,13 +292,13 @@ RSpec.describe TokenAuthenticator do
     it 'verifies SCOPES claim presence' do
       token = generate_token(scopes: [])
 
-      expect { subject.verify_token(token, scopes: 'scope-to-verify') }.to raise_error(JWT::VerificationError)
+      expect { subject.verify_token(token, scope: 'scope-to-verify') }.to raise_error(JWT::VerificationError)
     end
 
     it 'verifies SCOPES claim value' do
       token = generate_token(scopes: ['scope-to-permit'])
 
-      expect { subject.verify_token(token, scopes: 'scope-to-verify') }.to raise_error(JWT::VerificationError)
+      expect { subject.verify_token(token, scope: 'scope-to-verify') }.to raise_error(JWT::VerificationError)
     end
 
     context 'token decoder failure' do

@@ -42,7 +42,7 @@ class TokenAuthenticator
     end
   end
 
-  def verify_token(token, scopes: [])
+  def verify_token(token, scope: nil)
     options = {
       algorithm: 'RS256',
       verify_iat: true,
@@ -59,9 +59,9 @@ class TokenAuthenticator
     raise JWT::InvalidPayload if exp > iat + MAX_EXP_IN || exp <= iat
     raise JWT::InvalidPayload if nbf != iat
 
-    scp = payload['scopes'].to_a
+    scopes = payload['scopes'].to_a
 
-    raise JWT::VerificationError if (scp.any? || scopes.present?) && (scp & [*scopes]).empty?
+    raise JWT::VerificationError if scope && scopes.exclude?(scope)
 
     ass = @assertion_store.read(jti)
 

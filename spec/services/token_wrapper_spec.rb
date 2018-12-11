@@ -105,7 +105,7 @@ RSpec.describe TokenWrapper do
     it 'verifies OBO token presence' do
       obo = nil
 
-      expect(upvs_token_authenticator).to receive(:verify_token).with(obo, scopes: []).and_call_original
+      expect(upvs_token_authenticator).to receive(:verify_token).with(obo, scope: nil).and_call_original
 
       token = generate_token(obo: obo)
 
@@ -115,7 +115,7 @@ RSpec.describe TokenWrapper do
     it 'verifies OBO token format' do
       obo = 'NON-JWT'
 
-      expect(upvs_token_authenticator).to receive(:verify_token).with(obo, scopes: []).and_call_original
+      expect(upvs_token_authenticator).to receive(:verify_token).with(obo, scope: nil).and_call_original
 
       token = generate_token(obo: obo)
 
@@ -125,7 +125,7 @@ RSpec.describe TokenWrapper do
     it 'verifies OBO token value' do
       obo = generate_token
 
-      expect(upvs_token_authenticator).to receive(:verify_token).with(obo, scopes: []).and_call_original
+      expect(upvs_token_authenticator).to receive(:verify_token).with(obo, scope: nil).and_call_original
 
       token = generate_token(obo: obo)
 
