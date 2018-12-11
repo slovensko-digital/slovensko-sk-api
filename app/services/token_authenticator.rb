@@ -59,7 +59,9 @@ class TokenAuthenticator
     raise JWT::InvalidPayload if exp > iat + MAX_EXP_IN || exp <= iat
     raise JWT::InvalidPayload if nbf != iat
 
-    raise JWT::VerificationError if scopes && (payload['scopes'] & [*scopes]).empty?
+    scp = payload['scopes'].to_a
+
+    raise JWT::VerificationError if (scp.any? || scopes.present?) && (scp & [*scopes]).empty?
 
     ass = @assertion_store.read(jti)
 
