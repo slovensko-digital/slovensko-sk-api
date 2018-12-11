@@ -35,4 +35,5 @@ ActiveRecord::Schema.define(version: 2018_12_10_164801) do
     t.index ["identifier", "version_major", "version_minor"], name: "index_form_templates_on_identifier_and_version", unique: true
   end
 
+  add_foreign_key "form_template_related_documents", "form_templates"
 end
