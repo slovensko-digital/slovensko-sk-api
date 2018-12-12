@@ -52,6 +52,8 @@ GEM
       rake (>= 10.4, < 13.0)
     arel (9.0.0)
     builder (3.2.3)
+    clockwork (2.0.3)
+      tzinfo
     coderay (1.1.2)
     concurrent-ruby (1.0.5-java)
     crass (1.0.4)
@@ -183,6 +185,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord-jdbcpostgresql-adapter
   annotate
+  clockwork
   delayed_job_active_record
   dotenv-rails
   factory_bot_rails
