@@ -191,6 +191,7 @@ DEPENDENCIES
   factory_bot_rails
   jwt
   listen
+  nokogiri
   omniauth-saml
   pry
   puma (~> 3.11)
