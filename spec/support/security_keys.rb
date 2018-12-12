@@ -1,3 +1,5 @@
+# TODO rename upvs_token_key_pair -> obo_token_key_pair
+
 module SecurityKeys
   mattr_accessor :api_token_key_pair, default: OpenSSL::PKey::RSA.new(2048)
   mattr_accessor :upvs_token_key_pair, default: OpenSSL::PKey::RSA.new(2048)

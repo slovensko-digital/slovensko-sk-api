@@ -1,16 +1,42 @@
+# See https://tools.ietf.org/html/rfc7519
+
+# TODO consider renaming:
+# TokenAuthenticator -> UpvsTokenAuthenticator
+# TokenWrapper -> ApiTokenAuthenticator: #unwrap -> #verify_token
+
 class TokenWrapper
-  def initialize(token_authenticator:, public_key:)
+  MAX_EXP_IN = TokenAuthenticator::MAX_EXP_IN
+  JTI_PATTERN = /^[0-9a-z-_]{1,256}$/
+
+  def initialize(token_authenticator:, public_key:, jti_cache:)
     @token_authenticator = token_authenticator
     @public_key = public_key
+    @jti_cache = jti_cache
   end
 
-  def unwrap(token)
-    payload = JWT.decode(token, @public_key, true, algorithm: 'RS256').first
+  def unwrap(token, scope: nil)
+    options = {
+      algorithm: 'RS256',
+      verify_jti: -> (jti) { jti =~ JTI_PATTERN },
+    }
 
-    # TODO force cty: "JWT" header check because this JWT carries another JWT in it
-    # TODO force claim checks on jti (replay attacks) and exp here
+    payload, header = JWT.decode(token, @public_key, true, options)
 
-    @token_authenticator.verify_token(payload['obo'])
+    cty = header['cty']
+
+    raise JWT::DecodeError unless cty == 'JWT'
+
+    exp, jti = payload['exp'], payload['jti']
+
+    raise JWT::ExpiredSignature unless exp.is_a?(Integer)
+    raise JWT::InvalidPayload if exp > (Time.now + MAX_EXP_IN).to_i
+
+    @jti_cache.synchronize do
+      raise JWT::InvalidJtiError if @jti_cache.exist?(jti)
+      @jti_cache.write(jti, true, expires_in: MAX_EXP_IN)
+    end
+
+    @token_authenticator.verify_token(payload['obo'], scope: scope)
   end
 
   alias_method :verify_token, :unwrap
