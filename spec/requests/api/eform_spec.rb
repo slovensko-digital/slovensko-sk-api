@@ -18,8 +18,8 @@ RSpec.describe 'eForm API' do
     describe 'when form data is valid' do
       it 'returns validation result' do
         post '/api/eform/validate', params: { identifier: 'App.GeneralAgenda', version: '1.7', data: valid_form_xml }
-        expect(response_object["valid"]).to eq(true)
-        expect(response_object["errors"]).to be_blank
+        expect(response_object['valid']).to eq(true)
+        expect(response_object['errors']).to be_blank
       end
     end
 
@@ -31,8 +31,8 @@ RSpec.describe 'eForm API' do
 
       it 'lists validation errors' do
         post '/api/eform/validate', params: { identifier: 'App.GeneralAgenda', version: '1.7', data: invalid_form_xml }
-        expect(response_object["valid"]).to eq(false)
-        expect(response_object["errors"]).to be_present
+        expect(response_object['valid']).to eq(false)
+        expect(response_object['errors']).to be_present
       end
     end
 
@@ -42,6 +42,10 @@ RSpec.describe 'eForm API' do
 
     describe 'when form or xsd schema is not found' do
       pending 'returns 400 with a message'
+    end
+
+    describe 'when submitted form has parsing issues' do
+      pending 'the form is deemed invalid'
     end
   end
 end
