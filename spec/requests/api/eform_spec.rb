@@ -45,7 +45,13 @@ RSpec.describe 'eForm API' do
     end
 
     describe 'when submitted form has parsing issues' do
-      pending 'the form is deemed invalid'
+      unparseable = 'Not an XML.'
+
+      it 'the form is deemed invalid' do
+        post '/api/eform/validate', params: { identifier: 'App.GeneralAgenda', version: '1.7', data: unparseable }
+        expect(response_object['valid']).to eq(false)
+        expect(response_object['errors']).to include('Malformed XML')
+      end
     end
   end
 end
