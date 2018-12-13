@@ -20,7 +20,6 @@ RSpec.describe 'eForm API' do
         post '/api/eform/validate', params: { identifier: 'App.GeneralAgenda', version: '1.7', data: valid_form_xml }
         expect(response_object["valid"]).to eq(true)
         expect(response_object["errors"]).to be_blank
-
       end
     end
 
