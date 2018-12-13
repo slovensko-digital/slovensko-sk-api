@@ -141,6 +141,6 @@ module UpvsEnvironment
   end
 
   def eform_service
-    @eform_service ||= EformService.new(upvs_proxy(nil))
+    @eform_service ||= EformService.new(upvs_proxy(assertion: nil))
   end
 end
