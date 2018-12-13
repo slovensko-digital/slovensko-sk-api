@@ -20,6 +20,6 @@ class SktalkController < ApiController
   private
 
   def receiver(assertion)
-    UpvsEnvironment.sktalk_receiver(assertion)
+    UpvsEnvironment.sktalk_receiver(assertion: assertion)
   end
 end

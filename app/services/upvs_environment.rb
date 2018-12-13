@@ -19,8 +19,8 @@ module UpvsEnvironment
     )
   end
 
-  def sktalk_receiver(assertion)
-    SktalkReceiver.new(upvs_proxy(assertion))
+  def sktalk_receiver(assertion: nil)
+    SktalkReceiver.new(upvs_proxy(assertion: assertion))
   end
 
   def properties(assertion: nil)
@@ -84,7 +84,7 @@ module UpvsEnvironment
   end
 
   # TODO remove this in favor of #upvs_proxy_cache.fetch(assertion) { ... }
-  def upvs_proxy(assertion)
+  def upvs_proxy(assertion: nil)
     UpvsProxy.new(properties(assertion: assertion))
   end
 

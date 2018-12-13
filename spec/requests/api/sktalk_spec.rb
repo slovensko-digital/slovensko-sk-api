@@ -20,7 +20,7 @@ RSpec.describe 'SKTalk API' do
   before(:example) do
     assertion = file_fixture('oam/response_success_assertion.xml').read.strip
 
-    allow(UpvsEnvironment).to receive(:sktalk_receiver).with(assertion).and_return(sktalk_receiver)
+    allow(UpvsEnvironment).to receive(:sktalk_receiver).with(assertion: assertion).and_return(sktalk_receiver)
   end
 
   before(:example) { travel_to '2018-11-28T20:26:16Z' }
