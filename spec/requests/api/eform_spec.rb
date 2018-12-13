@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Form API' do
+RSpec.describe 'eForm API' do
   before(:each) do
     create(:form_template_related_document, :general_agenda_xsd_schema)
   end
@@ -14,10 +14,10 @@ RSpec.describe 'Form API' do
     </GeneralAgenda>
   HEREDOC
 
-  describe 'POST /api/forms/validate' do
+  describe 'POST /api/eform/validate' do
     describe 'when form data is valid' do
       it 'returns validation result' do
-        post '/api/forms/validate', params: { identifier: 'App.GeneralAgenda', version: '1.7', data: valid_form_xml }
+        post '/api/eform/validate', params: { identifier: 'App.GeneralAgenda', version: '1.7', data: valid_form_xml }
         expect(response_object["valid"]).to eq(true)
         expect(response_object["errors"]).to be_blank
 
@@ -31,9 +31,8 @@ RSpec.describe 'Form API' do
       HEREDOC
 
       it 'lists validation errors' do
-        post '/api/forms/validate', params: { identifier: 'App.GeneralAgenda', version: '1.7', data: invalid_form_xml }
+        post '/api/eform/validate', params: { identifier: 'App.GeneralAgenda', version: '1.7', data: invalid_form_xml }
         expect(response_object["valid"]).to eq(false)
-        puts response_object["errors"]
         expect(response_object["errors"]).to be_present
       end
     end
