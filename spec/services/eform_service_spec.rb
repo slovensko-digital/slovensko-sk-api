@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe EformProxy, :upvs do
+RSpec.describe EformService, :upvs do
   let(:properties) { UpvsEnvironment.properties }
   let(:upvs) { UpvsProxy.new(properties) }
   let(:ez) { upvs.ez }
@@ -13,7 +13,7 @@ RSpec.describe EformProxy, :upvs do
       response = double
       allow(response).to receive_message_chain("form_templates.value.form_template_id")
 
-      service_class = EformProxy::SERVICES::EFORM_FINDFORMTEMPLATES_SOAP_V_1_0
+      service_class = described_class::SERVICES::EFORM_FINDFORMTEMPLATES_SOAP_V_1_0
       request = object_factory.create_find_form_templates_req
 
       expect(ez).to receive(:call_service).with(service_class, instance_of(request.class)).and_return(response)
@@ -40,7 +40,7 @@ RSpec.describe EformProxy, :upvs do
     it 'calls ez with right arguments' do
       response = double
       allow(response).to receive_message_chain("related_document.value")
-      service_class = EformProxy::SERVICES::EFORM_GETRELATEDDOCUMENTBYTYPE_SOAP_V_1_0
+      service_class = described_class::SERVICES::EFORM_GETRELATEDDOCUMENTBYTYPE_SOAP_V_1_0
 
       expect(ez).to receive(:call_service).with(service_class, request_matching(form_template)).and_return(response)
 
