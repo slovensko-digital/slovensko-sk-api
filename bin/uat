@@ -82,14 +82,20 @@ run 'TC_G2G_02_NEG' do
   receiver.save_to_outbox(sktalk_message(without_body: true))
 end
 
-run 'TC_EFORM_01' do
-  raise # TODO
+def eform_service
+  UpvsEnvironment.eform_service
 end
 
-run 'TC_EFORM_01_NEG' do
-  raise # TODO
+run 'TC_EFORM_01' do
+  eform_service.fetch_all_form_template_ids
 end
 
 run 'TC_EFORM_02' do
-  raise # TODO
+  form_template = FormTemplate.find_or_initialize_by(identifier: 'App.GeneralAgenda', version_major: 1, version_minor: 7)
+  eform_service.fetch_xsd_schema_for(form_template)
+end
+
+run 'TC_EFORM_01_NEG' do
+  form_template = FormTemplate.find_or_initialize_by(identifier: 'Non-existent form', version_major: 1, version_minor: 7)
+  eform_service.fetch_xsd_schema_for(form_template)
 end
