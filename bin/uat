@@ -22,7 +22,7 @@ rescue
   puts 'fail'
 end
 
-active_assertion = nil # File.read('tmp/assertion.xml') # TODO
+active_assertion = File.read('tmp/active-assertion.xml')
 inactive_assertion = File.read('spec/fixtures/oam/response_success_assertion.xml')
 
 def sktalk_message(template: 'spec/fixtures/sktalk/egov_application_general_agenda.xml', without_body: false)
@@ -40,7 +40,14 @@ run 'TC_IAM_01' do
 end
 
 run 'TC_IAM_01_NEG' do
-  raise # TODO
+  properties = properties(assertion: nil).merge('upvs.sts.keystore.file' => 'security/podaas-inv-sts.keystore')
+  proxy = UpvsProxy.new(properties)
+
+  begin
+    SktalkReceiver.new(proxy).receive(sktalk_message)
+  rescue => exception
+    raise exception unless exception.cause.is_a? com.sun.xml.internal.messaging.saaj.SOAPExceptionImpl
+  end
 end
 
 run 'TC_IAM_02' do
