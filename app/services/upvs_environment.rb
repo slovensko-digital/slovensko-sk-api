@@ -1,24 +1,6 @@
 module UpvsEnvironment
   extend self
 
-  # TODO move to api_environment ??
-  def assertion_store
-    # TODO use ActiveSupport::Cache::Store::RedisStore to maintain persistence
-    @assertion_store ||= ActiveSupport::Cache::MemoryStore.new(
-      namespace: 'upvs-token-assertions',
-      size: 128.megabytes,
-      compress: true,
-    )
-  end
-
-  # TODO move to api_environment as obo_token_authenticator
-  def token_authenticator
-    @token_authenticator ||= TokenAuthenticator.new(
-      assertion_store: assertion_store,
-      key_pair: OpenSSL::PKey::RSA.new(File.read(ENV.fetch('UPVS_TOKEN_PRIVATE_KEY_FILE')))
-    )
-  end
-
   def sktalk_receiver(assertion)
     SktalkReceiver.new(upvs_proxy(assertion))
   end

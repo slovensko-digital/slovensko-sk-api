@@ -8,6 +8,8 @@ RSpec.describe EformService, :upvs do
 
   subject { described_class.new(upvs) }
 
+  before(:example) { cache_java_object_proxy!(ez) }
+
   describe '#fetch_all_form_template_ids' do
     it 'calls ez with right arguments' do
       response = double

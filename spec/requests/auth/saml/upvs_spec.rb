@@ -47,7 +47,7 @@ RSpec.describe 'UPVS SAML Authentication' do
         post '/auth/saml/callback', params: { SAMLResponse: idp_response }
 
         expect(response.status).to eq(302)
-        expect(response.location).to start_with(ApiEnvironment.login_callback_url + '?token=')
+        expect(response.location).to start_with(Environment.login_callback_url + '?token=')
       end
     end
 
