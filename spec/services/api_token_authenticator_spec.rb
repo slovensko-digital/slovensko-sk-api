@@ -158,7 +158,8 @@ RSpec.describe ApiTokenAuthenticator do
       end
 
       it 'can not verify the same token twice in the first 20 minutes' do
-        t1 = generate_token(obo: generate_obo_token)
+        o1 = generate_obo_token
+        t1 = generate_token(obo: o1)
 
         subject.verify_token(t1)
 
@@ -168,7 +169,8 @@ RSpec.describe ApiTokenAuthenticator do
       end
 
       it 'can not verify the same token again on or after 20 minutes' do
-        t1 = generate_token(obo: generate_obo_token)
+        o1 = generate_obo_token
+        t1 = generate_token(obo: o1)
 
         subject.verify_token(t1)
 
