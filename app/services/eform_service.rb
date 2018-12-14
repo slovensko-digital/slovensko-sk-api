@@ -1,4 +1,4 @@
-class EformProxy
+class EformService
   SERVICES = sk.gov.schemas.servicebus.service._1.ServiceClassEnum
   attr_reader :object_factory
 

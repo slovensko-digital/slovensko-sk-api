@@ -1,15 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe DownloadAllFormTemplatesJob, :upvs, type: :job do
-  let(:eform_proxy) { UpvsEnvironment.eform_proxy }
+  let(:eform_service) { UpvsEnvironment.eform_service }
 
   describe '#perform' do
     before(:all) do
-      @limited_response = UpvsEnvironment.eform_proxy.fetch_all_form_template_ids.first(3)
+      @limited_response = UpvsEnvironment.eform_service.fetch_all_form_template_ids.first(3)
     end
 
     before(:each) do
-      expect(eform_proxy).to receive(:fetch_all_form_template_ids).and_return(@limited_response)
+      expect(eform_service).to receive(:fetch_all_form_template_ids).and_return(@limited_response)
     end
 
     it 'enqueues DownloadFormTemplateJobs' do
