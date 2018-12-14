@@ -23,7 +23,7 @@ class ApiController < ActionController::API
   private
 
   def authenticator
-    ApiEnvironment.token_authenticator
+    raise NotImplementedError
   end
 
   def render_bad_request(message)

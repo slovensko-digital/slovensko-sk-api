@@ -1,30 +1,30 @@
 require 'rails_helper'
 
-RSpec.describe TokenWrapper do
+RSpec.describe ApiTokenAuthenticator do
   let(:key_pair) { OpenSSL::PKey::RSA.new(2048) }
-  let(:jti_cache) { ActiveSupport::Cache::MemoryStore.new }
 
-  let(:upvs_token_authenticator) { UpvsEnvironment.token_authenticator }
+  let(:jti_cache) { ActiveSupport::Cache::MemoryStore.new }
+  let(:public_key) { key_pair.public_key }
+  let(:obo_token_authenticator) { Environment.obo_token_authenticator }
 
   let(:response) { OneLogin::RubySaml::Response.new(file_fixture('oam/response_success.xml').read) }
   let(:assertion) { file_fixture('oam/response_success_assertion.xml').read.strip }
 
-  subject { described_class.new(token_authenticator: upvs_token_authenticator, public_key: key_pair.public_key, jti_cache: jti_cache) }
+  subject { described_class.new(jti_cache: jti_cache, public_key: public_key, obo_token_authenticator: obo_token_authenticator) }
 
   before(:example) { travel_to '2018-11-28T20:26:16Z' }
 
   after(:example) { travel_back }
 
   describe '#verify_token' do
-    let(:upvs_token) { upvs_token_authenticator.generate_token(response) }
-
-    def generate_token(exp: 1543437976, jti: SecureRandom.uuid, obo: upvs_token, header: { cty: 'JWT' }, **payload)
+    def generate_token(exp: 1543437976, jti: SecureRandom.uuid, obo: nil, header: { cty: 'JWT' }, **payload)
       payload.merge!(exp: exp, jti: jti, obo: obo)
       JWT.encode(payload.compact, key_pair, 'RS256', header)
     end
 
-    it 'returns assertion' do
-      expect(subject.verify_token(generate_token)).to eq(assertion)
+    it 'returns true' do
+      expect(obo_token_authenticator).not_to receive(:verify_token)
+      expect(subject.verify_token(generate_token)).to eq(true)
     end
 
     it 'verifies format' do
@@ -102,76 +102,92 @@ RSpec.describe TokenWrapper do
       expect { subject.verify_token(token) }.to raise_error(JWT::InvalidJtiError)
     end
 
-    it 'verifies OBO token presence' do
-      obo = nil
-
-      expect(upvs_token_authenticator).to receive(:verify_token).with(obo, scope: nil).and_call_original
-
-      token = generate_token(obo: obo)
-
-      expect { subject.verify_token(token) }.to raise_error(JWT::DecodeError)
+    context 'with scopes' do
+      pending
     end
 
-    it 'verifies OBO token format' do
-      obo = 'NON-JWT'
+    context 'with OBO token' do
+      it 'returns assertion' do
+        obo_token = obo_token_authenticator.generate_token(response)
 
-      expect(upvs_token_authenticator).to receive(:verify_token).with(obo, scope: nil).and_call_original
+        expect(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: nil).and_call_original
 
-      token = generate_token(obo: obo)
+        token = generate_token(obo: obo_token)
 
-      expect { subject.verify_token(token) }.to raise_error(JWT::DecodeError)
-    end
+        expect(subject.verify_token(token, obo: true)).to eq(assertion)
+      end
 
-    it 'verifies OBO token value' do
-      obo = generate_token
+      it 'verifies OBO token presence' do
+        obo_token = nil
 
-      expect(upvs_token_authenticator).to receive(:verify_token).with(obo, scope: nil).and_call_original
+        expect(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: nil).and_call_original
 
-      token = generate_token(obo: obo)
+        token = generate_token(obo: obo_token)
 
-      expect { subject.verify_token(token) }.to raise_error(JWT::VerificationError)
+        expect { subject.verify_token(token, obo: true) }.to raise_error(JWT::DecodeError)
+      end
+
+      it 'verifies OBO token format' do
+        obo_token = 'NON-JWT'
+
+        expect(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: nil).and_call_original
+
+        token = generate_token(obo: obo_token)
+
+        expect { subject.verify_token(token, obo: true) }.to raise_error(JWT::DecodeError)
+      end
+
+      it 'verifies OBO token value' do
+        obo_token = generate_token
+
+        expect(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: nil).and_call_original
+
+        token = generate_token(obo: obo_token)
+
+        expect { subject.verify_token(token, obo: true) }.to raise_error(JWT::VerificationError)
+      end
     end
 
     context 'token replay attacks' do
-      let(:assertion_store) { UpvsEnvironment.assertion_store }
+      let(:obo_token_assertion_store) { Environment.obo_token_assertion_store }
 
-      def generate_obo(exp: 1543437976, nbf: 1543436776)
+      def generate_obo_token(exp: 1543437976, nbf: 1543436776)
         payload = { exp: exp, nbf: nbf, iat: nbf.to_f, jti: SecureRandom.uuid }
-        assertion_store.write(payload[:jti], assertion)
-        JWT.encode(payload.compact, upvs_token_key_pair, 'RS256')
+        obo_token_assertion_store.write(payload[:jti], assertion)
+        JWT.encode(payload.compact, obo_token_key_pair, 'RS256')
       end
 
       it 'can not verify the same token twice in the first 20 minutes' do
-        token = generate_token(obo: generate_obo)
+        t1 = generate_token(obo: generate_obo_token)
 
-        subject.verify_token(token)
+        subject.verify_token(t1)
 
         travel_to Time.now + 20.minutes - 0.1.seconds
 
-        expect { subject.verify_token(token) }.to raise_error(JWT::InvalidJtiError)
+        expect { subject.verify_token(t1) }.to raise_error(JWT::InvalidJtiError)
       end
 
       it 'can not verify the same token again on or after 20 minutes' do
-        token = generate_token(obo: generate_obo)
+        t1 = generate_token(obo: generate_obo_token)
 
-        subject.verify_token(token)
+        subject.verify_token(t1)
 
         travel_to Time.now + 20.minutes
 
-        expect { subject.verify_token(token) }.to raise_error(JWT::ExpiredSignature)
+        expect { subject.verify_token(t1) }.to raise_error(JWT::ExpiredSignature)
       end
 
       it 'can not verify another token with the same JTI in the first 60 minutes' do
         jti = SecureRandom.uuid
 
-        o1 = generate_obo(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
+        o1 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
         t1 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o1)
 
         subject.verify_token(t1)
 
         travel_to Time.now + 45.minutes
 
-        o2 = generate_obo(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
+        o2 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
         t2 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o2)
 
         travel_to Time.now + 15.minutes - 0.1.seconds
@@ -182,14 +198,14 @@ RSpec.describe TokenWrapper do
       it 'can verify another token with the same JTI again on or after 60 minutes' do
         jti = SecureRandom.uuid
 
-        o1 = generate_obo(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
+        o1 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
         t1 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o1)
 
         subject.verify_token(t1)
 
         travel_to Time.now + 45.minutes
 
-        o2 = generate_obo(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
+        o2 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
         t2 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o2)
 
         travel_to Time.now + 15.minutes
