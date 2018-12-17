@@ -9,7 +9,7 @@ class UpvsController < ApplicationController
 
   def callback
     response = request.env['omniauth.auth']['extra']['response_object']
-    token = authenticator.generate_token(response)
+    token = authenticator.generate_token(response, scopes: ['sktalk/receive', 'sktalk/receive_and_save_to_outbox'])
 
     redirect_to login_callback_url(token)
   end
@@ -34,14 +34,14 @@ class UpvsController < ApplicationController
   private
 
   def authenticator
-    UpvsEnvironment.token_authenticator
+    Environment.obo_token_authenticator
   end
 
   def login_callback_url(token)
-    "#{ApiEnvironment.login_callback_url}?token=#{token}"
+    "#{Environment.login_callback_url}?token=#{token}"
   end
 
   def logout_callback_url
-    ApiEnvironment.logout_callback_url
+    Environment.logout_callback_url
   end
 end

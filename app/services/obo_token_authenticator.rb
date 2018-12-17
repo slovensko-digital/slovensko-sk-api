@@ -1,31 +1,36 @@
-# See https://tools.ietf.org/html/rfc7519#section-4
+# See https://tools.ietf.org/html/rfc7519
 
-class TokenAuthenticator
+class OboTokenAuthenticator
+  MAX_EXP_IN = 60.minutes
+
   def initialize(assertion_store:, key_pair:)
     @assertion_store = assertion_store
     @key_pair = key_pair
   end
 
-  def generate_token(response)
+  def generate_token(response, scopes: [])
     assertion = parse_assertion(response)
 
-    # TODO maybe return some user specific data in payload here
-
     @assertion_store.synchronize do
-      payload = {
-        exp: response.not_on_or_after.to_i,
-        nbf: response.not_before.to_i,
-        iat: Time.parse(assertion.attributes['IssueInstant']).to_f,
-        jti: generate_jti,
-      }
+      sub = response.attributes['SubjectID'].to_s
+      exp = response.not_on_or_after.to_i
+      nbf = response.not_before.to_i
+      iat = Time.parse(assertion.attributes['IssueInstant']).to_f
 
-      jti = payload[:jti]
+      name = response.attributes['Subject.FormattedName'].to_s
+      scopes = scopes.to_a
+
+      raise ArgumentError if exp > iat + MAX_EXP_IN || exp <= iat || nbf != iat
+
+      jti = generate_jti
       ass = assertion_to_s(assertion)
-      exp = payload[:exp] - Time.now.to_f
 
-      raise ArgumentError if exp <= 0
+      payload = { sub: sub, exp: exp, nbf: nbf, iat: iat, jti: jti, name: name, scopes: scopes }
+      exp_in = exp - Time.now.to_f
 
-      JWT.encode(payload, @key_pair, 'RS256').tap { @assertion_store.write(jti, ass, expires_in: exp) }
+      raise ArgumentError if exp_in <= 0
+
+      JWT.encode(payload, @key_pair, 'RS256').tap { @assertion_store.write(jti, ass, expires_in: exp_in) }
     end
   end
 
@@ -37,7 +42,7 @@ class TokenAuthenticator
     end
   end
 
-  def verify_token(token)
+  def verify_token(token, scope: nil)
     options = {
       algorithm: 'RS256',
       verify_iat: true,
@@ -45,8 +50,19 @@ class TokenAuthenticator
     }
 
     payload, header = JWT.decode(token, @key_pair.public_key, true, options)
+    exp, nbf, iat, jti = payload['exp'], payload['nbf'], payload['iat'], payload['jti']
 
-    jti = payload['jti']
+    raise JWT::ExpiredSignature unless exp.is_a?(Integer)
+    raise JWT::ImmatureSignature unless nbf.is_a?(Integer)
+    raise JWT::InvalidIatError unless iat.is_a?(Numeric)
+
+    raise JWT::InvalidPayload if exp > iat + MAX_EXP_IN || exp <= iat
+    raise JWT::InvalidPayload if nbf != iat
+
+    scopes = payload['scopes'].to_a
+
+    raise JWT::VerificationError if scope && scopes.exclude?(scope)
+
     ass = @assertion_store.read(jti)
 
     raise JWT::InvalidJtiError unless ass

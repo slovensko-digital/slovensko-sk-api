@@ -1,22 +1,6 @@
 module UpvsEnvironment
   extend self
 
-  def assertion_store
-    # TODO there is also a ActiveSupport::Cache::Store::RedisStore
-    @assertion_store ||= ActiveSupport::Cache::MemoryStore.new(
-      namespace: 'upvs-assertions',
-      size: 128.megabytes,
-      compress: true,
-    )
-  end
-
-  def token_authenticator
-    @token_authenticator ||= TokenAuthenticator.new(
-      assertion_store: assertion_store,
-      key_pair: OpenSSL::PKey::RSA.new(File.read(ENV.fetch('UPVS_TOKEN_PRIVATE_KEY_FILE')))
-    )
-  end
-
   def sktalk_receiver(assertion)
     SktalkReceiver.new(upvs_proxy(assertion))
   end
@@ -136,5 +120,9 @@ module UpvsEnvironment
       force_authn: false,
       passive: false,
     )
+  end
+
+  def eform_service
+    @eform_service ||= EformService.new(upvs_proxy(assertion: nil))
   end
 end

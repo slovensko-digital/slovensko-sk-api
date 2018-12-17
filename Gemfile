@@ -7,6 +7,8 @@ gem 'activerecord-jdbcpostgresql-adapter'
 gem 'puma', '~> 3.11'
 gem 'omniauth-saml'
 gem 'jwt'
+gem 'delayed_job_active_record'
+gem 'clockwork'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'

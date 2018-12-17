@@ -10,7 +10,32 @@ Máme dobrú a zlú správu. Tá zlá správa je, že na zfunkčnenie tohto komp
 
 ### 2. Zaslanie Dohody o integračnom zámere DIZ 
 
+Je potrebné si zvoliť skratku projektu, ktorá sa bude používať pre účely komunikácie s NASES. Názov môže obsahovať len veľké písmená, bez diakritiky a medzier, a musí byť unikátny. *My sme napríklad použili názov PODAAS, ten je už obsadený.*
+
+Stiahnite si [šablónu dohody o integračnom zámere](install/DIZ_PO_TEMPLATE__UPVS_v1.docx) a upravte podľa pokynov v komentároch. 
+
+Tento dokument následne premenujte na `DIZ_PO_<skratka projektu>__UPVS_v1.docx`, kde `<skratka projektu>` nahraďte skratkou Vášho projektu a priložte ako prílohu k emailu:
+
+> Adresát: integracie@globaltel.sk, integracie@nases.gov.sk
+>
+> Predmet: <skratka projektu> – DEV – DIZ – Požiadavka – Revízia dohody o integračnom zámere – TYP PO – v1.0
+>
+> Dobrý deň,
+>
+> týmto zasielam na revíziu DIZ nového projektu. Ide o identický DIZ ako v projekte PODAAS, ktorý uz bol schválený, zmenené boli len integrujúce sa strany a harmonogram.
+> 
+> Prosím o potvrdenie, že žiadosť ste zaevidovali.
+> 
+> Ďakujem.
+
+
 ### 3. Podpis DIZ
+
+Po schválení DIZ je potrebné DIZ vytlačiť 4x, podpísať a zaslať poštou (alebo osobne doručiť) do NASES na adresu:
+
+BC Omnipolis  
+Trnavská cesta 100/II  
+821 01 BRATISLAVA
 
 ### 4. Žiadosť o vytvorenie infraštruktúrneho prepojenia
 
