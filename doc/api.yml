@@ -59,7 +59,7 @@ paths:
       - name: Authorization
         in: header
         required: true
-        description: 'OBO token vo formáte JWT, príklad parametra `Authorization: Bearer <obo-token>`'
+        description: 'API token vo formáte JWT, príklad parametra `Authorization: Bearer <api-token>`'
         schema:
           type: string
           format: JWT
@@ -67,7 +67,7 @@ paths:
         in: query
         required: false
         deprecated: true
-        description: 'OBO token vo formáte JWT, príklad parametra `?token=<obo-token>`'
+        description: 'API token vo formáte JWT, príklad parametra `?token=<api-token>`'
         schema:
           type: string
           format: JWT
@@ -95,7 +95,7 @@ paths:
                 200:
                   description: Server tretej strany vráti tento HTTP kód ak akceptuje callback.
       security:
-      - 'OBO token': []
+      - 'API + OBO token': []
 
   /api/eform/validate:
     post:
@@ -378,19 +378,59 @@ components:
 
   securitySchemes:
     'API token':
-      description: Požaduje API token vytvorený treťou stranou. API token je zakodovaný algoritmom RS256. API token musí mať správne nastavené `exp` a `jti` claims. API token musí byť prítomný buď v `Authorization` hlavičke alebo v `token` parametri požiadavky.
+      description: |
+        Požaduje API token vytvorený treťou stranou, ktorý:
+
+        - je zakodovaný algoritmom RS256,
+        - je podpísaný privátnym kľúčom tretej strany,
+        - má nastavený `exp` atribút na max. 60 minút,
+        - má nastavený `jti` atribút na identifikátor, ktorý je unikátny počas 60 minút.
+
+        Príklad hlavičky:
+
+              {
+                "alg": "HS256",
+              }
+
+        Príklad atribútov:
+
+              {
+                "exp": 1543437976,
+                "jti": "4dee8618-abbe-4dc3-83ba-e984d1396f9f",
+              }
+
+        API token musí byť prítomný buď v `Authorization` hlavičke alebo v `token` parametri požiadavky.
       type: http
       scheme: bearer
       bearerFormat: JWT
 
     'API + OBO token':
-      description: Požaduje API token vytvorený treťou stranou, ktorý obsahuje OBO token. API token je zakodovaný algoritmom RS256. OBO token je získaný po úspešnom prihlásení. API token musí mať `cty` header s hodnotou `JWT`, musí mať správne nastavené `exp` a `jti` claims, a musí mať OBO token v `obo` claim. API token musí byť prítomný buď v `Authorization` hlavičke alebo v `token` parametri požiadavky.
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
+      description: |
+        Požaduje API token vytvorený treťou stranou, ktorý:
 
-    'OBO token':
-      description: Požaduje OBO token získaný po úspešnom prihlásení. OBO token je zakodovaný algoritmom RS256. OBO token musí byť prítomný buď v `Authorization` hlavičke alebo v `token` parametri požiadavky.
+        - je zakodovaný algoritmom RS256,
+        - je podpísaný privátnym kľúčom tretej strany,
+        - má nastavenú `cty` hlavičku na hodnotu `JWT`,
+        - má nastavený `exp` atribút na `exp` atribút OBO tokenu,
+        - má nastavený `jti` atribút na identifikátor, ktorý je unikátny počas 60 minút,
+        - má nastavený `obo` atribút na hodnotu OBO tokenu, ktorý je získaný po úspešnom prihlásení.
+
+        Príklad hlavičky:
+
+              {
+                "alg": "HS256",
+                "cty": "JWT"
+              }
+
+        Príklad atribútov:
+
+              {
+                "exp": 1543437976,
+                "jti": "4dee8618-abbe-4dc3-83ba-e984d1396f9f",
+                "obo": "eyJhbGciOiJIUzI1NiJ9..."
+              }
+
+        API token musí byť prítomný buď v `Authorization` hlavičke alebo v `token` parametri požiadavky.
       type: http
       scheme: bearer
       bearerFormat: JWT
