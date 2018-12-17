@@ -59,7 +59,7 @@ paths:
       - name: Authorization
         in: header
         required: true
-        description: 'OBO token vo formáte JWT, príklad parametra `Authorization: Bearer <obo-token>`.'
+        description: 'OBO token vo formáte JWT, príklad parametra `Authorization: Bearer <obo-token>`'
         schema:
           type: string
           format: JWT
@@ -67,7 +67,7 @@ paths:
         in: query
         required: false
         deprecated: true
-        description: 'OBO token vo formáte JWT, príklad parametra `?token=<obo-token>`.'
+        description: 'OBO token vo formáte JWT, príklad parametra `?token=<obo-token>`'
         schema:
           type: string
           format: JWT
@@ -95,7 +95,79 @@ paths:
                 200:
                   description: Server tretej strany vráti tento HTTP kód ak akceptuje callback.
       security:
-      - oboTokenAuthentication: []
+      - 'OBO token': []
+
+  /api/eform/validate:
+    post:
+      tags: [Operations]
+      description: Validuje eForm dáta.
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        description: 'API token vo formáte JWT, príklad parametra `Authorization: Bearer <api-token>`'
+        schema:
+          type: string
+          format: JWT
+      - name: token
+        in: query
+        required: false
+        deprecated: true
+        description: 'API token vo formáte JWT, príklad parametra `?token=<api-token>`'
+        schema:
+          type: string
+          format: JWT
+      - name: identifier
+        in: query
+        required: true
+        description: 'Identifikátor formuláru, napríklad `App.GeneralAgenda`'
+        schema:
+          type: string
+      - name: version
+        in: query
+        required: true
+        description: 'Verzia formuláru, napríklad `1.9`'
+        schema:
+          type: string
+      - name: data
+        in: query
+        required: true
+        description: 'Dáta formuláru, napríklad `<GeneralAgenda>...</GeneralAgenda>`'
+        schema:
+          type: string
+          format: XML
+      responses:
+        200:
+          description: eForm dáta validované.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valid:
+                    type: boolean
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                required:
+                - valid
+                example:
+                  valid: true
+        400:
+          $ref: '#/components/responses/badRequest'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        408:
+          $ref: '#/components/responses/requestTimeout'
+        413:
+          $ref: '#/components/responses/payloadTooLarge'
+        429:
+          $ref: '#/components/responses/tooManyRequests'
+        500:
+          $ref: '#/components/responses/internalServerError'
+      security:
+      - 'API token': []
 
   /api/sktalk/receive:
     post:
@@ -105,7 +177,7 @@ paths:
       - name: Authorization
         in: header
         required: true
-        description: 'API token vo formáte JWT, príklad parametra `Authorization: Bearer <api-token>`.'
+        description: 'API token vo formáte JWT, príklad parametra `Authorization: Bearer <api-token>`'
         schema:
           type: string
           format: JWT
@@ -113,14 +185,14 @@ paths:
         in: query
         required: false
         deprecated: true
-        description: 'API token vo formáte JWT, príklad parametra `?token=<api-token>`.'
+        description: 'API token vo formáte JWT, príklad parametra `?token=<api-token>`'
         schema:
           type: string
           format: JWT
       - name: sktalk_message
         in: query
         required: true
-        description: SKTalk správa v XML formáte.
+        description: 'SKTalk správa vo formáte XML, napríklad `<SKTalkMessage>...</SKTalkMessage>`'
         schema:
           type: string
           format: XML
@@ -151,7 +223,7 @@ paths:
         500:
           $ref: '#/components/responses/internalServerError'
       security:
-      - apiTokenAuthentication: []
+      - 'API + OBO token': []
 
   /api/sktalk/receive_and_save_to_outbox:
     post:
@@ -161,7 +233,7 @@ paths:
       - name: Authorization
         in: header
         required: true
-        description: 'API token vo formáte JWT, príklad parametra `Authorization: Bearer <api-token>`.'
+        description: 'API token vo formáte JWT, príklad parametra `Authorization: Bearer <api-token>`'
         schema:
           type: string
           format: JWT
@@ -169,14 +241,14 @@ paths:
         in: query
         required: false
         deprecated: true
-        description: 'API token vo formáte JWT, príklad parametra `?token=<api-token>`.'
+        description: 'API token vo formáte JWT, príklad parametra `?token=<api-token>`'
         schema:
           type: string
           format: JWT
       - name: sktalk_message
         in: query
         required: true
-        description: SKTalk správa v XML formáte.
+        description: 'SKTalk správa vo formáte XML, napríklad `<SKTalkMessage>...</SKTalkMessage>`'
         schema:
           type: string
           format: XML
@@ -211,7 +283,7 @@ paths:
         500:
           $ref: '#/components/responses/internalServerError'
       security:
-      - apiTokenAuthentication: []
+      - 'API + OBO token': []
 
 components:
   responses:
@@ -263,7 +335,7 @@ components:
               message: Operation timeout exceeded
 
     payloadTooLarge:
-      description: Príliš veľký objem dát v požiadavke.
+      description: Príliš veľký objem dát v požiadavke na server.
       content:
         application/json:
           schema:
@@ -277,7 +349,7 @@ components:
               message: Payload size limit exceeded
 
     tooManyRequests:
-      description: Príliš veľa požiadaviek v danom čase.
+      description: Príliš veľa požiadaviek na server v danom čase.
       content:
         application/json:
           schema:
@@ -291,7 +363,7 @@ components:
               message: Request rate limit exceeded
 
     internalServerError:
-      description: Neznáma chyba nastala.
+      description: Neznáma chyba.
       content:
         application/json:
           schema:
@@ -305,13 +377,19 @@ components:
               message: Unknown error
 
   securitySchemes:
-    apiTokenAuthentication:
-      description: Požaduje API token vytvorený treťou stranou, ktorý obsahuje OBO token. API token je zakodovaný algoritmom RS256. OBO token je získaný po úspešnom prihlásení. API token musí mať `cty` header s hodnotou `JWT`, musí mať správne nastavené `exp` a `jti` claims, a musí mať OBO token v `obo` claim. API token musí byť prítomný buď v `Authorization` hlavičke alebo v `token` parametri požiadavky. see example.com
+    'API token':
+      description: Požaduje API token vytvorený treťou stranou. API token je zakodovaný algoritmom RS256. API token musí mať správne nastavené `exp` a `jti` claims. API token musí byť prítomný buď v `Authorization` hlavičke alebo v `token` parametri požiadavky.
       type: http
       scheme: bearer
       bearerFormat: JWT
 
-    oboTokenAuthentication:
+    'API + OBO token':
+      description: Požaduje API token vytvorený treťou stranou, ktorý obsahuje OBO token. API token je zakodovaný algoritmom RS256. OBO token je získaný po úspešnom prihlásení. API token musí mať `cty` header s hodnotou `JWT`, musí mať správne nastavené `exp` a `jti` claims, a musí mať OBO token v `obo` claim. API token musí byť prítomný buď v `Authorization` hlavičke alebo v `token` parametri požiadavky.
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+    'OBO token':
       description: Požaduje OBO token získaný po úspešnom prihlásení. OBO token je zakodovaný algoritmom RS256. OBO token musí byť prítomný buď v `Authorization` hlavičke alebo v `token` parametri požiadavky.
       type: http
       scheme: bearer
