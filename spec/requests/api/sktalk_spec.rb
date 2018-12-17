@@ -48,12 +48,16 @@ RSpec.describe 'SKTalk API' do
       expect(response.body).to eq({ message: 'No credentials' }.to_json)
     end
 
+    pending 'responds with 400 if request contains duplicate authentication' # message: 'Duplicate authentication'
+
     it 'responds with 400 if request does not contain message to receive' do
       post '/api/sktalk/receive', params: { token: token }
 
       expect(response.status).to eq(400)
       expect(response.body).to eq({ message: 'No message' }.to_json)
     end
+
+    pending 'responds with 400 if request contains malformed message' # message: 'Malformed message'
 
     it 'responds with 401 if authentication does not pass' do
       travel_to Time.now + 20.minutes
@@ -95,12 +99,16 @@ RSpec.describe 'SKTalk API' do
       expect(response.body).to eq({ message: 'No credentials' }.to_json)
     end
 
+    pending 'responds with 400 if request contains duplicate authentication' # message: 'Duplicate authentication'
+
     it 'responds with 400 if request does not contain message to receive' do
       post '/api/sktalk/receive_and_save_to_outbox', params: { token: token }
 
       expect(response.status).to eq(400)
       expect(response.body).to eq({ message: 'No message' }.to_json)
     end
+
+    pending 'responds with 400 if request contains malformed message' # message: 'Malformed message'
 
     it 'responds with 401 if authentication does not pass' do
       travel_to Time.now + 20.minutes
