@@ -9,70 +9,80 @@ info:
     email: kontakt@slovensko.digital
 
 servers:
-- description: Production server with ÚPVS prod environment.
+- description: Produkčný server s ÚPVS PROD prostredím.
   url: https://podaas.ekosystem.slovensko.digital
 
-- description: Production server with ÚPVS fix environment.
+- description: Produkčný server s ÚPVS FIX prostredím.
   url: https://podaas.ekosystem.staging.slovensko.digital
 
 paths:
   /login:
     get:
       tags: [Authentication]
-      description: Logins to ÚPVS. After a successful login it redirects back to a 3rd party callback URL with an ÚPVS token.
+      description: Prihlásenie do ÚPVS portálu. Po úspešnom prihlásení nasleduje presmerovanie späť na callback URL tretej strany. Potrebný OBO token sa nachádza v `token` parametri tejto callback URL.
       parameters:
       - name: callback
         in: query
         required: true
-        description: Login callback URL.
+        description: Prihlasovacia callback URL.
         schema:
           type: string
           format: URL
       responses:
         302:
-          description: Redirect to ÚPVS login.
+          description: Presmerovanie na prihlásenie do ÚPVS portálu.
         401:
           $ref: '#/components/responses/unauthorized'
         500:
           $ref: '#/components/responses/internalServerError'
       callbacks:
         login:
-          '{$request.query.callback}?token=JWT':
+          '{$request.query.callback}?token=<obo-token>':
             get:
               parameters:
               - name: token
                 in: query
                 required: true
-                description: ÚPVS token in JWT format.
+                description: OBO token v JWT formáte.
                 schema:
                   type: string
                   format: JWT
               responses:
                 200:
-                  description: 3rd party server returns this code if it accepts the callback.
+                  description: Server tretej strany vráti tento HTTP kód ak akceptuje callback.
 
   /logout:
     get:
       tags: [Authentication]
-      description: Logouts from ÚPVS.
+      description: Odhlásenie z ÚPVS portálu. Po úspešnom odhlásení nasleduje presmerovanie späť na callback URL tretej strany.
       parameters:
-      - name: callback
-        in: query
+      - name: Authorization
+        in: header
         required: true
-        description: Logout callback URL.
-        schema:
-          type: string
-          format: URL
-      - name: token
-        in: query
-        required: true
-        description: ÚPVS token in JWT format.
+        description: 'OBO token vo formáte JWT, príklad parametra `Authorization: Bearer <obo-token>`.'
         schema:
           type: string
           format: JWT
+      - name: token
+        in: query
+        required: false
+        deprecated: true
+        description: 'OBO token vo formáte JWT, príklad parametra `?token=<obo-token>`.'
+        schema:
+          type: string
+          format: JWT
+      - name: callback
+        in: query
+        required: true
+        description: Odhlasovacia callback URL.
+        schema:
+          type: string
+          format: URL
       responses:
         302:
-          description: Redirect to 3rd party callback.
+          description: Presmerovanie na callback URL tretej strany.
+        400:
+          $ref: '#/components/responses/badRequest'
         401:
           $ref: '#/components/responses/unauthorized'
         500:
@@ -83,32 +93,40 @@ paths:
             get:
               responses:
                 200:
-                  description: 3rd party server returns this code if it accepts the callback.
+                  description: Server tretej strany vráti tento HTTP kód ak akceptuje callback.
       security:
-      - upvsTokenAuthentication: []
+      - oboTokenAuthentication: []
 
   /api/sktalk/receive:
     post:
       tags: [Operations]
-      description: Receives SKTalk message.
+      description: Prijíme SKTalk správu.
       parameters:
+      - name: Authorization
+        in: header
+        required: true
+        description: 'API token vo formáte JWT, príklad parametra `Authorization: Bearer <api-token>`.'
+        schema:
+          type: string
+          format: JWT
       - name: token
         in: query
-        required: true
-        description: API token in JWT format.
+        required: false
+        deprecated: true
+        description: 'API token vo formáte JWT, príklad parametra `?token=<api-token>`.'
         schema:
           type: string
           format: JWT
       - name: sktalk_message
         in: query
         required: true
-        description: SKTalk message in XML format.
+        description: SKTalk správa v XML formáte.
         schema:
           type: string
           format: XML
       responses:
         200:
-          description: SKTalk message received.
+          description: SKTalk správa prijatá.
           content:
             application/json:
               schema:
@@ -138,25 +156,33 @@ paths:
   /api/sktalk/receive_and_save_to_outbox:
     post:
       tags: [Operations]
-      description: Receives SKTalk message and saves it to outbox.
+      description: Prijíme SKTalk správu a uloží ju medzi odoslané.
       parameters:
+      - name: Authorization
+        in: header
+        required: true
+        description: 'API token vo formáte JWT, príklad parametra `Authorization: Bearer <api-token>`.'
+        schema:
+          type: string
+          format: JWT
       - name: token
         in: query
-        required: true
-        description: API token in JWT format.
+        required: false
+        deprecated: true
+        description: 'API token vo formáte JWT, príklad parametra `?token=<api-token>`.'
         schema:
           type: string
           format: JWT
       - name: sktalk_message
         in: query
         required: true
-        description: SKTalk message in XML format.
+        description: SKTalk správa v XML formáte.
         schema:
           type: string
           format: XML
       responses:
         200:
-          description: SKTalk message received and saved to outbox.
+          description: SKTalk správa prijatá a uložen á medzi odoslané.
           content:
             application/json:
               schema:
@@ -190,7 +216,7 @@ paths:
 components:
   responses:
     badRequest:
-      description: Parameters missing or mismatched.
+      description: Parametre chýbajú alebo sú nesprávne.
       content:
         application/json:
           schema:
@@ -204,7 +230,7 @@ components:
               message: No credentials
 
     unauthorized:
-      description: Authentication failed.
+      description: Autentifikácia zlyhala.
       content:
         application/json:
           schema:
@@ -218,13 +244,12 @@ components:
               message: Bad credentials
       headers:
         WWW-Authenticate:
-          description: Applicable challenge
           schema:
             type: string
             example: Token realm="PODAAS"
 
     requestTimeout:
-      description: Operation timed out.
+      description: Operácia vypršala.
       content:
         application/json:
           schema:
@@ -238,7 +263,7 @@ components:
               message: Operation timeout exceeded
 
     payloadTooLarge:
-      description: Too large payload received.
+      description: Príliš veľký objem dát v požiadavke.
       content:
         application/json:
           schema:
@@ -252,7 +277,7 @@ components:
               message: Payload size limit exceeded
 
     tooManyRequests:
-      description: Too many requests received in a given amount of time.
+      description: Príliš veľa požiadaviek v danom čase.
       content:
         application/json:
           schema:
@@ -266,7 +291,7 @@ components:
               message: Request rate limit exceeded
 
     internalServerError:
-      description: Unknown error occured.
+      description: Neznáma chyba nastala.
       content:
         application/json:
           schema:
@@ -281,13 +306,13 @@ components:
 
   securitySchemes:
     apiTokenAuthentication:
-      description: Requires JWT created by a 3rd party containing ÚPVS token. JWT is encoded with RS256 and verified against EXP and JTI claims.
-      type: apiKey
-      name: token
-      in: query
+      description: Požaduje API token vytvorený treťou stranou, ktorý obsahuje OBO token. API token je zakodovaný algoritmom RS256. OBO token je získaný po úspešnom prihlásení. API token musí mať `cty` header s hodnotou `JWT`, musí mať správne nastavené `exp` a `jti` claims, a musí mať OBO token v `obo` claim. API token musí byť prítomný buď v `Authorization` hlavičke alebo v `token` parametri požiadavky. see example.com
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
 
-    upvsTokenAuthentication:
-      description: Requires JWT received after a successful login. JWT is encoded with RS256 and verified against EXP, NBF, IAT and JTI claims.
-      type: apiKey
-      name: token
-      in: query
+    oboTokenAuthentication:
+      description: Požaduje OBO token získaný po úspešnom prihlásení. OBO token je zakodovaný algoritmom RS256. OBO token musí byť prítomný buď v `Authorization` hlavičke alebo v `token` parametri požiadavky.
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
