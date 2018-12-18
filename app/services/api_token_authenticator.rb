@@ -10,7 +10,7 @@ class ApiTokenAuthenticator
     @obo_token_authenticator = obo_token_authenticator
   end
 
-  def verify_token(token, scope: nil, obo: false)
+  def verify_token(token, obo: false, scope: nil)
     options = {
       algorithm: 'RS256',
       verify_jti: -> (jti) { jti =~ JTI_PATTERN },
@@ -20,7 +20,7 @@ class ApiTokenAuthenticator
 
     cty = header['cty']
 
-    raise JWT::DecodeError unless cty == 'JWT'
+    raise JWT::DecodeError if payload['obo'] ? cty != 'JWT' : cty != nil
 
     exp, jti = payload['exp'], payload['jti']
 
