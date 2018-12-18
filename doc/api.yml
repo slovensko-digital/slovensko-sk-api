@@ -189,7 +189,7 @@ paths:
         schema:
           type: string
           format: JWT
-      - name: sktalk_message
+      - name: message
         in: query
         required: true
         description: 'SKTalk správa vo formáte XML, napríklad `<SKTalkMessage>...</SKTalkMessage>`'
@@ -245,7 +245,7 @@ paths:
         schema:
           type: string
           format: JWT
-      - name: sktalk_message
+      - name: message
         in: query
         required: true
         description: 'SKTalk správa vo formáte XML, napríklad `<SKTalkMessage>...</SKTalkMessage>`'
