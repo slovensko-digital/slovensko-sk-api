@@ -85,12 +85,6 @@ end
 run 'TC_EFORM_01' do
   proxy = UpvsProxy.new(properties(assertion: nil))
   service = EformService.new(proxy)
-  service.fetch_all_form_template_ids
-end
-
-run 'TC_EFORM_02' do
-  proxy = UpvsProxy.new(properties(assertion: nil))
-  service = EformService.new(proxy)
   template = FormTemplate.find_or_initialize_by(identifier: 'App.GeneralAgenda', version_major: 1, version_minor: 7)
   service.fetch_xsd_schema_for(template)
 end
@@ -99,10 +93,12 @@ run 'TC_EFORM_01_NEG' do
   proxy = UpvsProxy.new(properties(assertion: nil))
   service = EformService.new(proxy)
   template = FormTemplate.find_or_initialize_by(identifier: 'Non-existent', version_major: 1, version_minor: 7)
-
-  begin
-    service.fetch_xsd_schema_for(template)
-  rescue => exception
-    raise exception unless exception.cause.is_a? javax.xml.ws.soap.SOAPFaultException
-  end
+  service.fetch_xsd_schema_for(template)
 end
+
+run 'TC_EFORM_02' do
+  proxy = UpvsProxy.new(properties(assertion: nil))
+  service = EformService.new(proxy)
+  service.fetch_all_form_template_ids
+end
+
