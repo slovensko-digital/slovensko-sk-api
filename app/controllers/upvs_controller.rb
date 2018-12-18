@@ -1,6 +1,4 @@
-class UpvsController < ApplicationController
-  skip_before_action :verify_authenticity_token
-
+class UpvsController < ApiController
   # TODO add support for more callback urls (get from param -> check against env -> store in session -> redirect on success)
 
   def login

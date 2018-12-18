@@ -48,8 +48,6 @@ RSpec.describe 'SKTalk API' do
       expect(response.body).to eq({ message: 'No credentials' }.to_json)
     end
 
-    pending 'responds with 400 if request contains duplicate authentication' # message: 'Duplicate authentication'
-
     it 'responds with 400 if request does not contain message to receive' do
       post '/api/sktalk/receive', params: { token: token }
 
@@ -98,8 +96,6 @@ RSpec.describe 'SKTalk API' do
       expect(response.status).to eq(400)
       expect(response.body).to eq({ message: 'No credentials' }.to_json)
     end
-
-    pending 'responds with 400 if request contains duplicate authentication' # message: 'Duplicate authentication'
 
     it 'responds with 400 if request does not contain message to receive' do
       post '/api/sktalk/receive_and_save_to_outbox', params: { token: token }

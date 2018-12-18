@@ -1,5 +1,5 @@
 class EformController < ApiController
-  before_action :require_token
+  before_action { authenticate }
 
   def validate
     version_major, version_minor = params[:version].split('.')
@@ -12,16 +12,5 @@ class EformController < ApiController
     render json: { valid: validation_errors.empty?, errors: validation_errors.map(&:message) }
   rescue Nokogiri::XML::SyntaxError
     render json: { valid: false, errors: ['Malformed XML'] }
-  end
-
-  private
-
-  def require_token
-    render_bad_request('No credentials') and return if params[:token].blank?
-    authenticator.verify_token(params[:token], obo: false)
-  end
-
-  def authenticator
-    Environment.api_token_authenticator
   end
 end
