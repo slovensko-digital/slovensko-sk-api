@@ -1,6 +1,10 @@
 module UpvsEnvironment
   extend self
 
+  def eform_service
+    EformService.new(upvs_proxy(assertion: nil))
+  end
+
   def sktalk_receiver(assertion: nil)
     SktalkReceiver.new(upvs_proxy(assertion: assertion))
   end
@@ -120,9 +124,5 @@ module UpvsEnvironment
       force_authn: false,
       passive: false,
     )
-  end
-
-  def eform_service
-    @eform_service ||= EformService.new(upvs_proxy(assertion: nil))
   end
 end
