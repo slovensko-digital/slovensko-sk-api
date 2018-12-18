@@ -34,6 +34,14 @@ class ApiTokenAuthenticator
       @jti_cache.write(jti, true, expires_in: MAX_EXP_IN)
     end
 
+    return yield payload, header if block_given?
+
     obo ? @obo_token_authenticator.verify_token(payload['obo'], scope: scope) : true
+  end
+
+  def invalidate_token(token, obo: false, scope: nil)
+    verify_token(token, obo: obo, scope: scope) do |payload, _|
+      @obo_token_authenticator.invalidate_token(payload['obo'])
+    end
   end
 end

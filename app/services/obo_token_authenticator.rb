@@ -67,7 +67,9 @@ class OboTokenAuthenticator
 
     raise JWT::InvalidJtiError unless ass
 
-    block_given? ? yield(payload, header, ass) : ass
+    return yield payload, header, ass if block_given?
+
+    ass
   end
 
   private

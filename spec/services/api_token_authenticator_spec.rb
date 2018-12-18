@@ -244,4 +244,8 @@ RSpec.describe ApiTokenAuthenticator do
       end
     end
   end
+
+  describe '#verify_token' do
+    pending
+  end
 end
