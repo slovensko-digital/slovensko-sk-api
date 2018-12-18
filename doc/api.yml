@@ -1,29 +1,38 @@
 openapi: 3.0.0
 
 info:
-  version: 0.0.1
-  title: PODAAS
+  version: 0.0.2
+  title: PodaaS
+  description: |
+    PodaaS je proxy API komponent vystavujúci cez REST API služby www.slovensko.sk (ústredný portál verejnej správy - ÚPVS), pomocou ktorých je možné:
+
+    - uskutočniť prihlásenie pomocou ÚPVS (pomocou elektronického občianskeho preukazu) a získať údaje o prihlásenom subjekte,
+    - podávať podania v mene subjektu, ktorý sa prihlásil cez ÚPVS,
+    - validovať či je uřcitá správa vo formáte SKTalk validná voči aktuálnej definícii formuláru (podporná funkcia).
   contact:
     name: Slovensko.Digital
-    url: slovensko.digital
+    url: https://slovensko.digital/
     email: kontakt@slovensko.digital
 
+  license:
+    name: "European Union Public License 1.2"
+    url: "https://opensource.org/licenses/EUPL-1.2"
+
 servers:
-- description: Server nad ÚPVS PROD prostredím.
+- description: Server v ÚPVS PROD prostredí
   url: https://podaas.ekosystem.slovensko.digital
 
-- description: Server nad ÚPVS FIX prostredím.
+- description: Server v ÚPVS FIX prostredí
   url: https://podaas.ekosystem.staging.slovensko.digital
 
 paths:
   /login:
     get:
-      tags: [Authentication]
-      description: Prihlásenie pomocou slovensko.sk (ÚPVS). Po úspešnom prihlásení nasleduje presmerovanie späť na callback URL tretej strany. V parametri `token` bude zaslaný OBO (On-Behalf-Of) token využiteľný na získanie údajov o prihlásenom subjekte alebo volanie ďaľších rozhraní v mene tohto subjektu.
+      tags: [Prihlasovanie pomocou eID]
+      description: Prihlásenie pomocou slovensko.sk (ÚPVS). Po úspešnom prihlásení nasleduje presmerovanie späť na callback URL tretej strany. V parametri `token` bude zaslaný OBO (On-Behalf-Of) token využiteľný na získanie údajov o prihlásenom subjekte alebo volanie ďaľších rozhraní v mene prihláseného subjektu.
       parameters:
       - name: callback
         in: query
-        required: true
         description: Callback URL, ktorá sa má zavolať po úspešnom prihlásení.
         schema:
           type: string
@@ -67,27 +76,11 @@ paths:
 
   /logout:
     get:
-      tags: [Authentication]
+      tags: [Prihlasovanie pomocou eID]
       description: Odhlásenie z ÚPVS portálu. Po úspešnom odhlásení nasleduje presmerovanie späť na callback URL tretej strany.
       parameters:
-      - name: Authorization
-        in: header
-        required: true
-        description: 'API token vo formáte JWT, príklad parametra `Authorization: Bearer <api-token>`'
-        schema:
-          type: string
-          format: JWT
-      - name: token
-        in: query
-        required: false
-        deprecated: true
-        description: 'API token vo formáte JWT, príklad parametra `?token=<api-token>`'
-        schema:
-          type: string
-          format: JWT
       - name: callback
         in: query
-        required: true
         description: Odhlasovacia callback URL.
         schema:
           type: string
@@ -111,154 +104,11 @@ paths:
       security:
       - 'API + OBO token': []
 
-  /api/eform/validate:
-    post:
-      tags: [Operations]
-      description: Validuje eForm dáta.
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-        description: 'API token vo formáte JWT, príklad parametra `Authorization: Bearer <api-token>`'
-        schema:
-          type: string
-          format: JWT
-      - name: token
-        in: query
-        required: false
-        deprecated: true
-        description: 'API token vo formáte JWT, príklad parametra `?token=<api-token>`'
-        schema:
-          type: string
-          format: JWT
-      - name: identifier
-        in: query
-        required: true
-        description: 'Identifikátor formuláru, napríklad `App.GeneralAgenda`'
-        schema:
-          type: string
-      - name: version
-        in: query
-        required: true
-        description: 'Verzia formuláru, napríklad `1.9`'
-        schema:
-          type: string
-      - name: data
-        in: query
-        required: true
-        description: 'Dáta formuláru, napríklad `<GeneralAgenda>...</GeneralAgenda>`'
-        schema:
-          type: string
-          format: XML
-      responses:
-        200:
-          description: eForm dáta validované.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  valid:
-                    type: boolean
-                  errors:
-                    type: array
-                    items:
-                      type: string
-                required:
-                - valid
-                example:
-                  valid: true
-        400:
-          $ref: '#/components/responses/badRequest'
-        401:
-          $ref: '#/components/responses/unauthorized'
-        408:
-          $ref: '#/components/responses/requestTimeout'
-        413:
-          $ref: '#/components/responses/payloadTooLarge'
-        429:
-          $ref: '#/components/responses/tooManyRequests'
-        500:
-          $ref: '#/components/responses/internalServerError'
-      security:
-      - 'API token': []
-
-  /api/sktalk/receive:
-    post:
-      tags: [Operations]
-      description: Prijíme SKTalk správu.
-      parameters:
-      - name: Authorization
-        in: header
-        required: true
-        description: 'API token vo formáte JWT, príklad parametra `Authorization: Bearer <api-token>`'
-        schema:
-          type: string
-          format: JWT
-      - name: token
-        in: query
-        required: false
-        deprecated: true
-        description: 'API token vo formáte JWT, príklad parametra `?token=<api-token>`'
-        schema:
-          type: string
-          format: JWT
-      - name: message
-        in: query
-        required: true
-        description: 'SKTalk správa vo formáte XML, napríklad `<SKTalkMessage>...</SKTalkMessage>`'
-        schema:
-          type: string
-          format: XML
-      responses:
-        200:
-          description: SKTalk správa prijatá.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  receive_result:
-                    type: integer
-                required:
-                - receive_result
-                example:
-                  receive_result: 0
-        400:
-          $ref: '#/components/responses/badRequest'
-        401:
-          $ref: '#/components/responses/unauthorized'
-        408:
-          $ref: '#/components/responses/requestTimeout'
-        413:
-          $ref: '#/components/responses/payloadTooLarge'
-        429:
-          $ref: '#/components/responses/tooManyRequests'
-        500:
-          $ref: '#/components/responses/internalServerError'
-      security:
-      - 'API + OBO token': []
-
   /api/sktalk/receive_and_save_to_outbox:
     post:
-      tags: [Operations]
-      description: Prijíme SKTalk správu a uloží ju medzi odoslané.
+      tags: [Zasielanie podaní]
+      description: Odošle SKTalk správu a uloží ju medzi odoslané správy v schránke.
       parameters:
-      - name: Authorization
-        in: header
-        required: true
-        description: 'API token vo formáte JWT, príklad parametra `Authorization: Bearer <api-token>`'
-        schema:
-          type: string
-          format: JWT
-      - name: token
-        in: query
-        required: false
-        deprecated: true
-        description: 'API token vo formáte JWT, príklad parametra `?token=<api-token>`'
-        schema:
-          type: string
-          format: JWT
       - name: message
         in: query
         required: true
@@ -268,7 +118,7 @@ paths:
           format: XML
       responses:
         200:
-          description: SKTalk správa prijatá a uložen á medzi odoslané.
+          description: SKTalk správa bola odoslaná a uložená medzi odoslané správy v schránke.
           content:
             application/json:
               schema:
@@ -298,6 +148,120 @@ paths:
           $ref: '#/components/responses/internalServerError'
       security:
       - 'API + OBO token': []
+
+  /api/sktalk/receive:
+    post:
+      tags: [Zasielanie podaní]
+      description: Odošle SKTalk správu.
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        description: 'API token vo formáte JWT, príklad parametra `Authorization: Bearer <api-token>`'
+        schema:
+          type: string
+          format: JWT
+      - name: token
+        in: query
+        required: false
+        deprecated: true
+        description: 'API token vo formáte JWT, príklad parametra `?token=<api-token>`'
+        schema:
+          type: string
+          format: JWT
+      - name: message
+        in: query
+        required: true
+        description: 'SKTalk správa vo formáte XML, napríklad `<SKTalkMessage>...</SKTalkMessage>`'
+        schema:
+          type: string
+          format: XML
+      responses:
+        200:
+          description: SKTalk bola správa prijatá.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  receive_result:
+                    type: integer
+                required:
+                - receive_result
+                example:
+                  receive_result: 0
+        400:
+          $ref: '#/components/responses/badRequest'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        408:
+          $ref: '#/components/responses/requestTimeout'
+        413:
+          $ref: '#/components/responses/payloadTooLarge'
+        429:
+          $ref: '#/components/responses/tooManyRequests'
+        500:
+          $ref: '#/components/responses/internalServerError'
+      security:
+      - 'API + OBO token': []
+
+  /api/eform/validate:
+    post:
+      tags: [Zasielanie podaní]
+      description: Zvaliduje eForm dáta voči definícii formuláru.
+      parameters:
+      - name: identifier
+        in: query
+        required: true
+        description: 'Identifikátor formuláru, napríklad `App.GeneralAgenda`'
+        schema:
+          type: string
+      - name: version
+        in: query
+        required: true
+        description: 'Verzia formuláru, napríklad `1.9`'
+        schema:
+          type: string
+          format: JWT
+      - name: data
+        in: query
+        required: true
+        description: 'Dáta formuláru, napríklad `<GeneralAgenda>...</GeneralAgenda>`'
+        schema:
+          type: string
+          format: XML
+      responses:
+        200:
+          description: eForm dáta boli úspešne validované voči definícii formuláru.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valid:
+                    type: boolean
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                required:
+                - valid
+                example:
+                  valid: true
+        400:
+          $ref: '#/components/responses/badRequest'
+        401:
+          $ref: '#/components/responses/unauthorized'
+        408:
+          $ref: '#/components/responses/requestTimeout'
+        413:
+          $ref: '#/components/responses/payloadTooLarge'
+        429:
+          $ref: '#/components/responses/tooManyRequests'
+        500:
+          $ref: '#/components/responses/internalServerError'
+      security:
+      - 'API token': []
 
 components:
   responses:
