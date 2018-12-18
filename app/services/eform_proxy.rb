@@ -24,7 +24,7 @@ class EformProxy
     request.related_document_type = @object_factory.create_get_related_document_by_type_req_related_document_type('CLS_F_XSD_EDOC')
 
     @ez.call_service(service, request).related_document.value
-  rescue Java::JavaxXmlWsSoap::SOAPFaultException => e
+  rescue javax.xml.ws.soap.SOAPFaultException => e
     raise e unless e.message == '06000796' # Skip 'not found' errors
   end
 
