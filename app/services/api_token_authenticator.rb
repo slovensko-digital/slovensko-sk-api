@@ -1,20 +1,16 @@
 # See https://tools.ietf.org/html/rfc7519
 
-# TODO consider renaming:
-# TokenAuthenticator -> UpvsTokenAuthenticator
-# TokenWrapper -> ApiTokenAuthenticator: #unwrap -> #verify_token
-
-class TokenWrapper
-  MAX_EXP_IN = TokenAuthenticator::MAX_EXP_IN
+class ApiTokenAuthenticator
+  MAX_EXP_IN = OboTokenAuthenticator::MAX_EXP_IN
   JTI_PATTERN = /^[0-9a-z-_]{1,256}$/
 
-  def initialize(token_authenticator:, public_key:, jti_cache:)
-    @token_authenticator = token_authenticator
-    @public_key = public_key
+  def initialize(jti_cache:, public_key:, obo_token_authenticator:)
     @jti_cache = jti_cache
+    @public_key = public_key
+    @obo_token_authenticator = obo_token_authenticator
   end
 
-  def unwrap(token, scope: nil)
+  def verify_token(token, scope: nil, obo: false)
     options = {
       algorithm: 'RS256',
       verify_jti: -> (jti) { jti =~ JTI_PATTERN },
@@ -36,8 +32,6 @@ class TokenWrapper
       @jti_cache.write(jti, true, expires_in: MAX_EXP_IN)
     end
 
-    @token_authenticator.verify_token(payload['obo'], scope: scope)
+    obo ? @obo_token_authenticator.verify_token(payload['obo'], scope: scope) : true
   end
-
-  alias_method :verify_token, :unwrap
 end

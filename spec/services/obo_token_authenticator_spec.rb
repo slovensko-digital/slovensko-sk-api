@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe TokenAuthenticator do
+RSpec.describe OboTokenAuthenticator do
   let(:assertion_store) { ActiveSupport::Cache::MemoryStore.new }
   let(:key_pair) { OpenSSL::PKey::RSA.new(2048) }
 

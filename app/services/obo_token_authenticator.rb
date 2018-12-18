@@ -1,6 +1,6 @@
 # See https://tools.ietf.org/html/rfc7519
 
-class TokenAuthenticator
+class OboTokenAuthenticator
   MAX_EXP_IN = 60.minutes
 
   def initialize(assertion_store:, key_pair:)
