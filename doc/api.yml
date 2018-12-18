@@ -31,17 +31,21 @@ paths:
       responses:
         302:
           description: Presmerovanie na prihlasovaciu stránku ÚPVS.
+        400:
+          $ref: '#/components/responses/badRequest'
+        500:
+          $ref: '#/components/responses/internalServerError'
       callbacks:
         login:
-          '{$request.body.callback}':
+          '{$request.query.callback}':
             get:
               parameters:
               - name: token
                 in: query
                 required: true
-                description: | 
-                  OBO token v JWT formáte, ktorého payload vyzerá nasledovne.
-                  
+                description: |
+                  OBO token v JWT formáte, ktorého payload vyzerá nasledovne:
+
                       {
                         "sub": "rc://sk/8311577984_tisici_janko",
                         "exp": 1545147549,
@@ -98,12 +102,12 @@ paths:
         500:
           $ref: '#/components/responses/internalServerError'
       callbacks:
-        login:
+        logout:
           '{$request.query.callback}':
             get:
               responses:
                 200:
-                  description: Server tretej strany vráti tento HTTP kód ak akceptuje callback.
+                  description: Úspešné odhlásenie.
       security:
       - 'API + OBO token': []
 
@@ -199,7 +203,7 @@ paths:
         schema:
           type: string
           format: JWT
-      - name: sktalk_message
+      - name: message
         in: query
         required: true
         description: 'SKTalk správa vo formáte XML, napríklad `<SKTalkMessage>...</SKTalkMessage>`'
@@ -255,7 +259,7 @@ paths:
         schema:
           type: string
           format: JWT
-      - name: sktalk_message
+      - name: message
         in: query
         required: true
         description: 'SKTalk správa vo formáte XML, napríklad `<SKTalkMessage>...</SKTalkMessage>`'
@@ -390,19 +394,25 @@ components:
     'API token':
       description: |
         Požaduje API token vytvorený treťou stranou, ktorý:
+
         - je zakodovaný algoritmom RS256,
         - je podpísaný privátnym kľúčom tretej strany,
-        - má nastavený `exp` atribút na max. 60 minút,
-        - má nastavený `jti` atribút na identifikátor, ktorý je unikátny počas 60 minút.
-        Príklad hlavičky:
+        - má nastavený `exp` claim na max. 60 minút,
+        - má nastavený `jti` claim na identifikátor, ktorý je unikátny počas 60 minút.
+
+        Príklad headers:
+
               {
                 "alg": "HS256",
               }
-        Príklad atribútov:
+
+        Príklad payload:
+
               {
                 "exp": 1543437976,
                 "jti": "4dee8618-abbe-4dc3-83ba-e984d1396f9f",
               }
+
         API token musí byť prítomný buď v `Authorization` hlavičke alebo v `token` parametri požiadavky.
       type: http
       scheme: bearer
@@ -411,23 +421,29 @@ components:
     'API + OBO token':
       description: |
         Požaduje API token vytvorený treťou stranou, ktorý:
+
         - je zakodovaný algoritmom RS256,
         - je podpísaný privátnym kľúčom tretej strany,
-        - má nastavenú `cty` hlavičku na hodnotu `JWT`,
-        - má nastavený `exp` atribút na `exp` atribút OBO tokenu,
-        - má nastavený `jti` atribút na identifikátor, ktorý je unikátny počas 60 minút,
-        - má nastavený `obo` atribút na hodnotu OBO tokenu, ktorý je získaný po úspešnom prihlásení.
-        Príklad hlavičky:
+        - má nastavenú `cty` header na hodnotu `JWT`,
+        - má nastavený `exp` claim na `exp` atribút OBO tokenu,
+        - má nastavený `jti` claim na identifikátor, ktorý je unikátny počas 60 minút,
+        - má nastavený `obo` claim na hodnotu OBO tokenu, ktorý je získaný po úspešnom prihlásení.
+
+        Príklad headers:
+
               {
                 "alg": "HS256",
                 "cty": "JWT"
               }
-        Príklad atribútov:
+
+        Príklad payload:
+
               {
                 "exp": 1543437976,
                 "jti": "4dee8618-abbe-4dc3-83ba-e984d1396f9f",
                 "obo": "eyJhbGciOiJIUzI1NiJ9..."
               }
+
         API token musí byť prítomný buď v `Authorization` hlavičke alebo v `token` parametri požiadavky.
       type: http
       scheme: bearer
