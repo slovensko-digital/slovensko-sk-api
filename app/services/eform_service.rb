@@ -1,9 +1,12 @@
 class EformService
   SERVICES = sk.gov.schemas.servicebus.service._1.ServiceClassEnum
+
   attr_reader :object_factory
 
-  def initialize(upvs_proxy)
-    @ez = upvs_proxy.ez
+  def initialize(proxy)
+    @ez = proxy.ez
+
+    # TODO consider extracting ObjectFactory into a constant like in sktalk_messages.rb
     @object_factory = sk.gov.schemas.servicebusserviceprovider.ness.eformprovider._1.ObjectFactory.new
   end
 
@@ -24,7 +27,7 @@ class EformService
     request.related_document_type = @object_factory.create_get_related_document_by_type_req_related_document_type('CLS_F_XSD_EDOC')
 
     @ez.call_service(service, request).related_document.value
-  rescue Java::JavaxXmlWsSoap::SOAPFaultException => e
+  rescue javax.xml.ws.soap.SOAPFaultException => e
     raise e unless e.message == '06000796' # Skip 'not found' errors
   end
 
