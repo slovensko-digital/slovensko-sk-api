@@ -11,6 +11,8 @@ class ApiTokenAuthenticator
   end
 
   def verify_token(token, obo: false, scope: nil)
+    raise ArgumentError if !obo && scope
+
     options = {
       algorithm: 'RS256',
       verify_jti: -> (jti) { jti =~ JTI_PATTERN },

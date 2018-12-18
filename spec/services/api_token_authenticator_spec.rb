@@ -96,10 +96,6 @@ RSpec.describe ApiTokenAuthenticator do
       expect { subject.verify_token(token) }.to raise_error(JWT::InvalidJtiError)
     end
 
-    context 'with scopes' do
-      pending
-    end
-
     context 'with OBO token' do
       it 'returns assertion' do
         obo_token = obo_token_authenticator.generate_token(response)
@@ -159,6 +155,16 @@ RSpec.describe ApiTokenAuthenticator do
         token = generate_token(obo: obo_token, header: { cty: 'JWT' })
 
         expect { subject.verify_token(token, obo: true) }.to raise_error(JWT::VerificationError)
+      end
+
+      it 'verifies OBO token scope' do
+        obo_token = obo_token_authenticator.generate_token(response, scopes: [])
+
+        expect(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: 'scope-to-verify').and_call_original
+
+        token = generate_token(obo: obo_token, header: { cty: 'JWT' })
+
+        expect { subject.verify_token(token, obo: true, scope: 'scope-to-verify') }.to raise_error(JWT::VerificationError)
       end
     end
 
