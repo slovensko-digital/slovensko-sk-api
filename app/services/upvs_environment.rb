@@ -1,26 +1,12 @@
 module UpvsEnvironment
   extend self
 
-  # TODO move to api_environment ??
-  def assertion_store
-    # TODO use ActiveSupport::Cache::Store::RedisStore to maintain persistence
-    @assertion_store ||= ActiveSupport::Cache::MemoryStore.new(
-      namespace: 'upvs-token-assertions',
-      size: 128.megabytes,
-      compress: true,
-    )
+  def eform_service
+    EformService.new(upvs_proxy(assertion: nil))
   end
 
-  # TODO move to api_environment as obo_token_authenticator
-  def token_authenticator
-    @token_authenticator ||= TokenAuthenticator.new(
-      assertion_store: assertion_store,
-      key_pair: OpenSSL::PKey::RSA.new(File.read(ENV.fetch('UPVS_TOKEN_PRIVATE_KEY_FILE')))
-    )
-  end
-
-  def sktalk_receiver(assertion)
-    SktalkReceiver.new(upvs_proxy(assertion))
+  def sktalk_receiver(assertion: nil)
+    SktalkReceiver.new(upvs_proxy(assertion: assertion))
   end
 
   def properties(assertion: nil)
@@ -49,8 +35,8 @@ module UpvsEnvironment
         'upvs.sktalk.address' => 'https://uir.upvsfixnew.gov.sk/G2GServiceBus/ServiceSkTalk3Token.svc',
         'upvs.sts.address' => 'https://iamwse.upvsfix.gov.sk:8581/sts/wss11x509',
 
-        'upvs.log.console' => 'OFF',
         'upvs.log.file.pattern' => 'log/upvs-%d{yyyyMMdd}.log',
+        'upvs.log.java.console.level' => 'INFO',
 
         'upvs.timeout.connection' => 30000,
         'upvs.timeout.receive' => 60000,
@@ -84,7 +70,7 @@ module UpvsEnvironment
   end
 
   # TODO remove this in favor of #upvs_proxy_cache.fetch(assertion) { ... }
-  def upvs_proxy(assertion)
+  def upvs_proxy(assertion: nil)
     UpvsProxy.new(properties(assertion: assertion))
   end
 
@@ -138,9 +124,5 @@ module UpvsEnvironment
       force_authn: false,
       passive: false,
     )
-  end
-
-  def eform_service
-    @eform_service ||= EformService.new(upvs_proxy(assertion: nil))
   end
 end

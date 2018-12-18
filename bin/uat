@@ -1,0 +1,109 @@
+#!/usr/bin/env ruby
+
+# TODO maybe move this whole UAT thing somewhere under spec?
+
+ENV['RAILS_ENV'] = 'development'
+
+require_relative '../config/environment'
+
+def run(id)
+  define_singleton_method(:properties) do |assertion:|
+    UpvsEnvironment.properties(assertion: assertion).reject { |k, _| k.start_with?('upvs.log') }.merge(
+      'upvs.log.console' => 'OFF',
+      'upvs.log.file' => 'FILE',
+      'upvs.log.file.pattern' => "log/uat-%d{yyyyMMdd}-#{id.gsub(/[\s_]/, '-')}.log",
+    ).to_h
+  end
+
+  print "Running #{id} ... "
+  yield
+  puts 'ok'
+rescue
+  puts 'fail'
+end
+
+active_assertion = File.read('tmp/active-assertion.xml')
+inactive_assertion = File.read('spec/fixtures/oam/response_success_assertion.xml')
+
+def sktalk_message(template: 'spec/fixtures/sktalk/egov_application_general_agenda.xml', without_body: false)
+  message = SktalkMessages.from_xml(File.read(template))
+  message.header.message_info.message_id = SecureRandom.uuid
+  message.header.message_info.correlation_id = SecureRandom.uuid
+  body = Nokogiri::XML::Document.wrap(message.body.any.first.owner_document)
+  body.xpath('/:MessageContainer/:MessageId').first.content = message.header.message_info.message_id
+  SktalkMessages.to_xml(message).tap { |m| m.remove!(/<Body>.*<\/Body>/m) if without_body }
+end
+
+run 'TC_IAM_01' do
+  proxy = UpvsProxy.new(properties(assertion: nil))
+  SktalkReceiver.new(proxy).receive(sktalk_message)
+end
+
+run 'TC_IAM_01_NEG' do
+  properties = properties(assertion: nil).merge('upvs.sts.keystore.file' => 'security/podaas-inv-sts.keystore')
+  proxy = UpvsProxy.new(properties)
+
+  begin
+    SktalkReceiver.new(proxy).receive(sktalk_message)
+  rescue => exception
+    raise exception unless exception.cause.is_a? com.sun.xml.internal.messaging.saaj.SOAPExceptionImpl
+  end
+end
+
+run 'TC_IAM_02' do
+  raise # TODO
+end
+
+run 'TC_IAM_03' do
+  raise # TODO
+end
+
+run 'TC_G2G_01' do
+  proxy = UpvsProxy.new(properties(assertion: active_assertion))
+  receiver = SktalkReceiver.new(proxy)
+  receiver.receive(sktalk_message)
+end
+
+run 'TC_G2G_01_NEG' do
+  proxy = UpvsProxy.new(properties(assertion: active_assertion))
+  receiver = SktalkReceiver.new(proxy)
+  receiver.receive(sktalk_message(without_body: true))
+end
+
+run 'TC_G2G_02' do
+  proxy = UpvsProxy.new(properties(assertion: active_assertion))
+  receiver = SktalkReceiver.new(proxy)
+  receiver.save_to_outbox(sktalk_message)
+end
+
+run 'TC_G2G_02_NEG' do
+  proxy = UpvsProxy.new(properties(assertion: active_assertion))
+  receiver = SktalkReceiver.new(proxy)
+  receiver.save_to_outbox(sktalk_message(without_body: true))
+end
+
+run 'TC_EFORM_01' do
+  proxy = UpvsProxy.new(properties(assertion: nil))
+  service = EformService.new(proxy)
+  template = FormTemplate.find_or_initialize_by(identifier: 'App.GeneralAgenda', version_major: 1, version_minor: 7)
+  service.fetch_xsd_schema_for(template)
+end
+
+run 'TC_EFORM_01_NEG' do
+  proxy = UpvsProxy.new(properties(assertion: nil))
+  service = EformService.new(proxy)
+  template = FormTemplate.find_or_initialize_by(identifier: 'Non-existent', version_major: 1, version_minor: 7)
+
+  begin
+    service.fetch_xsd_schema_for(template)
+  rescue javax.xml.ws.soap.SOAPFaultException
+    # ignore
+  end
+end
+
+run 'TC_EFORM_02' do
+  proxy = UpvsProxy.new(properties(assertion: nil))
+  service = EformService.new(proxy)
+  service.fetch_all_form_template_ids
+end
+

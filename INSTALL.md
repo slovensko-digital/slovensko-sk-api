@@ -12,7 +12,7 @@ Máme dobrú a zlú správu. Tá zlá správa je, že na zfunkčnenie tohto komp
 
 Je potrebné si zvoliť skratku projektu, ktorá sa bude používať pre účely komunikácie s NASES. Názov môže obsahovať len veľké písmená, bez diakritiky a medzier, a musí byť unikátny. *My sme napríklad použili názov PODAAS, ten je už obsadený.*
 
-Stiahnite si [šablónu dohody o integračnom zámere](install/DIZ_PO_TEMPLATE__UPVS_v1.docx) a upravte podľa pokynov v komentároch. 
+Stiahnite si [šablónu dohody o integračnom zámere](doc/templates/DIZ_PO_TEMPLATE__UPVS_v1.docx) a upravte podľa pokynov v komentároch. 
 
 Tento dokument následne premenujte na `DIZ_PO_<skratka projektu>__UPVS_v1.docx`, kde `<skratka projektu>` nahraďte skratkou Vášho projektu a priložte ako prílohu k emailu:
 
@@ -87,7 +87,7 @@ XLS zašlite ako prílohu k emailu:
 
 `keytool -export -keystore podaas-fix-sp.keystore -alias podaassp -storepass password -rfc > podaas-fix-sp.pem`
 
-Vytvorte `podaas-fix-sp.metadata.xml` zo súboru `install/podaas-sp.metadata.xml.template`. Treba nahradniť entityID, dva verejné klúče (skopírovaním z `podaas-fix-sp.pem`) a endpointy, kde bude **testovacia** verzia bežať.
+Vytvorte `podaas-fix-sp.metadata.xml` zo súboru [podaas-sp.metadata.xml](doc/templates/podaas-sp.metadata.xml). Treba nahradniť entityID, dva verejné klúče (skopírovaním z `podaas-fix-sp.pem`) a endpointy, kde bude **testovacia** verzia bežať.
 
 Podpíšte pomocou [xmlsectool](http://shibboleth.net/downloads/tools/xmlsectool/latest/).
 
