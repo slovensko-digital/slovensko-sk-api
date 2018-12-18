@@ -19,8 +19,7 @@ module UpvsEnvironment
         'upvs.sktalk.address' => 'https://vyvoj.upvs.globaltel.sk/g2g/G2GServiceBus/ServiceSkTalk3Token.svc',
         'upvs.sts.address' => 'https://authws.vyvoj.upvs.globaltel.sk/sts/wss11x509',
 
-        'upvs.log.file.pattern' => 'log/upvs-%d{yyyyMMdd}.log',
-        'upvs.log.java.console.level' => 'INFO',
+        'upvs.logger' => 'STDOUT',
 
         'upvs.timeout.connection' => 30000,
         'upvs.timeout.receive' => 60000,
@@ -35,8 +34,7 @@ module UpvsEnvironment
         'upvs.sktalk.address' => 'https://uir.upvsfixnew.gov.sk/G2GServiceBus/ServiceSkTalk3Token.svc',
         'upvs.sts.address' => 'https://iamwse.upvsfix.gov.sk:8581/sts/wss11x509',
 
-        'upvs.log.file.pattern' => 'log/upvs-%d{yyyyMMdd}.log',
-        'upvs.log.java.console.level' => 'INFO',
+        'upvs.logger' => 'STDOUT',
 
         'upvs.timeout.connection' => 30000,
         'upvs.timeout.receive' => 60000,
@@ -45,14 +43,13 @@ module UpvsEnvironment
       {
         # TODO
 
-        'upvs.log.console' => 'OFF',
-        'upvs.log.file' => 'OFF',
+        'upvs.logger' => 'NULL',
       }
     else
       raise 'Unknown environment'
     end
 
-    environment.merge!('upvs.log.console' => 'OFF') if Rails.env.test?
+    environment.merge!('upvs.logger' => 'NULL') if Rails.env.test?
 
     security = {
       'upvs.tls.truststore.file' => ENV['UPVS_TLS_TS_FILE'],
