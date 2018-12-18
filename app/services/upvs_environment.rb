@@ -35,8 +35,8 @@ module UpvsEnvironment
         'upvs.sktalk.address' => 'https://uir.upvsfixnew.gov.sk/G2GServiceBus/ServiceSkTalk3Token.svc',
         'upvs.sts.address' => 'https://iamwse.upvsfix.gov.sk:8581/sts/wss11x509',
 
-        'upvs.log.console' => 'OFF',
         'upvs.log.file.pattern' => 'log/upvs-%d{yyyyMMdd}.log',
+        'upvs.log.java.console.level' => 'INFO',
 
         'upvs.timeout.connection' => 30000,
         'upvs.timeout.receive' => 60000,
