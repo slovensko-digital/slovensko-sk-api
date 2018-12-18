@@ -16,12 +16,17 @@ RSpec.describe 'eForm API' do
 
       JWT.encode(payload, api_token_key_pair, 'RS256', header)
     end
+
     let(:default_params) {{ identifier: 'App.GeneralAgenda', version: '1.7', data: valid_form_xml, token: token }}
     let(:response_object) { JSON.parse(response.body) }
 
-    before(:each) do
+    before(:example) do
       create(:form_template_related_document, :general_agenda_xsd_schema)
     end
+
+    before(:example) { travel_to '2018-11-28T20:26:16Z' }
+
+    after(:example) { travel_back }
 
     def post_request(params)
       post '/api/eform/validate', params: params
