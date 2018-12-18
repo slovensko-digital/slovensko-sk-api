@@ -8,13 +8,19 @@ RSpec.describe 'eForm API' do
         <text>some text</text>
       </GeneralAgenda>
     HEREDOC
-    default_params = { identifier: 'App.GeneralAgenda', version: '1.7', data: valid_form_xml, token: 'TEST_TOKEN' }
 
+    let(:token) do
+      response = OneLogin::RubySaml::Response.new(file_fixture('oam/response_success.xml').read)
+      header = { cty: 'JWT' }
+      payload = { exp: response.not_on_or_after.to_i, jti: SecureRandom.uuid }
+
+      JWT.encode(payload, api_token_key_pair, 'RS256', header)
+    end
+    let(:default_params) {{ identifier: 'App.GeneralAgenda', version: '1.7', data: valid_form_xml, token: token }}
     let(:response_object) { JSON.parse(response.body) }
 
     before(:each) do
       create(:form_template_related_document, :general_agenda_xsd_schema)
-      allow(ApiEnvironment.token_authenticator).to receive(:verify_token).with('TEST_TOKEN')
     end
 
     def post_request(params)
@@ -23,12 +29,9 @@ RSpec.describe 'eForm API' do
 
     describe 'auth token' do
       it 'is required' do
-        expect(ApiEnvironment.token_authenticator).to receive(:verify_token).with('invalid').and_call_original
-        post_request default_params.merge({ token: 'invalid' })
+        post_request default_params.merge({ token: 'no_token' })
         expect(response.status).to eq(401)
       end
-
-      pending 'does not need obo token'
     end
 
     context 'when form data is valid' do
