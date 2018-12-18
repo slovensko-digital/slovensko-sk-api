@@ -18,6 +18,10 @@ class EformController < ApiController
 
   def require_token
     render_bad_request('No credentials') and return if params[:token].blank?
-    authenticator.verify_token(params[:token])
+    authenticator.verify_token(params[:token], scope: nil, obo: false)
+  end
+
+  def authenticator
+    Environment.api_token_authenticator
   end
 end
