@@ -16,5 +16,9 @@ Rails.application.routes.draw do
       post :receive
       post :receive_and_save_to_outbox
     end
+
+    namespace :eform do
+      post :validate
+    end
   end
 end
