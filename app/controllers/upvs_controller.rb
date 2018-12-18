@@ -9,7 +9,8 @@ class UpvsController < ApplicationController
 
   def callback
     response = request.env['omniauth.auth']['extra']['response_object']
-    token = authenticator.generate_token(response, scopes: ['sktalk/receive', 'sktalk/receive_and_save_to_outbox'])
+    scopes = ['sktalk/receive', 'sktalk/receive_and_save_to_outbox']
+    token = Environment.obo_token_authenticator.generate_token(response, scopes: scopes)
 
     redirect_to login_callback_url(token)
   end
@@ -17,7 +18,7 @@ class UpvsController < ApplicationController
   # TODO do we want API tokens or UPVS tokens on logout?
 
   def logout
-    authenticator.invalidate_token(params[:token])
+    Environment.api_token_authenticator.invalidate_token(params[:token])
 
     redirect_to logout_callback_url
 
@@ -32,10 +33,6 @@ class UpvsController < ApplicationController
   end
 
   private
-
-  def authenticator
-    Environment.obo_token_authenticator
-  end
 
   def login_callback_url(token)
     "#{Environment.login_callback_url}?token=#{token}"
