@@ -34,14 +34,14 @@ class UpvsController < ApplicationController
   private
 
   def authenticator
-    UpvsEnvironment.token_authenticator
+    Environment.obo_token_authenticator
   end
 
   def login_callback_url(token)
-    "#{ApiEnvironment.login_callback_url}?token=#{token}"
+    "#{Environment.login_callback_url}?token=#{token}"
   end
 
   def logout_callback_url
-    ApiEnvironment.logout_callback_url
+    Environment.logout_callback_url
   end
 end

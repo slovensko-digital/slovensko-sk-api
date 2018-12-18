@@ -8,6 +8,8 @@ RSpec.describe EformService, :upvs do
 
   subject { described_class.new(upvs) }
 
+  before(:example) { cache_java_object_proxy!(ez) }
+
   describe '#fetch_all_form_template_ids' do
     it 'calls ez with right arguments' do
       response = double
@@ -52,16 +54,16 @@ RSpec.describe EformService, :upvs do
 
       it 'does not raise when the document does not exist' do
         expect(fault).to receive(:get_fault_string).and_return('06000796')
-        expect(ez).to receive(:call_service).and_raise(Java::JavaxXmlWsSoap::SOAPFaultException.new(fault))
+        expect(ez).to receive(:call_service).and_raise(javax.xml.ws.soap.SOAPFaultException.new(fault))
 
         expect { subject.fetch_xsd_schema_for(form_template) }.to_not raise_error
       end
 
       it 'breaks otherwise' do
         expect(fault).to receive(:get_fault_string).and_return('1234')
-        expect(ez).to receive(:call_service).and_raise(Java::JavaxXmlWsSoap::SOAPFaultException.new(fault))
+        expect(ez).to receive(:call_service).and_raise(javax.xml.ws.soap.SOAPFaultException.new(fault))
 
-        expect { subject.fetch_xsd_schema_for(form_template) }.to raise_error(Java::JavaxXmlWsSoap::SOAPFaultException)
+        expect { subject.fetch_xsd_schema_for(form_template) }.to raise_error(javax.xml.ws.soap.SOAPFaultException)
       end
     end
   end
