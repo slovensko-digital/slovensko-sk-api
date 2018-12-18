@@ -1,10 +1,10 @@
 class DownloadFormTemplateJob < ApplicationJob
   def perform(identifier, version_major, version_minor)
-    eform_proxy = UpvsEnvironment.eform_proxy
+    eform_service = UpvsEnvironment.eform_service
     form_template = FormTemplate.find_or_initialize_by(identifier: identifier, version_major: version_major, version_minor: version_minor)
     xsd_schema = nil
 
-    eform_xsd_schema = eform_proxy.fetch_xsd_schema_for(form_template)
+    eform_xsd_schema = eform_service.fetch_xsd_schema_for(form_template)
 
     if eform_xsd_schema.present?
       xsd_schema = FormTemplateRelatedDocument.find_or_initialize_by(

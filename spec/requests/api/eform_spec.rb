@@ -31,7 +31,7 @@ RSpec.describe 'eForm API' do
       pending 'does not need obo token'
     end
 
-    describe 'when form data is valid' do
+    context 'when form data is valid' do
       it 'returns validation result' do
         post_request default_params
         expect(response_object['valid']).to eq(true)
@@ -39,7 +39,7 @@ RSpec.describe 'eForm API' do
       end
     end
 
-    describe 'when form data is invalid' do
+    context 'when form data is invalid' do
       invalid_form_xml = <<~HEREDOC
         <InvalidForm>
         </InvalidForm>
@@ -52,15 +52,15 @@ RSpec.describe 'eForm API' do
       end
     end
 
-    describe 'when parameters are missing' do
+    context 'when parameters are missing' do
       pending 'returns 400 with a message'
     end
 
-    describe 'when form or xsd schema is not found' do
+    context 'when form or xsd schema is not found' do
       pending 'returns 400 with a message'
     end
 
-    describe 'when submitted form has parsing issues' do
+    context 'when submitted form has parsing issues' do
       unparseable = 'Not an XML.'
 
       it 'the form is deemed invalid' do
