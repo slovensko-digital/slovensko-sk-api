@@ -1,0 +1,2 @@
+class DelayedBeat < ApplicationRecord
+end
