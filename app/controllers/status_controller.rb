@@ -1,4 +1,4 @@
-class HealthController < ApplicationController
+class StatusController < ApplicationController
   def internal
     check_environment_variables
     check_database_connection
