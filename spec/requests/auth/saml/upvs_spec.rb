@@ -116,7 +116,7 @@ RSpec.describe 'UPVS SAML Authentication' do
       after(:example) { travel_back }
 
       it 'redirects to IDP with request' do
-        get '/auth/saml/logout', params: { token: token }
+        get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }
 
         expect(response.status).to eq(302)
         expect(response.location).to end_with('/auth/saml/spslo')
@@ -127,7 +127,7 @@ RSpec.describe 'UPVS SAML Authentication' do
 
         expect(authenticator).to receive(:invalidate_token).with(token, obo: true).and_call_original
 
-        get '/auth/saml/logout', params: { token: token }
+        get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }
 
         expect { authenticator.verify_token(token, obo: true) }.to raise_error(JWT::DecodeError)
       end
@@ -160,7 +160,7 @@ RSpec.describe 'UPVS SAML Authentication' do
       it 'responds with 401 if authentication does not pass' do
         travel_to Time.now + 20.minutes
 
-        get '/auth/saml/logout', params: { token: token }
+        get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }
 
         expect(response.status).to eq(401)
         expect(response.body).to eq({ message: 'Bad credentials' }.to_json)
