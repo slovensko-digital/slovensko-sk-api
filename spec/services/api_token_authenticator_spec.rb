@@ -7,8 +7,8 @@ RSpec.describe ApiTokenAuthenticator do
   let(:public_key) { key_pair.public_key }
   let(:obo_token_authenticator) { Environment.obo_token_authenticator }
 
-  let(:response) { OneLogin::RubySaml::Response.new(file_fixture('oam/response_success.xml').read) }
-  let(:assertion) { file_fixture('oam/response_success_assertion.xml').read.strip }
+  let(:response) { OneLogin::RubySaml::Response.new(file_fixture('oam/sso_response_success.xml').read) }
+  let(:assertion) { file_fixture('oam/sso_response_success_assertion.xml').read.strip }
 
   subject { described_class.new(jti_cache: jti_cache, public_key: public_key, obo_token_authenticator: obo_token_authenticator) }
 

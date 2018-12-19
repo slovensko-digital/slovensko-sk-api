@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe 'UPVS SAML Authentication' do
-  def mock_idp_response(response)
-    OmniAuth.config.add_mock(:saml, extra: { response_object: OneLogin::RubySaml::Response.new(response) })
-  end
-
   def idp_response_object
     OmniAuth.config.mock_auth[:saml][:extra][:response_object]
+  end
+
+  def mock_idp_response(response)
+    OmniAuth.config.add_mock(:saml, extra: { response_object: OneLogin::RubySaml::Response.new(response) })
   end
 
   before(:example) do
@@ -43,7 +43,7 @@ RSpec.describe 'UPVS SAML Authentication' do
     end
 
     context 'with Success response' do
-      let(:idp_response) { file_fixture('oam/response_success.base64').read }
+      let(:idp_response) { file_fixture('oam/sso_response_success.base64').read.strip }
 
       before(:example) { mock_idp_response(idp_response) }
 
@@ -74,7 +74,7 @@ RSpec.describe 'UPVS SAML Authentication' do
     end
 
     context 'with Success response but later' do
-      let(:idp_response) { file_fixture('oam/response_success.base64').read }
+      let(:idp_response) { file_fixture('oam/sso_response_success.base64').read.strip }
 
       before(:example) { travel_to '2018-11-28T21:26:16Z' }
 
@@ -84,7 +84,7 @@ RSpec.describe 'UPVS SAML Authentication' do
     end
 
     context 'with NoAuthnContext response' do
-      let(:idp_response) { file_fixture('oam/response_no_authn_context.base64').read }
+      let(:idp_response) { file_fixture('oam/sso_response_no_authn_context.base64').read.strip }
 
       before(:example) { travel_to '2018-11-06T10:11:24Z' }
 
@@ -96,11 +96,20 @@ RSpec.describe 'UPVS SAML Authentication' do
 
   describe 'GET /auth/saml/logout' do
     context 'IDP initiation' do
+      let(:idp_request_query) { file_fixture('oam/slo_request.query').read.strip }
+
+      it 'redirects to IDP with response' do
+        get '/auth/saml/logout' + idp_request_query
+
+        expect(response.status).to eq(302)
+        expect(response.location).to end_with('/auth/saml/slo' + idp_request_query)
+      end
+
       pending 'invalidates OBO token'
     end
 
     context 'SP initiation' do
-      let!(:token) { api_token_with_obo_token_from_response(file_fixture('oam/response_success.xml').read) }
+      let!(:token) { api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read) }
 
       before(:example) { travel_to '2018-11-28T20:26:16Z' }
 
@@ -123,11 +132,23 @@ RSpec.describe 'UPVS SAML Authentication' do
         expect { authenticator.verify_token(token, obo: true) }.to raise_error(JWT::DecodeError)
       end
 
-      pending 'supports authentication via headers'
+      it 'supports authentication via headers' do
+        get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }
 
-      pending 'supports authentication via parameters'
+        expect(response.status).to eq(302)
+      end
 
-      pending 'prefers authentication via headers over parameters'
+      it 'supports authentication via parameters' do
+        get '/auth/saml/logout', params: { token: token }
+
+        expect(response.status).to eq(302)
+      end
+
+      it 'prefers authentication via headers over parameters' do
+        get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }, params: { token: 'INVALID' }
+
+        expect(response.status).to eq(302)
+      end
 
       it 'responds with 400 if request does not contain any authentication' do
         get '/auth/saml/logout'
@@ -143,6 +164,14 @@ RSpec.describe 'UPVS SAML Authentication' do
 
         expect(response.status).to eq(401)
         expect(response.body).to eq({ message: 'Bad credentials' }.to_json)
+      end
+
+      context 'with Success response' do
+        pending 'processes IDP response' # slo_response_success.xml
+      end
+
+      context 'with Different User response' do
+        pending 'processes IDP response' # slo_response_different_user.xml
       end
     end
   end

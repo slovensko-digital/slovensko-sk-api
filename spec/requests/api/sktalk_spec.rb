@@ -3,11 +3,11 @@ require 'rails_helper'
 RSpec.describe 'SKTalk API' do
   let(:sktalk_receiver) { instance_double(SktalkReceiver) }
 
-  let!(:token) { api_token_with_obo_token_from_response(file_fixture('oam/response_success.xml').read, scopes: ['sktalk/receive', 'sktalk/receive_and_save_to_outbox']) }
+  let!(:token) { api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read, scopes: ['sktalk/receive', 'sktalk/receive_and_save_to_outbox']) }
   let!(:message) { file_fixture('sktalk/egov_application_general_agenda.xml').read }
 
   before(:example) do
-    assertion = file_fixture('oam/response_success_assertion.xml').read.strip
+    assertion = file_fixture('oam/sso_response_success_assertion.xml').read.strip
 
     allow(UpvsEnvironment).to receive(:sktalk_receiver).with(assertion: assertion).and_return(sktalk_receiver)
   end
