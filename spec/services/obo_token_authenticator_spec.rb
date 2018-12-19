@@ -4,8 +4,8 @@ RSpec.describe OboTokenAuthenticator do
   let(:assertion_store) { ActiveSupport::Cache::MemoryStore.new }
   let(:key_pair) { OpenSSL::PKey::RSA.new(2048) }
 
-  let(:response) { OneLogin::RubySaml::Response.new(file_fixture('oam/response_success.xml').read) }
-  let(:assertion) { file_fixture('oam/response_success_assertion.xml').read.strip }
+  let(:response) { OneLogin::RubySaml::Response.new(file_fixture('oam/sso_response_success.xml').read) }
+  let(:assertion) { file_fixture('oam/sso_response_success_assertion.xml').read.strip }
 
   subject { described_class.new(assertion_store: assertion_store, key_pair: key_pair) }
 
@@ -68,7 +68,7 @@ RSpec.describe OboTokenAuthenticator do
     end
 
     context 'assertion parser failure' do
-      let(:response) { OneLogin::RubySaml::Response.new(file_fixture('oam/response_no_authn_context.xml').read) }
+      let(:response) { OneLogin::RubySaml::Response.new(file_fixture('oam/sso_response_no_authn_context.xml').read) }
 
       it 'raises argument error' do
         expect { subject.generate_token(response) }.to raise_error(ArgumentError)

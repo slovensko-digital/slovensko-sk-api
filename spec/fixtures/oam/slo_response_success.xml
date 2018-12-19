@@ -1,0 +1,35 @@
+<samlp:LogoutResponse Destination="https://auth.vyvoj.upvs.globaltel.sk/oamfed/idp/samlv20" ID="_ef5f645c-45da-4832-aede-8610ce0f9e2f" InResponseTo="id-iDdHaBM4LARWILZMQAD-fKvBTb2SISH9EfUef2Xk" IssueInstant="2018-12-19T13:34:59Z" Version="2.0" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol">
+  <saml:Issuer>http://dev.podaas.slovensko.digital</saml:Issuer>
+  <ds:Signature xmlns:ds='http://www.w3.org/2000/09/xmldsig#'>
+    <ds:SignedInfo>
+      <ds:CanonicalizationMethod Algorithm='http://www.w3.org/2001/10/xml-exc-c14n#'/>
+      <ds:SignatureMethod Algorithm='http://www.w3.org/2001/04/xmldsig-more#rsa-sha512'/>
+      <ds:Reference URI='#_ef5f645c-45da-4832-aede-8610ce0f9e2f'>
+        <ds:Transforms>
+          <ds:Transform Algorithm='http://www.w3.org/2000/09/xmldsig#enveloped-signature'/>
+          <ds:Transform Algorithm='http://www.w3.org/2001/10/xml-exc-c14n#'>
+            <ec:InclusiveNamespaces PrefixList='#default samlp saml ds xs xsi md' xmlns:ec='http://www.w3.org/2001/10/xml-exc-c14n#'/>
+          </ds:Transform>
+        </ds:Transforms>
+        <ds:DigestMethod Algorithm='http://www.w3.org/2001/04/xmlenc#sha512'/>
+        <ds:DigestValue>
+          Zy5eXjAV8TpPZhyZsCspf1L08x+NVgJrdg5ieoJ7yjcYvRLXp68MgfP2GR7cMIpoVK00Gqcy7zG8ZwdmblBJAw==
+        </ds:DigestValue>
+      </ds:Reference>
+    </ds:SignedInfo>
+    <ds:SignatureValue>
+      E9/5CJT+CYjxKdaYNQS9QgYW8XMaxs6UepD7hivVByD3pbzC5FzbMYHauEUErVqhnnatnulB5bV9uVq1YCBnXrfFwRjm5WKdG+kt9s4HcHWo+/8KO+P8irgooS0peo5MF5mWq8cYPhlYMH2TV7b8kK44bIqYdDHlUtfeH3QVDqFAWv0B0xwoxfW4yZlCZw1kS/Sdcbjj2pe61AIb7qLkLIC4hNfPn5YVW/+mT6hMxNOXq5B0hW2HuKX0YfCIx9uR1w0cpUCYB0SKTXX/i9m6hHSZlPfTduT50h36DkqvyAx53ix0cYQlzsFkyp6WA5n4gk34/opKtfKB7kEK09OFEA==
+    </ds:SignatureValue>
+    <ds:KeyInfo>
+      <ds:X509Data>
+        <ds:X509Certificate>
+          MIIDETCCAfmgAwIBAgIEexL/xzANBgkqhkiG9w0BAQ0FADA5MTcwNQYDVQQDEy5zcC5wb2RhYXMudXB2c2Rldi5leHQucG9kYWFzLnNsb3ZlbnNrby5kaWdpdGFsMB4XDTE4MTAxOTA4MjQzN1oXDTIwMTAxODA4MjQzN1owOTE3MDUGA1UEAxMuc3AucG9kYWFzLnVwdnNkZXYuZXh0LnBvZGFhcy5zbG92ZW5za28uZGlnaXRhbDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJbvHQgL7q8qb4gPP51ENyEkRlkHRB4aufay0HyjU7Gsg6pQm/OUrbCfgQQQO+KQQEDaR9c3YN2SXRYsrsnaxdIRDzc4mZgTPs6nWCvb+7Ov1JvG+V4gUdgwsuxPYuUbUtRhooVjI/QSjLoCnYFFDaHm++g4Txnn0VBeiiqeUeUFWrgPxYRGkllK3rBN7nCwPH6NCRpTPvxG03ux1/Y7np97F8t5w/jOJiRPHjPTiLG+NM2cHJdjwzWtW33WKbJ7CcpC6SE1ynH7Ub9qAAb1g/hI6asoTA3hogD3HXfzfaL8A455/o7FJmRa5aC9CNVJQys10+FAP/4bFgZQBIUHVNUCAwEAAaMhMB8wHQYDVR0OBBYEFDwjjdzCp7hmgLH3bbxRw8hflzYIMA0GCSqGSIb3DQEBDQUAA4IBAQBTHOH19DcEQzltitFIlZlM+QYLJ/+OisR76Jj07GlA3CiLk9k0GO1kQMM4ar/O+4pedhKgHTaC0TZe7EteZihTT/WtvYADXjUCOiq7rfiUPdjDg98EmxE9f1VyKfe/5y/upIOM1hGdeVLlitPTNo2ZJegiJ3DY6+8vBhvYiFVvq/JG3BMfRXBg04SPI5RDtqLhwifxO38Ev+bv0umEIlGgWAnxDrvC7kTFPd9VcQh8dsQq2LcoUl5rqcz4+teHMXQ4VrRLYiahxvHjS4Y3KLRv/6ddrVB/pAMa56WCbuys2kYFb7fgV+sJIaIvepBwX/XkAWHS12CIJpy45bY+yAVd
+        </ds:X509Certificate>
+      </ds:X509Data>
+    </ds:KeyInfo>
+  </ds:Signature>
+  <samlp:Status>
+    <samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success"/>
+    <samlp:StatusMessage>Successfully Signed Out</samlp:StatusMessage>
+  </samlp:Status>
+</samlp:LogoutResponse>

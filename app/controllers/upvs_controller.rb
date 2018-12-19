@@ -1,8 +1,6 @@
 class UpvsController < ApiController
-  # TODO add support for more callback urls (get from param -> check against env -> store in session -> redirect on success)
-
   def login
-    redirect_to url_for('/auth/saml')
+    redirect_to '/auth/saml'
   end
 
   def callback
@@ -10,33 +8,38 @@ class UpvsController < ApiController
     scopes = ['sktalk/receive', 'sktalk/receive_and_save_to_outbox']
     token = Environment.obo_token_authenticator.generate_token(response, scopes: scopes)
 
-    redirect_to login_callback_url(token)
+    redirect_to "#{login_callback_url}?token=#{token}"
   end
 
-  # TODO do we want API tokens or UPVS tokens on logout?
-
   def logout
-    Environment.api_token_authenticator.invalidate_token(authenticity_token, obo: true)
+    if params[:SAMLRequest]
+      redirect_to "/auth/saml/slo?#{slo_request_params.to_query}"
+    elsif params[:SAMLResponse]
+      redirect_to "/auth/saml/slo?#{slo_response_params(logout_callback_url).to_query}"
+    else
+      Environment.api_token_authenticator.invalidate_token(authenticity_token, obo: true)
 
-    redirect_to logout_callback_url
-
-    # TODO rewrite this: logout via IDP works, logout via SP signs out here but user remains signed in at IDP
-    # if params[:SAMLResponse]
-    #   UpvsEnvironment.assertion_store.delete(params[:key])
-    #
-    #   render status: :ok, json: { message: 'Signed out' }
-    # else
-    #   redirect_to url_for('/auth/saml/spslo')
-    # end
+      redirect_to '/auth/saml/spslo'
+    end
   end
 
   private
 
-  def login_callback_url(token)
-    "#{Environment.login_callback_url}?token=#{token}"
+  # TODO add support for more callback urls (get from param -> check against env -> store in session -> redirect on success)
+
+  def login_callback_url
+    Environment.login_callback_url
   end
 
   def logout_callback_url
     Environment.logout_callback_url
+  end
+
+  def slo_request_params
+    params.permit(:SAMLRequest, :SigAlg, :Signature)
+  end
+
+  def slo_response_params(redirect_url)
+    params.permit(:SAMLResponse, :SigAlg, :Signature).merge(RelayState: redirect_url)
   end
 end
