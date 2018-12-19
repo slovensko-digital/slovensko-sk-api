@@ -2,8 +2,6 @@ class StatusController < ApplicationController
   def internal
     check_environment_variables
     check_database_connection
-
-    check_clock_status
     check_worker_status
 
     check_api_token_key
@@ -45,16 +43,11 @@ class StatusController < ApplicationController
     raise 'Unable to establish database connection' unless ActiveRecord::Base.connected?
   end
 
-  def check_clock_status
-    # TODO
-  rescue
-    raise 'Unable to read clock status'
-  end
-
   def check_worker_status
-    # TODO
+    beat = DelayedBeat.find_by(job_class: DownloadAllFormTemplatesJob.name)
+    raise "Unbeaten #{beat.job_class} with last beat at #{beat.updated_at}" if beat && beat.updated_at < 28.hours.ago
   rescue
-    raise 'Unable to read worker status'
+    raise 'Unable to acquire worker status'
   end
 
   def check_api_token_key
