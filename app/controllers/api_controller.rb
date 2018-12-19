@@ -31,8 +31,11 @@ class ApiController < ActionController::API
   private
 
   def authenticate(scope: nil)
-    token = ActionController::HttpAuthentication::Token.token_and_options(request)&.first || params[:token]
-    Environment.api_token_authenticator.verify_token(token, obo: scope.present?, scope: scope)
+    Environment.api_token_authenticator.verify_token(authenticity_token, obo: scope.present?, scope: scope)
+  end
+
+  def authenticity_token
+    (ActionController::HttpAuthentication::Token.token_and_options(request)&.first || params[:token])&.squish.presence
   end
 
   def render_bad_request(message)

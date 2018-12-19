@@ -16,7 +16,7 @@ class UpvsController < ApiController
   # TODO do we want API tokens or UPVS tokens on logout?
 
   def logout
-    Environment.api_token_authenticator.invalidate_token(params[:token])
+    Environment.api_token_authenticator.invalidate_token(authenticity_token, obo: true)
 
     redirect_to logout_callback_url
 
