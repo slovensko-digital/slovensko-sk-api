@@ -3,20 +3,7 @@ require 'rails_helper'
 RSpec.describe 'SKTalk API' do
   let(:sktalk_receiver) { instance_double(SktalkReceiver) }
 
-  let!(:token) do
-    response = OneLogin::RubySaml::Response.new(file_fixture('oam/response_success.xml').read)
-    scopes = ['sktalk/receive', 'sktalk/receive_and_save_to_outbox']
-
-    obo_token = travel_to(response.not_before) do
-      Environment.obo_token_authenticator.generate_token(response, scopes: scopes)
-    end
-
-    header = { cty: 'JWT' }
-    payload = { exp: response.not_on_or_after.to_i, jti: SecureRandom.uuid, obo: obo_token }
-
-    JWT.encode(payload, api_token_key_pair, 'RS256', header)
-  end
-
+  let!(:token) { api_token_with_obo_token_from_response(file_fixture('oam/response_success.xml').read, scopes: ['sktalk/receive', 'sktalk/receive_and_save_to_outbox']) }
   let!(:message) { file_fixture('sktalk/egov_application_general_agenda.xml').read }
 
   before(:example) do

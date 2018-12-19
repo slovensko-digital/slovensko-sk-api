@@ -1,8 +1,6 @@
 class UpvsController < ApiController
-  # TODO add support for more callback urls (get from param -> check against env -> store in session -> redirect on success)
-
   def login
-    redirect_to url_for('/auth/saml')
+    redirect_to '/auth/saml'
   end
 
   def callback
@@ -10,7 +8,7 @@ class UpvsController < ApiController
     scopes = ['sktalk/receive', 'sktalk/receive_and_save_to_outbox']
     token = Environment.obo_token_authenticator.generate_token(response, scopes: scopes)
 
-    redirect_to login_callback_url(token)
+    redirect_to "#{login_callback_url}?token=#{token}"
   end
 
   def logout
@@ -27,8 +25,10 @@ class UpvsController < ApiController
 
   private
 
-  def login_callback_url(token)
-    "#{Environment.login_callback_url}?token=#{token}"
+  # TODO add support for more callback urls (get from param -> check against env -> store in session -> redirect on success)
+
+  def login_callback_url
+    Environment.login_callback_url
   end
 
   def logout_callback_url
