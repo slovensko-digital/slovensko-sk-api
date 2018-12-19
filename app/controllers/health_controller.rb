@@ -58,13 +58,13 @@ class HealthController < ApplicationController
   end
 
   def check_api_token_key
-    Environment.api_token_authenticator
+    Environment.api_token_authenticator # initializes API token authenticator with identifier cache and RSA public key
   rescue
     raise 'Unable to read API token key expiration'
   end
 
   def check_obo_token_key
-    Environment.obo_token_authenticator
+    Environment.obo_token_authenticator # initializes OBO token authenticator with assertion store and RSA key pair
   rescue
     raise 'Unable to read OBO token key expiration'
   end
@@ -86,13 +86,13 @@ class HealthController < ApplicationController
   end
 
   def check_ez_service
-    UpvsEnvironment.upvs_proxy.ez
+    UpvsEnvironment.eform_service.fetch_all_form_template_ids # invokes EZ service with STS certificate
   rescue
     raise 'Unable to retrieve EZ service'
   end
 
   def check_sktalk_service
-    UpvsEnvironment.upvs_proxy.sktalk
+    UpvsEnvironment.upvs_proxy.sktalk # initializes SKTalk service with STS certificate
   rescue
     raise 'Unable to retrieve SKTalk service'
   end
