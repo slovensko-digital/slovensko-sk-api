@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  get :health, to: 'health#index'
+  namespace :status do
+    get :internal
+    get :external
+  end
 
   get :login, to: 'upvs#login'
   get :logout, to: 'upvs#logout'

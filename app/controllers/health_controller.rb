@@ -1,5 +1,5 @@
 class HealthController < ApplicationController
-  def index
+  def internal
     check_environment_variables
     check_database_connection
 
@@ -12,10 +12,16 @@ class HealthController < ApplicationController
     check_sp_certificate
     check_sts_certificate
 
+    render status: :ok, json: { message: 'Internal systems operational' }
+  rescue => error
+    render status: :internal_server_error, json: { message: error.message }
+  end
+
+  def external
     check_ez_service
     check_sktalk_service
 
-    render status: :ok, json: { message: 'Internal systems operational' }
+    render status: :ok, json: { message: 'External systems operational' }
   rescue => error
     render status: :internal_server_error, json: { message: error.message }
   end
@@ -52,13 +58,13 @@ class HealthController < ApplicationController
   end
 
   def check_api_token_key
-    # TODO
+    Environment.api_token_authenticator
   rescue
     raise 'Unable to read API token key expiration'
   end
 
   def check_obo_token_key
-    # TODO
+    Environment.obo_token_authenticator
   rescue
     raise 'Unable to read OBO token key expiration'
   end
