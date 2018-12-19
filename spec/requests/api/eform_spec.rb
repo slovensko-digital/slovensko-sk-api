@@ -11,10 +11,9 @@ RSpec.describe 'eForm API' do
 
     let(:token) do
       response = OneLogin::RubySaml::Response.new(file_fixture('oam/response_success.xml').read)
-      header = { cty: 'JWT' }
       payload = { exp: response.not_on_or_after.to_i, jti: SecureRandom.uuid }
 
-      JWT.encode(payload, api_token_key_pair, 'RS256', header)
+      JWT.encode(payload, api_token_key_pair, 'RS256')
     end
 
     let(:default_params) {{ identifier: 'App.GeneralAgenda', version: '1.7', data: valid_form_xml, token: token }}

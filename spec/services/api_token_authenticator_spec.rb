@@ -17,7 +17,7 @@ RSpec.describe ApiTokenAuthenticator do
   after(:example) { travel_back }
 
   describe '#verify_token' do
-    def generate_token(exp: 1543437976, jti: SecureRandom.uuid, obo: nil, header: { cty: 'JWT' }, **payload)
+    def generate_token(exp: 1543437976, jti: SecureRandom.uuid, obo: nil, header: {}, **payload)
       payload.merge!(exp: exp, jti: jti, obo: obo)
       JWT.encode(payload.compact, key_pair, 'RS256', header)
     end
@@ -44,14 +44,8 @@ RSpec.describe ApiTokenAuthenticator do
       expect { subject.verify_token(token) }.to raise_error(JWT::VerificationError)
     end
 
-    it 'verifies CTY header presence' do
-      token = generate_token(header: {})
-
-      expect { subject.verify_token(token) }.to raise_error(JWT::DecodeError)
-    end
-
-    it 'verifies CTY header value' do
-      token = generate_token(header: { cty: 'NON-JWT' })
+    it 'verifies CTY header absence' do
+      token = generate_token(header: { cty: 'JWT' })
 
       expect { subject.verify_token(token) }.to raise_error(JWT::DecodeError)
     end
@@ -102,27 +96,43 @@ RSpec.describe ApiTokenAuthenticator do
       expect { subject.verify_token(token) }.to raise_error(JWT::InvalidJtiError)
     end
 
-    context 'with scopes' do
-      pending
-    end
-
     context 'with OBO token' do
       it 'returns assertion' do
         obo_token = obo_token_authenticator.generate_token(response)
 
         expect(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: nil).and_call_original
 
-        token = generate_token(obo: obo_token)
+        token = generate_token(obo: obo_token, header: { cty: 'JWT' })
 
         expect(subject.verify_token(token, obo: true)).to eq(assertion)
+      end
+
+      it 'verifies CTY header presence' do
+        obo_token = nil
+
+        allow(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: nil).and_call_original
+
+        token = generate_token(obo: obo_token, header: {})
+
+        expect { subject.verify_token(token, obo: true) }.to raise_error(JWT::DecodeError)
+      end
+
+      it 'verifies CTY header value' do
+        obo_token = nil
+
+        allow(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: nil).and_call_original
+
+        token = generate_token(obo: obo_token, header: { cty: 'NON-JWT' })
+
+        expect { subject.verify_token(token, obo: true) }.to raise_error(JWT::DecodeError)
       end
 
       it 'verifies OBO token presence' do
         obo_token = nil
 
-        expect(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: nil).and_call_original
+        allow(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: nil).and_call_original
 
-        token = generate_token(obo: obo_token)
+        token = generate_token(obo: obo_token, header: { cty: 'JWT' })
 
         expect { subject.verify_token(token, obo: true) }.to raise_error(JWT::DecodeError)
       end
@@ -132,7 +142,7 @@ RSpec.describe ApiTokenAuthenticator do
 
         expect(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: nil).and_call_original
 
-        token = generate_token(obo: obo_token)
+        token = generate_token(obo: obo_token, header: { cty: 'JWT' })
 
         expect { subject.verify_token(token, obo: true) }.to raise_error(JWT::DecodeError)
       end
@@ -142,9 +152,19 @@ RSpec.describe ApiTokenAuthenticator do
 
         expect(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: nil).and_call_original
 
-        token = generate_token(obo: obo_token)
+        token = generate_token(obo: obo_token, header: { cty: 'JWT' })
 
         expect { subject.verify_token(token, obo: true) }.to raise_error(JWT::VerificationError)
+      end
+
+      it 'verifies OBO token scope' do
+        obo_token = obo_token_authenticator.generate_token(response, scopes: [])
+
+        expect(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: 'scope-to-verify').and_call_original
+
+        token = generate_token(obo: obo_token, header: { cty: 'JWT' })
+
+        expect { subject.verify_token(token, obo: true, scope: 'scope-to-verify') }.to raise_error(JWT::VerificationError)
       end
     end
 
@@ -159,7 +179,7 @@ RSpec.describe ApiTokenAuthenticator do
 
       it 'can not verify the same token twice in the first 20 minutes' do
         o1 = generate_obo_token
-        t1 = generate_token(obo: o1)
+        t1 = generate_token(obo: o1, header: { cty: 'JWT' })
 
         subject.verify_token(t1)
 
@@ -170,7 +190,7 @@ RSpec.describe ApiTokenAuthenticator do
 
       it 'can not verify the same token again on or after 20 minutes' do
         o1 = generate_obo_token
-        t1 = generate_token(obo: o1)
+        t1 = generate_token(obo: o1, header: { cty: 'JWT' })
 
         subject.verify_token(t1)
 
@@ -183,14 +203,14 @@ RSpec.describe ApiTokenAuthenticator do
         jti = SecureRandom.uuid
 
         o1 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
-        t1 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o1)
+        t1 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o1, header: { cty: 'JWT' })
 
         subject.verify_token(t1)
 
         travel_to Time.now + 45.minutes
 
         o2 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
-        t2 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o2)
+        t2 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o2, header: { cty: 'JWT' })
 
         travel_to Time.now + 15.minutes - 0.1.seconds
 
@@ -201,18 +221,18 @@ RSpec.describe ApiTokenAuthenticator do
         jti = SecureRandom.uuid
 
         o1 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
-        t1 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o1)
+        t1 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o1, header: { cty: 'JWT' })
 
-        subject.verify_token(t1)
+        subject.verify_token(t1, obo: true)
 
         travel_to Time.now + 45.minutes
 
         o2 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
-        t2 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o2)
+        t2 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o2, header: { cty: 'JWT' })
 
         travel_to Time.now + 15.minutes
 
-        expect { subject.verify_token(t2) }.not_to raise_error
+        expect { subject.verify_token(t2, obo: true) }.not_to raise_error
       end
     end
 
@@ -223,5 +243,9 @@ RSpec.describe ApiTokenAuthenticator do
         expect { subject.verify_token(generate_token) }.to raise_error(JWT::DecodeError)
       end
     end
+  end
+
+  describe '#verify_token' do
+    pending
   end
 end

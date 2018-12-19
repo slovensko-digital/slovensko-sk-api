@@ -1,11 +1,19 @@
 class ApiController < ActionController::API
+  rescue_from JWT::DecodeError do |error|
+    if error.message == 'Nil JSON web token'
+      render_bad_request('No credentials')
+    else
+      render_unauthorized
+    end
+  end
 
   # TODO fix https://guides.rubyonrails.org/action_controller_overview.html#rescue-from
-  #rescue_from StandardError, with: :render_internal_server_error unless Rails.env.development?
+  # rescue_from StandardError, with: :render_internal_server_error unless Rails.env.development?
 
-  rescue_from JWT::DecodeError, with: :render_unauthorized
+  # TODO this is not covered by specs, it may not work:
   rescue_from java.net.SocketTimeoutException, with: :render_request_timeout
 
+  # TODO this does not rescue the raised cause again therefore the unwrapping may not work:
   wrappers = [
     com.google.common.util.concurrent.ExecutionError,
     com.google.common.util.concurrent.UncheckedExecutionException,
@@ -22,8 +30,9 @@ class ApiController < ActionController::API
 
   private
 
-  def authenticator
-    raise NotImplementedError
+  def authenticate(scope: nil)
+    token = ActionController::HttpAuthentication::Token.token_and_options(request)&.first || params[:token]
+    Environment.api_token_authenticator.verify_token(token, obo: scope.present?, scope: scope)
   end
 
   def render_bad_request(message)
@@ -31,7 +40,7 @@ class ApiController < ActionController::API
   end
 
   def render_unauthorized
-    self.headers['WWW-Authenticate'] = 'Token realm="PODAAS"'
+    self.headers['WWW-Authenticate'] = 'Token realm="API"'
     render status: :unauthorized, json: { message: 'Bad credentials' }
   end
 
