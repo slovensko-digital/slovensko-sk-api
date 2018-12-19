@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    get :download_all_form_templates
+  end
+
   namespace :status do
     get :internal
     get :external
