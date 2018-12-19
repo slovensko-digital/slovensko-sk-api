@@ -13,21 +13,18 @@ class UpvsController < ApiController
     redirect_to login_callback_url(token)
   end
 
-  # TODO do we want API tokens or UPVS tokens on logout?
+  # TODO add authentication check before initiating SP logout
+  # Environment.api_token_authenticator.invalidate_token(authenticity_token, obo: true)
+  # redirect_to logout_callback_url
 
   def logout
-    Environment.api_token_authenticator.invalidate_token(authenticity_token, obo: true)
-
-    redirect_to logout_callback_url
-
-    # TODO rewrite this: logout via IDP works, logout via SP signs out here but user remains signed in at IDP
-    # if params[:SAMLResponse]
-    #   UpvsEnvironment.assertion_store.delete(params[:key])
-    #
-    #   render status: :ok, json: { message: 'Signed out' }
-    # else
-    #   redirect_to url_for('/auth/saml/spslo')
-    # end
+    if params[:SAMLRequest]
+      redirect_to "/auth/saml/slo?#{params.permit(:SAMLRequest, :SigAlg, :Signature).to_query}"
+    elsif params[:SAMLResponse]
+      redirect_to "/auth/saml/slo?#{params.permit(:SAMLResponse, :SigAlg, :Signature).to_query}"
+    else
+      redirect_to '/auth/saml/spslo'
+    end
   end
 
   private
