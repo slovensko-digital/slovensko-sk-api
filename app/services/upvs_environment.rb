@@ -100,8 +100,8 @@ module UpvsEnvironment
       # TODO this somehow does not get executed, see: https://github.com/omniauth/omniauth-saml#single-logout
       # idp_slo_session_destroy: proc { |env, session| binding.pry },
 
-      certificate: keystore.certificate(ENV.fetch('UPVS_SP_KS_ALIAS')),
-      private_key: keystore.private_key(ENV.fetch('UPVS_SP_KS_ALIAS'), ENV.fetch('UPVS_SP_KS_PRIVATE_PASSWORD')),
+      certificate: keystore.certificate_in_base64(ENV.fetch('UPVS_SP_KS_ALIAS')),
+      private_key: keystore.private_key_in_base64(ENV.fetch('UPVS_SP_KS_ALIAS'), ENV.fetch('UPVS_SP_KS_PRIVATE_PASSWORD')),
 
       security: {
         authn_requests_signed: true,
