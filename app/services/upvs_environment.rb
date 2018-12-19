@@ -96,6 +96,7 @@ module UpvsEnvironment
       name_identifier_format: 'urn:oasis:names:tc:SAML:2.0:nameid-format:transient',
       protocol_binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
       sp_name_qualifier: sp_metadata['entityID'],
+      idp_name_qualifier: idp_metadata[:idp_entity_id],
 
       # TODO this gets called on IDP initiated logout, we need to invalidate SAML assertion here! removing assertion actually invalidates OBO token which is the desired effect here (cover it in specs)
       idp_slo_session_destroy: proc { |env, session| },
