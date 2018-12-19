@@ -13,16 +13,14 @@ class UpvsController < ApiController
     redirect_to login_callback_url(token)
   end
 
-  # TODO add authentication check before initiating SP logout
-  # Environment.api_token_authenticator.invalidate_token(authenticity_token, obo: true)
-  # redirect_to logout_callback_url
-
   def logout
     if params[:SAMLRequest]
-      redirect_to "/auth/saml/slo?#{params.permit(:SAMLRequest, :SigAlg, :Signature).to_query}"
+      redirect_to "/auth/saml/slo?#{slo_request_params.to_query}"
     elsif params[:SAMLResponse]
-      redirect_to "/auth/saml/slo?#{params.permit(:SAMLResponse, :SigAlg, :Signature).to_query}"
+      redirect_to "/auth/saml/slo?#{slo_response_params(logout_callback_url).to_query}"
     else
+      Environment.api_token_authenticator.invalidate_token(authenticity_token, obo: true)
+
       redirect_to '/auth/saml/spslo'
     end
   end
@@ -35,5 +33,13 @@ class UpvsController < ApiController
 
   def logout_callback_url
     Environment.logout_callback_url
+  end
+
+  def slo_request_params
+    params.permit(:SAMLRequest, :SigAlg, :Signature)
+  end
+
+  def slo_response_params(redirect_url)
+    params.permit(:SAMLResponse, :SigAlg, :Signature).merge(RelayState: redirect_url)
   end
 end
