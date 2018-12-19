@@ -41,7 +41,13 @@ RSpec.describe 'SKTalk API' do
 
     pending 'receives message in request with largest possible payload'
 
-    it 'responds with 400 if request does not contain authentication parameters' do
+    pending 'supports authentication via headers'
+
+    pending 'supports authentication via parameters'
+
+    pending 'prefers authentication via headers over parameters'
+
+    it 'responds with 400 if request does not contain any authentication' do
       post '/api/sktalk/receive', params: { message: message }
 
       expect(response.status).to eq(400)
@@ -90,7 +96,13 @@ RSpec.describe 'SKTalk API' do
 
     pending 'receives message and saves it to outbox in request with largest possible payload'
 
-    it 'responds with 400 if request does not contain authentication parameters' do
+    pending 'supports authentication via headers'
+
+    pending 'supports authentication via parameters'
+
+    pending 'prefers authentication via headers over parameters'
+
+    it 'responds with 400 if request does not contain any authentication' do
       post '/api/sktalk/receive_and_save_to_outbox', params: { message: message }
 
       expect(response.status).to eq(400)
