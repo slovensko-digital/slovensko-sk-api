@@ -34,7 +34,7 @@ class HealthController < ApplicationController
   end
 
   def check_database_connection
-    ActiveRecord::Base.establish_connection
+    ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
     raise 'Unable to establish database connection' unless ActiveRecord::Base.connected?
   end
 
