@@ -63,10 +63,10 @@ class HealthController < ApplicationController
     raise "Unbeaten #{beat.job_class} with last beat at #{beat.updated_at}" if beat && beat.updated_at < 28.hours.ago
   end
 
-  # TODO also somehow check connection to upvs here, but leave proxy object construction checks
-
   def check_ez_service
-    UpvsEnvironment.upvs_proxy.ez # initializes EZ service with STS certificate
+    form_template = FormTemplate.first
+    eform_service = UpvsEnvironment.eform_service # initializes EZ service with STS certificate
+    eform_service.fetch_xsd_schema_for(form_template) if form_template # invokes EZ service with STS certificate
   end
 
   def check_sktalk_service
