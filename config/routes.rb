@@ -21,4 +21,6 @@ Rails.application.routes.draw do
       post :validate
     end
   end
+
+  get '500', to: 'errors#internal_server_error'
 end

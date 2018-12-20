@@ -7,25 +7,14 @@ class ApiController < ActionController::API
     end
   end
 
-  # TODO fix https://guides.rubyonrails.org/action_controller_overview.html#rescue-from
-  # rescue_from StandardError, with: :render_internal_server_error unless Rails.env.development?
+  rescue_from java.lang.Throwable do |error|
+    error = unwrap_error(error)
 
-  # TODO this is not covered by specs, it may not work:
-  rescue_from java.net.SocketTimeoutException, with: :render_request_timeout
-
-  # TODO this does not rescue the raised cause again therefore the unwrapping may not work:
-  wrappers = [
-    com.google.common.util.concurrent.ExecutionError,
-    com.google.common.util.concurrent.UncheckedExecutionException,
-    java.util.concurrent.ExecutionException,
-    java.lang.reflect.UndeclaredThrowableException,
-  ]
-
-  # clear last raised error so it does not tamper the cause of the unwrapped error on subsequent raise
-
-  rescue_from(*wrappers) do |exception|
-    $! = nil
-    raise exception.cause
+    if timeout_error?(error)
+      render_request_timeout
+    else
+      render_internal_server_error
+    end
   end
 
   private
@@ -38,6 +27,22 @@ class ApiController < ActionController::API
     (ActionController::HttpAuthentication::Token.token_and_options(request)&.first || params[:token])&.squish.presence
   end
 
+  def unwrap_error(error)
+    wrappers = [
+      com.google.common.util.concurrent.ExecutionError,
+      com.google.common.util.concurrent.UncheckedExecutionException,
+      java.util.concurrent.ExecutionException,
+      java.lang.reflect.UndeclaredThrowableException,
+    ]
+
+    wrappers.find { |wrapper| error.is_a?(wrapper) } ? unwrap_error(error.cause) : error
+  end
+
+  def timeout_error?(error)
+    return true if error.is_a?(java.net.SocketTimeoutException)
+    true if error.is_a?(javax.xml.ws.soap.SOAPFaultException) && error.message =~ /(connect|read) timed out/i
+  end
+
   def render_bad_request(message)
     render status: :bad_request, json: { message: message }
   end
@@ -45,6 +50,10 @@ class ApiController < ActionController::API
   def render_unauthorized
     self.headers['WWW-Authenticate'] = 'Token realm="API"'
     render status: :unauthorized, json: { message: 'Bad credentials' }
+  end
+
+  def render_not_found(message)
+    render status: :not_found, json: { message: message }
   end
 
   def render_request_timeout

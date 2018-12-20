@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'SKTalk API' do
-  let(:sktalk_receiver) { instance_double(SktalkReceiver) }
+  let(:upvs_proxy) { instance_double(UpvsProxy) }
+  let(:sktalk_receiver) { SktalkReceiver.new(upvs_proxy) }
 
   let!(:token) { api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read, scopes: ['sktalk/receive', 'sktalk/receive_and_save_to_outbox']) }
   let!(:message) { file_fixture('sktalk/egov_application_general_agenda.xml').read }
@@ -62,7 +63,14 @@ RSpec.describe 'SKTalk API' do
       expect(response.body).to eq({ message: 'No message' }.to_json)
     end
 
-    pending 'responds with 400 if request contains malformed message' # message: 'Malformed message'
+    it 'responds with 400 if request contains malformed message to receive' do
+      expect(sktalk_receiver).to receive(:receive).with('INVALID').and_call_original
+
+      post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: 'INVALID' }
+
+      expect(response.status).to eq(400)
+      expect(response.body).to eq({ message: 'Malformed message' }.to_json)
+    end
 
     it 'responds with 401 if authentication does not pass' do
       travel_to Time.now + 20.minutes
@@ -73,7 +81,14 @@ RSpec.describe 'SKTalk API' do
       expect(response.body).to eq({ message: 'Bad credentials' }.to_json)
     end
 
-    pending 'responds with 408 if external service times out'
+    it 'responds with 408 if external service times out' do
+      expect(sktalk_receiver).to receive(:receive).with(message).and_raise(execution_exception(soap_fault_exception('connect timed out')))
+
+      post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: message }
+
+      expect(response.status).to eq(408)
+      expect(response.body).to eq({ message: 'Operation timeout exceeded' }.to_json)
+    end
 
     pending 'responds with 413 if payload is too large'
 
@@ -131,7 +146,14 @@ RSpec.describe 'SKTalk API' do
       expect(response.body).to eq({ message: 'No message' }.to_json)
     end
 
-    pending 'responds with 400 if request contains malformed message' # message: 'Malformed message'
+    it 'responds with 400 if request contains malformed message to receive' do
+      expect(sktalk_receiver).to receive(:receive).with('INVALID').and_call_original
+
+      post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: 'INVALID' }
+
+      expect(response.status).to eq(400)
+      expect(response.body).to eq({ message: 'Malformed message' }.to_json)
+    end
 
     it 'responds with 401 if authentication does not pass' do
       travel_to Time.now + 20.minutes
@@ -142,7 +164,14 @@ RSpec.describe 'SKTalk API' do
       expect(response.body).to eq({ message: 'Bad credentials' }.to_json)
     end
 
-    pending 'responds with 408 if external service times out'
+    it 'responds with 408 if external service times out' do
+      expect(sktalk_receiver).to receive(:receive).with(message).and_raise(execution_exception(soap_fault_exception('connect timed out')))
+
+      post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: message }
+
+      expect(response.status).to eq(408)
+      expect(response.body).to eq({ message: 'Operation timeout exceeded' }.to_json)
+    end
 
     pending 'responds with 413 if payload is too large'
 

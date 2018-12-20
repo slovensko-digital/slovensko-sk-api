@@ -41,7 +41,11 @@ module Podaas
     config.active_record.default_timezone = :utc
     config.time_zone = 'Europe/Bratislava'
 
+    # Set job worker
     config.active_job.queue_adapter = :delayed_job
+
+    # Set error handler
+    config.exceptions_app = self.routes
   end
 end
 
