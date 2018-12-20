@@ -54,13 +54,13 @@ class StatusController < ApplicationController
   def check_sp_certificate
     sp_ks = KeyStore.new(ENV.fetch('UPVS_SP_KS_FILE'), ENV.fetch('UPVS_SP_KS_PASSWORD'))
     sp_na = Time.parse(sp_ks.certificate(ENV.fetch('UPVS_SP_KS_ALIAS')).not_after.to_s)
-    raise "SP certificate expires in #{sp_na}" if sp_na < 2.months.from_now
+    raise "SP certificate expires at #{sp_na}" if sp_na < 2.months.from_now
   end
 
   def check_sts_certificate
     sts_ks = KeyStore.new(ENV.fetch('UPVS_STS_KS_FILE'), ENV.fetch('UPVS_STS_KS_PASSWORD'))
     sts_na = Time.parse(sts_ks.certificate(ENV.fetch('UPVS_STS_KS_ALIAS')).not_after.to_s)
-    raise "STS certificate expires in #{sp_na}" if sts_na < 2.months.from_now
+    raise "STS certificate expires at #{sp_na}" if sts_na < 2.months.from_now
   end
 
   def check_ez_service
