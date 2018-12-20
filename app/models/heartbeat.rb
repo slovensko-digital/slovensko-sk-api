@@ -1,0 +1,2 @@
+class Heartbeat < ApplicationRecord
+end

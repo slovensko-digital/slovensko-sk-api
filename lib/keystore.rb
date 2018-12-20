@@ -9,20 +9,32 @@ class KeyStore
   end
 
   def certificate(entry)
-    encoder.encode_to_string(@keystore.get_certificate(entry).get_encoded)
+    @keystore.get_certificate(entry)
   rescue
     raise Error
   end
 
+  def certificate_in_base64(entry)
+    encode_base64(certificate(entry))
+  end
+
   def private_key(entry, private_password)
-    encoder.encode_to_string(@keystore.get_key(entry, private_password.chars.to_java(:char)).get_encoded)
+    @keystore.get_key(entry, private_password.chars.to_java(:char))
   rescue
     raise Error
+  end
+
+  def private_key_in_base64(entry, private_password)
+    encode_base64(private_key(entry, private_password))
   end
 
   private
 
-  def encoder
-    @encoder ||= java.util.Base64.get_mime_encoder(76, "\n".bytes.to_java(:byte))
+  def base64_encoder
+    @base64_encoder ||= java.util.Base64.get_mime_encoder(76, "\n".bytes.to_java(:byte))
+  end
+
+  def encode_base64(object)
+    base64_encoder.encode_to_string(object.get_encoded)
   end
 end
