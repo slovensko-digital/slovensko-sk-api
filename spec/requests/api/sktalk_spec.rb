@@ -3,24 +3,11 @@ require 'rails_helper'
 RSpec.describe 'SKTalk API' do
   let(:sktalk_receiver) { instance_double(SktalkReceiver) }
 
-  let!(:token) do
-    response = OneLogin::RubySaml::Response.new(file_fixture('oam/response_success.xml').read)
-    scopes = ['sktalk/receive', 'sktalk/receive_and_save_to_outbox']
-
-    obo_token = travel_to(response.not_before) do
-      Environment.obo_token_authenticator.generate_token(response, scopes: scopes)
-    end
-
-    header = { cty: 'JWT' }
-    payload = { exp: response.not_on_or_after.to_i, jti: SecureRandom.uuid, obo: obo_token }
-
-    JWT.encode(payload, api_token_key_pair, 'RS256', header)
-  end
-
+  let!(:token) { api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read, scopes: ['sktalk/receive', 'sktalk/receive_and_save_to_outbox']) }
   let!(:message) { file_fixture('sktalk/egov_application_general_agenda.xml').read }
 
   before(:example) do
-    assertion = file_fixture('oam/response_success_assertion.xml').read.strip
+    assertion = file_fixture('oam/sso_response_success_assertion.xml').read.strip
 
     allow(UpvsEnvironment).to receive(:sktalk_receiver).with(assertion: assertion).and_return(sktalk_receiver)
   end
@@ -30,10 +17,12 @@ RSpec.describe 'SKTalk API' do
   after(:example) { travel_back }
 
   describe 'POST /api/sktalk/receive' do
-    it 'receives message' do
-      expect(sktalk_receiver).to receive(:receive).with(message).and_return(0)
+    before(:example) do
+      allow(sktalk_receiver).to receive(:receive).with(message).and_return(0)
+    end
 
-      post '/api/sktalk/receive', params: { token: token, message: message }
+    it 'receives message' do
+      post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: message }
 
       expect(response.status).to eq(200)
       expect(response.body).to eq({ receive_result: 0 }.to_json)
@@ -41,11 +30,23 @@ RSpec.describe 'SKTalk API' do
 
     pending 'receives message in request with largest possible payload'
 
-    pending 'supports authentication via headers'
+    it 'supports authentication via headers' do
+      post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: message }
 
-    pending 'supports authentication via parameters'
+      expect(response.status).to eq(200)
+    end
 
-    pending 'prefers authentication via headers over parameters'
+    it 'supports authentication via parameters' do
+      post '/api/sktalk/receive', params: { token: token, message: message }
+
+      expect(response.status).to eq(200)
+    end
+
+    it 'prefers authentication via headers over parameters' do
+      post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + token }, params: { token: 'INVALID', message: message }
+
+      expect(response.status).to eq(200)
+    end
 
     it 'responds with 400 if request does not contain any authentication' do
       post '/api/sktalk/receive', params: { message: message }
@@ -55,7 +56,7 @@ RSpec.describe 'SKTalk API' do
     end
 
     it 'responds with 400 if request does not contain message to receive' do
-      post '/api/sktalk/receive', params: { token: token }
+      post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + token }
 
       expect(response.status).to eq(400)
       expect(response.body).to eq({ message: 'No message' }.to_json)
@@ -66,7 +67,7 @@ RSpec.describe 'SKTalk API' do
     it 'responds with 401 if authentication does not pass' do
       travel_to Time.now + 20.minutes
 
-      post '/api/sktalk/receive', params: { token: token, message: message }
+      post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: message }
 
       expect(response.status).to eq(401)
       expect(response.body).to eq({ message: 'Bad credentials' }.to_json)
@@ -84,11 +85,13 @@ RSpec.describe 'SKTalk API' do
   end
 
   describe 'POST /api/sktalk/receive_and_save_to_outbox' do
-    it 'receives message and saves it to outbox' do
-      expect(sktalk_receiver).to receive(:receive).with(message).and_return(0)
-      expect(sktalk_receiver).to receive(:save_to_outbox).with(message).and_return(0)
+    before(:example) do
+      allow(sktalk_receiver).to receive(:receive).with(message).and_return(0)
+      allow(sktalk_receiver).to receive(:save_to_outbox).with(message).and_return(0)
+    end
 
-      post '/api/sktalk/receive_and_save_to_outbox', params: { token: token, message: message }
+    it 'receives message and saves it to outbox' do
+      post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: message }
 
       expect(response.status).to eq(200)
       expect(response.body).to eq({ receive_result: 0, save_to_outbox_result: 0 }.to_json)
@@ -96,11 +99,23 @@ RSpec.describe 'SKTalk API' do
 
     pending 'receives message and saves it to outbox in request with largest possible payload'
 
-    pending 'supports authentication via headers'
+    it 'supports authentication via headers' do
+      post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: message }
 
-    pending 'supports authentication via parameters'
+      expect(response.status).to eq(200)
+    end
 
-    pending 'prefers authentication via headers over parameters'
+    it 'supports authentication via parameters' do
+      post '/api/sktalk/receive_and_save_to_outbox', params: { token: token, message: message }
+
+      expect(response.status).to eq(200)
+    end
+
+    it 'prefers authentication via headers over parameters' do
+      post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + token }, params: { token: 'INVALID', message: message }
+
+      expect(response.status).to eq(200)
+    end
 
     it 'responds with 400 if request does not contain any authentication' do
       post '/api/sktalk/receive_and_save_to_outbox', params: { message: message }
@@ -110,7 +125,7 @@ RSpec.describe 'SKTalk API' do
     end
 
     it 'responds with 400 if request does not contain message to receive' do
-      post '/api/sktalk/receive_and_save_to_outbox', params: { token: token }
+      post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + token }
 
       expect(response.status).to eq(400)
       expect(response.body).to eq({ message: 'No message' }.to_json)
@@ -121,7 +136,7 @@ RSpec.describe 'SKTalk API' do
     it 'responds with 401 if authentication does not pass' do
       travel_to Time.now + 20.minutes
 
-      post '/api/sktalk/receive_and_save_to_outbox', params: { token: token, message: message }
+      post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: message }
 
       expect(response.status).to eq(401)
       expect(response.body).to eq({ message: 'Bad credentials' }.to_json)
