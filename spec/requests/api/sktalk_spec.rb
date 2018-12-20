@@ -81,7 +81,14 @@ RSpec.describe 'SKTalk API' do
       expect(response.body).to eq({ message: 'Bad credentials' }.to_json)
     end
 
-    pending 'responds with 408 if external service times out'
+    it 'responds with 408 if external service times out' do
+      expect(sktalk_receiver).to receive(:receive).with(message).and_raise(execution_exception(soap_fault_exception('connect timed out')))
+
+      post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: message }
+
+      expect(response.status).to eq(408)
+      expect(response.body).to eq({ message: 'Operation timeout exceeded' }.to_json)
+    end
 
     pending 'responds with 413 if payload is too large'
 
@@ -157,7 +164,14 @@ RSpec.describe 'SKTalk API' do
       expect(response.body).to eq({ message: 'Bad credentials' }.to_json)
     end
 
-    pending 'responds with 408 if external service times out'
+    it 'responds with 408 if external service times out' do
+      expect(sktalk_receiver).to receive(:receive).with(message).and_raise(execution_exception(soap_fault_exception('connect timed out')))
+
+      post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: message }
+
+      expect(response.status).to eq(408)
+      expect(response.body).to eq({ message: 'Operation timeout exceeded' }.to_json)
+    end
 
     pending 'responds with 413 if payload is too large'
 
