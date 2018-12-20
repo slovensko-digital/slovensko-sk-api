@@ -25,6 +25,8 @@ RSpec.describe SktalkReceiver, :upvs do
       end
     end
 
+    pending 'with too large message'
+
     context 'with connection timeout' do
       let(:properties) { UpvsEnvironment.properties.merge('upvs.timeout.connection' => 2) }
 
@@ -60,6 +62,8 @@ RSpec.describe SktalkReceiver, :upvs do
         expect { subject.save_to_outbox(message) }.to raise_error(javax.xml.bind.UnmarshalException)
       end
     end
+
+    pending 'with too large message'
 
     context 'with connection timeout' do
       let(:properties) { UpvsEnvironment.properties.merge('upvs.timeout.connection' => 2) }
