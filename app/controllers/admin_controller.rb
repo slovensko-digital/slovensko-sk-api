@@ -1,4 +1,6 @@
-class AdminController < ApplicationController
+class AdminController < ApiController
+  before_action { authenticate }
+
   def download_all_form_templates
     DownloadAllFormTemplatesJob.perform_later
 
