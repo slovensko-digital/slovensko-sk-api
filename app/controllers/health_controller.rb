@@ -21,7 +21,7 @@ class HealthController < ApplicationController
 
     render status: :ok, json: { status: 'pass' }
   rescue => error
-    render status: :internal_server_error, json: { status: 'fail', output: error.message }
+    render status: :service_unavailable, json: { status: 'fail', output: error.message }
   end
 
   private
