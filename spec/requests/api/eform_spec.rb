@@ -102,13 +102,9 @@ RSpec.describe 'eForm API' do
       expect(response.body).to eq({ message: 'Form App.GeneralAgenda version 1.9 not found' }.to_json)
     end
 
-    pending 'responds with 408 if external service times out'
-
     pending 'responds with 413 if payload is too large'
 
     pending 'responds with 429 if request rate limit exceeds'
-
-    pending 'responds with 500 if external service fails'
 
     pending 'responds with 500 if anything else fails'
   end
