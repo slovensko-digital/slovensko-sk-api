@@ -39,7 +39,7 @@ class StatusController < ApplicationController
   end
 
   def check_worker_status
-    beat = DelayedBeat.find_by(job_class: DownloadAllFormTemplatesJob.name)
+    beat = Heartbeat.find_by(name: DownloadAllFormTemplatesJob.name)
     raise "Unbeaten #{beat.job_class} with last beat at #{beat.updated_at}" if beat && beat.updated_at < 28.hours.ago
   end
 
