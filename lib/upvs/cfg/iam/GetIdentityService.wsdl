@@ -2,40 +2,38 @@
 <definitions targetNamespace="http://schemas.gov.sk/identity/service/1.7" name="IdentityServicesExt" xmlns:wssutil="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:tns="http://schemas.gov.sk/identity/service/1.7" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/">
   <wsp:UsingPolicy wssutil:Required="true" />
   <wsp:Policy wssutil:Id="Wssp1.2-2007-Saml2.0-Bearer-Https.xml">
-    <!-- NOTE: Resolves error on verifying message against security policy -->
-    <!--
-    <ns1:TransportBinding xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
-      <wsp:Policy>
-        <ns1:TransportToken>
-          <wsp:Policy>
-            <ns1:HttpsToken>
-              <wsp:Policy />
-            </ns1:HttpsToken>
-          </wsp:Policy>
-        </ns1:TransportToken>
-        <ns1:AlgorithmSuite>
-          <wsp:Policy>
-            <ns1:Basic256 />
-          </wsp:Policy>
-        </ns1:AlgorithmSuite>
-        <ns1:Layout>
-          <wsp:Policy>
-            <ns1:Lax />
-          </wsp:Policy>
-        </ns1:Layout>
-        <ns1:IncludeTimestamp />
-      </wsp:Policy>
-    </ns1:TransportBinding>
-    <ns2:SupportingTokens xmlns:ns2="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
-      <wsp:Policy>
-        <ns2:SamlToken ns2:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
-          <wsp:Policy>
-            <ns2:WssSamlV20Token11 />
-          </wsp:Policy>
-        </ns2:SamlToken>
-      </wsp:Policy>
-    </ns2:SupportingTokens>
-    -->
+    <!-- See https://platforma.slovensko.digital/t/upvs-eforms-received-timestamp-does-not-match-the-requirements-includetimestamp/3423 -->
+    <!--<ns1:TransportBinding xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">-->
+      <!--<wsp:Policy>-->
+        <!--<ns1:TransportToken>-->
+          <!--<wsp:Policy>-->
+            <!--<ns1:HttpsToken>-->
+              <!--<wsp:Policy />-->
+            <!--</ns1:HttpsToken>-->
+          <!--</wsp:Policy>-->
+        <!--</ns1:TransportToken>-->
+        <!--<ns1:AlgorithmSuite>-->
+          <!--<wsp:Policy>-->
+            <!--<ns1:Basic256 />-->
+          <!--</wsp:Policy>-->
+        <!--</ns1:AlgorithmSuite>-->
+        <!--<ns1:Layout>-->
+          <!--<wsp:Policy>-->
+            <!--<ns1:Lax />-->
+          <!--</wsp:Policy>-->
+        <!--</ns1:Layout>-->
+        <!--<ns1:IncludeTimestamp />-->
+      <!--</wsp:Policy>-->
+    <!--</ns1:TransportBinding>-->
+    <!--<ns2:SupportingTokens xmlns:ns2="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">-->
+      <!--<wsp:Policy>-->
+        <!--<ns2:SamlToken ns2:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">-->
+          <!--<wsp:Policy>-->
+            <!--<ns2:WssSamlV20Token11 />-->
+          <!--</wsp:Policy>-->
+        <!--</ns2:SamlToken>-->
+      <!--</wsp:Policy>-->
+    <!--</ns2:SupportingTokens>-->
     <wsp:ExactlyOne>
       <wsp:All>
         <sp:TransportBinding xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">

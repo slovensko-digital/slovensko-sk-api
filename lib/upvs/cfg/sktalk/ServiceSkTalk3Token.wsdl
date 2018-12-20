@@ -3,28 +3,29 @@
   <wsp:Policy wsu:Id="ServiceSkTalk3Token_IService_policy">
     <wsp:ExactlyOne>
       <wsp:All>
-        <sp:TransportBinding xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
-          <wsp:Policy>
-            <sp:TransportToken>
-              <wsp:Policy>
-                <sp:HttpsToken>
-                  <wsp:Policy />
-                </sp:HttpsToken>
-              </wsp:Policy>
-            </sp:TransportToken>
-            <sp:AlgorithmSuite>
-              <wsp:Policy>
-                <sp:Basic256 />
-              </wsp:Policy>
-            </sp:AlgorithmSuite>
-            <sp:Layout>
-              <wsp:Policy>
-                <sp:Strict />
-              </wsp:Policy>
-            </sp:Layout>
-            <sp:IncludeTimestamp />
-          </wsp:Policy>
-        </sp:TransportBinding>
+        <!-- See https://platforma.slovensko.digital/t/upvs-eforms-received-timestamp-does-not-match-the-requirements-includetimestamp/3423 -->
+        <!--<sp:TransportBinding xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">-->
+          <!--<wsp:Policy>-->
+            <!--<sp:TransportToken>-->
+              <!--<wsp:Policy>-->
+                <!--<sp:HttpsToken>-->
+                  <!--<wsp:Policy />-->
+                <!--</sp:HttpsToken>-->
+              <!--</wsp:Policy>-->
+            <!--</sp:TransportToken>-->
+            <!--<sp:AlgorithmSuite>-->
+              <!--<wsp:Policy>-->
+                <!--<sp:Basic256 />-->
+              <!--</wsp:Policy>-->
+            <!--</sp:AlgorithmSuite>-->
+            <!--<sp:Layout>-->
+              <!--<wsp:Policy>-->
+                <!--<sp:Strict />-->
+              <!--</wsp:Policy>-->
+            <!--</sp:Layout>-->
+            <!--<sp:IncludeTimestamp />-->
+          <!--</wsp:Policy>-->
+        <!--</sp:TransportBinding>-->
         <sp:SignedSupportingTokens xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
           <wsp:Policy>
             <sp:IssuedToken sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
