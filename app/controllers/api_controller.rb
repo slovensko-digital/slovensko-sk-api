@@ -47,6 +47,10 @@ class ApiController < ActionController::API
     render status: :unauthorized, json: { message: 'Bad credentials' }
   end
 
+  def render_not_found(message)
+    render status: :not_found, json: { message: message }
+  end
+
   def render_request_timeout
     render status: :request_timeout, json: { message: 'Operation timeout exceeded' }
   end
