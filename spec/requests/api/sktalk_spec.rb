@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'SKTalk API' do
-  let!(:sktalk_receiver) { SktalkReceiver.new(UpvsEnvironment.upvs_proxy) }
+  let(:upvs_proxy) { instance_double(UpvsProxy) }
+  let(:sktalk_receiver) { SktalkReceiver.new(upvs_proxy) }
 
   let!(:token) { api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read, scopes: ['sktalk/receive', 'sktalk/receive_and_save_to_outbox']) }
   let!(:message) { file_fixture('sktalk/egov_application_general_agenda.xml').read }
