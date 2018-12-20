@@ -3,8 +3,8 @@
 class HealthController < ApplicationController
   def index
     case params[:check]
-    when 'worker'
-      check_worker_status
+    when 'heartbeats'
+      check_heartbeats
     when 'upvs'
       check_ez_service
       check_sktalk_service
@@ -12,8 +12,8 @@ class HealthController < ApplicationController
       check_environment_variables
       check_database_connection
 
-      check_api_token_key
-      check_obo_token_key
+      check_api_token_authenticator
+      check_obo_token_authenticator
 
       check_sp_certificate
       check_sts_certificate
@@ -38,16 +38,11 @@ class HealthController < ApplicationController
     raise 'Unable to establish database connection' unless ActiveRecord::Base.connected?
   end
 
-  def check_worker_status
-    beat = Heartbeat.find_by(name: DownloadAllFormTemplatesJob.name)
-    raise "Unbeaten #{beat.job_class} with last beat at #{beat.updated_at}" if beat && beat.updated_at < 28.hours.ago
-  end
-
-  def check_api_token_key
+  def check_api_token_authenticator
     Environment.api_token_authenticator # initializes API token authenticator with identifier cache and RSA public key
   end
 
-  def check_obo_token_key
+  def check_obo_token_authenticator
     Environment.obo_token_authenticator # initializes OBO token authenticator with assertion store and RSA key pair
   end
 
@@ -61,6 +56,11 @@ class HealthController < ApplicationController
     sts_ks = KeyStore.new(ENV.fetch('UPVS_STS_KS_FILE'), ENV.fetch('UPVS_STS_KS_PASSWORD'))
     sts_na = Time.parse(sts_ks.certificate(ENV.fetch('UPVS_STS_KS_ALIAS')).not_after.to_s)
     raise "STS certificate expires at #{sp_na}" if sts_na < 2.months.from_now
+  end
+
+  def check_heartbeats
+    beat = Heartbeat.find_by(name: DownloadAllFormTemplatesJob.name)
+    raise "Unbeaten #{beat.job_class} with last beat at #{beat.updated_at}" if beat && beat.updated_at < 28.hours.ago
   end
 
   def check_ez_service
