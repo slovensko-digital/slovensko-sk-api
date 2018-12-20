@@ -3,10 +3,7 @@ Rails.application.routes.draw do
     get :download_all_form_templates
   end
 
-  namespace :status do
-    get :internal
-    get :external
-  end
+  get :health, to: 'health#index'
 
   get :login, to: 'upvs#login'
   get :logout, to: 'upvs#logout'

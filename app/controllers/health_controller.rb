@@ -1,27 +1,27 @@
-class StatusController < ApplicationController
-  def internal
-    check_environment_variables
-    check_database_connection
-    check_worker_status
+# See https://tools.ietf.org/id/draft-inadarei-api-health-check-02.html
 
-    check_api_token_key
-    check_obo_token_key
+class HealthController < ApplicationController
+  def index
+    case params[:check]
+    when 'worker'
+      check_worker_status
+    when 'upvs'
+      check_ez_service
+      check_sktalk_service
+    else
+      check_environment_variables
+      check_database_connection
 
-    check_sp_certificate
-    check_sts_certificate
+      check_api_token_key
+      check_obo_token_key
 
-    render status: :ok, json: { message: 'Internal systems operational' }
+      check_sp_certificate
+      check_sts_certificate
+    end
+
+    render status: :ok, json: { status: 'pass' }
   rescue => error
-    render status: :internal_server_error, json: { message: error.message }
-  end
-
-  def external
-    check_ez_service
-    check_sktalk_service
-
-    render status: :ok, json: { message: 'External systems operational' }
-  rescue => error
-    render status: :internal_server_error, json: { message: error.message }
+    render status: :internal_server_error, json: { status: 'fail', output: error.message }
   end
 
   private
