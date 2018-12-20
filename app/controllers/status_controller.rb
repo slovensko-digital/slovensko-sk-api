@@ -64,7 +64,7 @@ class StatusController < ApplicationController
   end
 
   def check_ez_service
-    UpvsEnvironment.eform_service.fetch_all_form_template_ids # invokes EZ service with STS certificate
+    UpvsEnvironment.upvs_proxy.ez # initializes EZ service with STS certificate
   end
 
   def check_sktalk_service
