@@ -1,4 +1,4 @@
-FROM jruby:9.2.0.0-jdk-alpine
+FROM jruby:9.2.5.0-jdk
 RUN apk add --no-cache --update build-base postgresql-dev nodejs curl
 RUN mkdir /app
 WORKDIR /app
