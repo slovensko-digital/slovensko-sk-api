@@ -33,15 +33,9 @@ class UpvsController < ApiController
   private
 
   def fetch_callback_url(action, registered_urls)
-    if params[:callback].present?
-      if registered_urls.include?(params[:callback])
-        params[:callback]
-      else
-        raise CallbackError, "Unregistered #{action} callback"
-      end
-    else
-      raise CallbackError, "No #{action} callback"
-    end
+    raise CallbackError, "No #{action} callback" if params[:callback].blank?
+    raise CallbackError, "Unregistered #{action} callback" unless params[:callback].in?(registered_urls)
+    params[:callback]
   end
 
   def slo_request_params
