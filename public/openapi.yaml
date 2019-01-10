@@ -33,6 +33,7 @@ paths:
       parameters:
       - name: callback
         in: query
+        required: true
         description: Callback URL, ktorá sa má zavolať po úspešnom prihlásení.
         schema:
           type: string
@@ -81,6 +82,7 @@ paths:
       parameters:
       - name: callback
         in: query
+        required: true
         description: Odhlasovacia callback URL.
         schema:
           type: string
