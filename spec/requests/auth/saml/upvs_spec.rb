@@ -46,24 +46,34 @@ RSpec.describe 'UPVS SAML Authentication' do
   end
 
   describe 'POST /auth/saml/callback' do
+    let(:callback) { 'https://example.com/login-callback' }
+
+    before(:example) { get '/auth/saml/login', params: { callback: callback }}
+
     context 'with no response' do
       let(:idp_response) { nil }
 
-      pending
+      it 'responds with 500' do
+        post '/auth/saml/callback', params: { SAMLResponse: idp_response }
+
+        expect(response.status).to eq(500)
+      end
     end
 
-    context 'with any response' do
-      let(:idp_response) { 'RESPONSE' }
+    context 'with malformed response' do
+      let(:idp_response) { 'MALFORMED' }
 
-      pending
+      before(:example) { mock_idp_response(idp_response) }
+
+      it 'responds with 500' do
+        post '/auth/saml/callback', params: { SAMLResponse: idp_response }
+
+        expect(response.status).to eq(500)
+      end
     end
 
     context 'with Success response' do
-      let(:callback) { 'https://example.com/login-callback' }
-
       let(:idp_response) { file_fixture('oam/sso_response_success.base64').read.strip }
-
-      before(:example) { get '/auth/saml/login', params: { callback: callback } }
 
       before(:example) { mock_idp_response(idp_response) }
 
@@ -96,21 +106,33 @@ RSpec.describe 'UPVS SAML Authentication' do
     context 'with Success response but later' do
       let(:idp_response) { file_fixture('oam/sso_response_success.base64').read.strip }
 
+      before(:example) { mock_idp_response(idp_response) }
+
       before(:example) { travel_to '2018-11-28T21:26:16Z' }
 
       after(:example) { travel_back }
 
-      pending
+      it 'responds with 500' do
+        post '/auth/saml/callback', params: { SAMLResponse: idp_response }
+
+        expect(response.status).to eq(500)
+      end
     end
 
     context 'with NoAuthnContext response' do
       let(:idp_response) { file_fixture('oam/sso_response_no_authn_context.base64').read.strip }
 
+      before(:example) { mock_idp_response(idp_response) }
+
       before(:example) { travel_to '2018-11-06T10:11:24Z' }
 
       after(:example) { travel_back }
 
-      pending
+      it 'responds with 500' do
+        post '/auth/saml/callback', params: { SAMLResponse: idp_response }
+
+        expect(response.status).to eq(500)
+      end
     end
   end
 
@@ -202,12 +224,15 @@ RSpec.describe 'UPVS SAML Authentication' do
         expect(response.body).to eq({ message: 'Bad credentials' }.to_json)
       end
 
-      context 'with Success response' do
-        pending 'processes IDP response' # slo_response_success.xml
-      end
+      context 'with response' do
+        before(:example) { get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }, params: { callback: callback }}
 
-      context 'with Different User response' do
-        pending 'processes IDP response' # slo_response_different_user.xml
+        it 'redirects to internal action with logout callback location' do
+          get '/auth/saml/logout', params: { SAMLResponse: 'RESPONSE' }
+
+          expect(response.status).to eq(302)
+          expect(response.location).to match(callback.to_query('RelayState'))
+        end
       end
     end
   end
