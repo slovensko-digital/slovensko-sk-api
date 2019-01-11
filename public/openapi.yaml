@@ -300,7 +300,7 @@ components:
         WWW-Authenticate:
           schema:
             type: string
-            example: Token realm="PODAAS"
+            example: Token realm="API"
 
     requestTimeout:
       description: Operácia vypršala.
