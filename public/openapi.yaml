@@ -182,7 +182,7 @@ paths:
           format: XML
       responses:
         200:
-          description: SKTalk bola správa prijatá.
+          description: SKTalk správa bola odoslaná.
           content:
             application/json:
               schema:
