@@ -3,12 +3,12 @@
 module Environment
   extend self
 
-  def login_callback_url
-    ENV.fetch('LOGIN_CALLBACK_URL')
+  def login_callback_urls
+    @login_callback_urls ||= ENV.fetch('LOGIN_CALLBACK_URLS').split(',')
   end
 
-  def logout_callback_url
-    ENV.fetch('LOGOUT_CALLBACK_URL')
+  def logout_callback_urls
+    @logout_callback_urls ||= ENV.fetch('LOGOUT_CALLBACK_URLS').split(',')
   end
 
   def api_token_authenticator

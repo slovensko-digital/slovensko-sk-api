@@ -19,27 +19,57 @@ RSpec.describe 'UPVS SAML Authentication' do
   end
 
   describe 'GET /auth/saml/login' do
+    let(:callback) { 'https://example.com/login-callback' }
+
     it 'redirects to IDP with request' do
-      get '/auth/saml/login'
+      get '/auth/saml/login', params: { callback: callback }
 
       follow_redirect!
 
       expect(response.status).to eq(302)
       expect(response.location).to end_with('/auth/saml/callback')
     end
+
+    it 'responds with 400 if request does not contain callback URL' do
+      get '/auth/saml/login'
+
+      expect(response.status).to eq(400)
+      expect(response.body).to eq({ message: 'No login callback' }.to_json)
+    end
+
+    it 'responds with 400 if request contains unregistered callback URL' do
+      get '/auth/saml/login', params: { callback: 'UNREGISTERED' }
+
+      expect(response.status).to eq(400)
+      expect(response.body).to eq({ message: 'Unregistered login callback' }.to_json)
+    end
   end
 
   describe 'POST /auth/saml/callback' do
+    let(:callback) { 'https://example.com/login-callback' }
+
+    before(:example) { get '/auth/saml/login', params: { callback: callback }}
+
     context 'with no response' do
       let(:idp_response) { nil }
 
-      pending
+      it 'responds with 500' do
+        post '/auth/saml/callback', params: { SAMLResponse: idp_response }
+
+        expect(response.status).to eq(500)
+      end
     end
 
-    context 'with any response' do
-      let(:idp_response) { 'RESPONSE' }
+    context 'with malformed response' do
+      let(:idp_response) { 'MALFORMED' }
 
-      pending
+      before(:example) { mock_idp_response(idp_response) }
+
+      it 'responds with 500' do
+        post '/auth/saml/callback', params: { SAMLResponse: idp_response }
+
+        expect(response.status).to eq(500)
+      end
     end
 
     context 'with Success response' do
@@ -51,11 +81,11 @@ RSpec.describe 'UPVS SAML Authentication' do
 
       after(:example) { travel_back }
 
-      it 'redirects to custom login callback location' do
+      it 'redirects to login callback location' do
         post '/auth/saml/callback', params: { SAMLResponse: idp_response }
 
         expect(response.status).to eq(302)
-        expect(response.location).to start_with(Environment.login_callback_url + '?token=')
+        expect(response.location).to start_with(callback + '?token=')
       end
 
       it 'generates OBO token with appropriate scopes' do
@@ -76,21 +106,33 @@ RSpec.describe 'UPVS SAML Authentication' do
     context 'with Success response but later' do
       let(:idp_response) { file_fixture('oam/sso_response_success.base64').read.strip }
 
+      before(:example) { mock_idp_response(idp_response) }
+
       before(:example) { travel_to '2018-11-28T21:26:16Z' }
 
       after(:example) { travel_back }
 
-      pending
+      it 'responds with 500' do
+        post '/auth/saml/callback', params: { SAMLResponse: idp_response }
+
+        expect(response.status).to eq(500)
+      end
     end
 
     context 'with NoAuthnContext response' do
       let(:idp_response) { file_fixture('oam/sso_response_no_authn_context.base64').read.strip }
 
+      before(:example) { mock_idp_response(idp_response) }
+
       before(:example) { travel_to '2018-11-06T10:11:24Z' }
 
       after(:example) { travel_back }
 
-      pending
+      it 'responds with 500' do
+        post '/auth/saml/callback', params: { SAMLResponse: idp_response }
+
+        expect(response.status).to eq(500)
+      end
     end
   end
 
@@ -111,12 +153,14 @@ RSpec.describe 'UPVS SAML Authentication' do
     context 'SP initiation' do
       let!(:token) { api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read) }
 
+      let(:callback) { 'https://example.com/logout-callback' }
+
       before(:example) { travel_to '2018-11-28T20:26:16Z' }
 
       after(:example) { travel_back }
 
       it 'redirects to IDP with request' do
-        get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }
+        get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }, params: { callback: callback }
 
         expect(response.status).to eq(302)
         expect(response.location).to end_with('/auth/saml/spslo')
@@ -127,51 +171,68 @@ RSpec.describe 'UPVS SAML Authentication' do
 
         expect(authenticator).to receive(:invalidate_token).with(token, obo: true).and_call_original
 
-        get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }
+        get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }, params: { callback: callback }
 
         expect { authenticator.verify_token(token, obo: true) }.to raise_error(JWT::DecodeError)
       end
 
       it 'supports authentication via headers' do
-        get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }
+        get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }, params: { callback: callback }
 
         expect(response.status).to eq(302)
       end
 
       it 'supports authentication via parameters' do
-        get '/auth/saml/logout', params: { token: token }
+        get '/auth/saml/logout', params: { token: token, callback: callback }
 
         expect(response.status).to eq(302)
       end
 
       it 'prefers authentication via headers over parameters' do
-        get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }, params: { token: 'INVALID' }
+        get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }, params: { token: 'INVALID', callback: callback }
 
         expect(response.status).to eq(302)
       end
 
       it 'responds with 400 if request does not contain any authentication' do
-        get '/auth/saml/logout'
+        get '/auth/saml/logout', params: { callback: callback }
 
         expect(response.status).to eq(400)
         expect(response.body).to eq({ message: 'No credentials' }.to_json)
       end
 
+      it 'responds with 400 if request does not contain callback URL' do
+        get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }
+
+        expect(response.status).to eq(400)
+        expect(response.body).to eq({ message: 'No logout callback' }.to_json)
+      end
+
+      it 'responds with 400 if request contains unregistered callback URL' do
+        get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }, params: { callback: 'UNREGISTERED' }
+
+        expect(response.status).to eq(400)
+        expect(response.body).to eq({ message: 'Unregistered logout callback' }.to_json)
+      end
+
       it 'responds with 401 if authentication does not pass' do
         travel_to Time.now + 20.minutes
 
-        get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }
+        get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }, params: { callback: callback }
 
         expect(response.status).to eq(401)
         expect(response.body).to eq({ message: 'Bad credentials' }.to_json)
       end
 
-      context 'with Success response' do
-        pending 'processes IDP response' # slo_response_success.xml
-      end
+      context 'with response' do
+        before(:example) { get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }, params: { callback: callback }}
 
-      context 'with Different User response' do
-        pending 'processes IDP response' # slo_response_different_user.xml
+        it 'redirects to internal action with logout callback location' do
+          get '/auth/saml/logout', params: { SAMLResponse: 'RESPONSE' }
+
+          expect(response.status).to eq(302)
+          expect(response.location).to match(callback.to_query('RelayState'))
+        end
       end
     end
   end

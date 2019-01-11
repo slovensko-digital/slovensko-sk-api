@@ -4,7 +4,7 @@ info:
   version: 0.0.2
   title: PodaaS
   description: |
-    PodaaS je proxy API komponent vystavujúci cez REST API služby www.slovensko.sk (ústredný portál verejnej správy - ÚPVS), pomocou ktorých je možné:
+    PodaaS je proxy API komponent vystavujúci cez REST API služby www.slovensko.sk (Ústredný portál verejnej správy - ÚPVS), pomocou ktorých je možné:
 
     - uskutočniť prihlásenie pomocou ÚPVS (pomocou elektronického občianskeho preukazu) a získať údaje o prihlásenom subjekte,
     - podávať podania v mene subjektu, ktorý sa prihlásil cez ÚPVS,
@@ -15,8 +15,8 @@ info:
     email: kontakt@slovensko.digital
 
   license:
-    name: "European Union Public License 1.2"
-    url: "https://opensource.org/licenses/EUPL-1.2"
+    name: European Union Public License 1.2
+    url: https://opensource.org/licenses/EUPL-1.2
 
 servers:
 - description: Server v ÚPVS PROD prostredí
@@ -33,6 +33,7 @@ paths:
       parameters:
       - name: callback
         in: query
+        required: true
         description: Callback URL, ktorá sa má zavolať po úspešnom prihlásení.
         schema:
           type: string
@@ -81,6 +82,7 @@ paths:
       parameters:
       - name: callback
         in: query
+        required: true
         description: Odhlasovacia callback URL.
         schema:
           type: string
