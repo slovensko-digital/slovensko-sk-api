@@ -34,7 +34,7 @@ class UpvsController < ApiController
 
   def fetch_callback_url(action, registered_urls)
     raise CallbackError, "No #{action} callback" if params[:callback].blank?
-    raise CallbackError, "Unregistered #{action} callback" if registered_urls.none? { |url| params[:callback] =~ url }
+    raise CallbackError, "Unregistered #{action} callback" if registered_urls.none? { |url| params[:callback].start_with?(url) }
     params[:callback]
   end
 

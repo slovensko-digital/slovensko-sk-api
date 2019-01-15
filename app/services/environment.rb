@@ -2,11 +2,11 @@ module Environment
   extend self
 
   def login_callback_urls
-    @login_callback_urls ||= fetch_callback_urls('LOGIN_CALLBACK_URLS')
+    @login_callback_urls ||= ENV.fetch('LOGIN_CALLBACK_URLS').split(',')
   end
 
   def logout_callback_urls
-    @logout_callback_urls ||= fetch_callback_urls('LOGOUT_CALLBACK_URLS')
+    @logout_callback_urls ||= ENV.fetch('LOGOUT_CALLBACK_URLS').split(',')
   end
 
   def api_token_authenticator
@@ -44,10 +44,4 @@ module Environment
   RedisConnectionError = Class.new(Exception)
 
   REDIS_CONNECTION_ENFORCER = -> (*) { raise RedisConnectionError }
-
-  private
-
-  def fetch_callback_urls(key)
-    ENV.fetch(key).split(',').map { |u| /\A#{Regexp.escape(u).gsub(/(\\\*)+/, '.*')}\z/ }
-  end
 end
