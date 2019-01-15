@@ -20,28 +20,24 @@ module UpvsEnvironment
         'upvs.sts.address' => 'https://authws.vyvoj.upvs.globaltel.sk/sts/wss11x509',
 
         'upvs.logger' => 'STDOUT',
-
-        'upvs.timeout.connection' => 30000,
-        'upvs.timeout.receive' => 60000,
       }
     when 'fix'
       {
-        # TODO
-
         'upvs.eks.address' => 'https://eschranka.upvsfixnew.gov.sk/EKSService.svc',
         'upvs.ez.address' => 'https://usr.upvsfixnew.gov.sk/ServiceBus/ServiceBusToken.svc',
-        'upvs.iam.address' => '',
+        'upvs.iam.address' => 'https://iamwse.upvsfix.gov.sk:7017/iamws17/GetIdentityService',
         'upvs.sktalk.address' => 'https://uir.upvsfixnew.gov.sk/G2GServiceBus/ServiceSkTalk3Token.svc',
         'upvs.sts.address' => 'https://iamwse.upvsfix.gov.sk:8581/sts/wss11x509',
 
         'upvs.logger' => 'STDOUT',
-
-        'upvs.timeout.connection' => 30000,
-        'upvs.timeout.receive' => 60000,
       }
     when 'prod'
       {
-        # TODO
+        'upvs.eks.address' => 'https://eschranka1.slovensko.sk/EKSService.svc',
+        'upvs.ez.address' => 'https://usr.slovensko.sk/ServiceBus/ServiceBusToken.svc',
+        'upvs.iam.address' => 'https://iamwse.slovensko.sk:7017/iamws17/GetIdentityService',
+        'upvs.sktalk.address' => 'https://uir.slovensko.sk/G2GServiceBus/ServiceSkTalk3Token.svc',
+        'upvs.sts.address' => 'https://iamwse.slovensko.sk:8581/sts/wss11x509',
 
         'upvs.logger' => 'NULL',
       }
@@ -49,8 +45,14 @@ module UpvsEnvironment
       raise 'Unknown environment'
     end
 
-    environment.merge!('upvs.logger' => 'NULL') if Rails.env.test?
+    # disable logger outside of test environment
+    environment['upvs.logger'] = 'NULL' if Rails.env.test?
 
+    # set timeout properties
+    environment['upvs.timeout.connection'] = 30000
+    environment['upvs.timeout.receive'] = 60000
+
+    # set security properties
     security = {
       'upvs.tls.truststore.file' => ENV['UPVS_TLS_TS_FILE'],
       'upvs.tls.truststore.password' => ENV['UPVS_TLS_TS_PASSWORD'],
@@ -61,7 +63,8 @@ module UpvsEnvironment
       'upvs.sts.keystore.private.password' => ENV['UPVS_STS_KS_PRIVATE_PASSWORD'],
     }
 
-    security.merge!('upvs.sts.saml.assertion' => assertion) if assertion
+    # try going on behalf of another subject
+    security['upvs.sts.saml.assertion'] = assertion if assertion.present?
 
     environment.merge(security)
   end
