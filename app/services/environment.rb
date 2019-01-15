@@ -1,5 +1,3 @@
-# TODO use ActiveSupport::Cache::Store::RedisStore to maintain persistence
-
 module Environment
   extend self
 
@@ -20,9 +18,9 @@ module Environment
   end
 
   def api_token_identifier_cache
-    @api_token_identifier_cache ||= ActiveSupport::Cache::MemoryStore.new(
+    @api_token_identifier_cache ||= ActiveSupport::Cache::RedisCacheStore.new(
       namespace: 'api-token-identifiers',
-      size: 128.megabytes,
+      error_handler: redis_connection_enforcer,
       compress: false,
     )
   end
@@ -35,10 +33,17 @@ module Environment
   end
 
   def obo_token_assertion_store
-    @obo_token_assertion_store ||= ActiveSupport::Cache::MemoryStore.new(
+    @obo_token_assertion_store ||= ActiveSupport::Cache::RedisCacheStore.new(
       namespace: 'upvs-token-assertions',
-      size: 128.megabytes,
+      error_handler: redis_connection_enforcer,
       compress: true,
     )
+  end
+
+  # RedisCacheStore ignores standard errors
+  RedisConnectionError = Class.new(Exception)
+
+  def redis_connection_enforcer
+    @redis_connection_enforcer ||= -> (*) { raise RedisConnectionError }
   end
 end

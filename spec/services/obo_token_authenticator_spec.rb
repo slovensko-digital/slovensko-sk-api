@@ -1,13 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe OboTokenAuthenticator do
-  let(:assertion_store) { ActiveSupport::Cache::MemoryStore.new }
+  let(:assertion_store) { Environment.obo_token_assertion_store }
   let(:key_pair) { OpenSSL::PKey::RSA.new(2048) }
 
   let(:response) { OneLogin::RubySaml::Response.new(file_fixture('oam/sso_response_success.xml').read) }
   let(:assertion) { file_fixture('oam/sso_response_success_assertion.xml').read.strip }
 
   subject { described_class.new(assertion_store: assertion_store, key_pair: key_pair) }
+
+  before(:example) { assertion_store.clear }
 
   before(:example) { travel_to '2018-11-28T20:26:16Z' }
 
@@ -34,16 +36,11 @@ RSpec.describe OboTokenAuthenticator do
       )
     end
 
-    it 'returns unique token for the same response' do
+    it 'returns same token for the same response' do
       t1 = subject.generate_token(response)
       t2 = subject.generate_token(response)
 
-      expect(t1).not_to eq(t2)
-
-      j1 = JWT.decode(t1, key_pair.public_key, false).first['jti']
-      j2 = JWT.decode(t2, key_pair.public_key, false).first['jti']
-
-      expect(j1).not_to eq(j2)
+      expect(t1).to eq(t2)
     end
 
     it 'writes assertion to store' do
@@ -63,7 +60,7 @@ RSpec.describe OboTokenAuthenticator do
 
       expect(payload['jti']).to eq(jti)
 
-      expect(assertion_store.inspect).to match('entries=1,')
+      expect(assertion_store.keys.size).to eq(1)
       expect(assertion_store.read(jti)).to eq(assertion)
     end
 
@@ -77,7 +74,7 @@ RSpec.describe OboTokenAuthenticator do
       it 'does not write anything to assertion store' do
         suppress(ArgumentError) { subject.generate_token(response) }
 
-        expect(assertion_store.inspect).to match('entries=0,')
+        expect(assertion_store.keys.size).to eq(0)
       end
     end
 
@@ -91,7 +88,7 @@ RSpec.describe OboTokenAuthenticator do
       it 'does not write anything to assertion store' do
         suppress(ArgumentError) { subject.generate_token(response) }
 
-        expect(assertion_store.inspect).to match('entries=0,')
+        expect(assertion_store.keys.size).to eq(0)
       end
     end
 
@@ -105,7 +102,7 @@ RSpec.describe OboTokenAuthenticator do
       it 'does not write anything to assertion store' do
         suppress(ArgumentError) { subject.generate_token(response) }
 
-        expect(assertion_store.inspect).to match('entries=0,')
+        expect(assertion_store.keys.size).to eq(0)
       end
     end
 
@@ -119,7 +116,7 @@ RSpec.describe OboTokenAuthenticator do
       it 'does not write anything to assertion store' do
         suppress(ArgumentError) { subject.generate_token(response) }
 
-        expect(assertion_store.inspect).to match('entries=0,')
+        expect(assertion_store.keys.size).to eq(0)
       end
     end
 
@@ -133,13 +130,21 @@ RSpec.describe OboTokenAuthenticator do
       it 'does not write anything to assertion store' do
         suppress(JWT::EncodeError) { subject.generate_token(response) }
 
-        expect(assertion_store.inspect).to match('entries=0,')
+        expect(assertion_store.keys.size).to eq(0)
+      end
+    end
+
+    context 'assertion store failure' do
+      let(:assertion_store) { redis_cache_store_without_connection }
+
+      it 'raises connection error' do
+        expect { subject.generate_token(response) }.to raise_error(Environment::RedisConnectionError)
       end
     end
   end
 
   describe '#invalidate_token' do
-    let!(:token) { subject.generate_token(response) }
+    let(:token) { subject.generate_token(response) }
 
     it 'returns true' do
       expect(subject.invalidate_token(token)).to be true
@@ -158,7 +163,7 @@ RSpec.describe OboTokenAuthenticator do
 
       subject.invalidate_token(token)
 
-      expect(assertion_store.inspect).to match('entries=0,')
+      expect(assertion_store.keys.size).to eq(0)
     end
 
     context 'token verification failure' do
@@ -171,7 +176,15 @@ RSpec.describe OboTokenAuthenticator do
       it 'does not delete assertion from store' do
         suppress(JWT::DecodeError) { subject.invalidate_token(token) }
 
-        expect(assertion_store.inspect).to match('entries=1,')
+        expect(assertion_store.keys.size).to eq(1)
+      end
+    end
+
+    context 'assertion store failure' do
+      let(:assertion_store) { redis_cache_store_without_connection }
+
+      it 'raises connection error' do
+        expect { subject.invalidate_token(token) }.to raise_error(Environment::RedisConnectionError)
       end
     end
   end
@@ -284,7 +297,7 @@ RSpec.describe OboTokenAuthenticator do
       token = generate_token
 
       assertion_store.clear
-      expect(assertion_store.inspect).to match('entries=0,')
+      expect(assertion_store.keys.size).to eq(0)
 
       expect { subject.verify_token(token) }.to raise_error(JWT::InvalidJtiError)
     end
@@ -306,6 +319,14 @@ RSpec.describe OboTokenAuthenticator do
 
       it 'raises decode error' do
         expect { subject.verify_token(generate_token) }.to raise_error(JWT::DecodeError)
+      end
+    end
+
+    context 'assertion store failure' do
+      let(:assertion_store) { redis_cache_store_without_connection }
+
+      it 'raises connection error' do
+        expect { subject.verify_token(generate_token) }.to raise_error(Environment::RedisConnectionError)
       end
     end
   end

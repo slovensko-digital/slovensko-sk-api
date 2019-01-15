@@ -28,11 +28,7 @@ class ApiTokenAuthenticator
 
     raise JWT::ExpiredSignature unless exp.is_a?(Integer)
     raise JWT::InvalidPayload if exp > (Time.now + MAX_EXP_IN).to_i
-
-    @jti_cache.synchronize do
-      raise JWT::InvalidJtiError if @jti_cache.exist?(jti)
-      @jti_cache.write(jti, true, expires_in: MAX_EXP_IN)
-    end
+    raise JWT::InvalidJtiError unless @jti_cache.write(jti, true, expires_in: MAX_EXP_IN, unless_exist: true)
 
     return yield payload, header if block_given?
 

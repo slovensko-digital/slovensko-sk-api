@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ApiTokenAuthenticator do
   let(:key_pair) { OpenSSL::PKey::RSA.new(2048) }
 
-  let(:jti_cache) { ActiveSupport::Cache::MemoryStore.new }
+  let(:jti_cache) { Environment.api_token_identifier_cache }
   let(:public_key) { key_pair.public_key }
   let(:obo_token_authenticator) { Environment.obo_token_authenticator }
 
@@ -11,6 +11,8 @@ RSpec.describe ApiTokenAuthenticator do
   let(:assertion) { file_fixture('oam/sso_response_success_assertion.xml').read.strip }
 
   subject { described_class.new(jti_cache: jti_cache, public_key: public_key, obo_token_authenticator: obo_token_authenticator) }
+
+  before(:example) { jti_cache.clear }
 
   before(:example) { travel_to '2018-11-28T20:26:16Z' }
 
@@ -171,6 +173,8 @@ RSpec.describe ApiTokenAuthenticator do
     context 'token replay attacks' do
       let(:obo_token_assertion_store) { Environment.obo_token_assertion_store }
 
+      before(:example) { obo_token_assertion_store.clear }
+
       def generate_obo_token(exp: 1543437976, nbf: 1543436776)
         payload = { exp: exp, nbf: nbf, iat: nbf.to_f, jti: SecureRandom.uuid }
         obo_token_assertion_store.write(payload[:jti], assertion)
@@ -214,6 +218,8 @@ RSpec.describe ApiTokenAuthenticator do
 
         travel_to Time.now + 15.minutes - 0.1.seconds
 
+        expect(jti_cache).to receive(:write).with(any_args).and_call_original
+
         expect { subject.verify_token(t2) }.to raise_error(JWT::InvalidJtiError)
       end
 
@@ -232,6 +238,8 @@ RSpec.describe ApiTokenAuthenticator do
 
         travel_to Time.now + 15.minutes
 
+        expect(jti_cache).to receive(:write).with(any_args).and_return(true)
+
         expect { subject.verify_token(t2, obo: true) }.not_to raise_error
       end
     end
@@ -241,6 +249,14 @@ RSpec.describe ApiTokenAuthenticator do
 
       it 'raises decode error' do
         expect { subject.verify_token(generate_token) }.to raise_error(JWT::DecodeError)
+      end
+    end
+
+    context 'JTI cache failure' do
+      let(:jti_cache) { redis_cache_store_without_connection }
+
+      it 'raises connection error' do
+        expect { subject.verify_token(generate_token) }.to raise_error(Environment::RedisConnectionError)
       end
     end
   end
