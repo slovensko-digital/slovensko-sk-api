@@ -10,7 +10,9 @@ class HealthController < ApplicationController
       check_sktalk_service
     else
       check_environment_variables
-      check_database_connection
+
+      check_postgresql_connection
+      check_redis_connection
 
       check_api_token_authenticator
       check_obo_token_authenticator
@@ -28,14 +30,18 @@ class HealthController < ApplicationController
 
   def check_environment_variables
     variables = Rails.root.join('.env').read.lines.map { |v| v.split('=', 2).first if v.present? }.compact
-    variables << 'DATABASE_URL'
+    variables += ['DATABASE_URL', 'REDIS_URL']
     unset = variables.select { |v| ENV[v].blank? }
     raise "Unset environment variables #{unset.to_sentence}" if unset.any?
   end
 
-  def check_database_connection
+  def check_postgresql_connection
     ActiveRecord::Base.connection.reconnect!
-    raise 'Unable to establish database connection' unless ActiveRecord::Base.connected?
+    raise 'Unable to establish PostgreSQL connection' unless ActiveRecord::Base.connected?
+  end
+
+  def check_redis_connection
+    raise 'Unable to establish Redis connection' unless ActiveSupport::Cache::RedisCacheStore.new.redis.ping
   end
 
   def check_api_token_authenticator

@@ -1,5 +1,3 @@
-# TODO use ActiveSupport::Cache::Store::RedisStore to maintain persistence
-
 module Environment
   extend self
 
@@ -13,16 +11,16 @@ module Environment
 
   def api_token_authenticator
     @api_token_authenticator ||= ApiTokenAuthenticator.new(
-      jti_cache: api_token_identifier_cache,
+      identifier_store: api_token_identifier_store,
       public_key: OpenSSL::PKey::RSA.new(File.read(ENV.fetch('API_TOKEN_PUBLIC_KEY_FILE'))),
       obo_token_authenticator: obo_token_authenticator,
     )
   end
 
-  def api_token_identifier_cache
-    @api_token_identifier_cache ||= ActiveSupport::Cache::MemoryStore.new(
+  def api_token_identifier_store
+    @api_token_identifier_store ||= ActiveSupport::Cache::RedisCacheStore.new(
       namespace: 'api-token-identifiers',
-      size: 128.megabytes,
+      error_handler: REDIS_CONNECTION_ENFORCER,
       compress: false,
     )
   end
@@ -35,10 +33,15 @@ module Environment
   end
 
   def obo_token_assertion_store
-    @obo_token_assertion_store ||= ActiveSupport::Cache::MemoryStore.new(
-      namespace: 'upvs-token-assertions',
-      size: 128.megabytes,
+    @obo_token_assertion_store ||= ActiveSupport::Cache::RedisCacheStore.new(
+      namespace: 'obo-token-assertions',
+      error_handler: REDIS_CONNECTION_ENFORCER,
       compress: true,
     )
   end
+
+  # RedisCacheStore ignores standard errors
+  RedisConnectionError = Class.new(Exception)
+
+  REDIS_CONNECTION_ENFORCER = -> (*) { raise RedisConnectionError }
 end
