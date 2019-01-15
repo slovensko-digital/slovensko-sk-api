@@ -16,7 +16,7 @@ class UpvsController < ApiController
   def assertion
     assertion = Environment.api_token_authenticator.verify_token(authenticity_token, obo: true)
 
-    render content_type: 'application/saml', plain: assertion
+    render content_type: 'application/samlassertion+xml', plain: assertion
   end
 
   def logout

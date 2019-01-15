@@ -214,7 +214,7 @@ paths:
         200:
           description: ÚPVS SAML assertion v pôvodnom formáte bola vrátená.
           content:
-            application/saml:
+            application/samlassertion+xml:
               schema:
                 type: string
                 example:

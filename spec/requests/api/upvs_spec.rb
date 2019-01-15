@@ -16,7 +16,7 @@ RSpec.describe 'UPVS API' do
       expect(response.status).to eq(200)
       expect(response.body).to eq(assertion)
 
-      expect(response.content_type).to eq('application/saml')
+      expect(response.content_type).to eq('application/samlassertion+xml')
       expect(response.charset).to eq('utf-8')
     end
 
