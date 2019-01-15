@@ -10,6 +10,7 @@ gem 'jwt'
 gem 'delayed_job_active_record'
 gem 'clockwork'
 gem 'nokogiri'
+gem 'redis'
 
 gem 'foreman'
 

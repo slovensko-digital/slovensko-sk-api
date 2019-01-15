@@ -11,34 +11,40 @@ class OboTokenAuthenticator
   def generate_token(response, scopes: [])
     assertion = parse_assertion(response)
 
-    @assertion_store.synchronize do
-      sub = response.attributes['SubjectID'].to_s
-      exp = response.not_on_or_after.to_i
-      nbf = response.not_before.to_i
-      iat = Time.parse(assertion.attributes['IssueInstant']).to_f
+    sub = response.attributes['SubjectID'].to_s
+    exp = response.not_on_or_after.to_i
+    nbf = response.not_before.to_i
+    iat = Time.parse(assertion.attributes['IssueInstant']).to_f
 
-      name = response.attributes['Subject.FormattedName'].to_s
-      scopes = scopes.to_a
+    name = response.attributes['Subject.FormattedName'].to_s
+    scopes = scopes.to_a
 
-      raise ArgumentError if exp > iat + MAX_EXP_IN || exp <= iat || nbf != iat
+    raise ArgumentError if exp > iat + MAX_EXP_IN || exp <= iat || nbf != iat
 
-      jti = generate_jti
-      ass = assertion_to_s(assertion)
+    ass = assertion_to_s(assertion)
+
+    loop do
+      jti = SecureRandom.uuid
 
       payload = { sub: sub, exp: exp, nbf: nbf, iat: iat, jti: jti, name: name, scopes: scopes }
       exp_in = exp - Time.now.to_f
 
       raise ArgumentError if exp_in <= 0
 
-      JWT.encode(payload, @key_pair, 'RS256').tap { @assertion_store.write(jti, ass, expires_in: exp_in) }
+      next unless @assertion_store.write(jti, ass, expires_in: exp_in, unless_exist: true)
+
+      begin
+        return JWT.encode(payload, @key_pair, 'RS256')
+      rescue
+        @assertion_store.delete(jti) and raise
+      end
     end
   end
 
   def invalidate_token(token)
-    @assertion_store.synchronize do
-      verify_token(token) do |payload, _, _|
-        @assertion_store.delete(payload['jti'])
-      end
+    verify_token(token) do |payload, _, _|
+      result = @assertion_store.delete(payload['jti'])
+      result && result.to_s != '0'
     end
   end
 
@@ -73,13 +79,6 @@ class OboTokenAuthenticator
   end
 
   private
-
-  def generate_jti
-    loop do
-      jti = SecureRandom.uuid
-      return jti unless @assertion_store.exist?(jti)
-    end
-  end
 
   def parse_assertion(response)
     document = response.decrypted_document || response.document
