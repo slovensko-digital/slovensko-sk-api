@@ -19,7 +19,7 @@ RSpec.describe 'UPVS SAML Authentication' do
   end
 
   describe 'GET /auth/saml/login' do
-    let(:callback) { 'https://example.com/login-callback' }
+    let(:callback) { 'https://example.com/login-callback?user=14' }
 
     it 'redirects to IDP with request' do
       get '/auth/saml/login', params: { callback: callback }
@@ -46,7 +46,7 @@ RSpec.describe 'UPVS SAML Authentication' do
   end
 
   describe 'POST /auth/saml/callback' do
-    let(:callback) { 'https://example.com/login-callback' }
+    let(:callback) { 'https://example.com/login-callback?user=14' }
 
     before(:example) { get '/auth/saml/login', params: { callback: callback }}
 
@@ -85,7 +85,7 @@ RSpec.describe 'UPVS SAML Authentication' do
         post '/auth/saml/callback', params: { SAMLResponse: idp_response }
 
         expect(response.status).to eq(302)
-        expect(response.location).to start_with(callback + '?token=')
+        expect(response.location).to start_with(callback + '&token=')
       end
 
       it 'generates OBO token with appropriate scopes' do
@@ -97,7 +97,7 @@ RSpec.describe 'UPVS SAML Authentication' do
 
         post '/auth/saml/callback', params: { SAMLResponse: response }
 
-        token = response.location.split('?token=').last
+        token = response.location.split('&token=').last
 
         expect(authenticator.verify_token(token)).to be
       end
@@ -153,7 +153,7 @@ RSpec.describe 'UPVS SAML Authentication' do
     context 'SP initiation' do
       let!(:token) { api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read) }
 
-      let(:callback) { 'https://example.com/logout-callback' }
+      let(:callback) { 'https://example.com/logout-callback?user=14' }
 
       before(:example) { travel_to '2018-11-28T20:26:16Z' }
 
