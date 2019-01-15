@@ -15,7 +15,7 @@ jobs:
           POSTGRES_USER: ubuntu
           POSTGRES_PASSWORD: ''
 
-      - image: redis:5
+      - image: circleci/redis:5
 
     steps:
       - checkout
