@@ -206,7 +206,7 @@ paths:
       security:
       - 'API token': []
 
-  /api/upvs/user/info:
+  /api/upvs/user/info.saml:
     get:
       tags: [Informácie o prihlásenom používateľovi]
       description: Vráti ÚPVS SAML assertion v pôvodnom formáte.

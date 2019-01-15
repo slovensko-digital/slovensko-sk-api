@@ -13,6 +13,12 @@ class UpvsController < ApiController
     redirect_to "#{session[:login_callback_url]}?token=#{token}"
   end
 
+  def assertion
+    assertion = Environment.api_token_authenticator.verify_token(authenticity_token, obo: true)
+
+    render content_type: 'application/saml', plain: assertion
+  end
+
   def logout
     if params[:SAMLRequest]
       redirect_to "/auth/saml/slo?#{slo_request_params.to_query}"
