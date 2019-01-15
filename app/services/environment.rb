@@ -20,7 +20,7 @@ module Environment
   def api_token_identifier_cache
     @api_token_identifier_cache ||= ActiveSupport::Cache::RedisCacheStore.new(
       namespace: 'api-token-identifiers',
-      error_handler: redis_connection_enforcer,
+      error_handler: REDIS_CONNECTION_ENFORCER,
       compress: false,
     )
   end
@@ -35,7 +35,7 @@ module Environment
   def obo_token_assertion_store
     @obo_token_assertion_store ||= ActiveSupport::Cache::RedisCacheStore.new(
       namespace: 'upvs-token-assertions',
-      error_handler: redis_connection_enforcer,
+      error_handler: REDIS_CONNECTION_ENFORCER,
       compress: true,
     )
   end
@@ -43,7 +43,5 @@ module Environment
   # RedisCacheStore ignores standard errors
   RedisConnectionError = Class.new(Exception)
 
-  def redis_connection_enforcer
-    @redis_connection_enforcer ||= -> (*) { raise RedisConnectionError }
-  end
+  REDIS_CONNECTION_ENFORCER = -> (*) { raise RedisConnectionError }
 end
