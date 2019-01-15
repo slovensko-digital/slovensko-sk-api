@@ -26,7 +26,7 @@ services:
       - postgres
       - redis                      
     environment:
-      RAILS_ENV=production
+      RAILS_ENV: production
       DATABASE_URL: postgres://postgres:@postgres:5432/slovensko-sk-api
       REDIS_URL: redis://redis:6379      
       SECRET_KEY_BASE: <sem vlozit nejaky random key>
