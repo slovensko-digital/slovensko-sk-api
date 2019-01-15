@@ -4,8 +4,8 @@ RUN mkdir /app
 WORKDIR /app
 COPY lib lib
 RUN ./lib/upvs/compile
-COPY Gemfile Gemfile.lock ./
 RUN gem update --system
+COPY Gemfile Gemfile.lock ./
 RUN bundle install --without development:test --path vendor/bundle --deployment
 COPY . .
-CMD ["bundle", "exec", "foreman", "start"]
+CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]

@@ -20,8 +20,8 @@ services:
       - postgres
       - redis
     env_file:
-      - '.env.production'
-      - '.env.production.local'
+      - '.env.development'
+      - '.env.development.local'
     environment:
       RAILS_ENV: production
       DATABASE_URL: postgres://postgres:@postgres:5432/slovensko-sk-api

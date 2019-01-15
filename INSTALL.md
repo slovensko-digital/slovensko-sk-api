@@ -9,8 +9,8 @@ Komponent `slovensko-sk-api` je distribuovaný ako docker kontajner, ktorý sa s
 ```
 version: '3'
 services:
-  db:
-    image: postgres:11.1-alpine
+  postgres:
+    image: postgres:11-alpine
     volumes:
       - db:/var/lib/postgresql/data
 
@@ -20,23 +20,25 @@ services:
       - redis:/data
 
   app:
-    image: skdigital/slovensko-sk-api:lastest
-    ports: 3000:5000
+    image: skdigital/slovensko-sk-api:latest
+    ports: "3000:3000"
     depends_on:
-      - db
+      - postgres
       - redis                      
     environment:
       RAILS_ENV=production
+      DATABASE_URL: postgres://postgres:@postgres:5432/slovensko-sk-api
+      REDIS_URL: redis://redis:6379      
+      SECRET_KEY_BASE: <sem vlozit nejaky random key>
 
 volumes:
-  db:
+  postgres:
   redis:
 ```
 
 Pred prvým spustením je potrebné vytvoriť a inicializovať databázu cez
 ```
-$ docker-compose run app rake db:create
-$ docker-compose run app rake db:migrate
+$ docker-compose run app rails db:create db:migrate
 ``` 
 
 Následne už len 
