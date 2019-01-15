@@ -267,6 +267,22 @@ paths:
       security:
       - 'API token': []
 
+  /api/upvs/user/info:
+    get:
+      tags: [Informácie o prihlásenom používateľovi]
+      description: Vráti ÚPVS SAML assertion v pôvodnom formáte.
+      responses:
+        200:
+          description: ÚPVS SAML assertion v pôvodnom formáte bola vrátená.
+          content:
+            application/saml:
+              schema:
+                type: string
+                example:
+                  <saml:Assertion>...</saml:Assertion>
+      security:
+      - 'API token': []
+
 components:
   responses:
     badRequest:
