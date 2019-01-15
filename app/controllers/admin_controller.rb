@@ -1,9 +1,9 @@
 class AdminController < ApiController
   before_action { authenticate }
 
-  def download_all_form_templates
+  def eform_sync
     DownloadAllFormTemplatesJob.perform_later
 
-    render status: :ok, json: { message: 'Scheduled to be performed later' }
+    render status: :ok, json: { message: 'eForm synchronization scheduled to be performed later' }
   end
 end

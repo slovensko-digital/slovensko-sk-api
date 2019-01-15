@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   scope constraints: { format: :json } do
     namespace :admin do
-      get :download_all_form_templates # TODO move under admin/eform/sync ?
+      get :eform_sync, path: 'eform/sync'
     end
 
     get :health, to: 'health#index'
