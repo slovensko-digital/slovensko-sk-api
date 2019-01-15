@@ -22,14 +22,23 @@ class OboTokenAuthenticator
     raise ArgumentError if exp > iat + MAX_EXP_IN || exp <= iat || nbf != iat
 
     ass = assertion_to_s(assertion)
-    jti = Digest::SHA2.hexdigest(ass)
 
-    payload = { sub: sub, exp: exp, nbf: nbf, iat: iat, jti: jti, name: name, scopes: scopes }
-    exp_in = exp - Time.now.to_f
+    loop do
+      jti = SecureRandom.uuid
 
-    raise ArgumentError if exp_in <= 0
+      payload = { sub: sub, exp: exp, nbf: nbf, iat: iat, jti: jti, name: name, scopes: scopes }
+      exp_in = exp - Time.now.to_f
 
-    JWT.encode(payload, @key_pair, 'RS256').tap { @assertion_store.write(jti, ass, expires_in: exp_in) }
+      raise ArgumentError if exp_in <= 0
+
+      next unless @assertion_store.write(jti, ass, expires_in: exp_in, unless_exist: true)
+
+      begin
+        return JWT.encode(payload, @key_pair, 'RS256')
+      rescue
+        @assertion_store.delete(jti) and raise
+      end
+    end
   end
 
   def invalidate_token(token)

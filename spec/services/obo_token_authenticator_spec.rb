@@ -36,11 +36,16 @@ RSpec.describe OboTokenAuthenticator do
       )
     end
 
-    it 'returns same token for the same response' do
+    it 'returns unique token for the same response' do
       t1 = subject.generate_token(response)
       t2 = subject.generate_token(response)
 
-      expect(t1).to eq(t2)
+      expect(t1).not_to eq(t2)
+
+      j1 = JWT.decode(t1, key_pair.public_key, false).first['jti']
+      j2 = JWT.decode(t2, key_pair.public_key, false).first['jti']
+
+      expect(j1).not_to eq(j2)
     end
 
     it 'writes assertion to store' do
@@ -49,7 +54,7 @@ RSpec.describe OboTokenAuthenticator do
       expect(assertion_store).to receive(:write).with(any_args).and_wrap_original do |m, j, a, o|
         expect(j).to be_a(String)
         expect(a).to eq(assertion)
-        expect(o).to eq(expires_in: 20.minutes)
+        expect(o).to eq(expires_in: 20.minutes, unless_exist: true)
 
         m.call(jti = j, a, o)
       end
