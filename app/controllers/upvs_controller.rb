@@ -39,7 +39,7 @@ class UpvsController < ApiController
   end
 
   def callback_url_with_token(callback_url, token)
-    URI.parse(callback_url).tap { |url| url.query = [url.query, "token=#{token}"].compact * '&' }.to_s
+    URI.parse(callback_url).tap { |url| url.query = [url.query, "token=#{token}"].compact.join('&') }.to_s
   end
 
   def slo_request_params
