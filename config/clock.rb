@@ -13,5 +13,5 @@ module Clockwork
     Rake::Task[job].invoke
   end
 
-  every(1.day, 'podaas:download_form_templates', at: '5:00') if ENV['EFORM_SYNC'] != 'false'
+  every(1.day, 'eform:sync', at: '5:00') if ENV['EFORM_SYNC'] != 'false'
 end
