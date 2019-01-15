@@ -15,6 +15,8 @@ jobs:
           POSTGRES_USER: ubuntu
           POSTGRES_PASSWORD: ''
 
+      - image: circleci/redis:5
+
     steps:
       - checkout
 
@@ -29,6 +31,8 @@ jobs:
       - save_cache: { key: '{{ checksum "Gemfile.lock" }}', paths: [vendor/bundle] }
 
       - run: dockerize -wait tcp://localhost:5432 -timeout 60s
+      - run: dockerize -wait tcp://localhost:6379 -timeout 60s
+
       - run: mv .circleci/database.yml config/database.yml
       - run: bundle exec rake db:create db:schema:load --trace
 

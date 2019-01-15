@@ -10,6 +10,7 @@ gem 'jwt'
 gem 'delayed_job_active_record'
 gem 'clockwork'
 gem 'nokogiri'
+gem 'redis'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
