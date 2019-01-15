@@ -5,5 +5,7 @@ WORKDIR /app
 COPY lib lib
 RUN ./lib/upvs/compile
 COPY Gemfile Gemfile.lock ./
+RUN gem update --system
 RUN bundle install --without development:test --path vendor/bundle --deployment
 COPY . .
+CMD ["bundle", "exec", "foreman", "start"]

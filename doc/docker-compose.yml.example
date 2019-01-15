@@ -1,0 +1,27 @@
+version: '3'
+services:
+  db:
+    image: postgres:11.1-alpine
+    volumes:
+      - db:/var/lib/postgresql/data
+
+  redis:
+    image: redis:5-alpine
+    volumes:
+      - redis:/data
+
+  app:
+    build: ..
+    ports:
+      - "3000:5000"
+    depends_on:
+      - db
+      - redis
+    environment:
+      DATABASE_URL: postgres://postgres:@db:5432/slovensko-sk-api
+      SECRET_KEY_BASE: <replace this with a secret>
+    env_file: .env.production.local
+
+volumes:
+  db:
+  redis:
