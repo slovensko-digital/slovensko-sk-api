@@ -11,14 +11,14 @@ module Environment
 
   def api_token_authenticator
     @api_token_authenticator ||= ApiTokenAuthenticator.new(
-      jti_cache: api_token_identifier_cache,
+      identifier_store: api_token_identifier_store,
       public_key: OpenSSL::PKey::RSA.new(File.read(ENV.fetch('API_TOKEN_PUBLIC_KEY_FILE'))),
       obo_token_authenticator: obo_token_authenticator,
     )
   end
 
-  def api_token_identifier_cache
-    @api_token_identifier_cache ||= ActiveSupport::Cache::RedisCacheStore.new(
+  def api_token_identifier_store
+    @api_token_identifier_store ||= ActiveSupport::Cache::RedisCacheStore.new(
       namespace: 'api-token-identifiers',
       error_handler: REDIS_CONNECTION_ENFORCER,
       compress: false,
@@ -34,7 +34,7 @@ module Environment
 
   def obo_token_assertion_store
     @obo_token_assertion_store ||= ActiveSupport::Cache::RedisCacheStore.new(
-      namespace: 'upvs-token-assertions',
+      namespace: 'obo-token-assertions',
       error_handler: REDIS_CONNECTION_ENFORCER,
       compress: true,
     )
