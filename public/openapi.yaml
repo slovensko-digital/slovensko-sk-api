@@ -2,7 +2,7 @@ openapi: 3.0.0
 
 info:
   title: PodaaS
-  version: 0.0.2
+  version: 0.0.4
 
   description: |
     PodaaS je proxy API komponent vystavujúci cez REST API služby www.slovensko.sk (Ústredný portál verejnej správy - ÚPVS), pomocou ktorých je možné:
@@ -43,10 +43,6 @@ paths:
       responses:
         302:
           description: Presmerovanie na prihlasovaciu stránku ÚPVS.
-        400:
-          $ref: '#/components/responses/badRequest'
-        500:
-          $ref: '#/components/responses/internalServerError'
       callbacks:
         login:
           '{$request.query.callback}':
@@ -92,12 +88,6 @@ paths:
       responses:
         302:
           description: Presmerovanie na callback URL tretej strany.
-        400:
-          $ref: '#/components/responses/badRequest'
-        401:
-          $ref: '#/components/responses/unauthorized'
-        500:
-          $ref: '#/components/responses/internalServerError'
       callbacks:
         logout:
           '{$request.query.callback}':
@@ -138,18 +128,6 @@ paths:
                 example:
                   receive_result: 0
                   save_to_outbox_result: 0
-        400:
-          $ref: '#/components/responses/badRequest'
-        401:
-          $ref: '#/components/responses/unauthorized'
-        408:
-          $ref: '#/components/responses/requestTimeout'
-        413:
-          $ref: '#/components/responses/payloadTooLarge'
-        429:
-          $ref: '#/components/responses/tooManyRequests'
-        500:
-          $ref: '#/components/responses/internalServerError'
       security:
       - 'API + OBO token': []
 
@@ -158,21 +136,6 @@ paths:
       tags: [Zasielanie podaní]
       description: Odošle SKTalk správu.
       parameters:
-      - name: Authorization
-        in: header
-        required: true
-        description: 'API token vo formáte JWT, príklad parametra `Authorization: Bearer <api-token>`'
-        schema:
-          type: string
-          format: JWT
-      - name: token
-        in: query
-        required: false
-        deprecated: true
-        description: 'API token vo formáte JWT, príklad parametra `?token=<api-token>`'
-        schema:
-          type: string
-          format: JWT
       - name: message
         in: query
         required: true
@@ -194,18 +157,6 @@ paths:
                 - receive_result
                 example:
                   receive_result: 0
-        400:
-          $ref: '#/components/responses/badRequest'
-        401:
-          $ref: '#/components/responses/unauthorized'
-        408:
-          $ref: '#/components/responses/requestTimeout'
-        413:
-          $ref: '#/components/responses/payloadTooLarge'
-        429:
-          $ref: '#/components/responses/tooManyRequests'
-        500:
-          $ref: '#/components/responses/internalServerError'
       security:
       - 'API + OBO token': []
 
@@ -252,20 +203,24 @@ paths:
                 - valid
                 example:
                   valid: true
-        400:
-          $ref: '#/components/responses/badRequest'
-        401:
-          $ref: '#/components/responses/unauthorized'
-        408:
-          $ref: '#/components/responses/requestTimeout'
-        413:
-          $ref: '#/components/responses/payloadTooLarge'
-        429:
-          $ref: '#/components/responses/tooManyRequests'
-        500:
-          $ref: '#/components/responses/internalServerError'
       security:
       - 'API token': []
+
+  /api/upvs/user/info.saml:
+    get:
+      tags: [Informácie o prihlásenom používateľovi]
+      description: Vráti ÚPVS SAML assertion v pôvodnom formáte.
+      responses:
+        200:
+          description: ÚPVS SAML assertion v pôvodnom formáte bola vrátená.
+          content:
+            application/samlassertion+xml:
+              schema:
+                type: string
+                example:
+                  <saml:Assertion>...</saml:Assertion>
+      security:
+      - 'API + OBO token': []
 
 components:
   responses:
@@ -368,20 +323,23 @@ components:
         - má nastavený `exp` claim na max. 60 minút,
         - má nastavený `jti` claim na identifikátor, ktorý je unikátny počas 60 minút.
 
-        Príklad headers:
+        Príklad `header` segmentu:
 
               {
                 "alg": "HS256",
               }
 
-        Príklad payload:
+        Príklad `payload` segmentu:
 
               {
                 "exp": 1543437976,
                 "jti": "4dee8618-abbe-4dc3-83ba-e984d1396f9f",
               }
 
-        API token musí byť prítomný buď v `Authorization` hlavičke alebo v `token` parametri požiadavky.
+        API token musí byť prítomný buď:
+
+        - v hlavičke požiadavky ako `Authorization: Bearer <api-token>`,
+        - alebo v URL parametri požiadavky ako `?token=<api-token>`.
       type: http
       scheme: bearer
       bearerFormat: JWT
@@ -397,14 +355,14 @@ components:
         - má nastavený `jti` claim na identifikátor, ktorý je unikátny počas 60 minút,
         - má nastavený `obo` claim na hodnotu OBO tokenu, ktorý je získaný po úspešnom prihlásení.
 
-        Príklad headers:
+        Príklad `header` segmentu:
 
               {
                 "alg": "HS256",
                 "cty": "JWT"
               }
 
-        Príklad payload:
+        Príklad `payload` segmentu:
 
               {
                 "exp": 1543437976,
@@ -412,7 +370,10 @@ components:
                 "obo": "eyJhbGciOiJIUzI1NiJ9..."
               }
 
-        API token musí byť prítomný buď v `Authorization` hlavičke alebo v `token` parametri požiadavky.
+        API token musí byť prítomný buď:
+
+        - v hlavičke požiadavky ako `Authorization: Bearer <api-token>`,
+        - alebo v URL parametri požiadavky ako `?token=<api-token>`.
       type: http
       scheme: bearer
       bearerFormat: JWT
