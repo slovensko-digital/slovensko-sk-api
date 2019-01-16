@@ -10,7 +10,7 @@ class UpvsController < ApiController
     scopes = ['sktalk/receive', 'sktalk/receive_and_save_to_outbox']
     token = Environment.obo_token_authenticator.generate_token(response, scopes: scopes)
 
-    redirect_to "#{session[:login_callback_url]}?token=#{token}"
+    redirect_to callback_url_with_token(session[:login_callback_url], token)
   end
 
   def assertion
@@ -40,8 +40,12 @@ class UpvsController < ApiController
 
   def fetch_callback_url(action, registered_urls)
     raise CallbackError, "No #{action} callback" if params[:callback].blank?
-    raise CallbackError, "Unregistered #{action} callback" unless params[:callback].in?(registered_urls)
+    raise CallbackError, "Unregistered #{action} callback" if registered_urls.none? { |url| params[:callback].start_with?(url) }
     params[:callback]
+  end
+
+  def callback_url_with_token(callback_url, token)
+    URI.parse(callback_url).tap { |url| url.query = [url.query, "token=#{token}"].compact.join('&') }.to_s
   end
 
   def slo_request_params
