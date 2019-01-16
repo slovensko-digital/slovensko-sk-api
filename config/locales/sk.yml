@@ -1,0 +1,19 @@
+sk:
+  bad_request:
+    malformed_form_data: 'Poškodené dáta formuláru'
+    malformed_message: 'Poškodená správa'
+    no_callback: 'Chýba spätné volanie'
+    no_credentials: 'Chýba autentifikácia'
+    no_form_data: 'Chýbajú dáta formuláru'
+    no_form_identifier: 'Chýba identifikátor formuláru'
+    no_form_version: 'Chýba verzia formuláru'
+    no_message: 'Chýba správa'
+    no_recipient: 'Chýba príjemca'
+    unregistered_callback: 'Nezaregistrované spätné volanie'
+  internal_server_error: 'Neznámna chyba'
+  not_found:
+    form_identifier_with_version: 'Formulár %{identifier} verzie %{version} nebol nájdený'
+  payload_too_large: 'Veľškosť správy presiahla stanovený limit'
+  request_timeout: 'Čas trvania operácie presiahol stanovený limit'
+  too_many_requests: 'Frekvencia požiadaviek presiahla stanovený limit'
+  unauthorized: 'Autentifikácia zlyhala'

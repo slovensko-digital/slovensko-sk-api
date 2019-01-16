@@ -1,1 +1,19 @@
 en:
+  bad_request:
+    malformed_form_data: 'Malformed form data'
+    malformed_message: 'Malformed message'
+    no_callback: 'No callback'
+    no_credentials: 'No credentials'
+    no_form_data: 'No form data'
+    no_form_identifier: 'No form identifier'
+    no_form_version: 'No form version'
+    no_message: 'No message'
+    no_recipient: 'No recipient'
+    unregistered_callback: 'Unregistered callback'
+  internal_server_error: 'Unknown error'
+  not_found:
+    form_identifier_with_version: 'Form %{identifier} version %{version} not found'
+  payload_too_large: 'Message size limit exceeded'
+  request_timeout: 'Operation timeout exceeded'
+  too_many_requests: 'Request rate limit exceeded'
+  unauthorized: 'Bad credentials'
