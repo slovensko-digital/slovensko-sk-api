@@ -1,8 +1,8 @@
 sk:
   bad_request:
-    malformed_callback: 'Poškodené spätné volanie'
-    malformed_form_data: 'Poškodené dáta formuláru'
-    malformed_message: 'Poškodená správa'
+    malformed_callback: 'Nesprávny formát spätného volania'
+    malformed_form_data: 'Nesprávny formát alebo poškodené dáta formuláru'
+    malformed_message: 'Nesprávny formát alebo poškodená správa'
     no_callback: 'Chýba spätné volanie'
     no_credentials: 'Chýba autentifikácia'
     no_form_data: 'Chýbajú dáta formuláru'
