@@ -4,17 +4,43 @@ Máme dobrú a zlú správu. Tá zlá správa je, že na zfunkčnenie tohto komp
 
 ## Postup spustenia komponentu 
 
-Komponent `slovensko-sk-api` je distribuovaný ako Docker kontajner, ktorý sa spúšťa štandardne, najľahšie cez `docker-compose`. [Ukážkový docker-compose.yml](doc/templates/docker-compose.yml).
+Komponent `slovensko-sk-api` je distribuovaný ako Docker kontajner, ktorý sa spúšťa štandardne, najľahšie cez `docker-compose`.
 
-Pred prvým spustením je potrebné vytvoriť a inicializovať databázu cez
+Pred prvým spustením je potrebné pripraviť si adresár, ktorý bude obsahovať:
+ 
+- [docker-compose.yml](doc/templates/docker-compose.yml) uprevený podľa potreby,
+- [.env](doc/templates/.env) s doplnenými hodnotami premenných podľa potreby,
+- všetky súbory potrebné podľa `.env` umiestnené napr. v podadresári `security`, sú to:
+
+  - `api-token.pem` - verejný kľúč pre verifikáciu API tokenov tretej strany, vygenerovaný napr. pomocou `openssl rsa -in api-token.private.pem -pubout -out api-token.pem`, 
+  - `obo-token.pem` - privátny a verejný kľúč generovanie a verifikáciu OBO tokenov v rámci komponentu, vygenerovaný napr. pomocou `openssl genrsa -out obo-token.pem 2048`,
+  - `upvs-fix-idp.metadata.xml` - IDP metadáta, pozri dokument *UPG-1-1-Integracny_manual_UPVS_IAM*
+  - `podaas-fix-sp.metadata.xml` - SP metadáta, pozri časť *6. Zriadenie prístupov do FIX prostredia*,
+  - `podaas-fix-sp.keystore` - SP certifikát s kľúčom, pozri časť *6. Zriadenie prístupov do FIX prostredia*,
+  - `podaas-fix-sts.keystore` - STS certifikát s kľúčom, pozri časť *6. Zriadenie prístupov do FIX prostredia*,
+  - `upvs-fix.truststore` - certifikát STS služby na strane ÚPVS, pozri dokument *UPG-1-1-Integracny_manual_UPVS_IAM*.
+
+Ďalej je potrebné inicializovať databázu cez:
 
     docker-compose run app rails db:create db:migrate
  
-Následne už len 
+Potom je možné spustiť komponent:
 
     docker-compose up
 
-A aplikácia by mala bežať na porte 3000.
+Aplikácia by mala bežať na porte 3000 pričom jej stav je možné skontrolovať pomocou: 
+
+    curl 'http://localhost:3000/health'
+
+Vykonávanie pravidelných úloh v rámci aplikácie je možné skontrolovať pomocou:
+
+    curl 'http://localhost:3000/health?check=heartbeats'
+
+Spojenie aplikácie s ÚPVS je možné skontrolovať pomocou: 
+
+    curl 'http://localhost:3000/health?check=upvs'
+
+Log aplikácie ide na štandardný výstup.
 
 ## Postup zriadenia integrácie na slovensko.sk - Ústredný portál verejnej správy (ÚPVS)
 
@@ -64,14 +90,14 @@ Trnavská cesta 100/II
 
 NASES Vám zašle naspäť XLS dokument, ktorý bude treba doplniť nasledovne:
 
-1. V prvej záložke `Základné údaje` nájdete `Pridelený koordinovaný rozsah pre služby v tuneloch ES:` napríklad `100.66.0.128/28`. Od tohto rozsahu sa odvíjajú nasledujúce nastavenia.
+1. V prvej záložke *Základné údaje* nájdete `Pridelený koordinovaný rozsah pre služby v tuneloch ES:` napríklad `100.66.0.128/28`. Od tohto rozsahu sa odvíjajú nasledujúce nastavenia.
 2. V prvej záložke vyplňte potrebné kontaktné údaje pre externý subjekt (to ste Vy)
-3. V tretej záložke `Integračné a aplikačné endpointy` vyplňte všetky riadky stĺpca `Rozhranie ES TunelIP` tak, že pre FIX prostredie uvediete piatu adresu rozsahu (t.j. pre rozsah `100.66.0.128/28` to bude `100.66.0.128 + 5` = `100.66.0.133`) a pre PROD prostredie desiatu adresu rozsahu `100.55.0.128 + 10` = `100.66.0.138`. 
-4. V tretej záložke `Integračné a aplikačné endpointy` následne označte červeným pozadím riadky s rozhraním `IAM-WS - 1.7, 2.0` toto sa nepoužíva, ostatné riadky označte zeleným pozadím. Teda: `schranka - EKR`, `UIR (URP, URZ - BPM)`, `USR (SB-Ext. Zbernica)` aj `IAM-STS.` 
-5. V štvrtej záložke `GUI Endpointy Test-Fix` povoľte prístup z internetu cez GUI pre Portal 1.7, 2.0, Prihlasenie IAM, Formulare, eFormulare, schranka - eDesk 1.7, 2.0. 
-6. V štvrtej záložke `GUI Endpointy Test-Fix` do `IP GW ES pre povolenie pristupu ku GUI rozhraniam:` uveďte verejnú IP adresu stroja, cez ktorý sa pristupovať k portálu pre účely testovania.
-7. V piatej záložke `DNS` uveďte ako `IP ES Site` pre FIX tretiu adresu rozsahu (t.j. pre rozsah `100.66.0.128/28` to bude `100.66.0.128 + 3` = `100.66.0.131`) a pre PROD štvrtú adresu rozsahu (t.j. pre rozsah `100.66.0.128/28` to bude `100.66.0.128 + 4` = `100.66.0.132`)  
-8. V záložke `IPsec LAN to LAN` uveďte do `Remote VPN gateway IP address ( ES site )` verejnú IP adresu stroja, kde bude bežať tento komponent (resp. koniec IPsec tunela)
+3. V tretej záložke *Integračné a aplikačné endpointy* vyplňte všetky riadky stĺpca `Rozhranie ES TunelIP` tak, že pre FIX prostredie uvediete piatu adresu rozsahu (t.j. pre rozsah `100.66.0.128/28` to bude `100.66.0.128 + 5` = `100.66.0.133`) a pre PROD prostredie desiatu adresu rozsahu `100.55.0.128 + 10` = `100.66.0.138`. 
+4. V tretej záložke *Integračné a aplikačné endpointy* následne označte červeným pozadím riadky s rozhraním `IAM-WS - 1.7, 2.0` toto sa nepoužíva, ostatné riadky označte zeleným pozadím. Teda: `schranka - EKR`, `UIR (URP, URZ - BPM)`, `USR (SB-Ext. Zbernica)` aj `IAM-STS.` 
+5. V štvrtej záložke *GUI Endpointy Test-Fix* povoľte prístup z internetu cez GUI pre Portal 1.7, 2.0, Prihlasenie IAM, Formulare, eFormulare, schranka - eDesk 1.7, 2.0. 
+6. V štvrtej záložke *GUI Endpointy Test-Fix* do `IP GW ES pre povolenie pristupu ku GUI rozhraniam:` uveďte verejnú IP adresu stroja, cez ktorý sa pristupovať k portálu pre účely testovania.
+7. V piatej záložke *DNS* uveďte ako `IP ES Site` pre FIX tretiu adresu rozsahu (t.j. pre rozsah `100.66.0.128/28` to bude `100.66.0.128 + 3` = `100.66.0.131`) a pre PROD štvrtú adresu rozsahu (t.j. pre rozsah `100.66.0.128/28` to bude `100.66.0.128 + 4` = `100.66.0.132`)  
+8. V záložke *IPsec LAN to LAN* uveďte do `Remote VPN gateway IP address ( ES site )` verejnú IP adresu stroja, kde bude bežať tento komponent (resp. koniec IPsec tunela)
 
 XLS zašlite ako prílohu k emailu:
 
