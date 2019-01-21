@@ -4,25 +4,23 @@ Máme dobrú a zlú správu. Tá zlá správa je, že na zfunkčnenie tohto komp
 
 ## Postup spustenia komponentu 
 
-Komponent `slovensko-sk-api` je distribuovaný ako docker kontajner, ktorý sa spúšťa štandardne, najľahšie cez `docker-compose`. [Ukážkový docker-compose.yml](doc/docker-compose.yml.example).
+Komponent `slovensko-sk-api` je distribuovaný ako Docker kontajner, ktorý sa spúšťa štandardne, najľahšie cez `docker-compose`. [Ukážkový docker-compose.yml](doc/templates/docker-compose.yml).
 
 Pred prvým spustením je potrebné vytvoriť a inicializovať databázu cez
-```
-$ docker-compose run app rails db:create db:migrate
-``` 
 
+    $ docker-compose run app rails db:create db:migrate
+ 
 Následne už len 
-```
-$ docker-compose up
-```
+
+    $ docker-compose up
 
 A aplikácia by mala bežať na porte 3000.
 
-## Postup zriadenia integrácie na slovensko.sk - ústredný portál verejnej správy (UPVS)
+## Postup zriadenia integrácie na slovensko.sk - Ústredný portál verejnej správy (ÚPVS)
 
-### 1. Zriadenie prístupu k dokumentácii UPVS
+### 1. Zriadenie prístupu k dokumentácii ÚPVS
 
-   Na adrese https://www.nases.gov.sk/sluzby/usmernenie-k-integracii/index.html nájdete formulár na prístup k aktuálnej dokumentácii UPVS. Odporúčame si prístup zriadiť, kedže sa na portáli, okrem dokumentácie, nachádzajú aj informácie o plánovaných odstávkach a ďalšom rozvoji UPVS.
+   Na adrese https://www.nases.gov.sk/sluzby/usmernenie-k-integracii/index.html nájdete formulár na prístup k aktuálnej dokumentácii ÚPVS. Odporúčame si prístup zriadiť, kedže sa na portáli, okrem dokumentácie, nachádzajú aj informácie o plánovaných odstávkach a ďalšom rozvoji ÚPVS.
 
 ### 2. Zaslanie Dohody o integračnom zámere DIZ 
 
@@ -43,7 +41,6 @@ Tento dokument následne premenujte na `DIZ_PO_<skratka projektu>__UPVS_v1.docx`
 > Prosím o potvrdenie, že žiadosť ste zaevidovali.
 > 
 > Ďakujem.
-
 
 ### 3. Podpis DIZ
 
