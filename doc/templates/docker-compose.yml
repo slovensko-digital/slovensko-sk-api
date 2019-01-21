@@ -15,7 +15,7 @@ services:
     volumes:
       - ./security:/app/security
     ports:
-      - "3000:3000"
+      - '3000:3000'
     depends_on:
       - postgres
       - redis
@@ -33,7 +33,7 @@ services:
     volumes:
       - ./security:/app/security
     ports:
-      - "3000:3000"
+      - '3000:3000'
     depends_on:
       - postgres
       - redis
@@ -51,7 +51,7 @@ services:
     volumes:
       - ./security:/app/security
     ports:
-      - "3000:3000"
+      - '3000:3000'
     depends_on:
       - postgres
       - redis
