@@ -8,11 +8,11 @@ Komponent `slovensko-sk-api` je distribuovaný ako Docker kontajner, ktorý sa s
 
 Pred prvým spustením je potrebné vytvoriť a inicializovať databázu cez
 
-    $ docker-compose run app rails db:create db:migrate
+    docker-compose run app rails db:create db:migrate
  
 Následne už len 
 
-    $ docker-compose up
+    docker-compose up
 
 A aplikácia by mala bežať na porte 3000.
 
@@ -20,7 +20,7 @@ A aplikácia by mala bežať na porte 3000.
 
 ### 1. Zriadenie prístupu k dokumentácii ÚPVS
 
-   Na adrese https://www.nases.gov.sk/sluzby/usmernenie-k-integracii/index.html nájdete formulár na prístup k aktuálnej dokumentácii ÚPVS. Odporúčame si prístup zriadiť, kedže sa na portáli, okrem dokumentácie, nachádzajú aj informácie o plánovaných odstávkach a ďalšom rozvoji ÚPVS.
+Na adrese https://www.nases.gov.sk/sluzby/usmernenie-k-integracii/index.html nájdete formulár na prístup k aktuálnej dokumentácii ÚPVS. Odporúčame si prístup zriadiť, kedže sa na portáli, okrem dokumentácie, nachádzajú aj informácie o plánovaných odstávkach a ďalšom rozvoji ÚPVS.
 
 ### 2. Zaslanie Dohody o integračnom zámere DIZ 
 
@@ -87,25 +87,25 @@ XLS zašlite ako prílohu k emailu:
 
 ### 5. Vytvorenie infraštruktúrneho prepojenia
 
+TODO
 
 ### 6. Zriadenie prístupov do FIX prostredia
 
-`keytool -genkeypair -alias podaassts --keyalg RSA --keysize 2048 --sigalg sha512WithRSA -validity 730 -keypass password -keystore podaas-fix-sts.keystore -storepass password -dname "CN=tech.podaas.upvsfix.ext.podaas.slovensko.digital"`
+    keytool -genkeypair -alias podaassts --keyalg RSA --keysize 2048 --sigalg sha512WithRSA -validity 730 -keypass password -keystore podaas-fix-sts.keystore -storepass password -dname "CN=tech.podaas.upvsfix.ext.podaas.slovensko.digital"
+    
+    keytool -export -keystore podaas-fix-sts.keystore -alias podaassts -storepass password > podaas-fix-sts.crt
+    
+    keytool -genkeypair -alias podaassp --keyalg RSA --keysize 2048 --sigalg sha512WithRSA -validity 730 -keypass password -keystore podaas-fix-sp.keystore -storepass password -dname "CN=sp.podaas.upvsfix.ext.podaas.slovensko.digital"
+    
+    keytool -export -keystore podaas-fix-sp.keystore -alias podaassp -storepass password > podaas-fix-sp.crt
+    
+    keytool -export -keystore podaas-fix-sp.keystore -alias podaassp -storepass password -rfc > podaas-fix-sp.pem
 
-`keytool -export -keystore podaas-fix-sts.keystore -alias podaassts -storepass password > podaas-fix-sts.crt`
+Vytvorte `podaas-fix-sp.metadata.xml` zo súboru [podaas-sp.metadata.xml](doc/templates/podaas-sp.metadata.xml). Treba nahradniť `entityID`, dva verejné klúče (skopírovaním z `podaas-fix-sp.pem`) a endpointy, kde bude **testovacia** verzia bežať. Metadáta podpíšte pomocou [xmlsectool](http://shibboleth.net/downloads/tools/xmlsectool/latest).
 
-`keytool -genkeypair -alias podaassp --keyalg RSA --keysize 2048 --sigalg sha512WithRSA -validity 730 -keypass password -keystore podaas-fix-sp.keystore -storepass password -dname "CN=sp.podaas.upvsfix.ext.podaas.slovensko.digital"`
+    xmlsectool.sh --sign --inFile podaas-fix-sp.metadata.xml --outFile podaas-fix-sp.signed.metadata.xml --keystore podaas-fix-sp.keystore --keystorePassword password --key podaassp --keyPassword password
 
-`keytool -export -keystore podaas-fix-sp.keystore -alias podaassp -storepass password > podaas-fix-sp.crt`
-
-`keytool -export -keystore podaas-fix-sp.keystore -alias podaassp -storepass password -rfc > podaas-fix-sp.pem`
-
-Vytvorte `podaas-fix-sp.metadata.xml` zo súboru [podaas-sp.metadata.xml](doc/templates/podaas-sp.metadata.xml). Treba nahradniť entityID, dva verejné klúče (skopírovaním z `podaas-fix-sp.pem`) a endpointy, kde bude **testovacia** verzia bežať.
-
-Podpíšte pomocou [xmlsectool](http://shibboleth.net/downloads/tools/xmlsectool/latest/).
-
-`xmlsectool.sh --sign --inFile podaas-fix-sp.metadata.xml --outFile podaas-fix-sp.signed.metadata.xml --keystore podaas-fix-sp.keystore --keystorePassword password --key podaassp --keyPassword password`
-
+Vytvorené súbory zašlite emailom:
 
 > Adresát: integracie@globaltel.sk, integracie@nases.gov.sk
 >
@@ -121,7 +121,10 @@ Podpíšte pomocou [xmlsectool](http://shibboleth.net/downloads/tools/xmlsectool
 
 **Ako prílohu priložte do jedného súboru zozipované `podaas-fix-sts.crt`, `podaas-fix-sp.crt` a `podaas-fix-sp.signed.metadata.xml`.** Emailový server na strane dodávateľa to inak odmietne!
 
-
 ### 7. Vykonanie akceptačného testovania (UAT)
 
+TODO
+
 ### 8. Prechod do produkcie
+
+TODO
