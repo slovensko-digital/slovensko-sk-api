@@ -1,6 +1,6 @@
 class UpvsController < ApiController
   def login
-    session[:login_callback_url] = fetch_callback_url(:login, Environment.login_callback_urls)
+    session[:login_callback_url] = fetch_callback_url(Environment.login_callback_urls)
 
     redirect_to '/auth/saml'
   end
@@ -26,7 +26,7 @@ class UpvsController < ApiController
       redirect_to "/auth/saml/slo?#{slo_response_params(session[:logout_callback_url]).to_query}"
     else
       Environment.api_token_authenticator.invalidate_token(authenticity_token, obo: true)
-      session[:logout_callback_url] = fetch_callback_url(:logout, Environment.logout_callback_urls)
+      session[:logout_callback_url] = fetch_callback_url(Environment.logout_callback_urls)
 
       redirect_to '/auth/saml/spslo'
     end

@@ -31,6 +31,9 @@ Rails.application.configure do
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
-  # Raises error for missing translations
-  # config.action_view.raise_on_missing_translations = true
+  # Leave english in tests for now.
+  config.i18n.default_locale = :en
+
+  # Raises error for missing translations.
+  config.action_view.raise_on_missing_translations = true
 end
