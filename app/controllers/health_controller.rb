@@ -65,7 +65,7 @@ class HealthController < ApplicationController
   end
 
   def check_heartbeats
-    beat = Heartbeat.find_by(name: DownloadAllFormTemplatesJob.name)
+    beat = Heartbeat.find_by(name: DownloadFormTemplatesJob.name)
     raise "Unbeaten #{beat.name} with last beat at #{beat.updated_at}" if beat && beat.updated_at < 28.hours.ago
   end
 
