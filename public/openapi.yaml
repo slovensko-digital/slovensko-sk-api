@@ -36,7 +36,7 @@ paths:
       - name: callback
         in: query
         required: true
-        description: Callback URL, na ktorú bude používateľ presmerovaný po úspešnom prihlásení. Callback URL musí byť prefixom jednej zo zaregistrovaných adries na úrovni API komponentu, musí mať rovnakú schému a autoritu.
+        description: Callback URL, na ktorú bude používateľ presmerovaný po úspešnom prihlásení. Callback URL musí byť prefixom jednej zo zaregistrovaných adries na úrovni API komponentu, musí mať rovnakú doménu a schému.
         schema:
           type: string
           format: URL
@@ -81,7 +81,7 @@ paths:
       - name: callback
         in: query
         required: true
-        description: Callback URL, na ktorú bude používateľ presmerovaný po úspešnom odhlásení. Callback URL musí byť prefixom jednej zo zaregistrovaných adries na úrovni API komponentu, musí mať rovnakú schému a autoritu.
+        description: Callback URL, na ktorú bude používateľ presmerovaný po úspešnom odhlásení. Callback URL musí byť prefixom jednej zo zaregistrovaných adries na úrovni API komponentu, musí mať rovnakú doménu a schému.
         schema:
           type: string
           format: URL
