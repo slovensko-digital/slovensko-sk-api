@@ -9,7 +9,7 @@ info:
 
     - uskutočniť prihlásenie pomocou ÚPVS (pomocou elektronického občianskeho preukazu) a získať údaje o prihlásenom subjekte,
     - podávať podania v mene subjektu, ktorý sa prihlásil cez ÚPVS,
-    - validovať či je uřcitá správa vo formáte SKTalk validná voči aktuálnej definícii formuláru (podporná funkcia).
+    - validovať či je určitá správa vo formáte SKTalk validná voči aktuálnej definícii formuláru (podporná funkcia).
 
   contact:
     name: Slovensko.Digital
