@@ -10,7 +10,7 @@ services:
     volumes:
     - redis:/data
 
-  application:
+  web:
     image: jsuchal/slovensko-sk-api:latest
     volumes:
     - ./security:/app/security
