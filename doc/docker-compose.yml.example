@@ -32,8 +32,6 @@ services:
     command: bundle exec rake jobs:work
     volumes:
       - ./security:/app/security
-    ports:
-      - "3000:3000"
     depends_on:
       - postgres
       - redis
@@ -50,8 +48,6 @@ services:
     command: bundle exec clockwork config/clock.rb
     volumes:
       - ./security:/app/security
-    ports:
-      - "3000:3000"
     depends_on:
       - postgres
       - redis
