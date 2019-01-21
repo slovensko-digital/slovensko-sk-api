@@ -21,3 +21,6 @@
 
 # Ignore security files.
 /security/*
+
+# Ignore editor
+/.idea

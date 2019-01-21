@@ -1,6 +1,22 @@
-# PodaaS - inštalačná príručka
+# slovensko.sk API - inštalačná príručka
 
-Máme dobrú a zlú správu. Tá zlá správa je, že na zfunkčnenie tohto komponentu podaní (alebo akejkoľvek inej integrácie na slovensko.sk) je nutné prejsť pomerne náročný proces s NASES a vypracovať množstvo dokumentácie. Tá dobrá správa je, že sme to skoro celé spravili za Vás a tento návod by mal úplne stačiť na to, aby ste komponent dostali do produkčnej prevádzky.
+Máme dobrú a zlú správu. Tá zlá správa je, že na zfunkčnenie tohto komponentu (alebo akejkoľvek inej integrácie na slovensko.sk) je nutné prejsť pomerne náročný proces s NASES a vypracovať množstvo dokumentácie. Tá dobrá správa je, že sme to skoro celé spravili za Vás a tento návod by mal úplne stačiť na to, aby ste komponent dostali do produkčnej prevádzky. Ak sa Vám to zdá zložité, ozvite sa nám emailom na `ekosystem@slovensko.digital` a radi pomôžeme.
+
+## Postup spustenia komponentu 
+
+Komponent `slovensko-sk-api` je distribuovaný ako docker kontajner, ktorý sa spúšťa štandardne, najľahšie cez `docker-compose`. [Ukážkový docker-compose.yml](doc/docker-compose.yml.example).
+
+Pred prvým spustením je potrebné vytvoriť a inicializovať databázu cez
+```
+$ docker-compose run app rails db:create db:migrate
+``` 
+
+Následne už len 
+```
+$ docker-compose up
+```
+
+A aplikácia by mala bežať na porte 3000.
 
 ## Postup zriadenia integrácie na slovensko.sk - ústredný portál verejnej správy (UPVS)
 
