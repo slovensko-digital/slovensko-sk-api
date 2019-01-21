@@ -4,37 +4,7 @@ Máme dobrú a zlú správu. Tá zlá správa je, že na zfunkčnenie tohto komp
 
 ## Postup spustenia komponentu 
 
-Komponent `slovensko-sk-api` je distribuovaný ako docker kontajner, ktorý sa spúšťa štandardne, najľahšie cez `docker-compose`. Napríklad takto:
-
-```
-version: '3'
-services:
-  postgres:
-    image: postgres:11-alpine
-    volumes:
-      - db:/var/lib/postgresql/data
-
-  redis:
-    image: redis:5-alpine
-    volumes:
-      - redis:/data
-
-  app:
-    image: skdigital/slovensko-sk-api:latest
-    ports: "3000:3000"
-    depends_on:
-      - postgres
-      - redis                      
-    environment:
-      RAILS_ENV=production
-      DATABASE_URL: postgres://postgres:@postgres:5432/slovensko-sk-api
-      REDIS_URL: redis://redis:6379      
-      SECRET_KEY_BASE: <sem vlozit nejaky random key>
-
-volumes:
-  postgres:
-  redis:
-```
+Komponent `slovensko-sk-api` je distribuovaný ako docker kontajner, ktorý sa spúšťa štandardne, najľahšie cez `docker-compose`. [Ukážkový docker-compose.yml](doc/docker-compose.yml.example).
 
 Pred prvým spustením je potrebné vytvoriť a inicializovať databázu cez
 ```
