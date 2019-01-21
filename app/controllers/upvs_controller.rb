@@ -32,6 +32,8 @@ class UpvsController < ApiController
     end
   end
 
+  include CallbackHelper
+
   CallbackError = Class.new(StandardError)
 
   rescue_from(CallbackError) { |error| render_bad_request(error.message) }
@@ -40,12 +42,14 @@ class UpvsController < ApiController
 
   def fetch_callback_url(registered_urls)
     raise CallbackError, :no_callback if params[:callback].blank?
-    raise CallbackError, :unregistered_callback if registered_urls.none? { |url| params[:callback].start_with?(url) }
+    raise CallbackError, :unregistered_callback if registered_urls.none? { |url| callback_match?(url, params[:callback]) }
     params[:callback]
+  rescue URI::Error
+    raise CallbackError, :malformed_callback
   end
 
   def callback_url_with_token(callback_url, token)
-    URI.parse(callback_url).tap { |url| url.query = [url.query, "token=#{token}"].compact.join('&') }.to_s
+    URI(callback_url).tap { |url| url.query = [url.query, "token=#{token}"].compact.join('&') }.to_s
   end
 
   def slo_request_params
