@@ -9,11 +9,11 @@ RSpec.describe DownloadFormTemplateJob, :upvs, type: :job do
     end
 
     it 'downloads form template' do
-      expect{ subject_perform }.to change{ FormTemplate.count }.from(0).to(1)
+      expect { subject_perform }.to change { FormTemplate.count }.from(0).to(1)
     end
 
     it 'downloads xsd schema' do
-      expect{ subject_perform }.to change{ FormTemplateRelatedDocument.count }.from(0).to(1)
+      expect { subject_perform }.to change { FormTemplateRelatedDocument.count }.from(0).to(1)
 
       xsd_schema = FormTemplateRelatedDocument.last
       expect(xsd_schema).to have_attributes(form_template: form_template, language: 'sk', document_type: 'CLS_F_XSD_EDOC')
