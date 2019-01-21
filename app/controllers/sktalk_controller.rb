@@ -1,7 +1,7 @@
 class SktalkController < ApiController
-  before_action { render_bad_request('No message') if params[:message].blank? }
+  before_action { render_bad_request(:no_message) if params[:message].blank? }
 
-  rescue_from(javax.xml.bind.UnmarshalException) { render_bad_request('Malformed message') }
+  rescue_from(javax.xml.bind.UnmarshalException) { render_bad_request(:malformed_message) }
 
   def receive
     assertion = authenticate(scope: 'sktalk/receive')

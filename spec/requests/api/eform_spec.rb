@@ -20,6 +20,9 @@ RSpec.describe 'eForm API' do
 
       expect(response.status).to eq(200)
       expect(response.body).to eq({ valid: true }.to_json)
+
+      expect(response.content_type).to eq('application/json')
+      expect(response.charset).to eq('utf-8')
     end
 
     pending 'validates valid form data in request with largest possible payload'
@@ -29,6 +32,9 @@ RSpec.describe 'eForm API' do
 
       expect(response.status).to eq(200)
       expect(response.body).to eq({ valid: false, errors: ["-1:-1: ERROR: cvc-elt.1.a: Cannot find the declaration of element 'GeneralAgenda'."]}.to_json)
+
+      expect(response.content_type).to eq('application/json')
+      expect(response.charset).to eq('utf-8')
     end
 
     it 'supports authentication via headers' do

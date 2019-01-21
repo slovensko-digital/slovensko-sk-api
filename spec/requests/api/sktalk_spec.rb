@@ -27,6 +27,9 @@ RSpec.describe 'SKTalk API' do
 
       expect(response.status).to eq(200)
       expect(response.body).to eq({ receive_result: 0 }.to_json)
+
+      expect(response.content_type).to eq('application/json')
+      expect(response.charset).to eq('utf-8')
     end
 
     pending 'receives message in request with largest possible payload'
@@ -110,6 +113,9 @@ RSpec.describe 'SKTalk API' do
 
       expect(response.status).to eq(200)
       expect(response.body).to eq({ receive_result: 0, save_to_outbox_result: 0 }.to_json)
+
+      expect(response.content_type).to eq('application/json')
+      expect(response.charset).to eq('utf-8')
     end
 
     pending 'receives message and saves it to outbox in request with largest possible payload'

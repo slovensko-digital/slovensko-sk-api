@@ -1,7 +1,7 @@
 class ApiController < ActionController::API
   rescue_from JWT::DecodeError do |error|
     if error.message == 'Nil JSON web token'
-      render_bad_request('No credentials')
+      render_bad_request(:no_credentials)
     else
       render_unauthorized
     end
@@ -43,32 +43,32 @@ class ApiController < ActionController::API
     true if error.is_a?(javax.xml.ws.soap.SOAPFaultException) && error.message =~ /(connect|read) timed out/i
   end
 
-  def render_bad_request(message)
-    render status: :bad_request, json: { message: message }
+  def render_bad_request(key, **options)
+    render status: :bad_request, json: { message: I18n.t("bad_request.#{key}", options) }
   end
 
   def render_unauthorized
     self.headers['WWW-Authenticate'] = 'Token realm="API"'
-    render status: :unauthorized, json: { message: 'Bad credentials' }
+    render status: :unauthorized, json: { message: I18n.t(:unauthorized) }
   end
 
-  def render_not_found(message)
-    render status: :not_found, json: { message: message }
+  def render_not_found(key, **options)
+    render status: :not_found, json: { message: I18n.t("not_found.#{key}", options) }
   end
 
   def render_request_timeout
-    render status: :request_timeout, json: { message: 'Operation timeout exceeded' }
+    render status: :request_timeout, json: { message: I18n.t(:request_timeout) }
   end
 
   def render_payload_too_large
-    render status: :payload_too_large, json: { message: 'Message size limit exceeded' }
+    render status: :payload_too_large, json: { message: I18n.t(:payload_too_large) }
   end
 
   def render_too_many_requests
-    render status: :too_many_requests, json: { message: 'Request rate limit exceeded' }
+    render status: :too_many_requests, json: { message: I18n.t(:too_many_requests) }
   end
 
   def render_internal_server_error
-    render status: :internal_server_error, json: { message: 'Unknown error' }
+    render status: :internal_server_error, json: { message: I18n.t(:internal_server_error) }
   end
 end

@@ -1,6 +1,6 @@
 class UpvsController < ApiController
   def login
-    session[:login_callback_url] = fetch_callback_url(:login, Environment.login_callback_urls)
+    session[:login_callback_url] = fetch_callback_url(Environment.login_callback_urls)
 
     redirect_to '/auth/saml'
   end
@@ -10,7 +10,13 @@ class UpvsController < ApiController
     scopes = ['sktalk/receive', 'sktalk/receive_and_save_to_outbox']
     token = Environment.obo_token_authenticator.generate_token(response, scopes: scopes)
 
-    redirect_to "#{session[:login_callback_url]}?token=#{token}"
+    redirect_to callback_url_with_token(session[:login_callback_url], token)
+  end
+
+  def assertion
+    assertion = Environment.api_token_authenticator.verify_token(authenticity_token, obo: true)
+
+    render content_type: 'application/samlassertion+xml', plain: assertion
   end
 
   def logout
@@ -20,7 +26,7 @@ class UpvsController < ApiController
       redirect_to "/auth/saml/slo?#{slo_response_params(session[:logout_callback_url]).to_query}"
     else
       Environment.api_token_authenticator.invalidate_token(authenticity_token, obo: true)
-      session[:logout_callback_url] = fetch_callback_url(:logout, Environment.logout_callback_urls)
+      session[:logout_callback_url] = fetch_callback_url(Environment.logout_callback_urls)
 
       redirect_to '/auth/saml/spslo'
     end
@@ -32,10 +38,14 @@ class UpvsController < ApiController
 
   private
 
-  def fetch_callback_url(action, registered_urls)
-    raise CallbackError, "No #{action} callback" if params[:callback].blank?
-    raise CallbackError, "Unregistered #{action} callback" unless params[:callback].in?(registered_urls)
+  def fetch_callback_url(registered_urls)
+    raise CallbackError, :no_callback if params[:callback].blank?
+    raise CallbackError, :unregistered_callback if registered_urls.none? { |url| params[:callback].start_with?(url) }
     params[:callback]
+  end
+
+  def callback_url_with_token(callback_url, token)
+    URI.parse(callback_url).tap { |url| url.query = [url.query, "token=#{token}"].compact.join('&') }.to_s
   end
 
   def slo_request_params

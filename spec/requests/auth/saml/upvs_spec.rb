@@ -19,7 +19,7 @@ RSpec.describe 'UPVS SAML Authentication' do
   end
 
   describe 'GET /auth/saml/login' do
-    let(:callback) { 'https://example.com/login-callback' }
+    let(:callback) { 'https://example.com/login-callback?user=14' }
 
     it 'redirects to IDP with request' do
       get '/auth/saml/login', params: { callback: callback }
@@ -34,19 +34,19 @@ RSpec.describe 'UPVS SAML Authentication' do
       get '/auth/saml/login'
 
       expect(response.status).to eq(400)
-      expect(response.body).to eq({ message: 'No login callback' }.to_json)
+      expect(response.body).to eq({ message: 'No callback' }.to_json)
     end
 
     it 'responds with 400 if request contains unregistered callback URL' do
       get '/auth/saml/login', params: { callback: 'UNREGISTERED' }
 
       expect(response.status).to eq(400)
-      expect(response.body).to eq({ message: 'Unregistered login callback' }.to_json)
+      expect(response.body).to eq({ message: 'Unregistered callback' }.to_json)
     end
   end
 
   describe 'POST /auth/saml/callback' do
-    let(:callback) { 'https://example.com/login-callback' }
+    let(:callback) { 'https://example.com/login-callback?user=14' }
 
     before(:example) { get '/auth/saml/login', params: { callback: callback }}
 
@@ -85,7 +85,7 @@ RSpec.describe 'UPVS SAML Authentication' do
         post '/auth/saml/callback', params: { SAMLResponse: idp_response }
 
         expect(response.status).to eq(302)
-        expect(response.location).to start_with(callback + '?token=')
+        expect(response.location).to start_with(callback + '&token=')
       end
 
       it 'generates OBO token with appropriate scopes' do
@@ -97,7 +97,7 @@ RSpec.describe 'UPVS SAML Authentication' do
 
         post '/auth/saml/callback', params: { SAMLResponse: response }
 
-        token = response.location.split('?token=').last
+        token = response.location.split('&token=').last
 
         expect(authenticator.verify_token(token)).to be
       end
@@ -153,7 +153,7 @@ RSpec.describe 'UPVS SAML Authentication' do
     context 'SP initiation' do
       let!(:token) { api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read) }
 
-      let(:callback) { 'https://example.com/logout-callback' }
+      let(:callback) { 'https://example.com/logout-callback?user=14' }
 
       before(:example) { travel_to '2018-11-28T20:26:16Z' }
 
@@ -205,14 +205,14 @@ RSpec.describe 'UPVS SAML Authentication' do
         get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }
 
         expect(response.status).to eq(400)
-        expect(response.body).to eq({ message: 'No logout callback' }.to_json)
+        expect(response.body).to eq({ message: 'No callback' }.to_json)
       end
 
       it 'responds with 400 if request contains unregistered callback URL' do
         get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }, params: { callback: 'UNREGISTERED' }
 
         expect(response.status).to eq(400)
-        expect(response.body).to eq({ message: 'Unregistered logout callback' }.to_json)
+        expect(response.body).to eq({ message: 'Unregistered callback' }.to_json)
       end
 
       it 'responds with 401 if authentication does not pass' do

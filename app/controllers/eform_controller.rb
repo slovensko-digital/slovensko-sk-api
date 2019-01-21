@@ -1,12 +1,12 @@
 class EformController < ApiController
   before_action { authenticate }
 
-  before_action { render_bad_request('No form identifier') if params[:identifier].blank? }
-  before_action { render_bad_request('No form version') if params[:version].blank? }
-  before_action { render_bad_request('No form data') if params[:data].blank? }
+  before_action { render_bad_request(:no_form_identifier) if params[:identifier].blank? }
+  before_action { render_bad_request(:no_form_version) if params[:version].blank? }
+  before_action { render_bad_request(:no_form_data) if params[:data].blank? }
 
-  rescue_from(ActiveRecord::RecordNotFound) { render_not_found("Form #{params[:identifier]} version #{params[:version]} not found") }
-  rescue_from(Nokogiri::XML::SyntaxError) { render_bad_request('Malformed form data') }
+  rescue_from(ActiveRecord::RecordNotFound) { render_not_found(:form_identifier_with_version, identifier: params[:identifier], version: params[:version]) }
+  rescue_from(Nokogiri::XML::SyntaxError) { render_bad_request(:malformed_form_data) }
 
   def validate
     version_major, version_minor = params[:version].split('.', 2)
