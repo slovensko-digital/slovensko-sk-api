@@ -36,13 +36,13 @@ paths:
       - name: callback
         in: query
         required: true
-        description: Callback URL, ktorá sa má zavolať po úspešnom prihlásení.
+        description: Callback URL, na ktorú bude používateľ presmerovaný po úspešnom prihlásení. Callback URL musí byť prefixom jednej zo zaregistrovaných adries na úrovni API komponentu, musí mať rovnakú schému a autoritu.
         schema:
           type: string
           format: URL
       responses:
         302:
-          description: Presmerovanie na prihlasovaciu stránku ÚPVS.
+          description: Presmerovanie na prihlasovaciu stránku ÚPVS a následne na callback URL tretej strany.
       callbacks:
         login:
           '{$request.query.callback}':
@@ -76,12 +76,12 @@ paths:
   /logout:
     get:
       tags: [Prihlasovanie pomocou eID]
-      description: Odhlásenie z ÚPVS portálu. Po úspešnom odhlásení nasleduje presmerovanie späť na callback URL tretej strany.
+      description: Odhlásenie pomocou slovensko.sk (ÚPVS). Po úspešnom odhlásení nasleduje presmerovanie späť na callback URL tretej strany.
       parameters:
       - name: callback
         in: query
         required: true
-        description: Odhlasovacia callback URL.
+        description: Callback URL, na ktorú bude používateľ presmerovaný po úspešnom odhlásení. Callback URL musí byť prefixom jednej zo zaregistrovaných adries na úrovni API komponentu, musí mať rovnakú schému a autoritu.
         schema:
           type: string
           format: URL
