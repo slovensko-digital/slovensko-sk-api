@@ -38,14 +38,16 @@ class UpvsController < ApiController
 
   private
 
-  def fetch_callback_url(action, registered_urls)
-    raise CallbackError, "No #{action} callback" if params[:callback].blank?
-    raise CallbackError, "Unregistered #{action} callback" if registered_urls.none? { |url| params[:callback].start_with?(url) }
+  def fetch_callback_url(registered_urls)
+    raise CallbackError, :no_callback if params[:callback].blank?
+    raise CallbackError, :unregistered_callback if registered_urls.none? { |url| helpers.callback_match?(url, params[:callback]) }
     params[:callback]
+  rescue URI::Error
+    raise CallbackError, :malformed_callback
   end
 
   def callback_url_with_token(callback_url, token)
-    URI.parse(callback_url).tap { |url| url.query = [url.query, "token=#{token}"].compact.join('&') }.to_s
+    URI(callback_url).tap { |url| url.query = [url.query, "token=#{token}"].compact.join('&') }.to_s
   end
 
   def slo_request_params
