@@ -1,5 +1,6 @@
 en:
   bad_request:
+    malformed_callback: 'Malformed callback'
     malformed_form_data: 'Malformed form data'
     malformed_message: 'Malformed message'
     no_callback: 'No callback'

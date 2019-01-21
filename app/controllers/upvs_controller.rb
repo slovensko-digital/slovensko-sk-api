@@ -32,6 +32,8 @@ class UpvsController < ApiController
     end
   end
 
+  include CallbackHelper
+
   CallbackError = Class.new(StandardError)
 
   rescue_from(CallbackError) { |error| render_bad_request(error.message) }
@@ -40,7 +42,7 @@ class UpvsController < ApiController
 
   def fetch_callback_url(registered_urls)
     raise CallbackError, :no_callback if params[:callback].blank?
-    raise CallbackError, :unregistered_callback if registered_urls.none? { |url| helpers.callback_match?(url, params[:callback]) }
+    raise CallbackError, :unregistered_callback if registered_urls.none? { |url| callback_match?(url, params[:callback]) }
     params[:callback]
   rescue URI::Error
     raise CallbackError, :malformed_callback

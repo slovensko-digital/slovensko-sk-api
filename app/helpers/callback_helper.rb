@@ -1,6 +1,6 @@
 module CallbackHelper
   def callback_match?(template, callback = params[:callback])
-    callback.start_with?(template) && uri_scheme_and_authority(callback) == uri_scheme_and_authority(template)
+    uri_scheme_and_authority(callback) == uri_scheme_and_authority(template) && callback.start_with?(template)
   end
 
   private

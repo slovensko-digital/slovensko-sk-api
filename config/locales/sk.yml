@@ -1,5 +1,6 @@
 sk:
   bad_request:
+    malformed_callback: 'Poškodené spätné volanie'
     malformed_form_data: 'Poškodené dáta formuláru'
     malformed_message: 'Poškodená správa'
     no_callback: 'Chýba spätné volanie'

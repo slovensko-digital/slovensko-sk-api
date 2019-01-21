@@ -37,11 +37,38 @@ RSpec.describe 'UPVS SAML Authentication' do
       expect(response.body).to eq({ message: 'No callback' }.to_json)
     end
 
+    it 'responds with 400 if request contains malformed callback URL' do
+      get '/auth/saml/login', params: { callback: 'https://example.com/malformed-callback[]' }
+
+      expect(response.status).to eq(400)
+      expect(response.body).to eq({ message: 'Malformed callback' }.to_json)
+    end
+
     it 'responds with 400 if request contains unregistered callback URL' do
-      get '/auth/saml/login', params: { callback: 'UNREGISTERED' }
+      get '/auth/saml/login', params: { callback: 'https://example.com/unregistered-callback?user=14' }
 
       expect(response.status).to eq(400)
       expect(response.body).to eq({ message: 'Unregistered callback' }.to_json)
+    end
+
+    context 'callback scheme mismatch' do
+      let(:callback) { 'https://example.com' }
+
+      it 'responds with 400 if request contains malicious callback URL' do
+        get '/auth/saml/login', params: { callback: 'http://example.com' }
+
+        expect(response.status).to eq(400)
+      end
+    end
+
+    context 'callback authority mismatch' do
+      let(:callback) { 'https://example.com' }
+
+      it 'responds with 400 if request contains malicious callback URL' do
+        get '/auth/saml/login', params: { callback: 'https://example.com.hack' }
+
+        expect(response.status).to eq(400)
+      end
     end
   end
 
@@ -208,11 +235,38 @@ RSpec.describe 'UPVS SAML Authentication' do
         expect(response.body).to eq({ message: 'No callback' }.to_json)
       end
 
+      it 'responds with 400 if request contains malformed callback URL' do
+        get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }, params: { callback: 'https://example.com/malformed-callback[]' }
+
+        expect(response.status).to eq(400)
+        expect(response.body).to eq({ message: 'Malformed callback' }.to_json)
+      end
+
       it 'responds with 400 if request contains unregistered callback URL' do
-        get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }, params: { callback: 'UNREGISTERED' }
+        get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }, params: { callback: 'https://example.com/unregistered-callback?user=14' }
 
         expect(response.status).to eq(400)
         expect(response.body).to eq({ message: 'Unregistered callback' }.to_json)
+      end
+
+      context 'callback scheme mismatch' do
+        let(:callback) { 'https://example.com' }
+
+        it 'responds with 400 if request contains malicious callback URL' do
+          get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }, params: { callback: 'http://example.com' }
+
+          expect(response.status).to eq(400)
+        end
+      end
+
+      context 'callback authority mismatch' do
+        let(:callback) { 'https://example.com' }
+
+        it 'responds with 400 if request contains malicious callback URL' do
+          get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }, params: { callback: 'https://example.com.hack' }
+
+          expect(response.status).to eq(400)
+        end
       end
 
       it 'responds with 401 if authentication does not pass' do
