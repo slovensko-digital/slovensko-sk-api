@@ -117,6 +117,8 @@ TODO
 
 ### 6. Zriadenie prístupov do FIX prostredia
 
+Vygenerujte certifikáty. Reťazec `podaas` v názvoch súborov, aliasoch a CN certifikátov nahraďte skratkou Vašej integrácie, podobne nahraďte reťazec `podaas.slovensko.digital` v CN certifikátov.  
+
     keytool -genkeypair -alias podaassts --keyalg RSA --keysize 2048 --sigalg sha512WithRSA -validity 730 -keypass password -keystore podaas-fix-sts.keystore -storepass password -dname "CN=tech.podaas.upvsfix.ext.podaas.slovensko.digital"
     
     keytool -export -keystore podaas-fix-sts.keystore -alias podaassts -storepass password > podaas-fix-sts.crt
