@@ -22,7 +22,7 @@ Pred prvým spustením je potrebné pripraviť si adresár, ktorý bude obsahova
 
 Ďalej je potrebné inicializovať databázu cez:
 
-    docker-compose run app rails db:create db:migrate
+    docker-compose run web rails db:create db:migrate
  
 Potom je možné spustiť komponent:
 
