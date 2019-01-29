@@ -9,7 +9,12 @@ Komponent `slovensko-sk-api` je distribuovaný ako Docker kontajner, ktorý sa s
 Pred prvým spustením je potrebné pripraviť si adresár, ktorý bude obsahovať:
  
 - [docker-compose.yml](doc/templates/docker-compose.yml) uprevený podľa potreby,
-- [.env](doc/templates/.env) s doplnenými hodnotami premenných podľa potreby,
+- [.env](doc/templates/.env) s doplnenými hodnotami premenných podľa potreby, minimálne:
+
+  - `SECRET_KEY_BASE` - kľúč pre zabezpečenie Rails aplikácie, pozri [Securing Rails Applications](https://edgeguides.rubyonrails.org/security.html) časť [Session Storage](https://edgeguides.rubyonrails.org/security.html#session-storage),
+  - `LOGIN_CALLBACK_URLS` - prefixy adries oddelené čiarkou, na ktoré može byť používateľ presmerovaný po úspešnom prihlásení,
+  - `LOGOUT_CALLBACK_URLS` - prefixy adries oddelené čiarkou, na ktoré može byť používateľ presmerovaný po úspešnom odhlásení.
+
 - všetky súbory potrebné podľa `.env` umiestnené napr. v podadresári `security`, sú to:
 
   - `api-token.public.pem` - verejný kľúč pre verifikáciu API tokenov tretej strany, vygenerovaný napr. pomocou `openssl rsa -in api-token.private.pem -pubout -out api-token.public.pem`, 
