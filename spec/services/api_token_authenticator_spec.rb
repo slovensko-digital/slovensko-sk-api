@@ -185,22 +185,22 @@ RSpec.describe ApiTokenAuthenticator do
         o1 = generate_obo_token
         t1 = generate_token(obo: o1, header: { cty: 'JWT' })
 
-        subject.verify_token(t1)
+        subject.verify_token(t1, obo: true)
 
         travel_to Time.now + 20.minutes - 0.1.seconds
 
-        expect { subject.verify_token(t1) }.to raise_error(JWT::InvalidJtiError)
+        expect { subject.verify_token(t1, obo: true) }.to raise_error(JWT::InvalidJtiError)
       end
 
       it 'can not verify the same token again on or after 20 minutes' do
         o1 = generate_obo_token
         t1 = generate_token(obo: o1, header: { cty: 'JWT' })
 
-        subject.verify_token(t1)
+        subject.verify_token(t1, obo: true)
 
         travel_to Time.now + 20.minutes
 
-        expect { subject.verify_token(t1) }.to raise_error(JWT::ExpiredSignature)
+        expect { subject.verify_token(t1, obo: true) }.to raise_error(JWT::ExpiredSignature)
       end
 
       it 'can not verify another token with the same JTI in the first 60 minutes' do
@@ -209,7 +209,7 @@ RSpec.describe ApiTokenAuthenticator do
         o1 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
         t1 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o1, header: { cty: 'JWT' })
 
-        subject.verify_token(t1)
+        subject.verify_token(t1, obo: true)
 
         travel_to Time.now + 45.minutes
 
@@ -220,7 +220,7 @@ RSpec.describe ApiTokenAuthenticator do
 
         expect(identifier_store).to receive(:write).with(any_args).and_call_original
 
-        expect { subject.verify_token(t2) }.to raise_error(JWT::InvalidJtiError)
+        expect { subject.verify_token(t2, obo: true) }.to raise_error(JWT::InvalidJtiError)
       end
 
       it 'can verify another token with the same JTI again on or after 60 minutes' do

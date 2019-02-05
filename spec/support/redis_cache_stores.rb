@@ -14,4 +14,3 @@ end
 RSpec.configure do |config|
   config.include RedisCacheStores
 end
-
