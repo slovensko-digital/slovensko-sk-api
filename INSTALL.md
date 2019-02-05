@@ -187,6 +187,8 @@ Na rozbehnutom komponente `slovensko-sk-api` vo FIX prostredí je potrebné pre 
 
       bin/uat-eform
 
+Pozn. úspešne vykonané UAT príkazy končia vždy s exit code 0, niektoré aj napriek výpisu nezachytenej výnimky na konci štandardného výstupu, v tom prípade ide o žiadanú informáciu.
+
 ### 8. Prechod do produkcie
 
 TODO
