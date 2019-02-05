@@ -21,6 +21,7 @@ class SktalkController < ApiController
   private
 
   def receiver(assertion)
-    UpvsEnvironment.sktalk_receiver(assertion: assertion)
+    # TODO rm: cache it at least on UpvsEnvironment#upvs_proxy level
+    @receiver ||= UpvsEnvironment.sktalk_receiver(assertion: assertion)
   end
 end
