@@ -156,7 +156,36 @@ Vytvorené súbory zašlite emailom:
 
 ### 7. Vykonanie akceptačného testovania (UAT)
 
-TODO
+Na rozbehnutom komponente `slovensko-sk-api` vo FIX prostredí je potrebné pre jednotlivé UAT prípady vykonať nasledovné:
+
+- pre *TC_IAM_01* a *TC_IAM_01_NEG*
+
+  spustite nasledujúci príkaz v rámci komponentu a zo štandardného výstupu vyberte relevantné časti:
+
+      bin/uat-iam
+
+- pre *TC_IAM_02* a *TC_IAM_03*
+
+  - prihláste sa a odhláste sa cez API komponentu, potom z logu komponentu vyberte relevantné časti,
+  - prihláste sa cez API komponentu ale odhláste cez portál ÚPVS, potom z logu komponentu vyberte relevantné časti.
+
+- pre *TC_G2G_01* a *TC_G2G_02*
+
+  spustite nasledujúci príkaz a z logu komponentu vyberte relevantné časti:
+
+      bin/uat-sktalk 'https://podaas.ekosystem.staging.slovensko.digital' <obo-token> <sktalk-message>
+
+  kde `<obo-token>` je OBO token získaný po úspešnom prihlásení a v danom čase ešte platný a `<sktalk-message>` je cesta k súboru so SKTalk správou, ktorá bude odoslaná a následne uložená medzi odoslané.
+
+  Príkaz automaticky vygeneruje platný API token a odošle požiadavku na API komponentu, na to sú potrebné súbory `security/api-token.private.pem` a `security/obo-token.private.pem`.
+  Príkaz automaticky nahradí `MessageID` a `CorrelationID` v odosielanej SKTalk správe.
+  **Pre akceptovanie G2G prípadov je potrebné správne nastaviť `SenderId` a `RecipientId` podľa prihláseného používateľa**, ktorého OBO token je uvedený v argumentoch príkazu. 
+
+- pre *TC_EFORM_01*, *TC_EFORM_01_NEG* a *TC_EFORM_02*
+
+  spustite nasledujúci príkaz v rámci komponentu a zo štandardného výstupu vyberte relevantné časti: 
+
+      bin/uat-eform
 
 ### 8. Prechod do produkcie
 
