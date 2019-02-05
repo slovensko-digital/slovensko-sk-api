@@ -26,5 +26,10 @@ def request(host, action, obo_token, sktalk_message)
   system "curl -X POST -d 'token=#{api_token}&message=#{sktalk_message}' #{host}/api/sktalk/#{action}"
 end
 
+# TC_G2G_01
+
 request host, 'receive_and_save_to_outbox', obo_token, sktalk_message(template: sktalk_message)
+
+# TC_G2G_01_NEG
+
 request host, 'receive_and_save_to_outbox', obo_token, sktalk_message(template: sktalk_message, remove_message_identifier: true)
