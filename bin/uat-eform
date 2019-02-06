@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+
+ENV['RAILS_ENV'] = 'development'
+
+require_relative '../config/environment'
+
+proxy = UpvsEnvironment.upvs_proxy(assertion: nil)
+service = EformService.new(proxy)
+
+# TC_EFORM_01
+
+template = FormTemplate.find_or_initialize_by(identifier: 'App.GeneralAgenda', version_major: 1, version_minor: 7)
+service.fetch_xsd_schema_for(template)
+
+# TC_EFORM_01_NEG
+
+service = EformService.new(proxy)
+template = FormTemplate.find_or_initialize_by(identifier: 'Non-existent', version_major: 1, version_minor: 7)
+
+begin
+  service.fetch_xsd_schema_for(template)
+rescue javax.xml.ws.soap.SOAPFaultException
+  # ignore
+end
+
+# TC_EFORM_02
+
+service.fetch_all_form_template_ids
