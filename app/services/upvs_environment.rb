@@ -5,11 +5,11 @@ module UpvsEnvironment
     EformService.new(upvs_proxy(assertion: nil))
   end
 
-  def sktalk_receiver(assertion: nil)
+  def sktalk_receiver(assertion:)
     SktalkReceiver.new(upvs_proxy(assertion: assertion))
   end
 
-  def properties(assertion: nil)
+  def properties(assertion:)
     environment = case ENV.fetch('UPVS_ENV')
     when 'dev'
       {
@@ -69,14 +69,31 @@ module UpvsEnvironment
     environment.merge(security)
   end
 
-  # TODO remove this in favor of #upvs_proxy_cache.fetch(assertion) { ... }
-  def upvs_proxy(assertion: nil)
+  def upvs_proxy(assertion:)
     UpvsProxy.new(properties(assertion: assertion))
+
+    # properties = properties(assertion: assertion)
+    # initializes_in = 30.seconds
+    #
+    # if assertion
+    #   conditions = REXML::XPath.first(assertion, '//saml:Assertion/saml:Conditions')
+    #   expires_in = Time.parse(conditions.attributes['NotOnOrAfter']) - Time.now.to_f - initializes_in
+    #   raise ArgumentError, 'Expired assertion' if expires_in.negative?
+    # else
+    #   expires_in = 2.hours - initializes_in
+    # end
+    #
+    # upvs_proxy_cache.fetch(properties, expires_in: expires_in, race_condition_ttl: initializes_in) do
+    #   UpvsProxy.new(properties)
+    # end
   end
 
-  # TODO add proxy cache like this:
   # def upvs_proxy_cache
-  #   @upvs_proxy_cache ||= ...
+  #   @upvs_proxy_cache ||= ActiveSupport::Cache::MemoryStore.new(
+  #     namespace: 'upvs-proxies',
+  #     size: 128.megabytes,
+  #     compress: false,
+  #   )
   # end
 
   def authentication_settings
