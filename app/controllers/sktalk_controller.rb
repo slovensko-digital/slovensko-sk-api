@@ -7,7 +7,7 @@ class SktalkController < ApiController
     assertion = authenticate(scope: 'sktalk/receive')
     receive_result = receiver(assertion).receive(params[:message])
 
-    render status: :ok, json: { receive_result: receive_result }
+    render json: { receive_result: receive_result }
   end
 
   def receive_and_save_to_outbox
