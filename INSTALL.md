@@ -136,7 +136,7 @@ Vygenerujte certifikáty. Reťazec `podaas` v názvoch súborov, aliasoch a CN c
 
 Vytvorte `podaas-fix-sp.metadata.xml` zo súboru [podaas-sp.metadata.xml](doc/templates/podaas-sp.metadata.xml). Treba nahradniť `entityID`, dva verejné klúče (skopírovaním z `podaas-fix-sp.pem`) a endpointy, kde bude **testovacia** verzia bežať. Metadáta podpíšte pomocou [xmlsectool](http://shibboleth.net/downloads/tools/xmlsectool/latest).
 
-    xmlsectool.sh --sign --inFile podaas-fix-sp.metadata.xml --outFile podaas-fix-sp.signed.metadata.xml --keystore podaas-fix-sp.keystore --keystorePassword password --key podaassp --keyPassword password
+    xmlsectool --sign --inFile podaas-fix-sp.metadata.xml --outFile podaas-fix-sp.signed.metadata.xml --keystore podaas-fix-sp.keystore --keystorePassword password --key podaassp --keyPassword password
 
 Vytvorené súbory zašlite emailom:
 
@@ -190,5 +190,23 @@ Na rozbehnutom komponente `slovensko-sk-api` vo FIX prostredí je potrebné pre 
 Pozn. úspešne vykonané UAT príkazy končia vždy s exit code 0, niektoré aj napriek výpisu nezachytenej výnimky na konci štandardného výstupu, v tom prípade ide o žiadanú informáciu.
 
 ### 8. Prechod do produkcie
+
+Vygenerujte certifikáty. Reťazec `podaas` v názvoch súborov, aliasoch a CN certifikátov nahraďte skratkou Vašej integrácie, podobne nahraďte reťazec `podaas.slovensko.digital` v CN certifikátov.  
+
+    keytool -genkeypair -alias podaassts --keyalg RSA --keysize 2048 --sigalg sha512WithRSA -validity 730 -keystore podaas-prod-sts.keystore -dname "CN=tech.podaas.upvsprod.ext.podaas.slovensko.digital"
+    
+    keytool -export -keystore podaas-prod-sts.keystore -alias podaassts > podaas-prod-sts.crt
+    
+    keytool -genkeypair -alias podaassp --keyalg RSA --keysize 2048 --sigalg sha512WithRSA -validity 730 -keystore podaas-prod-sp.keystore -dname "CN=sp.podaas.upvsprod.ext.podaas.slovensko.digital"
+    
+    keytool -export -keystore podaas-prod-sp.keystore -alias podaassp > podaas-prod-sp.crt
+    
+    keytool -export -keystore podaas-prod-sp.keystore -alias podaassp -rfc > podaas-prod-sp.pem
+
+Vytvorte `podaas-prod-sp.metadata.xml` zo súboru [podaas-sp.metadata.xml](doc/templates/podaas-sp.metadata.xml). Treba nahradniť `entityID`, dva verejné klúče (skopírovaním z `podaas-prod-sp.pem`) a endpointy, kde bude **produkčná** verzia bežať. Metadáta podpíšte pomocou [xmlsectool](http://shibboleth.net/downloads/tools/xmlsectool/latest).
+
+    xmlsectool --sign --inFile podaas-prod-sp.metadata.xml --outFile podaas-prod-sp.signed.metadata.xml --keystore podaas-prod-sp.keystore --keystorePassword ... --key podaassp --keyPassword ...
+
+Vytvorené súbory zašlite emailom:
 
 TODO
