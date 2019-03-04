@@ -19,7 +19,7 @@ Pred prvým spustením je potrebné pripraviť si adresár, ktorý bude obsahova
 
   - `api-token.public.pem` - verejný kľúč pre verifikáciu API tokenov tretej strany, vygenerovaný napr. pomocou `openssl rsa -in api-token.private.pem -pubout -out api-token.public.pem`, 
   - `obo-token.private.pem` - privátny a verejný kľúč pre generovanie a verifikáciu OBO tokenov v rámci komponentu, vygenerovaný napr. pomocou `openssl genrsa -out obo-token.private.pem 2048`,
-  - `upvs-fix-idp.metadata.xml` - IDP metadáta, pozri dokument *UPG-1-1-Integracny_manual_UPVS_IAM*
+  - `upvs-fix-idp.metadata.xml` - IDP metadáta, pozri dokument *UPG-1-1-Integracny_manual_UPVS_IAM*,
   - `podaas-fix-sp.metadata.xml` - SP metadáta, pozri časť [*6. Zriadenie prístupov do FIX prostredia*](#6-zriadenie-prstupov-do-fix-prostredia),
   - `podaas-fix-sp.keystore` - SP certifikát s kľúčom, pozri časť [*6. Zriadenie prístupov do FIX prostredia*](#6-zriadenie-prstupov-do-fix-prostredia),
   - `podaas-fix-sts.keystore` - STS certifikát s kľúčom, pozri časť [*6. Zriadenie prístupov do FIX prostredia*](#6-zriadenie-prstupov-do-fix-prostredia),

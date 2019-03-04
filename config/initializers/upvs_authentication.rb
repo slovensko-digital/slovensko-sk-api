@@ -1,5 +1,7 @@
 # Be sure to restart your server when you modify this file.
 
+return unless UpvsEnvironment.authentication?
+
 Rails.application.config.middleware.use OmniAuth::Builder do
   configure do |config|
     config.logger = Rails.logger

@@ -196,11 +196,11 @@ RSpec.describe 'UPVS SAML Authentication' do
       it 'invalidates OBO token from given API token' do
         authenticator = Environment.api_token_authenticator
 
-        expect(authenticator).to receive(:invalidate_token).with(token, obo: true).and_call_original
+        expect(authenticator).to receive(:invalidate_token).with(token, require_obo: true).and_call_original
 
         get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }, params: { callback: callback }
 
-        expect { authenticator.verify_token(token, obo: true) }.to raise_error(JWT::DecodeError)
+        expect { authenticator.verify_token(token, require_obo: true) }.to raise_error(JWT::DecodeError)
       end
 
       it 'supports authentication via headers' do
@@ -276,6 +276,12 @@ RSpec.describe 'UPVS SAML Authentication' do
 
         expect(response.status).to eq(401)
         expect(response.body).to eq({ message: 'Bad credentials' }.to_json)
+      end
+
+      it 'responds with 401 if authentication contains token without OBO token' do
+        get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + api_token_without_obo_token }, params: { callback: callback }
+
+        expect(response.status).to eq(401)
       end
 
       context 'with response' do

@@ -56,6 +56,12 @@ RSpec.describe 'UPVS API' do
       expect(response.body).to eq({ message: 'Bad credentials' }.to_json)
     end
 
+    it 'responds with 401 if authentication contains token without OBO token' do
+      get '/api/upvs/user/info.saml', headers: { 'Authorization' => 'Bearer ' + api_token_without_obo_token }
+
+      expect(response.status).to eq(401)
+    end
+
     pending 'responds with 500 if anything else fails'
   end
 end

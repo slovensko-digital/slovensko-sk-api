@@ -10,6 +10,7 @@ RSpec.describe 'SKTalk API' do
   before(:example) do
     assertion = file_fixture('oam/sso_response_success_assertion.xml').read.strip
 
+    allow(UpvsEnvironment).to receive(:sktalk_receiver).with(assertion: nil).and_return(sktalk_receiver)
     allow(UpvsEnvironment).to receive(:sktalk_receiver).with(assertion: assertion).and_return(sktalk_receiver)
   end
 
@@ -48,6 +49,12 @@ RSpec.describe 'SKTalk API' do
 
     it 'prefers authentication via headers over parameters' do
       post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + token }, params: { token: 'INVALID', message: message }
+
+      expect(response.status).to eq(200)
+    end
+
+    it 'accepts authentication via tokens without OBO token' do
+      post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + api_token_without_obo_token }, params: { message: message }
 
       expect(response.status).to eq(200)
     end
@@ -134,6 +141,12 @@ RSpec.describe 'SKTalk API' do
 
     it 'prefers authentication via headers over parameters' do
       post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + token }, params: { token: 'INVALID', message: message }
+
+      expect(response.status).to eq(200)
+    end
+
+    it 'accepts authentication via tokens without OBO token' do
+      post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + api_token_without_obo_token }, params: { message: message }
 
       expect(response.status).to eq(200)
     end

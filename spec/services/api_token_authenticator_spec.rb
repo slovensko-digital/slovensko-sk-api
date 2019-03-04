@@ -18,15 +18,22 @@ RSpec.describe ApiTokenAuthenticator do
 
   after(:example) { travel_back }
 
+  describe '#invalidate_token' do
+    pending
+  end
+
   describe '#verify_token' do
     def generate_token(exp: 1543437976, jti: SecureRandom.uuid, obo: nil, header: {}, **payload)
       payload.merge!(exp: exp, jti: jti, obo: obo)
       JWT.encode(payload.compact, key_pair, 'RS256', header)
     end
 
-    it 'returns true' do
-      expect(obo_token_authenticator).not_to receive(:verify_token)
-      expect(subject.verify_token(generate_token)).to eq(true)
+    it 'returns nothing for tokens without OBO token' do
+      expect(subject.verify_token(generate_token)).to eq(nil)
+    end
+
+    it 'raises error for tokens without OBO token when require OBO is set' do
+      expect { subject.verify_token(generate_token, require_obo: true) }. to raise_error(JWT::InvalidPayload)
     end
 
     it 'verifies format' do
@@ -98,35 +105,51 @@ RSpec.describe ApiTokenAuthenticator do
       expect { subject.verify_token(token) }.to raise_error(JWT::InvalidJtiError)
     end
 
-    context 'with OBO token' do
-      it 'returns assertion' do
+    it 'ignores OBO token scope for tokens without OBO token' do
+      token = generate_token
+
+      expect { subject.verify_token(token, scope: 'scope-to-verify') }.not_to raise_error
+    end
+
+    context 'with OBO token support' do
+      it 'returns assertion for tokens with OBO token' do
         obo_token = obo_token_authenticator.generate_token(response)
 
         expect(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: nil).and_call_original
 
         token = generate_token(obo: obo_token, header: { cty: 'JWT' })
 
-        expect(subject.verify_token(token, obo: true)).to eq(assertion)
+        expect(subject.verify_token(token)).to eq(assertion)
+      end
+
+      it 'returns assertion for tokens with OBO token when require OBO is set' do
+        obo_token = obo_token_authenticator.generate_token(response)
+
+        expect(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: nil).and_call_original
+
+        token = generate_token(obo: obo_token, header: { cty: 'JWT' })
+
+        expect(subject.verify_token(token, require_obo: true)).to eq(assertion)
       end
 
       it 'verifies CTY header presence' do
-        obo_token = nil
+        obo_token = obo_token_authenticator.generate_token(response)
 
         allow(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: nil).and_call_original
 
         token = generate_token(obo: obo_token, header: {})
 
-        expect { subject.verify_token(token, obo: true) }.to raise_error(JWT::DecodeError)
+        expect { subject.verify_token(token) }.to raise_error(JWT::DecodeError)
       end
 
       it 'verifies CTY header value' do
-        obo_token = nil
+        obo_token = obo_token_authenticator.generate_token(response)
 
         allow(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: nil).and_call_original
 
         token = generate_token(obo: obo_token, header: { cty: 'NON-JWT' })
 
-        expect { subject.verify_token(token, obo: true) }.to raise_error(JWT::DecodeError)
+        expect { subject.verify_token(token) }.to raise_error(JWT::DecodeError)
       end
 
       it 'verifies OBO token presence' do
@@ -136,7 +159,7 @@ RSpec.describe ApiTokenAuthenticator do
 
         token = generate_token(obo: obo_token, header: { cty: 'JWT' })
 
-        expect { subject.verify_token(token, obo: true) }.to raise_error(JWT::DecodeError)
+        expect { subject.verify_token(token) }.to raise_error(JWT::DecodeError)
       end
 
       it 'verifies OBO token format' do
@@ -146,7 +169,7 @@ RSpec.describe ApiTokenAuthenticator do
 
         token = generate_token(obo: obo_token, header: { cty: 'JWT' })
 
-        expect { subject.verify_token(token, obo: true) }.to raise_error(JWT::DecodeError)
+        expect { subject.verify_token(token) }.to raise_error(JWT::DecodeError)
       end
 
       it 'verifies OBO token value' do
@@ -156,7 +179,7 @@ RSpec.describe ApiTokenAuthenticator do
 
         token = generate_token(obo: obo_token, header: { cty: 'JWT' })
 
-        expect { subject.verify_token(token, obo: true) }.to raise_error(JWT::VerificationError)
+        expect { subject.verify_token(token) }.to raise_error(JWT::VerificationError)
       end
 
       it 'verifies OBO token scope' do
@@ -166,7 +189,23 @@ RSpec.describe ApiTokenAuthenticator do
 
         token = generate_token(obo: obo_token, header: { cty: 'JWT' })
 
-        expect { subject.verify_token(token, obo: true, scope: 'scope-to-verify') }.to raise_error(JWT::VerificationError)
+        expect { subject.verify_token(token, scope: 'scope-to-verify') }.to raise_error(JWT::VerificationError)
+      end
+    end
+
+    context 'without OBO token support' do
+      let(:obo_token_authenticator) { nil }
+
+      it 'raises error for tokens with OBO token' do
+        token = generate_token(obo: double, header: { cty: 'JWT' })
+
+        expect { subject.verify_token(token) }.to raise_error(JWT::DecodeError)
+      end
+
+      it 'raises error for tokens with OBO token when require OBO is set' do
+        token = generate_token(obo: double, header: { cty: 'JWT' })
+
+        expect { subject.verify_token(token, require_obo: true) }.to raise_error(JWT::DecodeError)
       end
     end
 
@@ -185,22 +224,22 @@ RSpec.describe ApiTokenAuthenticator do
         o1 = generate_obo_token
         t1 = generate_token(obo: o1, header: { cty: 'JWT' })
 
-        subject.verify_token(t1, obo: true)
+        subject.verify_token(t1)
 
         travel_to Time.now + 20.minutes - 0.1.seconds
 
-        expect { subject.verify_token(t1, obo: true) }.to raise_error(JWT::InvalidJtiError)
+        expect { subject.verify_token(t1) }.to raise_error(JWT::InvalidJtiError)
       end
 
       it 'can not verify the same token again on or after 20 minutes' do
         o1 = generate_obo_token
         t1 = generate_token(obo: o1, header: { cty: 'JWT' })
 
-        subject.verify_token(t1, obo: true)
+        subject.verify_token(t1)
 
         travel_to Time.now + 20.minutes
 
-        expect { subject.verify_token(t1, obo: true) }.to raise_error(JWT::ExpiredSignature)
+        expect { subject.verify_token(t1) }.to raise_error(JWT::ExpiredSignature)
       end
 
       it 'can not verify another token with the same JTI in the first 60 minutes' do
@@ -209,7 +248,7 @@ RSpec.describe ApiTokenAuthenticator do
         o1 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
         t1 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o1, header: { cty: 'JWT' })
 
-        subject.verify_token(t1, obo: true)
+        subject.verify_token(t1)
 
         travel_to Time.now + 45.minutes
 
@@ -220,7 +259,7 @@ RSpec.describe ApiTokenAuthenticator do
 
         expect(identifier_store).to receive(:write).with(any_args).and_call_original
 
-        expect { subject.verify_token(t2, obo: true) }.to raise_error(JWT::InvalidJtiError)
+        expect { subject.verify_token(t2) }.to raise_error(JWT::InvalidJtiError)
       end
 
       it 'can verify another token with the same JTI again on or after 60 minutes' do
@@ -229,7 +268,7 @@ RSpec.describe ApiTokenAuthenticator do
         o1 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
         t1 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o1, header: { cty: 'JWT' })
 
-        subject.verify_token(t1, obo: true)
+        subject.verify_token(t1)
 
         travel_to Time.now + 45.minutes
 
@@ -240,7 +279,7 @@ RSpec.describe ApiTokenAuthenticator do
 
         expect(identifier_store).to receive(:write).with(any_args).and_return(true)
 
-        expect { subject.verify_token(t2, obo: true) }.not_to raise_error
+        expect { subject.verify_token(t2) }.not_to raise_error
       end
     end
 
@@ -259,9 +298,5 @@ RSpec.describe ApiTokenAuthenticator do
         expect { subject.verify_token(generate_token) }.to raise_error(Environment::RedisConnectionError)
       end
     end
-  end
-
-  describe '#invalidate_token' do
-    pending
   end
 end

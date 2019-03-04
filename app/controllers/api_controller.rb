@@ -20,7 +20,7 @@ class ApiController < ActionController::API
   private
 
   def authenticate(scope: nil)
-    Environment.api_token_authenticator.verify_token(authenticity_token, obo: scope.present?, scope: scope)
+    Environment.api_token_authenticator.verify_token(authenticity_token, require_obo: false, scope: scope)
   end
 
   def authenticity_token

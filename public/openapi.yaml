@@ -129,6 +129,7 @@ paths:
                   receive_result: 0
                   save_to_outbox_result: 0
       security:
+      - 'API token': []
       - 'API + OBO token': []
 
   /api/sktalk/receive:
@@ -158,6 +159,7 @@ paths:
                 example:
                   receive_result: 0
       security:
+      - 'API token': []
       - 'API + OBO token': []
 
   /api/eform/validate:
@@ -205,6 +207,7 @@ paths:
                   valid: true
       security:
       - 'API token': []
+      - 'API + OBO token': []
 
   /api/upvs/user/info.saml:
     get:

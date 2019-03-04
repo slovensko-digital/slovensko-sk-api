@@ -6,14 +6,16 @@ Rails.application.routes.draw do
 
     get :health, to: 'health#index'
 
-    get :login, to: 'upvs#login'
-    get :logout, to: 'upvs#logout'
+    if UpvsEnvironment.authentication?
+      get :login, to: 'upvs#login'
+      get :logout, to: 'upvs#logout'
 
-    scope 'auth/saml', as: :upvs, controller: :upvs do
-      get :login
-      get :logout
+      scope 'auth/saml', as: :upvs, controller: :upvs do
+        get :login
+        get :logout
 
-      post :callback
+        post :callback
+      end
     end
 
     scope :api do
@@ -26,8 +28,10 @@ Rails.application.routes.draw do
         post :receive_and_save_to_outbox
       end
 
-      namespace :upvs do
-        get :assertion, constraints: { format: :saml }, path: 'user/info'
+      if UpvsEnvironment.authentication?
+        namespace :upvs do
+          get :assertion, constraints: { format: :saml }, path: 'user/info'
+        end
       end
     end
 

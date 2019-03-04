@@ -79,6 +79,10 @@ module UpvsEnvironment
   #   @upvs_proxy_cache ||= ...
   # end
 
+  def authentication?
+    ENV.fetch('UPVS_SSO_SUPPORT', true) != 'false'
+  end
+
   def authentication_settings
     # TODO remove the next line to support live UPVS specs, need to figure out how to bring /security into CI first
     return {} if Rails.env.test?

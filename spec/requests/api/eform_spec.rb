@@ -1,7 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'eForm API' do
-  let!(:token) { api_token_without_obo_token }
+  let!(:token) { api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read) }
+
+  before(:example) { travel_to '2018-11-28T20:26:16Z' }
+
+  after(:example) { travel_back }
 
   describe 'POST /api/eform/validate' do
     let(:general_agenda) do
@@ -51,6 +55,12 @@ RSpec.describe 'eForm API' do
 
     it 'prefers authentication via headers over parameters' do
       post '/api/eform/validate', headers: { 'Authorization' => 'Bearer ' + token }, params: { token: 'INVALID', identifier: 'App.GeneralAgenda', version: '1.7', data: general_agenda }
+
+      expect(response.status).to eq(200)
+    end
+
+    it 'accepts authentication via tokens without OBO token' do
+      post '/api/eform/validate', headers: { 'Authorization' => 'Bearer ' + api_token_without_obo_token }, params: { identifier: 'App.GeneralAgenda', version: '1.7', data: general_agenda }
 
       expect(response.status).to eq(200)
     end

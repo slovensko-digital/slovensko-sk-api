@@ -10,9 +10,13 @@ class ApiTokenAuthenticator
     @obo_token_authenticator = obo_token_authenticator
   end
 
-  def verify_token(token, obo: false, scope: nil)
-    raise ArgumentError if !obo && scope
+  def invalidate_token(token, require_obo: false)
+    verify_token(token, require_obo: require_obo) do |payload, _|
+      @obo_token_authenticator.invalidate_token(payload['obo']) if payload['obo']
+    end
+  end
 
+  def verify_token(token, require_obo: false, scope: nil)
     options = {
       algorithm: 'RS256',
       verify_jti: -> (jti) { jti =~ JTI_PATTERN },
@@ -22,7 +26,8 @@ class ApiTokenAuthenticator
 
     cty = header['cty']
 
-    raise JWT::DecodeError if payload['obo'] ? cty != 'JWT' : cty != nil
+    raise JWT::DecodeError if payload['obo'] ? !obo_token_support? || cty != 'JWT' : cty != nil
+    raise JWT::InvalidPayload if require_obo && payload['obo'].blank?
 
     exp, jti = payload['exp'], payload['jti']
 
@@ -32,14 +37,12 @@ class ApiTokenAuthenticator
 
     return yield payload, header if block_given?
 
-    obo ? @obo_token_authenticator.verify_token(payload['obo'], scope: scope) : true
+    @obo_token_authenticator.verify_token(payload['obo'], scope: scope) if require_obo || payload['obo']
   end
 
-  def invalidate_token(token, obo: false, scope: nil)
-    raise ArgumentError if !obo && scope
+  private
 
-    verify_token(token, obo: obo, scope: scope) do |payload, _|
-      obo ? @obo_token_authenticator.invalidate_token(payload['obo']) : true
-    end
+  def obo_token_support?
+    !!@obo_token_authenticator
   end
 end

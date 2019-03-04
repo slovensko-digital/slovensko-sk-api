@@ -13,7 +13,7 @@ module Environment
     @api_token_authenticator ||= ApiTokenAuthenticator.new(
       identifier_store: api_token_identifier_store,
       public_key: OpenSSL::PKey::RSA.new(File.read(ENV.fetch('API_TOKEN_PUBLIC_KEY_FILE'))),
-      obo_token_authenticator: obo_token_authenticator,
+      obo_token_authenticator: UpvsEnvironment.authentication? ? obo_token_authenticator : nil,
     )
   end
 
