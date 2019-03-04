@@ -1,6 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe 'Health Check' do
+# TODO enable health checks on CI
+RSpec.describe 'Health Check', :upvs do
   describe 'GET /health' do
     before(:example) { stub_const('ENV', ENV.to_hash.merge('SECRET_KEY_BASE' => SecureRandom.hex)) }
 
