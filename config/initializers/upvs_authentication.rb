@@ -1,6 +1,6 @@
 # Be sure to restart your server when you modify this file.
 
-return unless UpvsEnvironment.authentication?
+return unless UpvsEnvironment.sso_support?
 
 Rails.application.config.middleware.use OmniAuth::Builder do
   configure do |config|
@@ -14,5 +14,5 @@ Rails.application.config.middleware.use OmniAuth::Builder do
   # /auth/saml/slo
   # /auth/saml/spslo
 
-  provider :saml, UpvsEnvironment.authentication_settings
+  provider :saml, UpvsEnvironment.sso_settings
 end

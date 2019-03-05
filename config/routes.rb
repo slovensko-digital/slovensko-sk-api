@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
     get :health, to: 'health#index'
 
-    if UpvsEnvironment.authentication?
+    if UpvsEnvironment.sso_support?
       get :login, to: 'upvs#login'
       get :logout, to: 'upvs#logout'
 
@@ -28,7 +28,7 @@ Rails.application.routes.draw do
         post :receive_and_save_to_outbox
       end
 
-      if UpvsEnvironment.authentication?
+      if UpvsEnvironment.sso_support?
         namespace :upvs do
           get :assertion, constraints: { format: :saml }, path: 'user/info'
         end

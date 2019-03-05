@@ -52,12 +52,12 @@ class HealthController < ApplicationController
   end
 
   def check_obo_token_authenticator
-    return unless UpvsEnvironment.authentication?
+    return unless UpvsEnvironment.sso_support?
     Environment.obo_token_authenticator # initializes OBO token authenticator with assertion store and RSA key pair
   end
 
   def check_sp_certificate
-    return unless UpvsEnvironment.authentication?
+    return unless UpvsEnvironment.sso_support?
     sp_ks = KeyStore.new(ENV.fetch('UPVS_SP_KS_FILE'), ENV.fetch('UPVS_SP_KS_PASSWORD'))
     sp_na = Time.parse(sp_ks.certificate(ENV.fetch('UPVS_SP_KS_ALIAS')).not_after.to_s)
     raise "SP certificate expires at #{sp_na}" if sp_na < 2.months.from_now

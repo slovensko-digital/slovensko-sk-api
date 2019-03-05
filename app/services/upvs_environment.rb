@@ -79,21 +79,21 @@ module UpvsEnvironment
   #   @upvs_proxy_cache ||= ...
   # end
 
-  def authentication?
+  def sso_support?
     ENV.fetch('UPVS_SSO_SUPPORT', true) != 'false'
   end
 
-  def authentication_settings
+  def sso_settings
     # TODO remove the next line to support live UPVS specs, need to figure out how to bring /security into CI first
     return {} if Rails.env.test?
 
-    return @authentication_settings if @authentication_settings
+    return @sso_settings if @sso_settings
 
     idp_metadata = OneLogin::RubySaml::IdpMetadataParser.new.parse_to_hash(File.read(ENV.fetch('UPVS_IDP_METADATA_FILE')))
     sp_metadata = Hash.from_xml(File.read(ENV.fetch('UPVS_SP_METADATA_FILE'))).fetch('EntityDescriptor')
     keystore = KeyStore.new(ENV.fetch('UPVS_SP_KS_FILE'), ENV.fetch('UPVS_SP_KS_PASSWORD'))
 
-    @authentication_settings ||= idp_metadata.merge(
+    @sso_settings ||= idp_metadata.merge(
       request_path: '/auth/saml',
       callback_path: '/auth/saml/callback',
 
