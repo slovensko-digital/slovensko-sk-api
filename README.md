@@ -9,4 +9,4 @@
 ## Dokumentácia
 
 - [Inštalačná príručka](INSTALL.md)
-- [Špecifikácia API](https://generator.swagger.io/?url=https%3A//raw.githubusercontent.com/slovensko-digital/slovensko-sk-api/master/public/openapi.yaml%3Ftoken%3DABlKLYRNI1azYuFxPolTj3L8HoyNLLO8ks5ciPqswA)
+- [Špecifikácia API](https://generator.swagger.io/?url=https%3A//raw.githubusercontent.com/slovensko-digital/slovensko-sk-api/master/public/openapi.yaml)
