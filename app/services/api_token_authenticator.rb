@@ -32,11 +32,14 @@ class ApiTokenAuthenticator
 
     cty, obo = header['cty'], payload['obo']
 
-    raise JWT::DecodeError if !obo_token_support? && obo
-    raise JWT::InvalidPayload if obo ? cty != 'JWT' : cty != nil
-
-    raise JWT::InvalidPayload if require_ta && obo
-    raise JWT::InvalidPayload if require_obo && obo.blank?
+    if obo
+      raise JWT::DecodeError unless obo_token_support?
+      raise JWT::InvalidPayload if require_ta
+      raise JWT::InvalidPayload if cty != 'JWT'
+    else
+      raise JWT::InvalidPayload if require_obo
+      raise JWT::InvalidPayload if cty
+    end
 
     exp, jti = payload['exp'], payload['jti']
 
