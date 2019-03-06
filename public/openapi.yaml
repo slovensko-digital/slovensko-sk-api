@@ -8,7 +8,7 @@ info:
     slovensko.sk API je proxy API komponent vystavujúci cez REST API služby www.slovensko.sk (Ústredný portál verejnej správy - ÚPVS), pomocou ktorých je možné:
 
     - uskutočniť prihlásenie pomocou ÚPVS (pomocou elektronického občianskeho preukazu) a získať údaje o prihlásenom subjekte,
-    - podávať podania v mene subjektu, ktorý sa prihlásil cez ÚPVS alebo pomocou technického účtu
+    - podávať podania v mene subjektu, ktorý sa prihlásil cez ÚPVS alebo pomocou technického účtu,
     - validovať či je určitá správa vo formáte SKTalk validná voči aktuálnej definícii formuláru (podporná funkcia).
 
   contact:

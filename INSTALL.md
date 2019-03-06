@@ -4,14 +4,14 @@ Máme dobrú a zlú správu. Tá zlá správa je, že na zfunkčnenie tohto komp
 
 ## Postup spustenia komponentu 
 
-Komponent `slovensko-sk-api` je distribuovaný ako Docker kontajner, ktorý sa spúšťa štandardne, najľahšie cez `docker-compose`.
+Komponent `slovensko-sk-api` je distribuovaný ako Docker [kontajner](https://cloud.docker.com/repository/docker/jsuchal/slovensko-sk-api), ktorý sa spúšťa štandardne, najľahšie cez `docker-compose`.
 
 Pred prvým spustením je potrebné pripraviť si adresár, ktorý bude obsahovať:
  
 - [docker-compose.yml](doc/templates/docker-compose.yml) uprevený podľa potreby,
 - [.env](doc/templates/.env) s doplnenými hodnotami premenných podľa potreby, minimálne:
 
-  - `SECRET_KEY_BASE` - kľúč pre zabezpečenie Rails aplikácie, pozri [Securing Rails Applications](https://edgeguides.rubyonrails.org/security.html) časť [Session Storage](https://edgeguides.rubyonrails.org/security.html#session-storage),
+  - `SECRET_KEY_BASE` - kľúč pre zabezpečenie Rails aplikácie, pozri [Securing Rails Applications](https://guides.rubyonrails.org/security.html) časť [Encrypted Session Storage](https://guides.rubyonrails.org/security.html#encrypted-session-storage),
   - `LOGIN_CALLBACK_URLS` - prefixy adries oddelené čiarkou, na ktoré može byť používateľ presmerovaný po úspešnom prihlásení,
   - `LOGOUT_CALLBACK_URLS` - prefixy adries oddelené čiarkou, na ktoré može byť používateľ presmerovaný po úspešnom odhlásení.
 
