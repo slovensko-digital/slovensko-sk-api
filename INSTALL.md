@@ -4,7 +4,7 @@ Máme dobrú a zlú správu. Tá zlá správa je, že na zfunkčnenie tohto komp
 
 ## Postup spustenia komponentu 
 
-Komponent `slovensko-sk-api` je distribuovaný ako Docker [kontajner](https://cloud.docker.com/repository/docker/jsuchal/slovensko-sk-api), ktorý sa spúšťa štandardne, najľahšie cez `docker-compose`.
+Komponent `slovensko-sk-api` je distribuovaný ako Docker [kontajner](https://hub.docker.com/r/skdigital/slovensko-sk-api), ktorý sa spúšťa štandardne, najľahšie cez `docker-compose`.
 
 Pred prvým spustením je potrebné pripraviť si adresár, ktorý bude obsahovať:
  
