@@ -4,14 +4,14 @@ class SktalkController < ApiController
   rescue_from(javax.xml.bind.UnmarshalException) { render_bad_request(:malformed_message) }
 
   def receive
-    assertion = authenticate(scope: 'sktalk/receive')
+    assertion = assertion('sktalk/receive')
     receive_result = receiver(assertion).receive(params[:message])
 
     render json: { receive_result: receive_result }
   end
 
   def receive_and_save_to_outbox
-    assertion = authenticate(scope: 'sktalk/receive_and_save_to_outbox')
+    assertion = assertion('sktalk/receive_and_save_to_outbox')
 
     # TODO rm: cache it at least on UpvsEnvironment#upvs_proxy level
     receiver = receiver(assertion)
@@ -23,6 +23,10 @@ class SktalkController < ApiController
   end
 
   private
+
+  def assertion(scope)
+    authenticate(allow_ta: true, allow_obo: true, require_obo_scope: scope)
+  end
 
   def receiver(assertion)
     UpvsEnvironment.sktalk_receiver(assertion: assertion)

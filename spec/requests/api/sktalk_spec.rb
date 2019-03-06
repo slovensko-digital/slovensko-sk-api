@@ -53,8 +53,14 @@ RSpec.describe 'SKTalk API' do
       expect(response.status).to eq(200)
     end
 
-    it 'accepts authentication via tokens without OBO token' do
-      post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + api_token_without_obo_token }, params: { message: message }
+    it 'allows authentication via tokens with TA key' do
+      post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + api_token_with_ta_key }, params: { message: message }
+
+      expect(response.status).to eq(200)
+    end
+
+    it 'allows authentication via tokens with OBO token' do
+      post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read, scopes: ['sktalk/receive']) }, params: { message: message }
 
       expect(response.status).to eq(200)
     end
@@ -82,7 +88,7 @@ RSpec.describe 'SKTalk API' do
       expect(response.body).to eq({ message: 'Malformed message' }.to_json)
     end
 
-    it 'responds with 401 if authentication does not pass' do
+    it 'responds with 401 if authenticating via expired token' do
       travel_to Time.now + 20.minutes
 
       post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: message }
@@ -145,8 +151,14 @@ RSpec.describe 'SKTalk API' do
       expect(response.status).to eq(200)
     end
 
-    it 'accepts authentication via tokens without OBO token' do
-      post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + api_token_without_obo_token }, params: { message: message }
+    it 'allows authentication via tokens with TA key' do
+      post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + api_token_with_ta_key }, params: { message: message }
+
+      expect(response.status).to eq(200)
+    end
+
+    it 'allows authentication via tokens with OBO token' do
+      post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read, scopes: ['sktalk/receive_and_save_to_outbox']) }, params: { message: message }
 
       expect(response.status).to eq(200)
     end
@@ -174,7 +186,7 @@ RSpec.describe 'SKTalk API' do
       expect(response.body).to eq({ message: 'Malformed message' }.to_json)
     end
 
-    it 'responds with 401 if authentication does not pass' do
+    it 'responds with 401 if authenticating via expired token' do
       travel_to Time.now + 20.minutes
 
       post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: message }

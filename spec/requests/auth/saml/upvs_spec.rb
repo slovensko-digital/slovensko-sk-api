@@ -196,11 +196,11 @@ RSpec.describe 'UPVS SAML Authentication' do
       it 'invalidates OBO token from given API token' do
         authenticator = Environment.api_token_authenticator
 
-        expect(authenticator).to receive(:invalidate_token).with(token, require_obo: true).and_call_original
+        expect(authenticator).to receive(:invalidate_token).with(token, allow_obo: true).and_call_original
 
         get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }, params: { callback: callback }
 
-        expect { authenticator.verify_token(token, require_obo: true) }.to raise_error(JWT::DecodeError)
+        expect { authenticator.verify_token(token, allow_obo: true) }.to raise_error(JWT::DecodeError)
       end
 
       it 'supports authentication via headers' do
@@ -217,6 +217,12 @@ RSpec.describe 'UPVS SAML Authentication' do
 
       it 'prefers authentication via headers over parameters' do
         get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }, params: { token: 'INVALID', callback: callback }
+
+        expect(response.status).to eq(302)
+      end
+
+      it 'allows authentication via tokens with OBO token' do
+        get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read) }, params: { callback: callback }
 
         expect(response.status).to eq(302)
       end
@@ -269,7 +275,7 @@ RSpec.describe 'UPVS SAML Authentication' do
         end
       end
 
-      it 'responds with 401 if authentication does not pass' do
+      it 'responds with 401 if authenticating via expired token' do
         travel_to Time.now + 20.minutes
 
         get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }, params: { callback: callback }
@@ -278,10 +284,11 @@ RSpec.describe 'UPVS SAML Authentication' do
         expect(response.body).to eq({ message: 'Bad credentials' }.to_json)
       end
 
-      it 'responds with 401 if authentication contains token without OBO token' do
-        get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + api_token_without_obo_token }, params: { callback: callback }
+      it 'responds with 401 if authenticating via token with TA key' do
+        get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + api_token_with_ta_key }, params: { callback: callback }
 
         expect(response.status).to eq(401)
+        expect(response.body).to eq({ message: 'Bad credentials' }.to_json)
       end
 
       context 'with response' do

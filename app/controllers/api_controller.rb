@@ -19,8 +19,8 @@ class ApiController < ActionController::API
 
   private
 
-  def authenticate(scope: nil)
-    Environment.api_token_authenticator.verify_token(authenticity_token, require_obo: false, scope: scope)
+  def authenticate(**options)
+    Environment.api_token_authenticator.verify_token(authenticity_token, options)
   end
 
   def authenticity_token

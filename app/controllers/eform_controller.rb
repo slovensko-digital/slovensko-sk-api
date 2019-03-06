@@ -1,5 +1,5 @@
 class EformController < ApiController
-  before_action { authenticate }
+  before_action { authenticate(allow_ta: true) }
 
   before_action { render_bad_request(:no_form_identifier) if params[:identifier].blank? }
   before_action { render_bad_request(:no_form_version) if params[:version].blank? }

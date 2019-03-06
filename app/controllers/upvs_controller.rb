@@ -14,7 +14,7 @@ class UpvsController < ApiController
   end
 
   def assertion
-    assertion = Environment.api_token_authenticator.verify_token(authenticity_token, require_obo: true)
+    assertion = Environment.api_token_authenticator.verify_token(authenticity_token, allow_obo: true)
 
     render content_type: 'application/samlassertion+xml', plain: assertion
   end
@@ -25,7 +25,7 @@ class UpvsController < ApiController
     elsif params[:SAMLResponse]
       redirect_to "/auth/saml/slo?#{slo_response_params(session[:logout_callback_url]).to_query}"
     else
-      Environment.api_token_authenticator.invalidate_token(authenticity_token, require_obo: true)
+      Environment.api_token_authenticator.invalidate_token(authenticity_token, allow_obo: true)
       session[:logout_callback_url] = fetch_callback_url(Environment.logout_callback_urls)
 
       redirect_to '/auth/saml/spslo'

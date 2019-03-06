@@ -2,7 +2,7 @@ module AuthenticityTokens
   mattr_accessor :api_token_key_pair, default: OpenSSL::PKey::RSA.new(2048)
   mattr_accessor :obo_token_key_pair, default: OpenSSL::PKey::RSA.new(2048)
 
-  def api_token_without_obo_token(expires_in: Time.now + 20.minutes)
+  def api_token_with_ta_key(expires_in: Time.now + 20.minutes)
     payload = { exp: expires_in.to_i, jti: SecureRandom.uuid }
     JWT.encode(payload, api_token_key_pair, 'RS256')
   end
@@ -16,7 +16,8 @@ module AuthenticityTokens
 
   def obo_token_from_response(response, scopes: [])
     response = OneLogin::RubySaml::Response.new(response) unless response.is_a?(OneLogin::RubySaml::Response)
-    travel_to(response.not_before) { Environment.obo_token_authenticator.generate_token(response, scopes: scopes) }
+    generate = -> { Environment.obo_token_authenticator.generate_token(response, scopes: scopes) }
+    Time.now == response.not_before ? generate.call : travel_to(response.not_before, &generate)
   end
 end
 

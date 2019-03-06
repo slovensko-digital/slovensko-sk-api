@@ -207,7 +207,6 @@ paths:
                   valid: true
       security:
       - 'API token': []
-      - 'API + OBO token': []
 
   /api/upvs/user/info.saml:
     get:

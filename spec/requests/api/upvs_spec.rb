@@ -33,7 +33,13 @@ RSpec.describe 'UPVS API' do
     end
 
     it 'prefers authentication via headers over parameters' do
-      get '/api/upvs/user/info.saml', headers: { 'Authorization' => 'Bearer ' + token }
+      get '/api/upvs/user/info.saml', headers: { 'Authorization' => 'Bearer ' + token }, params: { token: 'INVALID' }
+
+      expect(response.status).to eq(200)
+    end
+
+    it 'allows authentication via tokens with OBO token' do
+      get '/api/upvs/user/info.saml', headers: { 'Authorization' => 'Bearer ' + api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read) }
 
       expect(response.status).to eq(200)
     end
@@ -45,7 +51,7 @@ RSpec.describe 'UPVS API' do
       expect(response.body).to eq({ message: 'No credentials' }.to_json)
     end
 
-    it 'responds with 401 if authentication does not pass' do
+    it 'responds with 401 if authenticating via expired token' do
       travel_to Time.now + 20.minutes
 
       get '/api/upvs/user/info.saml', headers: { 'Authorization' => 'Bearer ' + token }
@@ -56,10 +62,11 @@ RSpec.describe 'UPVS API' do
       expect(response.body).to eq({ message: 'Bad credentials' }.to_json)
     end
 
-    it 'responds with 401 if authentication contains token without OBO token' do
-      get '/api/upvs/user/info.saml', headers: { 'Authorization' => 'Bearer ' + api_token_without_obo_token }
+    it 'responds with 401 if authenticating via token with TA key' do
+      get '/api/upvs/user/info.saml', headers: { 'Authorization' => 'Bearer ' + api_token_with_ta_key }
 
       expect(response.status).to eq(401)
+      expect(response.body).to eq({ message: 'Bad credentials' }.to_json)
     end
 
     pending 'responds with 500 if anything else fails'
