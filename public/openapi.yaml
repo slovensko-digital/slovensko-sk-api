@@ -2,19 +2,19 @@ openapi: 3.0.0
 
 info:
   title: slovensko.sk API
-  version: 0.0.4
+  version: 1.0.0
 
   description: |
     slovensko.sk API je proxy API komponent vystavujúci cez REST API služby www.slovensko.sk (Ústredný portál verejnej správy - ÚPVS), pomocou ktorých je možné:
 
     - uskutočniť prihlásenie pomocou ÚPVS (pomocou elektronického občianskeho preukazu) a získať údaje o prihlásenom subjekte,
-    - podávať podania v mene subjektu, ktorý sa prihlásil cez ÚPVS,
+    - podávať podania v mene subjektu, ktorý sa prihlásil cez ÚPVS alebo pomocou technického účtu
     - validovať či je určitá správa vo formáte SKTalk validná voči aktuálnej definícii formuláru (podporná funkcia).
 
   contact:
     name: Slovensko.Digital
     url: https://slovensko.digital
-    email: kontakt@slovensko.digital
+    email: ekosystem@slovensko.digital
 
   license:
     name: European Union Public License 1.2
@@ -22,10 +22,10 @@ info:
 
 servers:
 - description: Server v ÚPVS PROD prostredí
-  url: https://podaas.ekosystem.slovensko.digital
+  url: https://slovensko-sk-api.ekosystem.slovensko.digital
 
-- description: Server v ÚPVS FIX prostredí
-  url: https://podaas.ekosystem.staging.slovensko.digital
+- description: Server v ÚPVS DEV prostredí
+  url: https://slovensko-sk-api.ekosystem.staging.slovensko.digital
 
 paths:
   /login:
