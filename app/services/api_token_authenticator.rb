@@ -10,8 +10,15 @@ class ApiTokenAuthenticator
     @obo_token_authenticator = obo_token_authenticator
   end
 
-  def verify_token(token, obo: false, scope: nil)
-    raise ArgumentError if !obo && scope
+  def invalidate_token(token, allow_ta: false, allow_obo: false)
+    verify_token(token, allow_ta: allow_ta, allow_obo: allow_obo) do |payload, _, _|
+      @obo_token_authenticator.invalidate_token(payload['obo']) if payload['obo']
+    end
+  end
+
+  def verify_token(token, allow_ta: false, allow_obo: false, require_obo_scope: nil)
+    raise ArgumentError if !allow_ta && !allow_obo
+    raise ArgumentError if !allow_obo && require_obo_scope
 
     options = {
       algorithm: 'RS256',
@@ -20,9 +27,20 @@ class ApiTokenAuthenticator
 
     payload, header = JWT.decode(token, @public_key, true, options)
 
-    cty = header['cty']
+    cty, obo = header['cty'], payload['obo']
 
-    raise JWT::DecodeError if payload['obo'] ? cty != 'JWT' : cty != nil
+    if obo
+      raise JWT::DecodeError unless obo_token_support?
+      raise JWT::InvalidPayload unless allow_obo
+      raise JWT::InvalidPayload if cty != 'JWT'
+
+      ass = @obo_token_authenticator.verify_token(obo, scope: require_obo_scope)
+    else
+      raise JWT::InvalidPayload unless allow_ta
+      raise JWT::InvalidPayload if cty
+
+      ass = nil
+    end
 
     exp, jti = payload['exp'], payload['jti']
 
@@ -30,16 +48,14 @@ class ApiTokenAuthenticator
     raise JWT::InvalidPayload if exp > (Time.now + MAX_EXP_IN).to_i
     raise JWT::InvalidJtiError unless @identifier_store.write(jti, true, expires_in: MAX_EXP_IN, unless_exist: true)
 
-    return yield payload, header if block_given?
+    return yield payload, header, ass if block_given?
 
-    obo ? @obo_token_authenticator.verify_token(payload['obo'], scope: scope) : true
+    ass
   end
 
-  def invalidate_token(token, obo: false, scope: nil)
-    raise ArgumentError if !obo && scope
+  private
 
-    verify_token(token, obo: obo, scope: scope) do |payload, _|
-      obo ? @obo_token_authenticator.invalidate_token(payload['obo']) : true
-    end
+  def obo_token_support?
+    !!@obo_token_authenticator
   end
 end

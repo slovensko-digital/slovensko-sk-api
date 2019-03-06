@@ -19,8 +19,8 @@ class ApiController < ActionController::API
 
   private
 
-  def authenticate(scope: nil)
-    Environment.api_token_authenticator.verify_token(authenticity_token, obo: scope.present?, scope: scope)
+  def authenticate(**options)
+    Environment.api_token_authenticator.verify_token(authenticity_token, options)
   end
 
   def authenticity_token
@@ -40,6 +40,7 @@ class ApiController < ActionController::API
 
   def timeout_error?(error)
     return true if error.is_a?(java.net.SocketTimeoutException)
+    return true if error.is_a?(java.util.concurrent.TimeoutException)
     true if error.is_a?(javax.xml.ws.soap.SOAPFaultException) && error.message =~ /(connect|read) timed out/i
   end
 

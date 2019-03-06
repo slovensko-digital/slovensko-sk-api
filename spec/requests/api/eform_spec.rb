@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'eForm API' do
-  let!(:token) { api_token_without_obo_token }
+  let!(:token) { api_token_with_ta_key }
 
   describe 'POST /api/eform/validate' do
     let(:general_agenda) do
@@ -55,6 +55,12 @@ RSpec.describe 'eForm API' do
       expect(response.status).to eq(200)
     end
 
+    it 'allows authentication via tokens with TA key' do
+      post '/api/eform/validate', headers: { 'Authorization' => 'Bearer ' + api_token_with_ta_key }, params: { identifier: 'App.GeneralAgenda', version: '1.7', data: general_agenda }
+
+      expect(response.status).to eq(200)
+    end
+
     it 'responds with 400 if request does not contain any authentication' do
       post '/api/eform/validate', params: { identifier: 'App.GeneralAgenda', version: '1.7', data: general_agenda }
 
@@ -90,12 +96,19 @@ RSpec.describe 'eForm API' do
       expect(response.body).to eq({ message: 'Malformed form data' }.to_json)
     end
 
-    it 'responds with 401 if authentication does not pass' do
+    it 'responds with 401 if authenticating via expired token' do
       travel_to Time.now + 20.minutes
 
       post '/api/eform/validate', headers: { 'Authorization' => 'Bearer ' + token }, params: { identifier: 'App.GeneralAgenda', version: '1.7', data: general_agenda }
 
       travel_back
+
+      expect(response.status).to eq(401)
+      expect(response.body).to eq({ message: 'Bad credentials' }.to_json)
+    end
+
+    it 'responds with 401 if authenticating via token with OBO token' do
+      post '/api/eform/validate', headers: { 'Authorization' => 'Bearer ' + api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read) }, params: { identifier: 'App.GeneralAgenda', version: '1.7', data: general_agenda }
 
       expect(response.status).to eq(401)
       expect(response.body).to eq({ message: 'Bad credentials' }.to_json)

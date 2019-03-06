@@ -4,14 +4,14 @@ Máme dobrú a zlú správu. Tá zlá správa je, že na zfunkčnenie tohto komp
 
 ## Postup spustenia komponentu 
 
-Komponent `slovensko-sk-api` je distribuovaný ako Docker kontajner, ktorý sa spúšťa štandardne, najľahšie cez `docker-compose`.
+Komponent `slovensko-sk-api` je distribuovaný ako Docker [kontajner](https://hub.docker.com/r/skdigital/slovensko-sk-api), ktorý sa spúšťa štandardne, najľahšie cez `docker-compose`.
 
 Pred prvým spustením je potrebné pripraviť si adresár, ktorý bude obsahovať:
  
 - [docker-compose.yml](doc/templates/docker-compose.yml) uprevený podľa potreby,
 - [.env](doc/templates/.env) s doplnenými hodnotami premenných podľa potreby, minimálne:
 
-  - `SECRET_KEY_BASE` - kľúč pre zabezpečenie Rails aplikácie, pozri [Securing Rails Applications](https://edgeguides.rubyonrails.org/security.html) časť [Session Storage](https://edgeguides.rubyonrails.org/security.html#session-storage),
+  - `SECRET_KEY_BASE` - kľúč pre zabezpečenie Rails aplikácie, pozri [Securing Rails Applications](https://guides.rubyonrails.org/security.html) časť [Encrypted Session Storage](https://guides.rubyonrails.org/security.html#encrypted-session-storage),
   - `LOGIN_CALLBACK_URLS` - prefixy adries oddelené čiarkou, na ktoré može byť používateľ presmerovaný po úspešnom prihlásení,
   - `LOGOUT_CALLBACK_URLS` - prefixy adries oddelené čiarkou, na ktoré može byť používateľ presmerovaný po úspešnom odhlásení.
 
@@ -19,7 +19,7 @@ Pred prvým spustením je potrebné pripraviť si adresár, ktorý bude obsahova
 
   - `api-token.public.pem` - verejný kľúč pre verifikáciu API tokenov tretej strany, vygenerovaný napr. pomocou `openssl rsa -in api-token.private.pem -pubout -out api-token.public.pem`, 
   - `obo-token.private.pem` - privátny a verejný kľúč pre generovanie a verifikáciu OBO tokenov v rámci komponentu, vygenerovaný napr. pomocou `openssl genrsa -out obo-token.private.pem 2048`,
-  - `upvs-fix-idp.metadata.xml` - IDP metadáta, pozri dokument *UPG-1-1-Integracny_manual_UPVS_IAM*
+  - `upvs-fix-idp.metadata.xml` - IDP metadáta, pozri dokument *UPG-1-1-Integracny_manual_UPVS_IAM*,
   - `podaas-fix-sp.metadata.xml` - SP metadáta, pozri časť [*6. Zriadenie prístupov do FIX prostredia*](#6-zriadenie-prstupov-do-fix-prostredia),
   - `podaas-fix-sp.keystore` - SP certifikát s kľúčom, pozri časť [*6. Zriadenie prístupov do FIX prostredia*](#6-zriadenie-prstupov-do-fix-prostredia),
   - `podaas-fix-sts.keystore` - STS certifikát s kľúčom, pozri časť [*6. Zriadenie prístupov do FIX prostredia*](#6-zriadenie-prstupov-do-fix-prostredia),
