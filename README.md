@@ -16,7 +16,7 @@ Tento projekt slúži ako komponent, ktorý vystavuje RESTové proxy API k služ
 
 ## Licencia
 
-EUPL verzia 1.2
+[European Union Public License verzia 1.2](LICENSE)
 
 ## Autori projektu
 
