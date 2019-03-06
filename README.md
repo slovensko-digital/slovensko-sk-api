@@ -1,6 +1,6 @@
 # slovensko.sk API od Slovensko.Digital
 
-Tento projekt slúži ako komponent, ktorý vystavuje RESTové proxy API k službám www.slovensko.sk (UPVS). Distribuovaný je ako Docker kontajner. Pomocou neho momentálne viete urobiť prihlasovanie cez eID, získať informácie o prihlásenej osobe, zasielať podania v mene prihlásenej osoby alebo v mene právnickej osoby, ktorá si zriadi technický účet u prevádzkovateľa (NASES).
+Tento projekt slúži ako komponent, ktorý vystavuje RESTové proxy API k službám www.slovensko.sk (ÚPVS). Distribuovaný je ako Docker kontajner. Pomocou neho momentálne viete urobiť prihlasovanie cez eID, získať informácie o prihlásenej osobe, zasielať podania v mene prihlásenej osoby alebo v mene právnickej osoby, ktorá si zriadi technický účet u prevádzkovateľa (NASES).
 
 [![CircleCI](https://circleci.com/gh/slovensko-digital/slovensko-sk-api.svg?style=svg&circle-token=8a63391c6d3b22e8d90c7ff1d2efa51304f657bd)](https://circleci.com/gh/slovensko-digital/slovensko-sk-api)
 
