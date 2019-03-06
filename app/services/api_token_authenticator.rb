@@ -11,7 +11,7 @@ class ApiTokenAuthenticator
   end
 
   def invalidate_token(token, allow_ta: false, allow_obo: false)
-    verify_token(token, allow_ta: allow_ta, allow_obo: allow_obo) do |payload, _|
+    verify_token(token, allow_ta: allow_ta, allow_obo: allow_obo) do |payload, _, _|
       @obo_token_authenticator.invalidate_token(payload['obo']) if payload['obo']
     end
   end
@@ -19,9 +19,6 @@ class ApiTokenAuthenticator
   def verify_token(token, allow_ta: false, allow_obo: false, require_obo_scope: nil)
     raise ArgumentError if !allow_ta && !allow_obo
     raise ArgumentError if !allow_obo && require_obo_scope
-
-    require_ta = allow_ta && !allow_obo
-    require_obo = !allow_ta && allow_obo
 
     options = {
       algorithm: 'RS256',
@@ -34,11 +31,15 @@ class ApiTokenAuthenticator
 
     if obo
       raise JWT::DecodeError unless obo_token_support?
-      raise JWT::InvalidPayload if require_ta
+      raise JWT::InvalidPayload unless allow_obo
       raise JWT::InvalidPayload if cty != 'JWT'
+
+      ass = @obo_token_authenticator.verify_token(obo, scope: require_obo_scope)
     else
-      raise JWT::InvalidPayload if require_obo
+      raise JWT::InvalidPayload unless allow_ta
       raise JWT::InvalidPayload if cty
+
+      ass = nil
     end
 
     exp, jti = payload['exp'], payload['jti']
@@ -47,9 +48,9 @@ class ApiTokenAuthenticator
     raise JWT::InvalidPayload if exp > (Time.now + MAX_EXP_IN).to_i
     raise JWT::InvalidJtiError unless @identifier_store.write(jti, true, expires_in: MAX_EXP_IN, unless_exist: true)
 
-    return yield payload, header if block_given?
+    return yield payload, header, ass if block_given?
 
-    @obo_token_authenticator.verify_token(obo, scope: require_obo_scope) if require_obo || obo
+    ass
   end
 
   private
