@@ -1,26 +1,27 @@
 version: '3'
+
 services:
   postgres:
     image: postgres:11-alpine
     volumes:
-    - postgres:/var/lib/postgresql/data
+      - postgres:/var/lib/postgresql/data
 
   redis:
     image: redis:5-alpine
     volumes:
-    - redis:/data
+      - redis:/data
 
   web:
     image: jsuchal/slovensko-sk-api:latest
     volumes:
-    - ./security:/app/security
+      - ./security:/app/security
     ports:
-    - '3000:3000'
+      - 3000:3000
     depends_on:
-    - postgres
-    - redis
+      - postgres
+      - redis
     env_file:
-    - '.env'
+      - .env
     environment:
       DATABASE_URL: postgres://postgres:@postgres:5432/slovensko-sk-api
       REDIS_URL: redis://redis:6379
@@ -29,12 +30,12 @@ services:
     image: jsuchal/slovensko-sk-api:latest
     command: bundle exec rake jobs:work
     volumes:
-    - ./security:/app/security
+      - ./security:/app/security
     depends_on:
-    - postgres
-    - redis
+      - postgres
+      - redis
     env_file:
-    - '.env'
+      - .env
     environment:
       DATABASE_URL: postgres://postgres:@postgres:5432/slovensko-sk-api
       REDIS_URL: redis://redis:6379
@@ -43,16 +44,16 @@ services:
     image: jsuchal/slovensko-sk-api:latest
     command: bundle exec clockwork config/clock.rb
     volumes:
-    - ./security:/app/security
+      - ./security:/app/security
     depends_on:
-    - postgres
-    - redis
+      - postgres
+      - redis
     env_file:
-    - '.env'
+      - .env
     environment:
       DATABASE_URL: postgres://postgres:@postgres:5432/slovensko-sk-api
       REDIS_URL: redis://redis:6379
 
 volumes:
-  postgres:
-  redis:
+  postgres: null
+  redis: null
