@@ -55,9 +55,9 @@ Na adrese https://www.nases.gov.sk/sluzby/usmernenie-k-integracii/index.html ná
 
 ### 2. Zaslanie Dohody o integračnom zámere DIZ 
 
-Je potrebné si zvoliť skratku projektu, ktorá sa bude používať pre účely komunikácie s NASES. Názov môže obsahovať len veľké písmená, bez diakritiky a medzier, a musí byť unikátny. *My sme napríklad použili názov PODAAS, ten je už obsadený.*
+Je potrebné si zvoliť skratku projektu, ktorá sa bude používať pre účely komunikácie s NASES. Názov môže obsahovať len veľké písmená, bez diakritiky a medzier, a musí byť unikátny. My sme napríklad použili názov PODAAS, ten je už obsadený.
 
-Stiahnite si [šablónu dohody o integračnom zámere](doc/templates/DIZ_PO_TEMPLATE__UPVS_v1.docx) a upravte podľa pokynov v komentároch. 
+Stiahnite si [šablónu dohody o integračnom zámere](doc/templates/DIZ_PO_TEMPLATE__UPVS_v1.docx) a upravte podľa pokynov v komentároch. Pozor, treba sa uistiť, že používate **aktuálnu šablónu** NASES, pretože tie sa v čase menia.
 
 Tento dokument následne premenujte na `DIZ_PO_<skratka projektu>__UPVS_v1.docx`, kde `<skratka projektu>` nahraďte skratkou Vášho projektu a priložte ako prílohu k emailu:
 
@@ -189,7 +189,7 @@ Na rozbehnutom komponente `slovensko-sk-api` vo FIX prostredí je potrebné pre 
 
 Pozn. úspešne vykonané UAT príkazy končia vždy s exit code 0, niektoré aj napriek výpisu nezachytenej výnimky na konci štandardného výstupu, v tom prípade ide o žiadanú informáciu.
 
-Pozrite si schválený [akceptačný protokol](doc/templates/UAT_SKDIGI_PO_PODAAS_v0_1_2.docx) pre projekt PodaaS (z dokumentu boli odstránené výstupy akceptačných testov).
+Pozrite si schválený [akceptačný protokol](doc/templates/UAT_SKDIGI_PO_PODAAS_v0_1_2.docx) pre projekt PodaaS (z dokumentu boli odstránené výstupy akceptačných testov). Pozor, treba sa uistiť, že používate **aktuálnu šablónu** NASES, pretože tie sa v čase menia.
 
 ### 8. Prechod do produkcie
 
