@@ -189,6 +189,8 @@ Na rozbehnutom komponente `slovensko-sk-api` vo FIX prostredí je potrebné pre 
 
 Pozn. úspešne vykonané UAT príkazy končia vždy s exit code 0, niektoré aj napriek výpisu nezachytenej výnimky na konci štandardného výstupu, v tom prípade ide o žiadanú informáciu.
 
+Pozrite si schválený [akceptačný protokol](doc/templates/UAT_SKDIGI_PO_PODAAS_v0_1_2.docx) pre projekt PodaaS (z dokumentu boli odstránené výstupy akceptačných testov).
+
 ### 8. Prechod do produkcie
 
 Vygenerujte certifikáty. Reťazec `podaas` v názvoch súborov, aliasoch a CN certifikátov nahraďte skratkou Vašej integrácie, podobne nahraďte IČO a reťazec `podaas.slovensko.digital` CN v certifikátov.  
