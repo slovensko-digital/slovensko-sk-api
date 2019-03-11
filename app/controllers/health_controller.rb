@@ -75,9 +75,8 @@ class HealthController < ApplicationController
   end
 
   def check_ez_service
-    form_template = FormTemplate.first
     eform_service = UpvsEnvironment.eform_service # initializes EZ service with STS certificate
-    eform_service.fetch_xsd_schema_for(form_template) if form_template # invokes EZ service with STS certificate
+    eform_service.fetch_xsd_schema('App.GeneralAgenda', '1.9') # invokes EZ service with STS certificate
   end
 
   def check_sktalk_service

@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :form_template do
-    identifier { "App.GeneralAgenda" }
+    identifier { 'App.GeneralAgenda' }
     version_major { 1 }
     version_minor { 9 }
   end
@@ -12,18 +12,17 @@ FactoryBot.define do
     data { '<?xml version="1.0" encoding="UTF-8"?>' }
 
     trait :general_agenda_xsd_schema do
-      association :form_template, identifier: 'App.GeneralAgenda', version_major: 1, version_minor: 7
+      association :form_template, identifier: 'App.GeneralAgenda', version_major: 1, version_minor: 9
       data do
         <<~HEREDOC
         <?xml version="1.0" encoding="UTF-8"?>
-        <xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://schemas.gov.sk/form/App.GeneralAgenda/1.7" xmlns="http://schemas.gov.sk/form/App.GeneralAgenda/1.7">
+        <xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://schemas.gov.sk/form/App.GeneralAgenda/1.9" xmlns="http://schemas.gov.sk/form/App.GeneralAgenda/1.9">
           <xs:simpleType name="textArea">
             <xs:restriction base="xs:string"></xs:restriction>
           </xs:simpleType>
           <xs:simpleType name="meno">
             <xs:restriction base="xs:string"></xs:restriction>
           </xs:simpleType>
-          
           <xs:element name="GeneralAgenda">
             <xs:complexType>
               <xs:sequence>

@@ -11,6 +11,8 @@ en:
     no_message: 'No message'
     no_recipient: 'No recipient'
     unregistered_callback: 'Unregistered callback'
+  conflict:
+    form_without_schema: 'Form %{identifier} version %{version} has no validation schema'
   internal_server_error: 'Unknown error'
   not_found:
     form_identifier_with_version: 'Form %{identifier} version %{version} not found'

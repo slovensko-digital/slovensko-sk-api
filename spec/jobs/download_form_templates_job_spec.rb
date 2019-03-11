@@ -3,14 +3,14 @@ require 'rails_helper'
 RSpec.describe DownloadFormTemplatesJob, :upvs, type: :job do
   describe '#perform' do
     before(:context) do
-      @response = UpvsEnvironment.eform_service.fetch_all_form_template_ids.first(3)
+      @response = UpvsEnvironment.eform_service.fetch_form_template_ids.first(3)
     end
 
     before(:example) do
       eform_service = double
 
       allow(UpvsEnvironment).to receive(:eform_service).and_return(eform_service)
-      allow(eform_service).to receive(:fetch_all_form_template_ids).and_return(@response)
+      allow(eform_service).to receive(:fetch_form_template_ids).and_return(@response)
     end
 
     before(:example) do

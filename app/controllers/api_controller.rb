@@ -13,7 +13,7 @@ class ApiController < ActionController::API
     if timeout_error?(error)
       render_request_timeout
     else
-      render_internal_server_error
+      rescue_with_handler(error) || render_internal_server_error
     end
   end
 
@@ -59,6 +59,10 @@ class ApiController < ActionController::API
 
   def render_request_timeout
     render status: :request_timeout, json: { message: I18n.t(:request_timeout) }
+  end
+
+  def render_conflict(key, **options)
+    render status: :conflict, json: { message: I18n.t("conflict.#{key}", options) }
   end
 
   def render_payload_too_large
