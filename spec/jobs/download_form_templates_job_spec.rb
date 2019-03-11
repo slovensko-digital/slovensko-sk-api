@@ -13,23 +13,19 @@ RSpec.describe DownloadFormTemplatesJob, :upvs, type: :job do
       allow(eform_service).to receive(:fetch_all_form_template_ids).and_return(@response)
     end
 
-    it 'enqueues DownloadFormTemplateJob for new templates by default' do
+    before(:example) do
       FormTemplate.create(
         identifier: @response.first.identifier.value,
         version_major: @response.first.version.value.major,
         version_minor: @response.first.version.value.minor
       )
+    end
 
+    it 'enqueues DownloadFormTemplateJob for new templates by default' do
       expect { subject.perform }.to have_enqueued_job(DownloadFormTemplateJob).exactly(2).times
     end
 
     it 'enqueues DownloadFormTemplateJob for all templates when forced' do
-      FormTemplate.create(
-        identifier: @response.first.identifier.value,
-        version_major: @response.first.version.value.major,
-        version_minor: @response.first.version.value.minor
-      )
-
       expect { subject.perform(force: true) }.to have_enqueued_job(DownloadFormTemplateJob).exactly(3).times
     end
   end
