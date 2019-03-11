@@ -11,7 +11,7 @@ sk:
     no_message: 'Chýba správa'
     no_recipient: 'Chýba príjemca'
     unregistered_callback: 'Nezaregistrované spätné volanie'
-  internal_server_error: 'Neznámna chyba'
+  internal_server_error: 'Neznáma chyba'
   not_found:
     form_identifier_with_version: 'Formulár %{identifier} verzie %{version} nebol nájdený'
   payload_too_large: 'Veľkosť správy presiahla stanovený limit'

@@ -4,14 +4,14 @@ Máme dobrú a zlú správu. Tá zlá správa je, že na zfunkčnenie tohto komp
 
 ## Postup spustenia komponentu 
 
-Komponent `slovensko-sk-api` je distribuovaný ako Docker kontajner, ktorý sa spúšťa štandardne, najľahšie cez `docker-compose`.
+Komponent `slovensko-sk-api` je distribuovaný ako Docker [kontajner](https://hub.docker.com/r/skdigital/slovensko-sk-api), ktorý sa spúšťa štandardne, najľahšie cez `docker-compose`.
 
 Pred prvým spustením je potrebné pripraviť si adresár, ktorý bude obsahovať:
  
 - [docker-compose.yml](doc/templates/docker-compose.yml) uprevený podľa potreby,
 - [.env](doc/templates/.env) s doplnenými hodnotami premenných podľa potreby, minimálne:
 
-  - `SECRET_KEY_BASE` - kľúč pre zabezpečenie Rails aplikácie, pozri [Securing Rails Applications](https://edgeguides.rubyonrails.org/security.html) časť [Session Storage](https://edgeguides.rubyonrails.org/security.html#session-storage),
+  - `SECRET_KEY_BASE` - kľúč pre zabezpečenie Rails aplikácie, pozri [Securing Rails Applications](https://guides.rubyonrails.org/security.html) časť [Encrypted Session Storage](https://guides.rubyonrails.org/security.html#encrypted-session-storage),
   - `LOGIN_CALLBACK_URLS` - prefixy adries oddelené čiarkou, na ktoré može byť používateľ presmerovaný po úspešnom prihlásení,
   - `LOGOUT_CALLBACK_URLS` - prefixy adries oddelené čiarkou, na ktoré može byť používateľ presmerovaný po úspešnom odhlásení.
 
@@ -19,7 +19,7 @@ Pred prvým spustením je potrebné pripraviť si adresár, ktorý bude obsahova
 
   - `api-token.public.pem` - verejný kľúč pre verifikáciu API tokenov tretej strany, vygenerovaný napr. pomocou `openssl rsa -in api-token.private.pem -pubout -out api-token.public.pem`, 
   - `obo-token.private.pem` - privátny a verejný kľúč pre generovanie a verifikáciu OBO tokenov v rámci komponentu, vygenerovaný napr. pomocou `openssl genrsa -out obo-token.private.pem 2048`,
-  - `upvs-fix-idp.metadata.xml` - IDP metadáta, pozri dokument *UPG-1-1-Integracny_manual_UPVS_IAM*
+  - `upvs-fix-idp.metadata.xml` - IDP metadáta, pozri dokument *UPG-1-1-Integracny_manual_UPVS_IAM*,
   - `podaas-fix-sp.metadata.xml` - SP metadáta, pozri časť [*6. Zriadenie prístupov do FIX prostredia*](#6-zriadenie-prstupov-do-fix-prostredia),
   - `podaas-fix-sp.keystore` - SP certifikát s kľúčom, pozri časť [*6. Zriadenie prístupov do FIX prostredia*](#6-zriadenie-prstupov-do-fix-prostredia),
   - `podaas-fix-sts.keystore` - STS certifikát s kľúčom, pozri časť [*6. Zriadenie prístupov do FIX prostredia*](#6-zriadenie-prstupov-do-fix-prostredia),
@@ -55,9 +55,9 @@ Na adrese https://www.nases.gov.sk/sluzby/usmernenie-k-integracii/index.html ná
 
 ### 2. Zaslanie Dohody o integračnom zámere DIZ 
 
-Je potrebné si zvoliť skratku projektu, ktorá sa bude používať pre účely komunikácie s NASES. Názov môže obsahovať len veľké písmená, bez diakritiky a medzier, a musí byť unikátny. *My sme napríklad použili názov PODAAS, ten je už obsadený.*
+Je potrebné si zvoliť skratku projektu, ktorá sa bude používať pre účely komunikácie s NASES. Názov môže obsahovať len veľké písmená, bez diakritiky a medzier, a musí byť unikátny. My sme napríklad použili názov PODAAS, ten je už obsadený.
 
-Stiahnite si [šablónu dohody o integračnom zámere](doc/templates/DIZ_PO_TEMPLATE__UPVS_v1.docx) a upravte podľa pokynov v komentároch. 
+Stiahnite si [šablónu dohody o integračnom zámere](doc/templates/DIZ_PO_TEMPLATE__UPVS_v1.docx) a upravte podľa pokynov v komentároch. Pozor, treba sa uistiť, že používate **aktuálnu šablónu** NASES, pretože tie sa v čase menia.
 
 Tento dokument následne premenujte na `DIZ_PO_<skratka projektu>__UPVS_v1.docx`, kde `<skratka projektu>` nahraďte skratkou Vášho projektu a priložte ako prílohu k emailu:
 
@@ -136,7 +136,7 @@ Vygenerujte certifikáty. Reťazec `podaas` v názvoch súborov, aliasoch a CN c
 
 Vytvorte `podaas-fix-sp.metadata.xml` zo súboru [podaas-sp.metadata.xml](doc/templates/podaas-sp.metadata.xml). Treba nahradniť `entityID`, dva verejné klúče (skopírovaním z `podaas-fix-sp.pem`) a endpointy, kde bude **testovacia** verzia bežať. Metadáta podpíšte pomocou [xmlsectool](http://shibboleth.net/downloads/tools/xmlsectool/latest).
 
-    xmlsectool.sh --sign --inFile podaas-fix-sp.metadata.xml --outFile podaas-fix-sp.signed.metadata.xml --keystore podaas-fix-sp.keystore --keystorePassword password --key podaassp --keyPassword password
+    xmlsectool --sign --inFile podaas-fix-sp.metadata.xml --outFile podaas-fix-sp.signed.metadata.xml --keystore podaas-fix-sp.keystore --keystorePassword password --key podaassp --keyPassword password
 
 Vytvorené súbory zašlite emailom:
 
@@ -156,8 +156,57 @@ Vytvorené súbory zašlite emailom:
 
 ### 7. Vykonanie akceptačného testovania (UAT)
 
-TODO
+Na rozbehnutom komponente `slovensko-sk-api` vo FIX prostredí je potrebné pre jednotlivé UAT prípady vykonať nasledovné:
+
+- pre *TC_IAM_01* a *TC_IAM_01_NEG*
+
+  spustite nasledujúci príkaz v rámci komponentu a zo štandardného výstupu vyberte relevantné časti:
+
+      bin/uat-iam
+
+- pre *TC_IAM_02* a *TC_IAM_03*
+
+  - prihláste sa a odhláste sa cez API komponentu, potom z logu komponentu vyberte relevantné časti,
+  - prihláste sa cez API komponentu ale odhláste cez portál ÚPVS, potom z logu komponentu vyberte relevantné časti.
+
+- pre *TC_G2G_01* a *TC_G2G_02*
+
+  spustite nasledujúci príkaz a z logu komponentu vyberte relevantné časti:
+
+      bin/uat-sktalk 'https://podaas.ekosystem.staging.slovensko.digital' <obo-token> <sktalk-message>
+
+  kde `<obo-token>` je OBO token získaný po úspešnom prihlásení a v danom čase ešte platný a `<sktalk-message>` je cesta k súboru so SKTalk správou, ktorá bude odoslaná a následne uložená medzi odoslané.
+
+  Príkaz automaticky vygeneruje platný API token a odošle požiadavku na API komponentu, na to sú potrebné súbory `security/api-token.private.pem` a `security/obo-token.private.pem`.
+  Príkaz automaticky nahradí `MessageID` a `CorrelationID` v odosielanej SKTalk správe.
+  **Pre akceptovanie G2G prípadov je potrebné správne nastaviť `SenderId` a `RecipientId` podľa prihláseného používateľa**, ktorého OBO token je uvedený v argumentoch príkazu. 
+
+- pre *TC_EFORM_01*, *TC_EFORM_01_NEG* a *TC_EFORM_02*
+
+  spustite nasledujúci príkaz v rámci komponentu a zo štandardného výstupu vyberte relevantné časti: 
+
+      bin/uat-eform
+
+Pozn. úspešne vykonané UAT príkazy končia vždy s exit code 0, niektoré aj napriek výpisu nezachytenej výnimky na konci štandardného výstupu, v tom prípade ide o žiadanú informáciu.
+
+Pozrite si schválený [akceptačný protokol](doc/templates/UAT_SKDIGI_PO_PODAAS_v0_1_2.docx) pre projekt PodaaS (z dokumentu boli odstránené výstupy akceptačných testov). Pozor, treba sa uistiť, že používate **aktuálnu šablónu** NASES, pretože tie sa v čase menia.
 
 ### 8. Prechod do produkcie
+
+Vygenerujte certifikáty. Reťazec `podaas` v názvoch súborov, aliasoch a CN certifikátov nahraďte skratkou Vašej integrácie, podobne nahraďte IČO a reťazec `podaas.slovensko.digital` CN v certifikátov.  
+
+    keytool -genkeypair -alias podaassts --keyalg RSA --keysize 2048 --sigalg sha512WithRSA -validity 730 -keystore podaas-prod-sts.keystore -dname "CN=tech.ico-50881337.upvsprod.ext.podaas.slovensko.digital"
+    
+    keytool -export -keystore podaas-prod-sts.keystore -alias podaassts > podaas-prod-sts.crt
+    
+    keytool -genkeypair -alias podaassp --keyalg RSA --keysize 2048 --sigalg sha512WithRSA -validity 730 -keystore podaas-prod-sp.keystore -dname "CN=sp.ico-50881337.upvsprod.ext.podaas.slovensko.digital"
+    
+    keytool -export -keystore podaas-prod-sp.keystore -alias podaassp > podaas-prod-sp.crt
+    
+    keytool -export -keystore podaas-prod-sp.keystore -alias podaassp -rfc > podaas-prod-sp.pem
+
+Vytvorte `podaas-prod-sp.metadata.xml` zo súboru [podaas-sp.metadata.xml](doc/templates/podaas-sp.metadata.xml). Treba nahradniť `entityID`, dva verejné klúče (skopírovaním z `podaas-prod-sp.pem`) a endpointy, kde bude **produkčná** verzia bežať. Metadáta podpíšte pomocou [xmlsectool](http://shibboleth.net/downloads/tools/xmlsectool/latest).
+
+    xmlsectool --sign --inFile podaas-prod-sp.metadata.xml --outFile podaas-prod-sp.signed.metadata.xml --keystore podaas-prod-sp.keystore --keystorePassword ... --key podaassp --keyPassword ...
 
 TODO
