@@ -7,7 +7,7 @@ class EformService
     sk.gov.schemas.servicebus.service._1.ServiceClassEnum.const_get(name)
   end
 
-  def fetch_form_template_ids
+  def fetch_all_form_template_ids
     service = EFORM_FINDFORMTEMPLATES_SOAP_V_1_0
     request = factory.create_find_form_templates_req
 

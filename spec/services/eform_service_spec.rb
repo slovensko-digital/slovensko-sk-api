@@ -8,7 +8,7 @@ RSpec.describe EformService, :upvs do
 
   before(:example) { cache_java_object_proxy!(upvs.ez) }
 
-  describe '#fetch_form_template_ids' do
+  describe '#fetch_all_form_template_ids' do
     it 'calls service with correct request' do
       response = double
 
@@ -19,11 +19,11 @@ RSpec.describe EformService, :upvs do
 
       expect(upvs.ez).to receive(:call_service).with(service, request).and_return(response)
 
-      subject.fetch_form_template_ids
+      subject.fetch_all_form_template_ids
     end
 
     it 'fetches form template identifiers' do
-      expect(subject.fetch_form_template_ids).to all be_a(sk.gov.schemas.servicebusserviceprovider.ness.eformprovider._1.FormTemplateID)
+      expect(subject.fetch_all_form_template_ids).to all be_a(sk.gov.schemas.servicebusserviceprovider.ness.eformprovider._1.FormTemplateID)
     end
   end
 
