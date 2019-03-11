@@ -179,7 +179,6 @@ paths:
         description: 'Verzia formuláru, napríklad `1.9`'
         schema:
           type: string
-          format: JWT
       - name: data
         in: query
         required: true
@@ -205,6 +204,40 @@ paths:
                 - valid
                 example:
                   valid: true
+      security:
+      - 'API token': []
+
+  /api/eform/status:
+    get:
+      tags: [Zasielanie podaní]
+      description: Vráti eForm status formuláru.
+      parameters:
+      - name: identifier
+        in: query
+        required: true
+        description: 'Identifikátor formuláru, napríklad `App.GeneralAgenda`'
+        schema:
+          type: string
+      - name: version
+        in: query
+        required: true
+        description: 'Verzia formuláru, napríklad `1.9`'
+        schema:
+          type: string
+      responses:
+        200:
+          description: eForm status formuláru bol vrátený.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                required:
+                - status
+                example:
+                  status: Publikovaný
       security:
       - 'API token': []
 
