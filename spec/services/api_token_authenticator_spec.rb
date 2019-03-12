@@ -255,6 +255,9 @@ RSpec.describe ApiTokenAuthenticator do
     end
 
     context 'token replay attacks' do
+      REPLAY_EPSILON = 15.minutes
+      REPLAY_DELTA = described_class::MAX_EXP_IN - REPLAY_EPSILON
+
       let(:obo_token_assertion_store) { Environment.obo_token_assertion_store }
 
       before(:example) { obo_token_assertion_store.clear }
@@ -295,12 +298,12 @@ RSpec.describe ApiTokenAuthenticator do
 
         subject.verify_token(t1, allow_obo: true)
 
-        travel_to Time.now + 105.minutes
+        travel_to Time.now + REPLAY_DELTA
 
         o2 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
         t2 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o2, header: { cty: 'JWT' })
 
-        travel_to Time.now + 15.minutes - 0.1.seconds
+        travel_to Time.now + REPLAY_EPSILON - 0.1.seconds
 
         expect(identifier_store).to receive(:write).with(any_args).and_call_original
 
@@ -315,12 +318,12 @@ RSpec.describe ApiTokenAuthenticator do
 
         subject.verify_token(t1, allow_obo: true)
 
-        travel_to Time.now + 105.minutes
+        travel_to Time.now + REPLAY_DELTA
 
         o2 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
         t2 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o2, header: { cty: 'JWT' })
 
-        travel_to Time.now + 15.minutes
+        travel_to Time.now + REPLAY_EPSILON
 
         expect(identifier_store).to receive(:write).with(any_args).and_return(true)
 
