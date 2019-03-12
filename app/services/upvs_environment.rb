@@ -15,6 +15,7 @@ module UpvsEnvironment
     SktalkReceiver.new(upvs_proxy(assertion: assertion))
   end
 
+  # TODO consider renaming to #upvs_properties since we have #sso_settings here (not just #settings)
   def properties(assertion:)
     environment = case ENV.fetch('UPVS_ENV')
     when 'dev'
@@ -81,9 +82,18 @@ module UpvsEnvironment
     upvs_proxy_cache.get(properties, -> { UpvsProxy.new(properties) })
   end
 
+  # TODO consider cleaning up the cache automatically, see https://github.com/google/guava/wiki/CachesExplained#when-does-cleanup-happen
+  # TODO or consider invalidating entries after entry-specific expiration via scheduled executor, see https://github.com/google/guava/wiki/CachesExplained#explicit-removals
+  # if assertion
+  #   conditions = REXML::XPath.first(assertion, '//saml:Assertion/saml:Conditions')
+  #   expires_in = Time.parse(conditions.attributes['NotOnOrAfter']) - Time.now.to_f
+  #   raise ArgumentError, 'Expired assertion' if expires_in.negative?
+  # else
+  #   expires_in = PROXY_MAX_EXP_IN
+  # end
+
   def upvs_proxy_cache
     @upvs_proxy_cache ||= com.google.common.cache.CacheBuilder.new_builder
-      .concurrency_level(1)
       .expire_after_write(PROXY_MAX_EXP_IN.to_i, java.util.concurrent.TimeUnit::SECONDS)
       .ticker(Class.new(com.google.common.base.Ticker) { define_method(:read) { Time.now.to_f * 10 ** 9 }}.new)
       .soft_values.build
