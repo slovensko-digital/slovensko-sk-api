@@ -222,7 +222,7 @@ RSpec.describe 'eForm API' do
       expect(response.body).to eq({ message: 'Form App.UnknownAgenda version 1.0 not found' }.to_json)
     end
 
-    it 'responds with 404 if request contains form which has no schema' do
+    it 'responds with 404 if request contains form which schema can not be found' do
       create(:form_template, identifier: 'DCOM_eDemokracia_ZiadostOVydanieVolicskehoPreukazuFO_sk', version_major: 1, version_minor: 0)
 
       post '/api/eform/validate', headers: { 'Authorization' => 'Bearer ' + token }, params: { identifier: 'DCOM_eDemokracia_ZiadostOVydanieVolicskehoPreukazuFO_sk', version: '1.0', data: general_agenda }
