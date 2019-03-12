@@ -1,4 +1,10 @@
 module UpvsEnvironment
+
+  # assertion on behalf of another subject expires in 20 minutes,
+  # access via underlying technical account expires in 120 minutes
+
+  PROXY_MAX_EXP_IN = 120.minutes
+
   extend self
 
   def eform_service

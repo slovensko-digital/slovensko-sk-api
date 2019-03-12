@@ -76,7 +76,7 @@ RSpec.describe ApiTokenAuthenticator do
     end
 
     it 'verifies EXP claim to OBO token relation' do
-      token = generate_token(exp: (Time.now + 60.minutes + 2.seconds).to_i)
+      token = generate_token(exp: (Time.now + 120.minutes + 2.seconds).to_i)
 
       expect { subject.verify_token(token, allow_ta: true) }.to raise_error(JWT::InvalidPayload)
     end
@@ -287,7 +287,7 @@ RSpec.describe ApiTokenAuthenticator do
         expect { subject.verify_token(t1, allow_obo: true) }.to raise_error(JWT::ExpiredSignature)
       end
 
-      it 'can not verify another token with the same JTI in the first 60 minutes' do
+      it 'can not verify another token with the same JTI in the first 120 minutes' do
         jti = SecureRandom.uuid
 
         o1 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
@@ -295,7 +295,7 @@ RSpec.describe ApiTokenAuthenticator do
 
         subject.verify_token(t1, allow_obo: true)
 
-        travel_to Time.now + 45.minutes
+        travel_to Time.now + 105.minutes
 
         o2 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
         t2 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o2, header: { cty: 'JWT' })
@@ -307,7 +307,7 @@ RSpec.describe ApiTokenAuthenticator do
         expect { subject.verify_token(t2, allow_obo: true) }.to raise_error(JWT::InvalidJtiError)
       end
 
-      it 'can verify another token with the same JTI again on or after 60 minutes' do
+      it 'can verify another token with the same JTI again on or after 120 minutes' do
         jti = SecureRandom.uuid
 
         o1 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
@@ -315,7 +315,7 @@ RSpec.describe ApiTokenAuthenticator do
 
         subject.verify_token(t1, allow_obo: true)
 
-        travel_to Time.now + 45.minutes
+        travel_to Time.now + 105.minutes
 
         o2 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
         t2 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o2, header: { cty: 'JWT' })
