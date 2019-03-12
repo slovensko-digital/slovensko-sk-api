@@ -61,10 +61,6 @@ class ApiController < ActionController::API
     render status: :request_timeout, json: { message: I18n.t(:request_timeout) }
   end
 
-  def render_conflict(key, **options)
-    render status: :conflict, json: { message: I18n.t("conflict.#{key}", options) }
-  end
-
   def render_payload_too_large
     render status: :payload_too_large, json: { message: I18n.t(:payload_too_large) }
   end

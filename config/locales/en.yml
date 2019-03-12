@@ -11,11 +11,10 @@ en:
     no_message: 'No message'
     no_recipient: 'No recipient'
     unregistered_callback: 'Unregistered callback'
-  conflict:
-    form_without_schema: 'Form %{identifier} version %{version} has no validation schema'
   internal_server_error: 'Unknown error'
   not_found:
-    form_identifier_with_version: 'Form %{identifier} version %{version} not found'
+    form_template: 'Form %{identifier} version %{version} not found'
+    form_schema: 'Validation schema of form %{identifier} version %{version} not found'
   payload_too_large: 'Message size limit exceeded'
   request_timeout: 'Operation timeout exceeded'
   too_many_requests: 'Request rate limit exceeded'

@@ -222,13 +222,13 @@ RSpec.describe 'eForm API' do
       expect(response.body).to eq({ message: 'Form App.UnknownAgenda version 1.0 not found' }.to_json)
     end
 
-    it 'responds with 409 if request contains form which has no schema' do
+    it 'responds with 404 if request contains form which has no schema' do
       create(:form_template, identifier: 'DCOM_eDemokracia_ZiadostOVydanieVolicskehoPreukazuFO_sk', version_major: 1, version_minor: 0)
 
       post '/api/eform/validate', headers: { 'Authorization' => 'Bearer ' + token }, params: { identifier: 'DCOM_eDemokracia_ZiadostOVydanieVolicskehoPreukazuFO_sk', version: '1.0', data: general_agenda }
 
-      expect(response.status).to eq(409)
-      expect(response.body).to eq({ message: 'Form DCOM_eDemokracia_ZiadostOVydanieVolicskehoPreukazuFO_sk version 1.0 has no validation schema' }.to_json)
+      expect(response.status).to eq(404)
+      expect(response.body).to eq({ message: 'Validation schema of form DCOM_eDemokracia_ZiadostOVydanieVolicskehoPreukazuFO_sk version 1.0 not found' }.to_json)
     end
 
     pending 'responds with 413 if payload is too large'

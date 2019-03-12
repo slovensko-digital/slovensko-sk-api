@@ -6,11 +6,11 @@ class EformController < ApiController
 
   before_action(only: :validate) { render_bad_request(:no_form_data) if params[:data].blank? }
 
-  rescue_from(ActiveRecord::RecordNotFound) { render_not_found(:form_identifier_with_version, identifier: params[:identifier], version: params[:version]) }
+  rescue_from(ActiveRecord::RecordNotFound) { render_not_found(:form_template, identifier: params[:identifier], version: params[:version]) }
   rescue_from(Nokogiri::XML::SyntaxError) { render_bad_request(:malformed_form_data) }
 
   rescue_from javax.xml.ws.soap.SOAPFaultException do |error|
-    render_not_found(:form_identifier_with_version, identifier: params[:identifier], version: params[:version]) if error.message == '06000798'
+    render_not_found(:form_template, identifier: params[:identifier], version: params[:version]) if error.message == '06000798'
   end
 
   def status
@@ -31,7 +31,7 @@ class EformController < ApiController
 
       render json: { valid: errors.none?, errors: errors.map(&:message).presence }.compact
     else
-      render_conflict(:form_without_schema, identifier: params[:identifier], version: params[:version])
+      render_not_found(:form_schema, identifier: params[:identifier], version: params[:version])
     end
   end
 end
