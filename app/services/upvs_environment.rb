@@ -76,31 +76,18 @@ module UpvsEnvironment
   end
 
   def upvs_proxy(assertion:)
-    UpvsProxy.new(properties(assertion: assertion))
+    properties = properties(assertion: assertion)
 
-    # properties = properties(assertion: assertion)
-    # initializes_in = 30.seconds
-    #
-    # if assertion
-    #   conditions = REXML::XPath.first(assertion, '//saml:Assertion/saml:Conditions')
-    #   expires_in = Time.parse(conditions.attributes['NotOnOrAfter']) - Time.now.to_f - initializes_in
-    #   raise ArgumentError, 'Expired assertion' if expires_in.negative?
-    # else
-    #   expires_in = 2.hours - initializes_in
-    # end
-    #
-    # upvs_proxy_cache.fetch(properties, expires_in: expires_in, race_condition_ttl: initializes_in) do
-    #   UpvsProxy.new(properties)
-    # end
+    upvs_proxy_cache.get(properties, -> { UpvsProxy.new(properties) })
   end
 
-  # def upvs_proxy_cache
-  #   @upvs_proxy_cache ||= ActiveSupport::Cache::MemoryStore.new(
-  #     namespace: 'upvs-proxies',
-  #     size: 128.megabytes,
-  #     compress: false,
-  #   )
-  # end
+  def upvs_proxy_cache
+    @upvs_proxy_cache ||= com.google.common.cache.CacheBuilder.new_builder
+      .concurrency_level(1)
+      .expire_after_write(PROXY_MAX_EXP_IN.to_i, java.util.concurrent.TimeUnit::SECONDS)
+      .ticker(Class.new(com.google.common.base.Ticker) { define_method(:read) { Time.now.to_f * 10 ** 9 }}.new)
+      .soft_values.build
+  end
 
   def sso_support?
     ENV.fetch('UPVS_SSO_SUPPORT', true) != 'false'
