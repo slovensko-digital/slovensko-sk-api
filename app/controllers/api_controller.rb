@@ -13,7 +13,7 @@ class ApiController < ActionController::API
     if timeout_error?(error)
       render_request_timeout
     else
-      render_internal_server_error
+      rescue_with_handler(error) || render_internal_server_error
     end
   end
 

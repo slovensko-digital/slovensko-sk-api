@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
     scope :api do
       namespace :eform do
+        get :status
         post :validate
       end
 

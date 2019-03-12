@@ -13,7 +13,8 @@ sk:
     unregistered_callback: 'Nezaregistrované spätné volanie'
   internal_server_error: 'Neznáma chyba'
   not_found:
-    form_identifier_with_version: 'Formulár %{identifier} verzie %{version} nebol nájdený'
+    form_template: 'Formulár %{identifier} verzie %{version} nebol nájdený'
+    form_schema: 'Validačná schéma k formuláru %{identifier} verzie %{version} nebola nájdená'
   payload_too_large: 'Veľkosť správy presiahla stanovený limit'
   request_timeout: 'Čas trvania operácie presiahol stanovený limit'
   too_many_requests: 'Frekvencia požiadaviek presiahla stanovený limit'
