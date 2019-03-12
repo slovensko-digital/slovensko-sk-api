@@ -6,6 +6,8 @@ RSpec.describe UpvsEnvironment do
   describe '.upvs_proxy' do
     before(:example) { UpvsEnvironment.upvs_proxy_cache.clean_up }
 
+    before(:example) { allow(UpvsProxy).to receive(:new).with(anything).and_wrap_original { Object.new }}
+
     before(:example) { travel_to '2018-11-28T20:26:16Z' }
 
     after(:example) { travel_back }
