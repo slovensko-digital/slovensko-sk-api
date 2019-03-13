@@ -114,7 +114,7 @@ RSpec.describe 'eForm API' do
 
       it 'retrieves TA proxy object when authenticating via token with TA key' do
         expect(UpvsEnvironment).to receive(:upvs_proxy).with(assertion: nil).and_call_original.at_least(:once)
-        expect(UpvsProxy).to receive(:new).with(hash_not_including('upvs.sts.saml.assertion')).and_call_original.once
+        expect(UpvsProxy).to receive(:new).with(hash_not_including('upvs.sts.saml.assertion')).and_return(double).once
 
         2.times do
           get '/api/eform/status', headers: { 'Authorization' => 'Bearer ' + api_token_with_ta_key }, params: { identifier: 'App.GeneralAgenda', version: '1.9' }

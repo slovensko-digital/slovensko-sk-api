@@ -115,7 +115,7 @@ RSpec.describe 'SKTalk API' do
 
       it 'retrieves TA proxy object when authenticating via token with TA key' do
         expect(UpvsEnvironment).to receive(:upvs_proxy).with(assertion: nil).and_call_original.at_least(:once)
-        expect(UpvsProxy).to receive(:new).with(hash_not_including('upvs.sts.saml.assertion')).and_call_original.once
+        expect(UpvsProxy).to receive(:new).with(hash_not_including('upvs.sts.saml.assertion')).and_return(double).once
 
         2.times do
           post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + api_token_with_ta_key }, params: { message: message }
@@ -126,7 +126,7 @@ RSpec.describe 'SKTalk API' do
 
       it 'retrieves OBO proxy object when authenticating via token with OBO token' do
         expect(UpvsEnvironment).to receive(:upvs_proxy).with(assertion: assertion).and_call_original.at_least(:once)
-        expect(UpvsProxy).to receive(:new).with(hash_including('upvs.sts.saml.assertion' => assertion)).and_call_original.once
+        expect(UpvsProxy).to receive(:new).with(hash_including('upvs.sts.saml.assertion' => assertion)).and_return(double).once
 
         2.times do
           post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read, scopes: ['sktalk/receive']) }, params: { message: message }
@@ -241,7 +241,7 @@ RSpec.describe 'SKTalk API' do
 
       it 'retrieves TA proxy object when authenticating via token with TA key' do
         expect(UpvsEnvironment).to receive(:upvs_proxy).with(assertion: nil).and_call_original.at_least(:once)
-        expect(UpvsProxy).to receive(:new).with(hash_not_including('upvs.sts.saml.assertion')).and_call_original.once
+        expect(UpvsProxy).to receive(:new).with(hash_not_including('upvs.sts.saml.assertion')).and_return(double).once
 
         2.times do
           post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + api_token_with_ta_key }, params: { message: message }
@@ -252,7 +252,7 @@ RSpec.describe 'SKTalk API' do
 
       it 'retrieves OBO proxy object when authenticating via token with OBO token' do
         expect(UpvsEnvironment).to receive(:upvs_proxy).with(assertion: assertion).and_call_original.at_least(:once)
-        expect(UpvsProxy).to receive(:new).with(hash_including('upvs.sts.saml.assertion' => assertion)).and_call_original.once
+        expect(UpvsProxy).to receive(:new).with(hash_including('upvs.sts.saml.assertion' => assertion)).and_return(double).once
 
         2.times do
           post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read, scopes: ['sktalk/receive_and_save_to_outbox']) }, params: { message: message }
