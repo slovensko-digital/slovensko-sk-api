@@ -85,7 +85,7 @@ Trnavská cesta 100/II
 
 > Adresát: integracie@globaltel.sk, integracie@nases.gov.sk
 > 
-> Predmet:  **&lt;skratka projektu&gt;** – FIX/PROD – INFRA – Požiadavka - Pridelenie adresného rozsahu
+> Predmet:  **&lt;skratka projektu&gt;** - FIX/PROD - INFRA - Požiadavka - Pridelenie adresného rozsahu
 > 
 > Dobrý deň,
 > 

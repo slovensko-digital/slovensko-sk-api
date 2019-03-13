@@ -3,67 +3,88 @@ require 'rails_helper'
 RSpec.describe EformService, :upvs do
   let(:properties) { UpvsEnvironment.properties }
   let(:upvs) { UpvsProxy.new(properties) }
-  let(:ez) { upvs.ez }
-  let(:object_factory) { described_class.new(upvs).object_factory }
 
   subject { described_class.new(upvs) }
 
-  before(:example) { cache_java_object_proxy!(ez) }
+  before(:example) { cache_java_object_proxy!(upvs.ez) }
 
   describe '#fetch_all_form_template_ids' do
-    it 'calls ez with right arguments' do
+    it 'calls service with correct request' do
       response = double
-      allow(response).to receive_message_chain("form_templates.value.form_template_id")
 
-      service_class = described_class::SERVICES::EFORM_FINDFORMTEMPLATES_SOAP_V_1_0
-      request = object_factory.create_find_form_templates_req
+      allow(response).to receive_message_chain(:form_templates, :value, :form_template_id)
 
-      expect(ez).to receive(:call_service).with(service_class, instance_of(request.class)).and_return(response)
+      service = EformService::EFORM_FINDFORMTEMPLATES_SOAP_V_1_0
+      request = eform_find_form_templates_request
+
+      expect(upvs.ez).to receive(:call_service).with(service, request).and_return(response)
 
       subject.fetch_all_form_template_ids
     end
+
+    it 'fetches form template identifiers' do
+      expect(subject.fetch_all_form_template_ids).to all be_a(sk.gov.schemas.servicebusserviceprovider.ness.eformprovider._1.FormTemplateID)
+    end
   end
 
-  describe '#fetch_xsd_schema_for' do
-    let(:form_template) { create(:form_template, identifier: "App.GeneralAgenda", version_major: 1, version_minor: 9) }
+  describe '#fetch_form_template_status' do
+    let(:identifier) { 'App.GeneralAgenda' }
+    let(:version) { '1.9' }
 
-    RSpec::Matchers.define :request_matching do |form_template|
-      match do |request|
-        expect(request).to be_instance_of(sk.gov.schemas.servicebusserviceprovider.ness.eformprovider._1.GetRelatedDocumentByTypeReq)
-        expect(request.form_template.value.identifier.value).to eq(form_template.identifier)
-        expect(request.form_template.value.version.value.major).to eq(form_template.version_major)
-        expect(request.form_template.value.version.value.minor).to eq(form_template.version_minor)
-
-        expect(request.related_document_type.value).to eq('CLS_F_XSD_EDOC')
-        expect(request.related_document_language.value).to eq('sk')
-      end
-    end
-
-    it 'calls ez with right arguments' do
+    it 'calls service with correct request' do
       response = double
-      allow(response).to receive_message_chain("related_document.value")
-      service_class = described_class::SERVICES::EFORM_GETRELATEDDOCUMENTBYTYPE_SOAP_V_1_0
 
-      expect(ez).to receive(:call_service).with(service_class, request_matching(form_template)).and_return(response)
+      allow(response).to receive_message_chain(:form_status, :value)
 
-      subject.fetch_xsd_schema_for(form_template)
+      service = EformService::EFORM_GETFORMTEMPLATESTATUS_SOAP_V_1_0
+      request = eform_get_form_template_status_request(identifier, version)
+
+      expect(upvs.ez).to receive(:call_service).with(service, request).and_return(response)
+
+      subject.fetch_form_template_status(identifier, version)
     end
 
-    describe 'on error' do
-      let (:fault) { double }
+    it 'fetches form template status' do
+      expect(subject.fetch_form_template_status(identifier, version)).to eq('Publikovaný')
+    end
 
-      it 'does not raise when the document does not exist' do
-        expect(fault).to receive(:get_fault_string).and_return('06000796')
-        expect(ez).to receive(:call_service).and_raise(javax.xml.ws.soap.SOAPFaultException.new(fault))
-
-        expect { subject.fetch_xsd_schema_for(form_template) }.to_not raise_error
+    it 'raises error if form template is not found' do
+      expect { subject.fetch_xsd_schema('App.UnknownAgenda', '1.0') }.to raise_error(javax.xml.ws.soap.SOAPFaultException) do |error|
+        expect(error.message).to eq('06000798')
       end
+    end
+  end
 
-      it 'breaks otherwise' do
-        expect(fault).to receive(:get_fault_string).and_return('1234')
-        expect(ez).to receive(:call_service).and_raise(javax.xml.ws.soap.SOAPFaultException.new(fault))
+  describe '#fetch_xsd_schema' do
+    let(:identifier) { 'App.GeneralAgenda' }
+    let(:version) { '1.9' }
 
-        expect { subject.fetch_xsd_schema_for(form_template) }.to raise_error(javax.xml.ws.soap.SOAPFaultException)
+    it 'calls service with correct request' do
+      response = double
+
+      allow(response).to receive_message_chain(:related_document, :value)
+
+      service = EformService::EFORM_GETRELATEDDOCUMENTBYTYPE_SOAP_V_1_0
+      request = eform_get_related_document_by_type_request(identifier, version, 'CLS_F_XSD_EDOC', 'sk')
+
+      expect(upvs.ez).to receive(:call_service).with(service, request).and_return(response)
+
+      subject.fetch_xsd_schema(identifier, version)
+    end
+
+    it 'fetches XSD schema' do
+      expect(subject.fetch_xsd_schema(identifier, version)).to be_a(sk.gov.schemas.servicebusserviceprovider.ness.eformprovider._1.RelatedDocument)
+    end
+
+    it 'raises error if form template is not found' do
+      expect { subject.fetch_xsd_schema('App.UnknownAgenda', '1.0') }.to raise_error(javax.xml.ws.soap.SOAPFaultException) do |error|
+        expect(error.message).to eq('06000798')
+      end
+    end
+
+    it 'raises error if related document is not found' do
+      expect { subject.fetch_xsd_schema('DCOM_eDemokracia_ZiadostOVydanieVolicskehoPreukazuFO_sk', '1.0') }.to raise_error(javax.xml.ws.soap.SOAPFaultException) do |error|
+        expect(error.message).to eq('06000796')
       end
     end
   end

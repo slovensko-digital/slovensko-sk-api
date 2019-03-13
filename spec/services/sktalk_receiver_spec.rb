@@ -12,7 +12,7 @@ RSpec.describe SktalkReceiver, :upvs do
 
   describe '#receive' do
     it 'receives message' do
-      expect(upvs.sktalk).to receive(:receive).with(message_of_class('EGOV_APPLICATION')).and_call_original
+      expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class('EGOV_APPLICATION')).and_call_original
 
       expect(subject.receive(message)).to be_an(Integer)
     end
@@ -50,7 +50,7 @@ RSpec.describe SktalkReceiver, :upvs do
 
   describe '#save_to_outbox' do
     it 'saves message to outbox' do
-      expect(upvs.sktalk).to receive(:receive).with(message_of_class('EDESK_SAVE_APPLICATION_TO_OUTBOX')).and_call_original
+      expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class('EDESK_SAVE_APPLICATION_TO_OUTBOX')).and_call_original
 
       expect(subject.save_to_outbox(message)).to be_an(Integer)
     end
