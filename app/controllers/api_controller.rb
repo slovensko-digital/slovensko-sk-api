@@ -7,15 +7,17 @@ class ApiController < ActionController::API
     end
   end
 
-  rescue_from java.lang.Throwable do |error|
-    error = unwrap_error(error)
+  wrappers = [
+    com.google.common.util.concurrent.ExecutionError,
+    com.google.common.util.concurrent.UncheckedExecutionException,
+    java.util.concurrent.ExecutionException,
+    java.lang.reflect.UndeclaredThrowableException,
+  ]
 
-    if timeout_error?(error)
-      render_request_timeout
-    else
-      rescue_with_handler(error) || render_internal_server_error
-    end
-  end
+  rescue_from(*wrappers) { |error| rescue_with_handler(error.cause) || raise }
+
+  rescue_from(java.net.SocketTimeoutException, java.util.concurrent.TimeoutException) { render_request_timeout }
+  rescue_from(javax.xml.ws.soap.SOAPFaultException) { |error| render_request_timeout if error.message =~ /(connect|read) timed out/i }
 
   private
 
@@ -25,23 +27,6 @@ class ApiController < ActionController::API
 
   def authenticity_token
     (ActionController::HttpAuthentication::Token.token_and_options(request)&.first || params[:token])&.squish.presence
-  end
-
-  def unwrap_error(error)
-    wrappers = [
-      com.google.common.util.concurrent.ExecutionError,
-      com.google.common.util.concurrent.UncheckedExecutionException,
-      java.util.concurrent.ExecutionException,
-      java.lang.reflect.UndeclaredThrowableException,
-    ]
-
-    wrappers.find { |wrapper| error.is_a?(wrapper) } ? unwrap_error(error.cause) : error
-  end
-
-  def timeout_error?(error)
-    return true if error.is_a?(java.net.SocketTimeoutException)
-    return true if error.is_a?(java.util.concurrent.TimeoutException)
-    true if error.is_a?(javax.xml.ws.soap.SOAPFaultException) && error.message =~ /(connect|read) timed out/i
   end
 
   def render_bad_request(key, **options)
