@@ -1,17 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'SKTalk API' do
-  let(:upvs_proxy) { instance_double(UpvsProxy) }
-  let(:sktalk_receiver) { SktalkReceiver.new(upvs_proxy) }
-
   let!(:token) { api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read, scopes: ['sktalk/receive', 'sktalk/receive_and_save_to_outbox']) }
   let!(:message) { file_fixture('sktalk/egov_application_general_agenda.xml').read }
 
   before(:example) do
-    assertion = file_fixture('oam/sso_response_success_assertion.xml').read.strip
-
-    allow(UpvsEnvironment).to receive(:sktalk_receiver).with(assertion: nil).and_return(sktalk_receiver)
-    allow(UpvsEnvironment).to receive(:sktalk_receiver).with(assertion: assertion).and_return(sktalk_receiver)
+    allow(UpvsProxy).to receive(:new).and_wrap_original { double }
   end
 
   before(:example) { travel_to '2018-11-28T20:26:16Z' }
@@ -20,7 +14,7 @@ RSpec.describe 'SKTalk API' do
 
   describe 'POST /api/sktalk/receive' do
     before(:example) do
-      allow(sktalk_receiver).to receive(:receive).with(message).and_return(0)
+      allow_any_instance_of(SktalkReceiver).to receive(:receive).with(message).and_return(0)
     end
 
     it 'receives message' do
@@ -80,7 +74,7 @@ RSpec.describe 'SKTalk API' do
     end
 
     it 'responds with 400 if request contains malformed message to receive' do
-      expect(sktalk_receiver).to receive(:receive).with('INVALID').and_call_original
+      expect_any_instance_of(SktalkReceiver).to receive(:receive).with('INVALID').and_call_original
 
       post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: 'INVALID' }
 
@@ -98,7 +92,7 @@ RSpec.describe 'SKTalk API' do
     end
 
     it 'responds with 408 if external service times out' do
-      expect(sktalk_receiver).to receive(:receive).with(message).and_raise(execution_exception(soap_fault_exception('connect timed out')))
+      expect_any_instance_of(SktalkReceiver).to receive(:receive).with(message).and_raise(execution_exception(soap_fault_exception('connect timed out')))
 
       post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: message }
 
@@ -113,12 +107,40 @@ RSpec.describe 'SKTalk API' do
     pending 'responds with 500 if external service fails'
 
     pending 'responds with 500 if anything else fails'
+
+    context 'UPVS' do
+      let(:assertion) { file_fixture('oam/sso_response_success_assertion.xml').read.strip }
+
+      before(:example) { UpvsEnvironment.upvs_proxy_cache.invalidate_all }
+
+      it 'retrieves TA proxy object when authenticating via token with TA key' do
+        expect(UpvsEnvironment).to receive(:upvs_proxy).with(assertion: nil).and_call_original.at_least(:once)
+        expect(UpvsProxy).to receive(:new).with(hash_not_including('upvs.sts.saml.assertion')).and_return(double).once
+
+        2.times do
+          post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + api_token_with_ta_key }, params: { message: message }
+
+          expect(response.status).to eq(200)
+        end
+      end
+
+      it 'retrieves OBO proxy object when authenticating via token with OBO token' do
+        expect(UpvsEnvironment).to receive(:upvs_proxy).with(assertion: assertion).and_call_original.at_least(:once)
+        expect(UpvsProxy).to receive(:new).with(hash_including('upvs.sts.saml.assertion' => assertion)).and_return(double).once
+
+        2.times do
+          post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read, scopes: ['sktalk/receive']) }, params: { message: message }
+
+          expect(response.status).to eq(200)
+        end
+      end
+    end
   end
 
   describe 'POST /api/sktalk/receive_and_save_to_outbox' do
     before(:example) do
-      allow(sktalk_receiver).to receive(:receive).with(message).and_return(0)
-      allow(sktalk_receiver).to receive(:save_to_outbox).with(message).and_return(0)
+      allow_any_instance_of(SktalkReceiver).to receive(:receive).with(message).and_return(0)
+      allow_any_instance_of(SktalkReceiver).to receive(:save_to_outbox).with(message).and_return(0)
     end
 
     it 'receives message and saves it to outbox' do
@@ -178,7 +200,7 @@ RSpec.describe 'SKTalk API' do
     end
 
     it 'responds with 400 if request contains malformed message to receive' do
-      expect(sktalk_receiver).to receive(:receive).with('INVALID').and_call_original
+      expect_any_instance_of(SktalkReceiver).to receive(:receive).with('INVALID').and_call_original
 
       post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: 'INVALID' }
 
@@ -196,7 +218,7 @@ RSpec.describe 'SKTalk API' do
     end
 
     it 'responds with 408 if external service times out' do
-      expect(sktalk_receiver).to receive(:receive).with(message).and_raise(execution_exception(soap_fault_exception('connect timed out')))
+      expect_any_instance_of(SktalkReceiver).to receive(:receive).with(message).and_raise(execution_exception(soap_fault_exception('connect timed out')))
 
       post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: message }
 
@@ -211,5 +233,33 @@ RSpec.describe 'SKTalk API' do
     pending 'responds with 500 if external service fails'
 
     pending 'responds with 500 if anything else fails'
+
+    context 'UPVS' do
+      let(:assertion) { file_fixture('oam/sso_response_success_assertion.xml').read.strip }
+
+      before(:example) { UpvsEnvironment.upvs_proxy_cache.invalidate_all }
+
+      it 'retrieves TA proxy object when authenticating via token with TA key' do
+        expect(UpvsEnvironment).to receive(:upvs_proxy).with(assertion: nil).and_call_original.at_least(:once)
+        expect(UpvsProxy).to receive(:new).with(hash_not_including('upvs.sts.saml.assertion')).and_return(double).once
+
+        2.times do
+          post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + api_token_with_ta_key }, params: { message: message }
+
+          expect(response.status).to eq(200)
+        end
+      end
+
+      it 'retrieves OBO proxy object when authenticating via token with OBO token' do
+        expect(UpvsEnvironment).to receive(:upvs_proxy).with(assertion: assertion).and_call_original.at_least(:once)
+        expect(UpvsProxy).to receive(:new).with(hash_including('upvs.sts.saml.assertion' => assertion)).and_return(double).once
+
+        2.times do
+          post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read, scopes: ['sktalk/receive_and_save_to_outbox']) }, params: { message: message }
+
+          expect(response.status).to eq(200)
+        end
+      end
+    end
   end
 end

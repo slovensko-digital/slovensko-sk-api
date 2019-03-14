@@ -1,7 +1,7 @@
 # See https://tools.ietf.org/html/rfc7519
 
 class ApiTokenAuthenticator
-  MAX_EXP_IN = OboTokenAuthenticator::MAX_EXP_IN
+  MAX_EXP_IN = UpvsEnvironment::PROXY_MAX_EXP_IN
   JTI_PATTERN = /^[0-9a-z-_]{1,256}$/
 
   def initialize(identifier_store:, public_key:, obo_token_authenticator:)

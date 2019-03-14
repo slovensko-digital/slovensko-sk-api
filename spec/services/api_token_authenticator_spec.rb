@@ -76,7 +76,7 @@ RSpec.describe ApiTokenAuthenticator do
     end
 
     it 'verifies EXP claim to OBO token relation' do
-      token = generate_token(exp: (Time.now + 60.minutes + 2.seconds).to_i)
+      token = generate_token(exp: (Time.now + 120.minutes + 2.seconds).to_i)
 
       expect { subject.verify_token(token, allow_ta: true) }.to raise_error(JWT::InvalidPayload)
     end
@@ -255,6 +255,9 @@ RSpec.describe ApiTokenAuthenticator do
     end
 
     context 'token replay attacks' do
+      REPLAY_EPSILON = 15.minutes
+      REPLAY_DELTA = described_class::MAX_EXP_IN - REPLAY_EPSILON
+
       let(:obo_token_assertion_store) { Environment.obo_token_assertion_store }
 
       before(:example) { obo_token_assertion_store.clear }
@@ -287,7 +290,7 @@ RSpec.describe ApiTokenAuthenticator do
         expect { subject.verify_token(t1, allow_obo: true) }.to raise_error(JWT::ExpiredSignature)
       end
 
-      it 'can not verify another token with the same JTI in the first 60 minutes' do
+      it 'can not verify another token with the same JTI in the first 120 minutes' do
         jti = SecureRandom.uuid
 
         o1 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
@@ -295,19 +298,19 @@ RSpec.describe ApiTokenAuthenticator do
 
         subject.verify_token(t1, allow_obo: true)
 
-        travel_to Time.now + 45.minutes
+        travel_to Time.now + REPLAY_DELTA
 
         o2 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
         t2 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o2, header: { cty: 'JWT' })
 
-        travel_to Time.now + 15.minutes - 0.1.seconds
+        travel_to Time.now + REPLAY_EPSILON - 0.1.seconds
 
         expect(identifier_store).to receive(:write).with(any_args).and_call_original
 
         expect { subject.verify_token(t2, allow_obo: true) }.to raise_error(JWT::InvalidJtiError)
       end
 
-      it 'can verify another token with the same JTI again on or after 60 minutes' do
+      it 'can verify another token with the same JTI again on or after 120 minutes' do
         jti = SecureRandom.uuid
 
         o1 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
@@ -315,12 +318,12 @@ RSpec.describe ApiTokenAuthenticator do
 
         subject.verify_token(t1, allow_obo: true)
 
-        travel_to Time.now + 45.minutes
+        travel_to Time.now + REPLAY_DELTA
 
         o2 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
         t2 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o2, header: { cty: 'JWT' })
 
-        travel_to Time.now + 15.minutes
+        travel_to Time.now + REPLAY_EPSILON
 
         expect(identifier_store).to receive(:write).with(any_args).and_return(true)
 
