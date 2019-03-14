@@ -1,7 +1,7 @@
 # See https://tools.ietf.org/html/rfc7519
 
 class OboTokenAuthenticator
-  MAX_EXP_IN = 60.minutes
+  MAX_EXP_IN = UpvsEnvironment::PROXY_MAX_EXP_IN
 
   def initialize(assertion_store:, key_pair:)
     @assertion_store = assertion_store

@@ -12,12 +12,8 @@ class SktalkController < ApiController
 
   def receive_and_save_to_outbox
     assertion = assertion('sktalk/receive_and_save_to_outbox')
-
-    # TODO rm: cache it at least on UpvsEnvironment#upvs_proxy level
-    receiver = receiver(assertion)
-
-    receive_result = receiver.receive(params[:message])
-    save_to_outbox_result = receiver.save_to_outbox(params[:message])
+    receive_result = receiver(assertion).receive(params[:message])
+    save_to_outbox_result = receiver(assertion).save_to_outbox(params[:message])
 
     render json: { receive_result: receive_result, save_to_outbox_result: save_to_outbox_result }
   end

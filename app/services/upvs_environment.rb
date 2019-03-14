@@ -1,15 +1,22 @@
 module UpvsEnvironment
+
+  # assertion on behalf of another subject expires in 20 minutes,
+  # access via underlying technical account expires in 120 minutes
+
+  PROXY_MAX_EXP_IN = 120.minutes
+
   extend self
 
   def eform_service
     EformService.new(upvs_proxy(assertion: nil))
   end
 
-  def sktalk_receiver(assertion: nil)
+  def sktalk_receiver(assertion:)
     SktalkReceiver.new(upvs_proxy(assertion: assertion))
   end
 
-  def properties(assertion: nil)
+  # TODO consider renaming to #upvs_properties since we have #sso_settings here (not just #settings)
+  def properties(assertion:)
     environment = case ENV.fetch('UPVS_ENV')
     when 'dev'
       {
@@ -69,15 +76,28 @@ module UpvsEnvironment
     environment.merge(security)
   end
 
-  # TODO remove this in favor of #upvs_proxy_cache.fetch(assertion) { ... }
-  def upvs_proxy(assertion: nil)
-    UpvsProxy.new(properties(assertion: assertion))
+  def upvs_proxy(assertion:)
+    properties = properties(assertion: assertion)
+
+    upvs_proxy_cache.get(properties, -> { UpvsProxy.new(properties) })
   end
 
-  # TODO add proxy cache like this:
-  # def upvs_proxy_cache
-  #   @upvs_proxy_cache ||= ...
+  # TODO consider cleaning up the cache automatically, see https://github.com/google/guava/wiki/CachesExplained#when-does-cleanup-happen
+  # TODO or consider invalidating entries after entry-specific expiration via scheduled executor, see https://github.com/google/guava/wiki/CachesExplained#explicit-removals
+  # if assertion
+  #   conditions = REXML::XPath.first(assertion, '//saml:Assertion/saml:Conditions')
+  #   expires_in = Time.parse(conditions.attributes['NotOnOrAfter']) - Time.now.to_f
+  #   raise ArgumentError, 'Expired assertion' if expires_in.negative?
+  # else
+  #   expires_in = PROXY_MAX_EXP_IN
   # end
+
+  def upvs_proxy_cache
+    @upvs_proxy_cache ||= com.google.common.cache.CacheBuilder.new_builder
+      .expire_after_write(PROXY_MAX_EXP_IN.to_i, java.util.concurrent.TimeUnit::SECONDS)
+      .ticker(Class.new(com.google.common.base.Ticker) { define_method(:read) { Time.now.to_f * 10 ** 9 }}.new)
+      .soft_values.build
+  end
 
   def sso_support?
     ENV.fetch('UPVS_SSO_SUPPORT', true) != 'false'

@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe OboTokenAuthenticator do
+  EXP_DELTA = described_class::MAX_EXP_IN - 20.minutes
+
   let(:assertion_store) { Environment.obo_token_assertion_store }
   let(:key_pair) { OpenSSL::PKey::RSA.new(2048) }
 
@@ -84,7 +86,7 @@ RSpec.describe OboTokenAuthenticator do
     end
 
     context 'response creation to expiration relation check failure' do
-      before(:example) { expect(response).to receive(:not_on_or_after).and_wrap_original { |m| m.call + 41.minutes }}
+      before(:example) { expect(response).to receive(:not_on_or_after).and_wrap_original { |m| m.call + EXP_DELTA + 1.minute }}
 
       it 'raises argument error' do
         expect { subject.generate_token(response) }.to raise_error(ArgumentError)
@@ -243,7 +245,7 @@ RSpec.describe OboTokenAuthenticator do
     end
 
     it 'verifies EXP to IAT claim relation' do
-      token = generate_token(exp: (response.not_on_or_after + 41.minutes).to_i)
+      token = generate_token(exp: (response.not_on_or_after + EXP_DELTA + 1.minute).to_i)
 
       expect { subject.verify_token(token) }.to raise_error(JWT::InvalidPayload)
     end

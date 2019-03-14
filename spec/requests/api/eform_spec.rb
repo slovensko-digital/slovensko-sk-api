@@ -1,18 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe 'eForm API' do
-  let(:upvs_proxy) { instance_double(UpvsProxy) }
-  let(:eform_service) { EformService.new(upvs_proxy) }
-
   let!(:token) { api_token_with_ta_key }
 
   before(:example) do
-    allow(UpvsEnvironment).to receive(:eform_service).and_return(eform_service)
+    allow(UpvsProxy).to receive(:new).and_wrap_original { double }
   end
 
   describe 'GET /api/eform/status' do
     before(:example) do
-      allow(eform_service).to receive(:fetch_form_template_status).with('App.GeneralAgenda', '1.9').and_return('Publikovaný')
+      allow_any_instance_of(EformService).to receive(:fetch_form_template_status).with('App.GeneralAgenda', '1.9').and_return('Publikovaný')
     end
 
     it 'returns form status' do
@@ -89,7 +86,7 @@ RSpec.describe 'eForm API' do
     end
 
     it 'responds with 404 if request contains form which can not be found' do
-      expect(eform_service).to receive(:fetch_form_template_status).with('App.UnknownAgenda', '1.0').and_raise(execution_exception(soap_fault_exception('06000798')))
+      expect_any_instance_of(EformService).to receive(:fetch_form_template_status).with('App.UnknownAgenda', '1.0').and_raise(execution_exception(soap_fault_exception('06000798')))
 
       get '/api/eform/status', headers: { 'Authorization' => 'Bearer ' + token }, params: { identifier: 'App.UnknownAgenda', version: '1.0' }
 
@@ -97,11 +94,44 @@ RSpec.describe 'eForm API' do
       expect(response.body).to eq({ message: 'Form App.UnknownAgenda version 1.0 not found' }.to_json)
     end
 
+    it 'responds with 408 if external service times out' do
+      expect_any_instance_of(EformService).to receive(:fetch_form_template_status).with('App.GeneralAgenda', '1.9').and_raise(execution_exception(soap_fault_exception('connect timed out')))
+
+      get '/api/eform/status', headers: { 'Authorization' => 'Bearer ' + token }, params: { identifier: 'App.GeneralAgenda', version: '1.9' }
+
+      expect(response.status).to eq(408)
+      expect(response.body).to eq({ message: 'Operation timeout exceeded' }.to_json)
+    end
+
     pending 'responds with 429 if request rate limit exceeds'
 
     pending 'responds with 500 if external service fails'
 
     pending 'responds with 500 if anything else fails'
+
+    context 'UPVS' do
+      before(:example) { UpvsEnvironment.upvs_proxy_cache.invalidate_all }
+
+      it 'retrieves TA proxy object when authenticating via token with TA key' do
+        expect(UpvsEnvironment).to receive(:upvs_proxy).with(assertion: nil).and_call_original.at_least(:once)
+        expect(UpvsProxy).to receive(:new).with(hash_not_including('upvs.sts.saml.assertion')).and_return(double).once
+
+        2.times do
+          get '/api/eform/status', headers: { 'Authorization' => 'Bearer ' + api_token_with_ta_key }, params: { identifier: 'App.GeneralAgenda', version: '1.9' }
+
+          expect(response.status).to eq(200)
+        end
+      end
+
+      it 'does not use any proxy object when authenticating via token with OBO token' do
+        expect(UpvsEnvironment).not_to receive(:upvs_proxy)
+        expect(UpvsProxy).not_to receive(:new)
+
+        get '/api/eform/status', headers: { 'Authorization' => 'Bearer ' + api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read) }, params: { identifier: 'App.GeneralAgenda', version: '1.9' }
+
+        expect(response.status).to eq(401)
+      end
+    end
   end
 
   describe 'POST /api/eform/validate' do
@@ -236,5 +266,25 @@ RSpec.describe 'eForm API' do
     pending 'responds with 429 if request rate limit exceeds'
 
     pending 'responds with 500 if anything else fails'
+
+    context 'UPVS' do
+      it 'does not use any proxy object when authenticating via token with TA key' do
+        expect(UpvsEnvironment).not_to receive(:upvs_proxy)
+        expect(UpvsProxy).not_to receive(:new)
+
+        post '/api/eform/validate', headers: { 'Authorization' => 'Bearer ' + api_token_with_ta_key }, params: { identifier: 'App.GeneralAgenda', version: '1.9', data: general_agenda }
+
+        expect(response.status).to eq(200)
+      end
+
+      it 'does not use any proxy object when authenticating via token with OBO token' do
+        expect(UpvsEnvironment).not_to receive(:upvs_proxy)
+        expect(UpvsProxy).not_to receive(:new)
+
+        post '/api/eform/validate', headers: { 'Authorization' => 'Bearer ' + api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read) }, params: { identifier: 'App.GeneralAgenda', version: '1.9', data: general_agenda }
+
+        expect(response.status).to eq(401)
+      end
+    end
   end
 end
