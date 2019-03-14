@@ -17,7 +17,7 @@ class ApiController < ActionController::API
   rescue_from(*wrappers) { |error| rescue_with_handler(error.cause) || raise }
 
   rescue_from(java.net.SocketTimeoutException, java.util.concurrent.TimeoutException) { render_request_timeout }
-  rescue_from(javax.xml.ws.soap.SOAPFaultException) { |error| render_request_timeout if error.message =~ /(connect|read) timed out/i }
+  rescue_from(javax.xml.ws.soap.SOAPFaultException) { |error| render_request_timeout if soap_timeout?(error) }
 
   private
 
@@ -27,6 +27,10 @@ class ApiController < ActionController::API
 
   def authenticity_token
     (ActionController::HttpAuthentication::Token.token_and_options(request)&.first || params[:token])&.squish.presence
+  end
+
+  def soap_timeout?(error)
+    error.message =~ /(connect|read) timed out/i
   end
 
   def render_bad_request(key, **options)
