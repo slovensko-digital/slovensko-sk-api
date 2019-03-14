@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe EformService, :upvs do
-  let(:properties) { UpvsEnvironment.properties }
+  let(:properties) { UpvsEnvironment.properties(assertion: nil) }
   let(:upvs) { UpvsProxy.new(properties) }
 
   subject { described_class.new(upvs) }
