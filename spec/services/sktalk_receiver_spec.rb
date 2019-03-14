@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SktalkReceiver, :upvs do
-  let(:properties) { UpvsEnvironment.properties }
+  let(:properties) { UpvsEnvironment.properties(assertion: nil) }
   let(:upvs) { UpvsProxy.new(properties) }
 
   let(:message) { file_fixture('sktalk/egov_application_general_agenda.xml').read }
@@ -28,22 +28,18 @@ RSpec.describe SktalkReceiver, :upvs do
     pending 'with too large message'
 
     context 'with connection timeout' do
-      let(:properties) { UpvsEnvironment.properties.merge('upvs.timeout.connection' => 2) }
+      let(:properties) { UpvsEnvironment.properties(assertion: nil).merge('upvs.timeout.connection' => 2) }
 
       it 'raises error' do
-        expect { subject.receive(message) }.to raise_error(javax.xml.ws.soap.SOAPFaultException) do |error|
-          expect(error.message).to match(/connect timed out/i)
-        end
+        expect { subject.receive(message) }.to raise_error(javax.xml.ws.soap.SOAPFaultException, /connect timed out/i)
       end
     end
 
     context 'with receive timeout' do
-      let(:properties) { UpvsEnvironment.properties.merge('upvs.timeout.receive' => 2) }
+      let(:properties) { UpvsEnvironment.properties(assertion: nil).merge('upvs.timeout.receive' => 2) }
 
       it 'raises error' do
-        expect { subject.receive(message) }.to raise_error(javax.xml.ws.soap.SOAPFaultException) do |error|
-          expect(error.message).to match(/read timed out/i)
-        end
+        expect { subject.receive(message) }.to raise_error(javax.xml.ws.soap.SOAPFaultException, /read timed out/i)
       end
     end
   end
@@ -66,22 +62,18 @@ RSpec.describe SktalkReceiver, :upvs do
     pending 'with too large message'
 
     context 'with connection timeout' do
-      let(:properties) { UpvsEnvironment.properties.merge('upvs.timeout.connection' => 2) }
+      let(:properties) { UpvsEnvironment.properties(assertion: nil).merge('upvs.timeout.connection' => 2) }
 
       it 'raises error' do
-        expect { subject.save_to_outbox(message) }.to raise_error(javax.xml.ws.soap.SOAPFaultException) do |error|
-          expect(error.message).to match(/connect timed out/i)
-        end
+        expect { subject.save_to_outbox(message) }.to raise_error(javax.xml.ws.soap.SOAPFaultException, /connect timed out/i)
       end
     end
 
     context 'with receive timeout' do
-      let(:properties) { UpvsEnvironment.properties.merge('upvs.timeout.receive' => 2) }
+      let(:properties) { UpvsEnvironment.properties(assertion: nil).merge('upvs.timeout.receive' => 2) }
 
       it 'raises error' do
-        expect { subject.save_to_outbox(message) }.to raise_error(javax.xml.ws.soap.SOAPFaultException) do |error|
-          expect(error.message).to match(/read timed out/i)
-        end
+        expect { subject.save_to_outbox(message) }.to raise_error(javax.xml.ws.soap.SOAPFaultException, /read timed out/i)
       end
     end
   end
