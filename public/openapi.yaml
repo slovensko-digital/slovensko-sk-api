@@ -355,8 +355,8 @@ components:
 
         - je zakodovaný algoritmom RS256,
         - je podpísaný privátnym kľúčom tretej strany,
-        - má nastavený `exp` claim na max. 60 minút,
-        - má nastavený `jti` claim na identifikátor, ktorý je unikátny počas 60 minút.
+        - má nastavený `exp` claim na max. 120 minút,
+        - má nastavený `jti` claim na identifikátor, ktorý je unikátny počas 120 minút.
 
         Príklad `header` segmentu:
 
@@ -387,7 +387,7 @@ components:
         - je podpísaný privátnym kľúčom tretej strany,
         - má nastavenú `cty` header na hodnotu `JWT`,
         - má nastavený `exp` claim na `exp` atribút OBO tokenu,
-        - má nastavený `jti` claim na identifikátor, ktorý je unikátny počas 60 minút,
+        - má nastavený `jti` claim na identifikátor, ktorý je unikátny počas 120 minút,
         - má nastavený `obo` claim na hodnotu OBO tokenu, ktorý je získaný po úspešnom prihlásení.
 
         Príklad `header` segmentu:
