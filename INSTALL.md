@@ -12,14 +12,14 @@ Pred prvým spustením je potrebné pripraviť si adresár, ktorý bude obsahova
 - [.env](doc/templates/.env) s doplnenými hodnotami premenných podľa potreby,
 - všetky súbory, na ktoré ukazujú premenné podľa upraveného `.env` súboru.
 
-Ak nepotrebujete automatickú synchronizáciau eForm formulárov, môžte z `docker-compose.yml` odstrániť služby `clock` a `worker`. 
+**Ak nepotrebujete automatickú synchronizáciau eForm formulárov**, môžete z `docker-compose.yml` odstrániť služby `clock` a `worker`. 
 
-Ak je podpora autentifikácie cez ÚPVS SSO vypnutá, niektoré premenné môžu byť vynechané, zoznam všetkých možných premenných: 
+**Ak je podpora autentifikácie cez ÚPVS SSO vypnutá**, niektoré premenné môžu byť vynechané, zoznam všetkých možných premenných: 
 
 Premenná | Popis | Príklad | Podpora ÚPVS SSO vypnutá
 --- | --- | --- | ---
 `RAILS_ENV` | Prostredie Rails aplikácie | štandardne `production` |
-`SECRET_KEY_BASE` | Kľúč pre zabezpečenie Rails aplikácie<sup>1</sup> | reťazec vygenerovaný napr. cez `rails secret` | 
+`SECRET_KEY_BASE` | Kľúč pre zabezpečenie Rails aplikácie<sup>1</sup> | reťazec vygenerovaný cez `rails secret` | 
 `LOGIN_CALLBACK_URLS` | Prefixy adries oddelené čiarkou, na ktoré može byť používateľ presmerovaný po úspešnom prihlásení | `http://localhost:3000` | Nepotrebná 
 `LOGOUT_CALLBACK_URLS` | Prefixy adries oddelené čiarkou, na ktoré može byť používateľ presmerovaný po úspešnom odhlásení | `http://localhost:3000` | Nepotrebná
 `API_TOKEN_PUBLIC_KEY_FILE` | Cesta k verejnému kľúču pre verifikáciu API tokenov<sup>2</sup> | `security/api-token.public.pem` |  
