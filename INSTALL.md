@@ -33,12 +33,12 @@ Premenná | Popis | Príklad | Podpora ÚPVS SSO vypnutá
 `UPVS_SP_KS_ALIAS` | Názov záznamu SP certifikátu v úložisku | `podaassp` | Nepotrebná
 `UPVS_SP_KS_PASSWORD` | Heslo k úložisku SP certifikátu | `password` | Nepotrebná
 `UPVS_SP_KS_PRIVATE_PASSWORD` | Heslo k SP privátnemu kľúču | `password` | Nepotrebná
-`UPVS_STS_KS_FILE` | Cesta k úložisku STS certifikátu<sup>4</sup> | `security/podaas-fix-sts.keystore` | Nepotrebná 
-`UPVS_STS_KS_ALIAS` | Názov záznamu STS certifikátu v úložisku | `podaassts` | Nepotrebná
-`UPVS_STS_KS_PASSWORD` | Heslo k úložisku STS certifikátu | `password` | Nepotrebná
-`UPVS_STS_KS_PRIVATE_PASSWORD` | Heslo k STS privátnemu kľúču | `password` | Nepotrebná
-`UPVS_TLS_TS_FILE` | Cesta k úložisku TLS certifikátov<sup>4</sup> | `upvs-fix.truststore` | Nepotrebná
-`UPVS_TLS_TS_PASSWORD` | Heslo k úložisku TLS certifikátov | `password` | Nepotrebná
+`UPVS_STS_KS_FILE` | Cesta k úložisku STS certifikátu<sup>4</sup> | `security/podaas-fix-sts.keystore` | 
+`UPVS_STS_KS_ALIAS` | Názov záznamu STS certifikátu v úložisku | `podaassts` |
+`UPVS_STS_KS_PASSWORD` | Heslo k úložisku STS certifikátu | `password` |
+`UPVS_STS_KS_PRIVATE_PASSWORD` | Heslo k STS privátnemu kľúču | `password` |
+`UPVS_TLS_TS_FILE` | Cesta k úložisku TLS certifikátov<sup>4</sup> | `upvs-fix.truststore` |
+`UPVS_TLS_TS_PASSWORD` | Heslo k úložisku TLS certifikátov | `password` |
 
 <sup>1</sup> Pozri [Securing Rails Applications](https://guides.rubyonrails.org/security.html) časť [Encrypted Session Storage](https://guides.rubyonrails.org/security.html#encrypted-session-storage).<br/>
 <sup>2</sup> Súbor vygenerovaný napr. pomocou `openssl genrsa -out api-token.private.pem 2048` a `openssl rsa -in api-token.private.pem -pubout -out api-token.public.pem`.<br/>
