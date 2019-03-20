@@ -19,26 +19,31 @@ Ak je podpora autentifikácie cez ÚPVS SSO vypnutá, niektoré premenné môžu
 Premenná | Popis | Hodnota | Podpora ÚPVS SSO vypnutá
 --- | --- | --- | ---
 `RAILS_ENV` | Prostredie Rails aplikácie | štandardne `production` |
-`SECRET_KEY_BASE` | Kľúč pre zabezpečenie Rails aplikácie, pozri [Securing Rails Applications](https://guides.rubyonrails.org/security.html) časť [Encrypted Session Storage](https://guides.rubyonrails.org/security.html#encrypted-session-storage) | reťazec vygenerovaný napr. pomocou `rails secret` | 
+`SECRET_KEY_BASE` | Kľúč pre zabezpečenie Rails aplikácie<sup>1</sup> | reťazec vygenerovaný napr. cez `rails secret` | 
 `LOGIN_CALLBACK_URLS` | Prefixy adries oddelené čiarkou, na ktoré može byť používateľ presmerovaný po úspešnom prihlásení | napr. `http://localhost:3000` | Nepotrebná 
 `LOGOUT_CALLBACK_URLS` | Prefixy adries oddelené čiarkou, na ktoré može byť používateľ presmerovaný po úspešnom odhlásení | napr. `http://localhost:3000` | Nepotrebná
-`API_TOKEN_PUBLIC_KEY_FILE` | Cesta k verejnému kľúču pre verifikáciu API tokenov, vygenerovanému napr. pomocou `openssl genrsa -out api-token.private.pem 2048` a `openssl rsa -in api-token.private.pem -pubout -out api-token.public.pem` | napr. `security/api-token.public.pem` |  
-`OBO_TOKEN_PRIVATE_KEY_FILE` | Cesta k privátnemu a verejnému kľúču pre generovanie a verifikáciu OBO tokenov, vygenerovaným napr. pomocou `openssl genrsa -out obo-token.private.pem 2048` | napr. `security/obo-token.public.pem` | Nepotrebná  
+`API_TOKEN_PUBLIC_KEY_FILE` | Cesta k verejnému kľúču pre verifikáciu API tokenov<sup>2</sup> | napr. `security/api-token.public.pem` |  
+`OBO_TOKEN_PRIVATE_KEY_FILE` | Cesta k privátnemu a verejnému kľúču pre generovanie a verifikáciu OBO tokenov<sup>3</sup> | Nepotrebná  
 `EFORM_SYNC` | Automatická synchronizácia eForm formulárov | `true` alebo `false` | 
 `UPVS_ENV` | Prostredie ÚPVS | `dev`, `fix` alebo `prod` |   
 `UPVS_SSO_SUPPORT` | Podpora autentifikácie cez ÚPVS SSO | `true` alebo `false` | 
-`UPVS_IDP_METADATA_FILE` | Cesta k IDP metadátam, pozri časť [*6. Zriadenie prístupov do FIX prostredia*](#6-zriadenie-prstupov-do-fix-prostredia) | napr. `security/upvs-fix-idp.metadata.xml` | Nepotrebná
-`UPVS_SP_METADATA_FILE` | Cesta k SP metadátam, pozri časť [*6. Zriadenie prístupov do FIX prostredia*](#6-zriadenie-prstupov-do-fix-prostredia) | napr. `security/podaas-fix-sp.metadata.xml` | Nepotrebná
-`UPVS_SP_KS_FILE` | Cesta k úložisku SP certifikátu, pozri časť [*6. Zriadenie prístupov do FIX prostredia*](#6-zriadenie-prstupov-do-fix-prostredia) | napr. `security/podaas-fix-sp.keystore` | Nepotrebná
+`UPVS_IDP_METADATA_FILE` | Cesta k IDP metadátam<sup>4</sup> | napr. `security/upvs-fix-idp.metadata.xml` | Nepotrebná
+`UPVS_SP_METADATA_FILE` | Cesta k SP metadátam<sup>4</sup> | napr. `security/podaas-fix-sp.metadata.xml` | Nepotrebná
+`UPVS_SP_KS_FILE` | Cesta k úložisku SP certifikátu<sup>4</sup> | napr. `security/podaas-fix-sp.keystore` | Nepotrebná
 `UPVS_SP_KS_ALIAS` | Názov záznamu SP certifikátu v úložisku | napr. `podaassp` | Nepotrebná
 `UPVS_SP_KS_PASSWORD` | Heslo k úložisku SP certifikátu | napr. `password` | Nepotrebná
 `UPVS_SP_KS_PRIVATE_PASSWORD` | Heslo k SP privátnemu kľúču | napr. `password` | Nepotrebná
-`UPVS_STS_KS_FILE` | Cesta k úložisku STS certifikátu, pozri časť [*6. Zriadenie prístupov do FIX prostredia*](#6-zriadenie-prstupov-do-fix-prostredia) | napr. `security/podaas-fix-sts.keystore` | Nepotrebná 
+`UPVS_STS_KS_FILE` | Cesta k úložisku STS certifikátu<sup>4</sup> | napr. `security/podaas-fix-sts.keystore` | Nepotrebná 
 `UPVS_STS_KS_ALIAS` | Názov záznamu STS certifikátu v úložisku | napr. `podaassts` | Nepotrebná
 `UPVS_STS_KS_PASSWORD` | Heslo k úložisku STS certifikátu | napr. `password` | Nepotrebná
 `UPVS_STS_KS_PRIVATE_PASSWORD` | Heslo k STS privátnemu kľúču | napr. `password` | Nepotrebná
-`UPVS_TLS_TS_FILE` | Cesta k úložisku TLS certifikátov, pozri časť [*6. Zriadenie prístupov do FIX prostredia*](#6-zriadenie-prstupov-do-fix-prostredia) | napr. `upvs-fix.truststore` | Nepotrebná
+`UPVS_TLS_TS_FILE` | Cesta k úložisku TLS certifikátov<sup>4</sup> | napr. `upvs-fix.truststore` | Nepotrebná
 `UPVS_TLS_TS_PASSWORD` | Heslo k úložisku TLS certifikátov | napr. `password` | Nepotrebná
+
+<sup>1</sup> Pozri [Securing Rails Applications](https://guides.rubyonrails.org/security.html) časť [Encrypted Session Storage](https://guides.rubyonrails.org/security.html#encrypted-session-storage).<br/>
+<sup>2</sup> Súbor vygenerovaný napr. pomocou `openssl genrsa -out api-token.private.pem 2048` a `openssl rsa -in api-token.private.pem -pubout -out api-token.public.pem`.<br/>
+<sup>3</sup> Súbor vygenerovaný napr. pomocou `openssl genrsa -out obo-token.private.pem 2048`.<br/>
+<sup>4</sup> Pozri časť [*6. Zriadenie prístupov do FIX prostredia*](#6-zriadenie-prstupov-do-fix-prostredia).
 
 Ďalej je potrebné inicializovať databázu cez:
 
