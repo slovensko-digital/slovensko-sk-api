@@ -101,11 +101,11 @@ RSpec.describe 'UPVS SAML Authentication' do
       end
 
       context 'with Success response' do
+        before(:example) { travel_to '2018-11-28T20:26:16Z' }
+
         let(:idp_response) { file_fixture('oam/sso_response_success.base64').read.strip }
 
         before(:example) { mock_idp_response(idp_response) }
-
-        before(:example) { travel_to '2018-11-28T20:26:16Z' }
 
         after(:example) { travel_back }
 
@@ -179,11 +179,11 @@ RSpec.describe 'UPVS SAML Authentication' do
       end
 
       context 'SP initiation' do
-        let(:token) { api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read) }
+        before(:example) { travel_to '2018-11-28T20:26:16Z' }
+
+        let!(:token) { api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read) }
 
         let(:callback) { 'https://example.com/logout-callback?user=14' }
-
-        before(:example) { travel_to '2018-11-28T20:26:16Z' }
 
         after(:example) { travel_back }
 
@@ -277,7 +277,9 @@ RSpec.describe 'UPVS SAML Authentication' do
         end
 
         it 'responds with 401 if authenticating via expired token' do
-          get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + travel_to(1.hour.ago) { token }}, params: { callback: callback }
+          travel_to Time.now + 20.minutes
+
+          get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }, params: { callback: callback }
 
           expect(response.status).to eq(401)
           expect(response.body).to eq({ message: 'Bad credentials' }.to_json)

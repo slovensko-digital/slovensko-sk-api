@@ -1,11 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe 'eForm API' do
-  let(:token) { api_token_with_ta_key }
+  before(:example) { travel_to '2018-11-28T20:26:16Z' }
 
-  before(:example) do
-    allow(UpvsProxy).to receive(:new).and_wrap_original { double }
-  end
+  let!(:token) { api_token_with_ta_key }
+
+  before(:example) { allow(UpvsProxy).to receive(:new).and_wrap_original { double } }
+
+  after(:example) { travel_back }
 
   describe 'GET /api/eform/status' do
     before(:example) do
@@ -68,7 +70,9 @@ RSpec.describe 'eForm API' do
     end
 
     it 'responds with 401 if authenticating via expired token' do
-      get '/api/eform/status', headers: { 'Authorization' => 'Bearer ' + travel_to(1.hour.ago) { token }}, params: { identifier: 'App.GeneralAgenda', version: '1.9' }
+      travel_to Time.now + 20.minutes
+
+      get '/api/eform/status', headers: { 'Authorization' => 'Bearer ' + token }, params: { identifier: 'App.GeneralAgenda', version: '1.9' }
 
       expect(response.status).to eq(401)
       expect(response.body).to eq({ message: 'Bad credentials' }.to_json)
@@ -224,7 +228,9 @@ RSpec.describe 'eForm API' do
     end
 
     it 'responds with 401 if authenticating via expired token' do
-      post '/api/eform/validate', headers: { 'Authorization' => 'Bearer ' + travel_to(1.hour.ago) { token }}, params: { identifier: 'App.GeneralAgenda', version: '1.9', data: general_agenda }
+      travel_to Time.now + 20.minutes
+
+      post '/api/eform/validate', headers: { 'Authorization' => 'Bearer ' + token }, params: { identifier: 'App.GeneralAgenda', version: '1.9', data: general_agenda }
 
       expect(response.status).to eq(401)
       expect(response.body).to eq({ message: 'Bad credentials' }.to_json)
