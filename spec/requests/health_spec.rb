@@ -6,11 +6,16 @@ RSpec.describe 'Health Check' do
   end
 
   before(:example) do
+    allow(KeyStore).to receive(:new).with(any_args).and_return(keystore = double)
+    allow(keystore).to receive_message_chain(:certificate, :not_after, :to_s).and_return(1.year.from_now.to_s)
+  end
+
+  before(:example) do
     allow(UpvsEnvironment).to receive_message_chain(:eform_service, :fetch_xsd_schema)
     allow(UpvsEnvironment).to receive_message_chain(:upvs_proxy, :sktalk)
   end
 
-  context 'with UPVS SSO support', :upvs, sso: true do
+  context 'with UPVS SSO support', sso: true do
     describe 'GET /health' do
       it 'checks health' do
         get '/health'
