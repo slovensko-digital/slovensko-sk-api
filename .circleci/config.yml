@@ -36,4 +36,5 @@ jobs:
       - run: mv .circleci/database.yml config/database.yml
       - run: bundle exec rake db:create db:schema:load --trace
 
-      - run: bundle exec rspec --tag ~upvs
+      - run: cp doc/templates/.env .env.test
+      - run: bundle exec rspec -t ~upvs
