@@ -13,7 +13,7 @@ module Environment
     @api_token_authenticator ||= ApiTokenAuthenticator.new(
       identifier_store: api_token_identifier_store,
       public_key: OpenSSL::PKey::RSA.new(File.read(ENV.fetch('API_TOKEN_PUBLIC_KEY_FILE'))),
-      obo_token_authenticator: UpvsEnvironment.sso_support? ? obo_token_authenticator : nil,
+      obo_token_authenticator: obo_token_authenticator,
     )
   end
 
@@ -29,7 +29,7 @@ module Environment
     @obo_token_authenticator ||= OboTokenAuthenticator.new(
       assertion_store: obo_token_assertion_store,
       key_pair: OpenSSL::PKey::RSA.new(File.read(ENV.fetch('OBO_TOKEN_PRIVATE_KEY_FILE')))
-    )
+    ) if UpvsEnvironment.sso_support?
   end
 
   def obo_token_assertion_store
@@ -37,7 +37,7 @@ module Environment
       namespace: 'obo-token-assertions',
       error_handler: REDIS_CONNECTION_ENFORCER,
       compress: true,
-    )
+    ) if UpvsEnvironment.sso_support?
   end
 
   # RedisCacheStore ignores standard errors
