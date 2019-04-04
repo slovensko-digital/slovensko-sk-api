@@ -12,9 +12,9 @@ Pred prvým spustením je potrebné pripraviť si adresár, ktorý bude obsahova
 - [.env](doc/templates/.env) s doplnenými hodnotami premenných podľa potreby,
 - všetky súbory, na ktoré ukazujú premenné podľa upraveného `.env` súboru.
 
-**Ak nepotrebujete automatickú synchronizáciau eForm formulárov**, môžete z `docker-compose.yml` odstrániť služby `clock` a `worker`. 
+**Ak nepotrebujete automatickú synchronizáciau eForm formulárov**, môžete z `docker-compose.yml` odstrániť služby `clock` a `worker` tak, ako je to v tomto [docker-compose.yml](doc/templates/docker-compose.without-eform-sync.yml) súbore. 
 
-**Ak je podpora autentifikácie cez ÚPVS SSO vypnutá**, niektoré premenné môžu byť vynechané, zoznam všetkých možných premenných: 
+**Ak je podpora autentifikácie cez ÚPVS SSO vypnutá**, niektoré premenné môžu byť z `.env` vynechané tak, ako je to v tomto [.env](doc/templates/.env.without-upvs-sso-support) súbore. Zoznam všetkých možných premenných: 
 
 Premenná | Popis | Príklad | Podpora ÚPVS SSO vypnutá
 --- | --- | --- | ---
@@ -48,6 +48,18 @@ Premenná | Popis | Príklad | Podpora ÚPVS SSO vypnutá
 Ďalej je potrebné inicializovať databázu cez:
 
     docker-compose run web rails db:create db:migrate
+
+Následne je vhodné vykonať testy pomocou:
+
+- ak je podpora ÚPVS SSO zapnutá:
+
+      docker-compose run web rspec 
+
+- ak je podpora ÚPVS SSO vypnutá:
+
+      docker-compose run web rspec -t ~sso:true
+
+- pričom pridanie `-t ~upvs` vynechá testy, ktoré používajú živé spojenie s ÚPVS DEV prostredím.
  
 Potom je možné spustiť komponent:
 
@@ -234,5 +246,7 @@ Vytvorte `podaas-prod-sp.metadata.xml` zo súboru [podaas-sp.metadata.xml](doc/t
 TODO
 
 ### 9. Vykonanie akceptačného testovania (UAT) v PROD prostredí
+
+Pozn. nutné len v prípade, že používate ÚPVS SSO.
 
 TODO
