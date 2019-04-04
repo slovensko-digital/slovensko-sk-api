@@ -1,28 +1,60 @@
 require 'rails_helper'
 
-# TODO enable health checks on CI
-RSpec.describe 'Health Check', :upvs do
-  describe 'GET /health' do
-    before(:example) { stub_const('ENV', ENV.to_hash.merge('SECRET_KEY_BASE' => SecureRandom.hex)) }
+RSpec.describe 'Health Check' do
+  before(:example) do
+    stub_const('ENV', ENV.to_hash.merge('SECRET_KEY_BASE' => SecureRandom.hex))
+  end
 
-    it 'checks health' do
-      get '/health'
+  before(:example) do
+    allow(UpvsEnvironment).to receive_message_chain(:eform_service, :fetch_xsd_schema)
+    allow(UpvsEnvironment).to receive_message_chain(:upvs_proxy, :sktalk)
+  end
 
-      expect(response.status).to eq(200)
-      expect(response.body).to eq({ status: 'pass' }.to_json)
+  context 'with UPVS SSO support', :upvs, sso: true do
+    describe 'GET /health' do
+      it 'checks health' do
+        get '/health'
 
-      expect(response.content_type).to eq('application/json')
-      expect(response.charset).to eq('utf-8')
+        expect(response.status).to eq(200)
+        expect(response.body).to eq({ status: 'pass' }.to_json)
+
+        expect(response.content_type).to eq('application/json')
+        expect(response.charset).to eq('utf-8')
+      end
+
+      pending
     end
 
-    pending
+    describe 'GET /health?check=heartbeats' do
+      pending
+    end
+
+    describe 'GET /health?check=upvs' do
+      pending
+    end
   end
 
-  describe 'GET /health?check=heartbeats' do
-    pending
-  end
+  context 'without UPVS SSO support', sso: false do
+    describe 'GET /health' do
+      it 'checks health' do
+        get '/health'
 
-  describe 'GET /health?check=upvs' do
-    pending
+        expect(response.status).to eq(200)
+        expect(response.body).to eq({ status: 'pass' }.to_json)
+
+        expect(response.content_type).to eq('application/json')
+        expect(response.charset).to eq('utf-8')
+      end
+
+      pending
+    end
+
+    describe 'GET /health?check=heartbeats' do
+      pending
+    end
+
+    describe 'GET /health?check=upvs' do
+      pending
+    end
   end
 end

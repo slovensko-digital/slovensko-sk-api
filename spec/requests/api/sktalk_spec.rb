@@ -1,16 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe 'SKTalk API' do
-  let!(:token) { api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read, scopes: ['sktalk/receive', 'sktalk/receive_and_save_to_outbox']) }
-  let!(:message) { file_fixture('sktalk/egov_application_general_agenda.xml').read }
+  let(:token) { api_token_with_ta_key }
+  let(:message) { file_fixture('sktalk/egov_application_general_agenda.xml').read }
 
   before(:example) do
     allow(UpvsProxy).to receive(:new).and_wrap_original { double }
   end
-
-  before(:example) { travel_to '2018-11-28T20:26:16Z' }
-
-  after(:example) { travel_back }
 
   describe 'POST /api/sktalk/receive' do
     before(:example) do
@@ -53,7 +49,7 @@ RSpec.describe 'SKTalk API' do
       expect(response.status).to eq(200)
     end
 
-    it 'allows authentication via tokens with OBO token' do
+    it 'allows authentication via tokens with OBO token', :sso do
       post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read, scopes: ['sktalk/receive']) }, params: { message: message }
 
       expect(response.status).to eq(200)
@@ -83,9 +79,7 @@ RSpec.describe 'SKTalk API' do
     end
 
     it 'responds with 401 if authenticating via expired token' do
-      travel_to Time.now + 20.minutes
-
-      post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: message }
+      post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + travel_to(1.hour.ago) { token }}, params: { message: message }
 
       expect(response.status).to eq(401)
       expect(response.body).to eq({ message: 'Bad credentials' }.to_json)
@@ -124,7 +118,7 @@ RSpec.describe 'SKTalk API' do
         end
       end
 
-      it 'retrieves OBO proxy object when authenticating via token with OBO token' do
+      it 'retrieves OBO proxy object when authenticating via token with OBO token', :sso do
         expect(UpvsEnvironment).to receive(:upvs_proxy).with(assertion: assertion).and_call_original.at_least(:once)
         expect(UpvsProxy).to receive(:new).with(hash_including('upvs.sts.saml.assertion' => assertion)).and_return(double).once
 
@@ -179,7 +173,7 @@ RSpec.describe 'SKTalk API' do
       expect(response.status).to eq(200)
     end
 
-    it 'allows authentication via tokens with OBO token' do
+    it 'allows authentication via tokens with OBO token', :sso do
       post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read, scopes: ['sktalk/receive_and_save_to_outbox']) }, params: { message: message }
 
       expect(response.status).to eq(200)
@@ -209,9 +203,7 @@ RSpec.describe 'SKTalk API' do
     end
 
     it 'responds with 401 if authenticating via expired token' do
-      travel_to Time.now + 20.minutes
-
-      post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: message }
+      post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + travel_to(1.hour.ago) { token }}, params: { message: message }
 
       expect(response.status).to eq(401)
       expect(response.body).to eq({ message: 'Bad credentials' }.to_json)
@@ -250,7 +242,7 @@ RSpec.describe 'SKTalk API' do
         end
       end
 
-      it 'retrieves OBO proxy object when authenticating via token with OBO token' do
+      it 'retrieves OBO proxy object when authenticating via token with OBO token', :sso do
         expect(UpvsEnvironment).to receive(:upvs_proxy).with(assertion: assertion).and_call_original.at_least(:once)
         expect(UpvsProxy).to receive(:new).with(hash_including('upvs.sts.saml.assertion' => assertion)).and_return(double).once
 

@@ -16,8 +16,7 @@ module AuthenticityTokens
 
   def obo_token_from_response(response, scopes: [])
     response = OneLogin::RubySaml::Response.new(response) unless response.is_a?(OneLogin::RubySaml::Response)
-    generate = -> { Environment.obo_token_authenticator.generate_token(response, scopes: scopes) }
-    Time.now == response.not_before ? generate.call : travel_to(response.not_before, &generate)
+    Environment.obo_token_authenticator.generate_token(response, scopes: scopes)
   end
 end
 
@@ -26,11 +25,11 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     File.write(ENV['API_TOKEN_PUBLIC_KEY_FILE'], AuthenticityTokens.api_token_key_pair.public_key.to_s)
-    File.write(ENV['OBO_TOKEN_PRIVATE_KEY_FILE'], AuthenticityTokens.obo_token_key_pair.to_s)
+    File.write(ENV['OBO_TOKEN_PRIVATE_KEY_FILE'], AuthenticityTokens.obo_token_key_pair.to_s) if UpvsEnvironment.sso_support?
   end
 
   config.after(:suite) do
     File.delete(ENV['API_TOKEN_PUBLIC_KEY_FILE'])
-    File.delete(ENV['OBO_TOKEN_PRIVATE_KEY_FILE'])
+    File.delete(ENV['OBO_TOKEN_PRIVATE_KEY_FILE']) if UpvsEnvironment.sso_support?
   end
 end

@@ -7,9 +7,6 @@ RSpec.describe ApiTokenAuthenticator do
   let(:public_key) { key_pair.public_key }
   let(:obo_token_authenticator) { Environment.obo_token_authenticator }
 
-  let(:response) { OneLogin::RubySaml::Response.new(file_fixture('oam/sso_response_success.xml').read) }
-  let(:assertion) { file_fixture('oam/sso_response_success_assertion.xml').read.strip }
-
   subject { described_class.new(identifier_store: identifier_store, public_key: public_key, obo_token_authenticator: obo_token_authenticator) }
 
   before(:example) { identifier_store.clear }
@@ -101,9 +98,21 @@ RSpec.describe ApiTokenAuthenticator do
       expect { subject.verify_token(token, allow_ta: true) }.to raise_error(JWT::InvalidJtiError)
     end
 
-    context 'with OBO token support' do
+    context 'with OBO token support', sso: true do
+      def generate_obo_token(exp: 1543437976, nbf: 1543436776, iat: 1543436776.0, jti: SecureRandom.uuid, header: {}, **payload)
+        payload.merge!(exp: exp, nbf: nbf, iat: iat, jti: jti)
+        obo_token_assertion_store.write(jti, assertion)
+        JWT.encode(payload.compact, obo_token_key_pair, 'RS256', header)
+      end
+
+      let(:obo_token_assertion_store) { Environment.obo_token_assertion_store }
+
+      let(:assertion) { file_fixture('oam/sso_response_success_assertion.xml').read.strip }
+
+      before(:example) { obo_token_assertion_store.clear }
+
       it 'returns assertion for tokens with OBO token' do
-        obo_token = obo_token_authenticator.generate_token(response)
+        obo_token = generate_obo_token
 
         expect(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: nil).and_call_original
 
@@ -113,7 +122,7 @@ RSpec.describe ApiTokenAuthenticator do
       end
 
       it 'verifies CTY header presence' do
-        obo_token = obo_token_authenticator.generate_token(response)
+        obo_token = generate_obo_token
 
         allow(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: nil).and_call_original
 
@@ -123,7 +132,7 @@ RSpec.describe ApiTokenAuthenticator do
       end
 
       it 'verifies CTY header value' do
-        obo_token = obo_token_authenticator.generate_token(response)
+        obo_token = generate_obo_token
 
         allow(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: nil).and_call_original
 
@@ -163,7 +172,7 @@ RSpec.describe ApiTokenAuthenticator do
       end
 
       it 'verifies OBO token scope' do
-        obo_token = obo_token_authenticator.generate_token(response, scopes: [])
+        obo_token = generate_obo_token(scopes: [])
 
         expect(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: 'sktalk/receive').and_call_original
 
@@ -171,163 +180,271 @@ RSpec.describe ApiTokenAuthenticator do
 
         expect { subject.verify_token(token, allow_obo: true, require_obo_scope: 'sktalk/receive') }.to raise_error(JWT::VerificationError)
       end
+
+      context 'token kind constraints' do
+        let(:token_with_ta_key) { generate_token }
+        let(:token_with_obo_token) { generate_token(obo: generate_obo_token, header: { cty: 'JWT' }) }
+
+        context 'allow both token kinds' do
+          it 'returns nothing for tokens with TA key' do
+            expect(subject.verify_token(token_with_ta_key, allow_ta: true, allow_obo: true)).to eq(nil)
+          end
+
+          it 'returns assertion for tokens with OBO token' do
+            expect(subject.verify_token(token_with_obo_token, allow_ta: true, allow_obo: true)).to eq(assertion)
+          end
+        end
+
+        context 'allow only tokens with TA key' do
+          it 'returns nothing for tokens with TA key' do
+            expect(subject.verify_token(token_with_ta_key, allow_ta: true, allow_obo: false)).to eq(nil)
+          end
+
+          it 'raises error for tokens with OBO token' do
+            expect { subject.verify_token(token_with_obo_token, allow_ta: true, allow_obo: false) }.to raise_error(JWT::InvalidPayload)
+          end
+        end
+
+        context 'allow only tokens with OBO token' do
+          it 'raises error for tokens with TA key' do
+            expect { subject.verify_token(token_with_ta_key, allow_ta: false, allow_obo: true) }.to raise_error(JWT::InvalidPayload)
+          end
+
+          it 'returns assertion for tokens with OBO token' do
+            expect(subject.verify_token(token_with_obo_token, allow_ta: false, allow_obo: true)).to eq(assertion)
+          end
+        end
+
+        context 'disallow both token kinds' do
+          it 'raises error for tokens with TA key' do
+            expect { subject.verify_token(token_with_ta_key, allow_ta: false, allow_obo: false) }.to raise_error(ArgumentError)
+          end
+
+          it 'raises error for tokens with OBO token' do
+            expect { subject.verify_token(token_with_obo_token, allow_ta: false, allow_obo: false) }.to raise_error(ArgumentError)
+          end
+        end
+      end
+
+      context 'token scope constraints' do
+        it 'ignores OBO token scope for tokens with TA key' do
+          token = generate_token
+
+          expect { subject.verify_token(token, allow_ta: true, allow_obo: true, require_obo_scope: 'sktalk/receive') }.not_to raise_error
+        end
+
+        it 'verifies OBO token scope for tokens with OBO token' do
+          token = generate_token(obo: generate_obo_token(scopes: ['sktalk/receive']), header: { cty: 'JWT' })
+
+          expect { subject.verify_token(token, allow_obo: true, require_obo_scope: 'sktalk/receive') }.not_to raise_error
+        end
+
+        it 'raises error if OBO token scope is required but does not match given OBO token scope' do
+          token = generate_token(obo: generate_obo_token(scopes: []), header: { cty: 'JWT' })
+
+          expect { subject.verify_token(token, allow_obo: true, require_obo_scope: 'sktalk/receive') }.to raise_error(JWT::VerificationError)
+        end
+
+        it 'raises error if OBO token scope is required but tokens with OBO token are not verifiable' do
+          token = generate_token(obo: generate_obo_token(scopes: ['sktalk/receive']), header: { cty: 'JWT' })
+
+          expect { subject.verify_token(token, allow_obo: false, require_obo_scope: 'sktalk/receive') }.to raise_error(ArgumentError)
+        end
+      end
+
+      context 'token replay attacks' do
+        REPLAY_EPSILON = 15.minutes
+        REPLAY_DELTA = described_class::MAX_EXP_IN - REPLAY_EPSILON
+
+        it 'can not verify the same token twice in the first 20 minutes' do
+          o1 = generate_obo_token
+          t1 = generate_token(obo: o1, header: { cty: 'JWT' })
+
+          subject.verify_token(t1, allow_obo: true)
+
+          travel_to Time.now + 20.minutes - 0.1.seconds
+
+          expect { subject.verify_token(t1, allow_obo: true) }.to raise_error(JWT::InvalidJtiError)
+        end
+
+        it 'can not verify the same token again on or after 20 minutes' do
+          o1 = generate_obo_token
+          t1 = generate_token(obo: o1, header: { cty: 'JWT' })
+
+          subject.verify_token(t1, allow_obo: true)
+
+          travel_to Time.now + 20.minutes
+
+          expect { subject.verify_token(t1, allow_obo: true) }.to raise_error(JWT::ExpiredSignature)
+        end
+
+        it 'can not verify another token with the same JTI in the first 120 minutes' do
+          jti = SecureRandom.uuid
+
+          o1 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
+          t1 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o1, header: { cty: 'JWT' })
+
+          subject.verify_token(t1, allow_obo: true)
+
+          travel_to Time.now + REPLAY_DELTA
+
+          o2 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
+          t2 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o2, header: { cty: 'JWT' })
+
+          travel_to Time.now + REPLAY_EPSILON - 0.1.seconds
+
+          expect(identifier_store).to receive(:write).with(any_args).and_call_original
+
+          expect { subject.verify_token(t2, allow_obo: true) }.to raise_error(JWT::InvalidJtiError)
+        end
+
+        it 'can verify another token with the same JTI again on or after 120 minutes' do
+          jti = SecureRandom.uuid
+
+          o1 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
+          t1 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o1, header: { cty: 'JWT' })
+
+          subject.verify_token(t1, allow_obo: true)
+
+          travel_to Time.now + REPLAY_DELTA
+
+          o2 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
+          t2 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o2, header: { cty: 'JWT' })
+
+          travel_to Time.now + REPLAY_EPSILON
+
+          expect(identifier_store).to receive(:write).with(any_args).and_return(true)
+
+          expect { subject.verify_token(t2, allow_obo: true) }.not_to raise_error
+        end
+      end
     end
 
-    context 'without OBO token support' do
-      let(:obo_token_authenticator) { nil }
-
+    context 'without OBO token support', sso: false do
       it 'raises error for tokens with OBO token' do
         token = generate_token(obo: double, header: { cty: 'JWT' })
 
         expect { subject.verify_token(token, allow_obo: true) }.to raise_error(JWT::DecodeError)
       end
-    end
 
-    context 'token kind constraints' do
-      let(:token_with_ta_key) { generate_token }
-      let(:token_with_obo_token) { generate_token(obo: obo_token_authenticator.generate_token(response), header: { cty: 'JWT' }) }
+      context 'token kind constraints' do
+        let(:token_with_ta_key) { generate_token }
+        let(:token_with_obo_token) { generate_token(obo: double, header: { cty: 'JWT' }) }
 
-      context 'allow both token kinds' do
-        it 'returns nothing for tokens with TA key' do
-          expect(subject.verify_token(token_with_ta_key, allow_ta: true, allow_obo: true)).to eq(nil)
+        context 'allow both token kinds' do
+          it 'returns nothing for tokens with TA key' do
+            expect(subject.verify_token(token_with_ta_key, allow_ta: true, allow_obo: true)).to eq(nil)
+          end
+
+          it 'raises error for tokens with OBO token' do
+            expect { subject.verify_token(token_with_obo_token, allow_ta: true, allow_obo: true) }.to raise_error(JWT::DecodeError)
+          end
         end
 
-        it 'returns assertion for tokens with OBO token' do
-          expect(subject.verify_token(token_with_obo_token, allow_ta: true, allow_obo: true)).to eq(assertion)
+        context 'allow only tokens with TA key' do
+          it 'returns nothing for tokens with TA key' do
+            expect(subject.verify_token(token_with_ta_key, allow_ta: true, allow_obo: false)).to eq(nil)
+          end
+
+          it 'raises error for tokens with OBO token' do
+            expect { subject.verify_token(token_with_obo_token, allow_ta: true, allow_obo: false) }.to raise_error(JWT::DecodeError)
+          end
+        end
+
+        context 'allow only tokens with OBO token' do
+          it 'raises error for tokens with TA key' do
+            expect { subject.verify_token(token_with_ta_key, allow_ta: false, allow_obo: true) }.to raise_error(JWT::InvalidPayload)
+          end
+
+          it 'raises error for tokens with OBO token' do
+            expect { subject.verify_token(token_with_obo_token, allow_ta: false, allow_obo: true) }.to raise_error(JWT::DecodeError)
+          end
+        end
+
+        context 'disallow both token kinds' do
+          it 'raises error for tokens with TA key' do
+            expect { subject.verify_token(token_with_ta_key, allow_ta: false, allow_obo: false) }.to raise_error(ArgumentError)
+          end
+
+          it 'raises error for tokens with OBO token' do
+            expect { subject.verify_token(token_with_obo_token, allow_ta: false, allow_obo: false) }.to raise_error(ArgumentError)
+          end
         end
       end
 
-      context 'allow only tokens with TA key' do
-        it 'returns nothing for tokens with TA key' do
-          expect(subject.verify_token(token_with_ta_key, allow_ta: true, allow_obo: false)).to eq(nil)
+      context 'token scope constraints' do
+        it 'ignores OBO token scope for tokens with TA key' do
+          token = generate_token
+
+          expect { subject.verify_token(token, allow_ta: true, allow_obo: true, require_obo_scope: 'sktalk/receive') }.not_to raise_error
         end
 
         it 'raises error for tokens with OBO token' do
-          expect { subject.verify_token(token_with_obo_token, allow_ta: true, allow_obo: false) }.to raise_error(JWT::InvalidPayload)
+          token = generate_token(obo: double, header: { cty: 'JWT' })
+
+          expect { subject.verify_token(token, allow_obo: true, require_obo_scope: 'sktalk/receive') }.to raise_error(JWT::DecodeError)
         end
       end
 
-      context 'allow only tokens with OBO token' do
-        it 'raises error for tokens with TA key' do
-          expect { subject.verify_token(token_with_ta_key, allow_ta: false, allow_obo: true) }.to raise_error(JWT::InvalidPayload)
+      context 'token replay attacks' do
+        REPLAY_EPSILON = 15.minutes
+        REPLAY_DELTA = described_class::MAX_EXP_IN - REPLAY_EPSILON
+
+        it 'can not verify the same token twice in the first 20 minutes' do
+          t1 = generate_token
+
+          subject.verify_token(t1, allow_ta: true)
+
+          travel_to Time.now + 20.minutes - 0.1.seconds
+
+          expect { subject.verify_token(t1, allow_ta: true) }.to raise_error(JWT::InvalidJtiError)
         end
 
-        it 'returns assertion for tokens with OBO token' do
-          expect(subject.verify_token(token_with_obo_token, allow_ta: false, allow_obo: true)).to eq(assertion)
+        it 'can not verify the same token again on or after 20 minutes' do
+          t1 = generate_token
+
+          subject.verify_token(t1, allow_ta: true)
+
+          travel_to Time.now + 20.minutes
+
+          expect { subject.verify_token(t1, allow_ta: true) }.to raise_error(JWT::ExpiredSignature)
         end
-      end
 
-      context 'disallow both token kinds' do
-        it 'raises error for tokens with TA key' do
-          expect { subject.verify_token(token_with_ta_key, allow_ta: false, allow_obo: false) }.to raise_error(ArgumentError)
+        it 'can not verify another token with the same JTI in the first 120 minutes' do
+          jti = SecureRandom.uuid
+
+          t1 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti)
+
+          subject.verify_token(t1, allow_ta: true)
+
+          travel_to Time.now + REPLAY_DELTA
+
+          t2 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti)
+
+          travel_to Time.now + REPLAY_EPSILON - 0.1.seconds
+
+          expect(identifier_store).to receive(:write).with(any_args).and_call_original
+
+          expect { subject.verify_token(t2, allow_ta: true) }.to raise_error(JWT::InvalidJtiError)
         end
 
-        it 'raises error for tokens with OBO token' do
-          expect { subject.verify_token(token_with_obo_token, allow_ta: false, allow_obo: false) }.to raise_error(ArgumentError)
+        it 'can verify another token with the same JTI again on or after 120 minutes' do
+          jti = SecureRandom.uuid
+
+          t1 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti)
+
+          subject.verify_token(t1, allow_ta: true)
+
+          travel_to Time.now + REPLAY_DELTA
+
+          t2 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti)
+
+          travel_to Time.now + REPLAY_EPSILON
+
+          expect(identifier_store).to receive(:write).with(any_args).and_return(true)
+
+          expect { subject.verify_token(t2, allow_ta: true) }.not_to raise_error
         end
-      end
-    end
-
-    context 'token scope constraints' do
-      it 'ignores OBO token scope for tokens with TA key' do
-        token = generate_token
-
-        expect { subject.verify_token(token, allow_ta: true, allow_obo: true, require_obo_scope: 'sktalk/receive') }.not_to raise_error
-      end
-
-      it 'verifies OBO token scope for tokens with OBO token' do
-        token = generate_token(obo: obo_token_authenticator.generate_token(response, scopes: ['sktalk/receive']), header: { cty: 'JWT' })
-
-        expect { subject.verify_token(token, allow_obo: true, require_obo_scope: 'sktalk/receive') }.not_to raise_error
-      end
-
-      it 'raises error if OBO token scope is required but does not match given OBO token scope' do
-        token = generate_token(obo: obo_token_authenticator.generate_token(response, scopes: []), header: { cty: 'JWT' })
-
-        expect { subject.verify_token(token, allow_obo: true, require_obo_scope: 'sktalk/receive') }.to raise_error(JWT::VerificationError)
-      end
-
-      it 'raises error if OBO token scope is required but tokens with OBO token are not verifiable' do
-        token = generate_token(obo: obo_token_authenticator.generate_token(response, scopes: ['sktalk/receive']), header: { cty: 'JWT' })
-
-        expect { subject.verify_token(token, allow_obo: false, require_obo_scope: 'sktalk/receive') }.to raise_error(ArgumentError)
-      end
-    end
-
-    context 'token replay attacks' do
-      REPLAY_EPSILON = 15.minutes
-      REPLAY_DELTA = described_class::MAX_EXP_IN - REPLAY_EPSILON
-
-      let(:obo_token_assertion_store) { Environment.obo_token_assertion_store }
-
-      before(:example) { obo_token_assertion_store.clear }
-
-      def generate_obo_token(exp: 1543437976, nbf: 1543436776)
-        payload = { exp: exp, nbf: nbf, iat: nbf.to_f, jti: SecureRandom.uuid }
-        obo_token_assertion_store.write(payload[:jti], assertion)
-        JWT.encode(payload.compact, obo_token_key_pair, 'RS256')
-      end
-
-      it 'can not verify the same token twice in the first 20 minutes' do
-        o1 = generate_obo_token
-        t1 = generate_token(obo: o1, header: { cty: 'JWT' })
-
-        subject.verify_token(t1, allow_obo: true)
-
-        travel_to Time.now + 20.minutes - 0.1.seconds
-
-        expect { subject.verify_token(t1, allow_obo: true) }.to raise_error(JWT::InvalidJtiError)
-      end
-
-      it 'can not verify the same token again on or after 20 minutes' do
-        o1 = generate_obo_token
-        t1 = generate_token(obo: o1, header: { cty: 'JWT' })
-
-        subject.verify_token(t1, allow_obo: true)
-
-        travel_to Time.now + 20.minutes
-
-        expect { subject.verify_token(t1, allow_obo: true) }.to raise_error(JWT::ExpiredSignature)
-      end
-
-      it 'can not verify another token with the same JTI in the first 120 minutes' do
-        jti = SecureRandom.uuid
-
-        o1 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
-        t1 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o1, header: { cty: 'JWT' })
-
-        subject.verify_token(t1, allow_obo: true)
-
-        travel_to Time.now + REPLAY_DELTA
-
-        o2 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
-        t2 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o2, header: { cty: 'JWT' })
-
-        travel_to Time.now + REPLAY_EPSILON - 0.1.seconds
-
-        expect(identifier_store).to receive(:write).with(any_args).and_call_original
-
-        expect { subject.verify_token(t2, allow_obo: true) }.to raise_error(JWT::InvalidJtiError)
-      end
-
-      it 'can verify another token with the same JTI again on or after 120 minutes' do
-        jti = SecureRandom.uuid
-
-        o1 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
-        t1 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o1, header: { cty: 'JWT' })
-
-        subject.verify_token(t1, allow_obo: true)
-
-        travel_to Time.now + REPLAY_DELTA
-
-        o2 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
-        t2 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti, obo: o2, header: { cty: 'JWT' })
-
-        travel_to Time.now + REPLAY_EPSILON
-
-        expect(identifier_store).to receive(:write).with(any_args).and_return(true)
-
-        expect { subject.verify_token(t2, allow_obo: true) }.not_to raise_error
       end
     end
 

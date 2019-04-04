@@ -17,7 +17,7 @@ RSpec.describe OboTokenAuthenticator do
 
   after(:example) { travel_back }
 
-  describe '#generate_token' do
+  describe '#generate_token', :sso do
     it 'returns token' do
       token = subject.generate_token(response, scopes: ['sktalk:receive'])
 
@@ -150,7 +150,7 @@ RSpec.describe OboTokenAuthenticator do
     end
   end
 
-  describe '#invalidate_token' do
+  describe '#invalidate_token', :sso do
     let(:token) { subject.generate_token(response) }
 
     it 'returns true' do
@@ -196,7 +196,7 @@ RSpec.describe OboTokenAuthenticator do
     end
   end
 
-  describe '#verify_token' do
+  describe '#verify_token', :sso do
     def generate_token(sub: 'rc://sk/8314451337_tisici_janko', exp: 1543437976, nbf: 1543436776, iat: 1543436776.0, jti: SecureRandom.uuid, header: {}, **payload)
       payload.merge!(sub: sub, exp: exp, nbf: nbf, iat: iat, jti: jti)
       assertion_store.write(jti, assertion) if jti
