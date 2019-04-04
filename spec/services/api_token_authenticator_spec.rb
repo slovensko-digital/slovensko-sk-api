@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe ApiTokenAuthenticator do
+  REPLAY_EPSILON = 15.minutes
+  REPLAY_DELTA = described_class::MAX_EXP_IN - REPLAY_EPSILON
+
   let(:key_pair) { OpenSSL::PKey::RSA.new(2048) }
 
   let(:identifier_store) { Environment.api_token_identifier_store }
@@ -99,7 +102,7 @@ RSpec.describe ApiTokenAuthenticator do
     end
 
     context 'with OBO token support', sso: true do
-      def generate_obo_token(exp: 1543437976, nbf: 1543436776, iat: 1543436776.0, jti: SecureRandom.uuid, header: {}, **payload)
+      def generate_obo_token(exp: 1543437976, nbf: 1543436776, iat: nbf.to_f, jti: SecureRandom.uuid, header: {}, **payload)
         payload.merge!(exp: exp, nbf: nbf, iat: iat, jti: jti)
         obo_token_assertion_store.write(jti, assertion)
         JWT.encode(payload.compact, obo_token_key_pair, 'RS256', header)
@@ -253,9 +256,6 @@ RSpec.describe ApiTokenAuthenticator do
       end
 
       context 'token replay attacks' do
-        REPLAY_EPSILON = 15.minutes
-        REPLAY_DELTA = described_class::MAX_EXP_IN - REPLAY_EPSILON
-
         it 'can not verify the same token twice in the first 20 minutes' do
           o1 = generate_obo_token
           t1 = generate_token(obo: o1, header: { cty: 'JWT' })
@@ -387,9 +387,6 @@ RSpec.describe ApiTokenAuthenticator do
       end
 
       context 'token replay attacks' do
-        REPLAY_EPSILON = 15.minutes
-        REPLAY_DELTA = described_class::MAX_EXP_IN - REPLAY_EPSILON
-
         it 'can not verify the same token twice in the first 20 minutes' do
           t1 = generate_token
 
