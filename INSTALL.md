@@ -63,7 +63,7 @@ Tento dokument následne premenujte na `DIZ_PO_<skratka projektu>__UPVS_v1.docx`
 
 > Adresát: integracie@globaltel.sk, integracie@nases.gov.sk
 >
-> Predmet: <skratka projektu> – DEV – DIZ – Požiadavka – Revízia dohody o integračnom zámere – TYP PO – v1.0
+> Predmet: **&lt;skratka projektu&gt;** – DEV – DIZ – Požiadavka – Revízia dohody o integračnom zámere – TYP PO – v1.0
 >
 > Dobrý deň,
 >
@@ -85,7 +85,7 @@ Trnavská cesta 100/II
 
 > Adresát: integracie@globaltel.sk, integracie@nases.gov.sk
 > 
-> Predmet:  **&lt;skratka projektu&gt;** - FIX/PROD - INFRA - Požiadavka - Pridelenie adresného rozsahu
+> Predmet: **&lt;skratka projektu&gt;** - FIX/PROD - INFRA - Požiadavka - Pridelenie adresného rozsahu
 > 
 > Dobrý deň,
 > 
