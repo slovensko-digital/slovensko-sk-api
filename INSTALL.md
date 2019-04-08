@@ -23,7 +23,7 @@ Premenná | Popis | Príklad | Podpora ÚPVS SSO vypnutá
 `LOGIN_CALLBACK_URLS` | Prefixy adries oddelené čiarkou, na ktoré može byť používateľ presmerovaný po úspešnom prihlásení | `http://localhost:3000` | Nepotrebná 
 `LOGOUT_CALLBACK_URLS` | Prefixy adries oddelené čiarkou, na ktoré može byť používateľ presmerovaný po úspešnom odhlásení | `http://localhost:3000` | Nepotrebná
 `API_TOKEN_PUBLIC_KEY_FILE` | Cesta k verejnému kľúču pre verifikáciu API tokenov<sup>2</sup> | `security/api-token.public.pem` |  
-`OBO_TOKEN_PRIVATE_KEY_FILE` | Cesta k privátnemu a verejnému kľúču pre generovanie a verifikáciu OBO tokenov<sup>3</sup> | `security/obo-token.public.pem` | Nepotrebná  
+`OBO_TOKEN_PRIVATE_KEY_FILE` | Cesta k privátnemu a verejnému kľúču pre generovanie a verifikáciu OBO tokenov<sup>3</sup> | `security/obo-token.private.pem` | Nepotrebná  
 `EFORM_SYNC` | Automatická synchronizácia eForm formulárov | `true` alebo `false` | 
 `UPVS_ENV` | Prostredie ÚPVS | `dev`, `fix` alebo `prod` |   
 `UPVS_SSO_SUPPORT` | Podpora autentifikácie cez ÚPVS SSO | `true` alebo `false` | 
@@ -43,7 +43,7 @@ Premenná | Popis | Príklad | Podpora ÚPVS SSO vypnutá
 <sup>1</sup> Pozri [Securing Rails Applications](https://guides.rubyonrails.org/security.html) časť [Encrypted Session Storage](https://guides.rubyonrails.org/security.html#encrypted-session-storage).<br/>
 <sup>2</sup> Súbor vygenerovaný napr. pomocou `openssl genrsa -out api-token.private.pem 2048` a `openssl rsa -in api-token.private.pem -pubout -out api-token.public.pem`.<br/>
 <sup>3</sup> Súbor vygenerovaný napr. pomocou `openssl genrsa -out obo-token.private.pem 2048`.<br/>
-<sup>4</sup> Pozri časť [*6. Zriadenie prístupov do FIX prostredia*](#6-zriadenie-prstupov-do-fix-prostredia).
+<sup>4</sup> Pozri časť [*6. Zriadenie prístupov do FIX prostredia*](#6-zriadenie-prístupov-do-fix-prostredia).
 
 Ďalej je potrebné inicializovať databázu cez:
 
