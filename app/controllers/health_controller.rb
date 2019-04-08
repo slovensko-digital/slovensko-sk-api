@@ -29,7 +29,8 @@ class HealthController < ApplicationController
   private
 
   def check_environment_variables
-    template = Rails.root.join('doc', 'templates', ".env#{'.without-upvs-sso-support' unless UpvsEnvironment.sso_support?}")
+    environment = UpvsEnvironment.sso_support? ? '.env' : '.env.without-upvs-sso-support'
+    template = Rails.root.join('doc', 'templates', environment)
     variables = template.read.lines.map { |v| v.split('=', 2).first if v.present? }.compact
     variables += ['DATABASE_URL', 'REDIS_URL'] if Rails.env.production? || Rails.env.staging?
     unset = variables.select { |v| ENV[v].blank? }
