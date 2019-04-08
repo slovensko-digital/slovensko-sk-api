@@ -5,7 +5,7 @@ RSpec.describe 'eForm API' do
 
   let!(:token) { api_token_with_ta_key }
 
-  before(:example) { allow(UpvsProxy).to receive(:new).and_wrap_original { double } }
+  before(:example) { allow(UpvsProxy).to receive(:new).and_wrap_original { double }}
 
   after(:example) { travel_back }
 

@@ -7,7 +7,7 @@ RSpec.describe 'SKTalk API' do
 
   let(:message) { file_fixture('sktalk/egov_application_general_agenda.xml').read }
 
-  before(:example) { allow(UpvsProxy).to receive(:new).and_wrap_original { double } }
+  before(:example) { allow(UpvsProxy).to receive(:new).and_wrap_original { double }}
 
   after(:example) { travel_back }
 
