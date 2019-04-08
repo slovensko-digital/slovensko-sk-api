@@ -43,7 +43,7 @@ Premenná | Popis | Príklad | Podpora ÚPVS SSO vypnutá
 <sup>1</sup> Pozri [Securing Rails Applications](https://guides.rubyonrails.org/security.html) časť [Encrypted Session Storage](https://guides.rubyonrails.org/security.html#encrypted-session-storage).<br/>
 <sup>2</sup> Súbor vygenerovaný napr. pomocou `openssl genrsa -out api-token.private.pem 2048` a `openssl rsa -in api-token.private.pem -pubout -out api-token.public.pem`.<br/>
 <sup>3</sup> Súbor vygenerovaný napr. pomocou `openssl genrsa -out obo-token.private.pem 2048`.<br/>
-<sup>4</sup> Pozri časť [*6. Zriadenie prístupov do FIX prostredia*](6-zriadenie-prístupov-do-fix-prostredia).
+<sup>4</sup> Pozri časť [*6. Zriadenie prístupov do FIX prostredia*](#6-zriadenie-prístupov-do-fix-prostredia).
 
 Ďalej je potrebné inicializovať databázu cez:
 
