@@ -36,4 +36,18 @@ jobs:
       - run: mv .circleci/database.yml config/database.yml
       - run: bundle exec rake db:create db:schema:load --trace
 
-      - run: bundle exec rspec --tag ~upvs
+      # setup with UPVS SSO support:
+      # - run examples with sso tag set to true (default behavior)
+      # - run examples without sso tag
+      # - skip examples with upvs tag
+
+      - run: cp doc/templates/.env .env.test
+      - run: bundle exec rspec -t ~upvs
+
+      # setup without UPVS SSO support:
+      # - run examples with sso tag set to false
+      # - run examples without sso tag
+      # - skip examples with upvs tag
+
+      - run: cp doc/templates/.env.without-upvs-sso-support .env.test
+      - run: bundle exec rspec -t ~upvs -t ~sso:true

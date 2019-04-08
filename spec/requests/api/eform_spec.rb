@@ -1,11 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe 'eForm API' do
+  before(:example) { travel_to '2018-11-28T20:26:16Z' }
+
   let!(:token) { api_token_with_ta_key }
 
-  before(:example) do
-    allow(UpvsProxy).to receive(:new).and_wrap_original { double }
-  end
+  before(:example) { allow(UpvsProxy).to receive(:new).and_wrap_original { double }}
+
+  after(:example) { travel_back }
 
   describe 'GET /api/eform/status' do
     before(:example) do
@@ -72,13 +74,11 @@ RSpec.describe 'eForm API' do
 
       get '/api/eform/status', headers: { 'Authorization' => 'Bearer ' + token }, params: { identifier: 'App.GeneralAgenda', version: '1.9' }
 
-      travel_back
-
       expect(response.status).to eq(401)
       expect(response.body).to eq({ message: 'Bad credentials' }.to_json)
     end
 
-    it 'responds with 401 if authenticating via token with OBO token' do
+    it 'responds with 401 if authenticating via token with OBO token', :sso do
       get '/api/eform/status', headers: { 'Authorization' => 'Bearer ' + api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read) }, params: { identifier: 'App.GeneralAgenda', version: '1.9' }
 
       expect(response.status).to eq(401)
@@ -123,7 +123,7 @@ RSpec.describe 'eForm API' do
         end
       end
 
-      it 'does not use any proxy object when authenticating via token with OBO token' do
+      it 'does not use any proxy object when authenticating via token with OBO token', :sso do
         expect(UpvsEnvironment).not_to receive(:upvs_proxy)
         expect(UpvsProxy).not_to receive(:new)
 
@@ -232,13 +232,11 @@ RSpec.describe 'eForm API' do
 
       post '/api/eform/validate', headers: { 'Authorization' => 'Bearer ' + token }, params: { identifier: 'App.GeneralAgenda', version: '1.9', data: general_agenda }
 
-      travel_back
-
       expect(response.status).to eq(401)
       expect(response.body).to eq({ message: 'Bad credentials' }.to_json)
     end
 
-    it 'responds with 401 if authenticating via token with OBO token' do
+    it 'responds with 401 if authenticating via token with OBO token', :sso do
       post '/api/eform/validate', headers: { 'Authorization' => 'Bearer ' + api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read) }, params: { identifier: 'App.GeneralAgenda', version: '1.9', data: general_agenda }
 
       expect(response.status).to eq(401)
@@ -277,7 +275,7 @@ RSpec.describe 'eForm API' do
         expect(response.status).to eq(200)
       end
 
-      it 'does not use any proxy object when authenticating via token with OBO token' do
+      it 'does not use any proxy object when authenticating via token with OBO token', :sso do
         expect(UpvsEnvironment).not_to receive(:upvs_proxy)
         expect(UpvsProxy).not_to receive(:new)
 

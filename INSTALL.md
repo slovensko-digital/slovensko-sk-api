@@ -2,32 +2,64 @@
 
 Máme dobrú a zlú správu. Tá zlá správa je, že na zfunkčnenie tohto komponentu (alebo akejkoľvek inej integrácie na slovensko.sk) je nutné prejsť pomerne náročný proces s NASES a vypracovať množstvo dokumentácie. Tá dobrá správa je, že sme to skoro celé spravili za Vás a tento návod by mal úplne stačiť na to, aby ste komponent dostali do produkčnej prevádzky. Ak sa Vám to zdá zložité, ozvite sa nám emailom na `ekosystem@slovensko.digital` a radi pomôžeme.
 
-## Postup spustenia komponentu 
+## Postup spustenia API komponentu 
 
 Komponent `slovensko-sk-api` je distribuovaný ako Docker [kontajner](https://hub.docker.com/r/skdigital/slovensko-sk-api), ktorý sa spúšťa štandardne, najľahšie cez `docker-compose`.
 
 Pred prvým spustením je potrebné pripraviť si adresár, ktorý bude obsahovať:
  
-- [docker-compose.yml](doc/templates/docker-compose.yml) uprevený podľa potreby,
-- [.env](doc/templates/.env) s doplnenými hodnotami premenných podľa potreby, minimálne:
+- [docker-compose.yml](doc/templates/docker-compose.yml) upravený podľa potreby,
+- [.env](doc/templates/.env) s doplnenými hodnotami premenných podľa potreby,
+- všetky súbory, na ktoré ukazujú premenné podľa upraveného `.env` súboru.
 
-  - `SECRET_KEY_BASE` - kľúč pre zabezpečenie Rails aplikácie, pozri [Securing Rails Applications](https://guides.rubyonrails.org/security.html) časť [Encrypted Session Storage](https://guides.rubyonrails.org/security.html#encrypted-session-storage),
-  - `LOGIN_CALLBACK_URLS` - prefixy adries oddelené čiarkou, na ktoré može byť používateľ presmerovaný po úspešnom prihlásení,
-  - `LOGOUT_CALLBACK_URLS` - prefixy adries oddelené čiarkou, na ktoré može byť používateľ presmerovaný po úspešnom odhlásení.
+**Ak nepotrebujete automatickú synchronizáciau eForm formulárov**, môžete z `docker-compose.yml` odstrániť služby `clock` a `worker` tak, ako je to v tomto [docker-compose.yml](doc/templates/docker-compose.without-eform-sync.yml) súbore. 
 
-- všetky súbory potrebné podľa `.env` umiestnené napr. v podadresári `security`, sú to:
+**Ak je podpora autentifikácie cez ÚPVS SSO vypnutá**, niektoré premenné môžu byť z `.env` vynechané tak, ako je to v tomto [.env](doc/templates/.env.without-upvs-sso-support) súbore. Zoznam všetkých možných premenných: 
 
-  - `api-token.public.pem` - verejný kľúč pre verifikáciu API tokenov tretej strany, vygenerovaný napr. pomocou `openssl rsa -in api-token.private.pem -pubout -out api-token.public.pem`, 
-  - `obo-token.private.pem` - privátny a verejný kľúč pre generovanie a verifikáciu OBO tokenov v rámci komponentu, vygenerovaný napr. pomocou `openssl genrsa -out obo-token.private.pem 2048`,
-  - `upvs-fix-idp.metadata.xml` - IDP metadáta, pozri dokument *UPG-1-1-Integracny_manual_UPVS_IAM*,
-  - `podaas-fix-sp.metadata.xml` - SP metadáta, pozri časť [*6. Zriadenie prístupov do FIX prostredia*](#6-zriadenie-prstupov-do-fix-prostredia),
-  - `podaas-fix-sp.keystore` - SP certifikát s kľúčom, pozri časť [*6. Zriadenie prístupov do FIX prostredia*](#6-zriadenie-prstupov-do-fix-prostredia),
-  - `podaas-fix-sts.keystore` - STS certifikát s kľúčom, pozri časť [*6. Zriadenie prístupov do FIX prostredia*](#6-zriadenie-prstupov-do-fix-prostredia),
-  - `upvs-fix.truststore` - certifikát STS služby na strane ÚPVS, pozri dokument *UPG-1-1-Integracny_manual_UPVS_IAM*.
+Premenná | Popis | Príklad | Podpora ÚPVS SSO vypnutá
+--- | --- | --- | ---
+`RAILS_ENV` | Prostredie Rails aplikácie | štandardne `production` |
+`SECRET_KEY_BASE` | Kľúč pre zabezpečenie Rails aplikácie<sup>1</sup> | reťazec vygenerovaný cez `rails secret` | 
+`LOGIN_CALLBACK_URLS` | Prefixy adries oddelené čiarkou, na ktoré može byť používateľ presmerovaný po úspešnom prihlásení | `http://localhost:3000` | Nepotrebná 
+`LOGOUT_CALLBACK_URLS` | Prefixy adries oddelené čiarkou, na ktoré može byť používateľ presmerovaný po úspešnom odhlásení | `http://localhost:3000` | Nepotrebná
+`API_TOKEN_PUBLIC_KEY_FILE` | Cesta k verejnému kľúču pre verifikáciu API tokenov<sup>2</sup> | `security/api-token.public.pem` |  
+`OBO_TOKEN_PRIVATE_KEY_FILE` | Cesta k privátnemu a verejnému kľúču pre generovanie a verifikáciu OBO tokenov<sup>3</sup> | `security/obo-token.public.pem` | Nepotrebná  
+`EFORM_SYNC` | Automatická synchronizácia eForm formulárov | `true` alebo `false` | 
+`UPVS_ENV` | Prostredie ÚPVS | `dev`, `fix` alebo `prod` |   
+`UPVS_SSO_SUPPORT` | Podpora autentifikácie cez ÚPVS SSO | `true` alebo `false` | 
+`UPVS_IDP_METADATA_FILE` | Cesta k IDP metadátam<sup>4</sup> | `security/upvs-fix-idp.metadata.xml` | Nepotrebná
+`UPVS_SP_METADATA_FILE` | Cesta k SP metadátam<sup>4</sup> | `security/podaas-fix-sp.metadata.xml` | Nepotrebná
+`UPVS_SP_KS_FILE` | Cesta k úložisku SP certifikátu<sup>4</sup> | `security/podaas-fix-sp.keystore` | Nepotrebná
+`UPVS_SP_KS_ALIAS` | Názov záznamu SP certifikátu v úložisku | `podaassp` | Nepotrebná
+`UPVS_SP_KS_PASSWORD` | Heslo k úložisku SP certifikátu | `password` | Nepotrebná
+`UPVS_SP_KS_PRIVATE_PASSWORD` | Heslo k SP privátnemu kľúču | `password` | Nepotrebná
+`UPVS_STS_KS_FILE` | Cesta k úložisku STS certifikátu<sup>4</sup> | `security/podaas-fix-sts.keystore` | 
+`UPVS_STS_KS_ALIAS` | Názov záznamu STS certifikátu v úložisku | `podaassts` |
+`UPVS_STS_KS_PASSWORD` | Heslo k úložisku STS certifikátu | `password` |
+`UPVS_STS_KS_PRIVATE_PASSWORD` | Heslo k STS privátnemu kľúču | `password` |
+`UPVS_TLS_TS_FILE` | Cesta k úložisku TLS certifikátov<sup>4</sup> | `upvs-fix.truststore` |
+`UPVS_TLS_TS_PASSWORD` | Heslo k úložisku TLS certifikátov | `password` |
+
+<sup>1</sup> Pozri [Securing Rails Applications](https://guides.rubyonrails.org/security.html) časť [Encrypted Session Storage](https://guides.rubyonrails.org/security.html#encrypted-session-storage).<br/>
+<sup>2</sup> Súbor vygenerovaný napr. pomocou `openssl genrsa -out api-token.private.pem 2048` a `openssl rsa -in api-token.private.pem -pubout -out api-token.public.pem`.<br/>
+<sup>3</sup> Súbor vygenerovaný napr. pomocou `openssl genrsa -out obo-token.private.pem 2048`.<br/>
+<sup>4</sup> Pozri časť [*6. Zriadenie prístupov do FIX prostredia*](#6-zriadenie-prstupov-do-fix-prostredia).
 
 Ďalej je potrebné inicializovať databázu cez:
 
     docker-compose run web rails db:create db:migrate
+
+Následne je vhodné vykonať testy pomocou:
+
+- ak je podpora ÚPVS SSO zapnutá:
+
+      docker-compose run web rspec 
+
+- ak je podpora ÚPVS SSO vypnutá:
+
+      docker-compose run web rspec -t ~sso:true
+
+- pričom pridanie `-t ~upvs` vynechá testy, ktoré používajú živé spojenie s ÚPVS DEV prostredím.
  
 Potom je možné spustiť komponent:
 
@@ -51,7 +83,7 @@ Log aplikácie ide na štandardný výstup.
 
 ### 1. Zriadenie prístupu k dokumentácii ÚPVS
 
-Na adrese https://www.nases.gov.sk/sluzby/usmernenie-k-integracii/index.html nájdete formulár na prístup k aktuálnej dokumentácii ÚPVS. Odporúčame si prístup zriadiť, kedže sa na portáli, okrem dokumentácie, nachádzajú aj informácie o plánovaných odstávkach a ďalšom rozvoji ÚPVS.
+Na [stránke NASES](https://www.nases.gov.sk/sluzby/usmernenie-k-integracii/index.html) nájdete formulár na prístup k aktuálnej dokumentácii ÚPVS. Odporúčame si prístup zriadiť, kedže sa na portáli, okrem dokumentácie, nachádzajú aj informácie o plánovaných odstávkach a ďalšom rozvoji ÚPVS.
 
 ### 2. Zaslanie Dohody o integračnom zámere DIZ 
 
@@ -152,9 +184,11 @@ Vytvorené súbory zašlite emailom:
 > 
 > Ďakujem.
 
+Stiahnite TLS certifikáty. TODO
+
 **Ako prílohu priložte do jedného súboru zozipované `podaas-fix-sts.crt`, `podaas-fix-sp.crt` a `podaas-fix-sp.signed.metadata.xml`.** Emailový server na strane dodávateľa to inak odmietne!
 
-### 7. Vykonanie akceptačného testovania (UAT)
+### 7. Vykonanie akceptačného testovania (UAT) vo FIX prostredí
 
 Na rozbehnutom komponente `slovensko-sk-api` vo FIX prostredí je potrebné pre jednotlivé UAT prípady vykonať nasledovné:
 
@@ -191,7 +225,7 @@ Pozn. úspešne vykonané UAT príkazy končia vždy s exit code 0, niektoré aj
 
 Pozrite si schválený [akceptačný protokol](doc/templates/UAT_SKDIGI_PO_PODAAS_v0_1_2.docx) pre projekt PodaaS (z dokumentu boli odstránené výstupy akceptačných testov). Pozor, treba sa uistiť, že používate **aktuálnu šablónu** NASES, pretože tie sa v čase menia.
 
-### 8. Prechod do produkcie
+### 8. Zriadenie prístupov do PROD prostredia
 
 Vygenerujte certifikáty. Reťazec `podaas` v názvoch súborov, aliasoch a CN certifikátov nahraďte skratkou Vašej integrácie, podobne nahraďte IČO a reťazec `podaas.slovensko.digital` CN v certifikátov.  
 
@@ -208,5 +242,11 @@ Vygenerujte certifikáty. Reťazec `podaas` v názvoch súborov, aliasoch a CN c
 Vytvorte `podaas-prod-sp.metadata.xml` zo súboru [podaas-sp.metadata.xml](doc/templates/podaas-sp.metadata.xml). Treba nahradniť `entityID`, dva verejné klúče (skopírovaním z `podaas-prod-sp.pem`) a endpointy, kde bude **produkčná** verzia bežať. Metadáta podpíšte pomocou [xmlsectool](http://shibboleth.net/downloads/tools/xmlsectool/latest).
 
     xmlsectool --sign --inFile podaas-prod-sp.metadata.xml --outFile podaas-prod-sp.signed.metadata.xml --keystore podaas-prod-sp.keystore --keystorePassword ... --key podaassp --keyPassword ...
+
+TODO
+
+### 9. Vykonanie akceptačného testovania (UAT) v PROD prostredí
+
+Pozn. nutné len v prípade, že používate ÚPVS SSO.
 
 TODO

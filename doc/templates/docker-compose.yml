@@ -15,12 +15,12 @@ services:
     volumes:
     - ./security:/app/security
     ports:
-    - '3000:3000'
+    - 3000:3000
     depends_on:
     - postgres
     - redis
     env_file:
-    - '.env'
+    - .env
     environment:
       DATABASE_URL: postgres://postgres:@postgres:5432/slovensko-sk-api
       REDIS_URL: redis://redis:6379
@@ -34,7 +34,7 @@ services:
     - postgres
     - redis
     env_file:
-    - '.env'
+    - .env
     environment:
       DATABASE_URL: postgres://postgres:@postgres:5432/slovensko-sk-api
       REDIS_URL: redis://redis:6379
@@ -48,7 +48,7 @@ services:
     - postgres
     - redis
     env_file:
-    - '.env'
+    - .env
     environment:
       DATABASE_URL: postgres://postgres:@postgres:5432/slovensko-sk-api
       REDIS_URL: redis://redis:6379

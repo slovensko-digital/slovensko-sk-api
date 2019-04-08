@@ -9,9 +9,6 @@ class HealthController < ApplicationController
       check_ez_service
       check_sktalk_service
     else
-
-      # TODO do not check LOGIN_*/LOGOUT_*/OBO_*/UPVS_IDP_*/UPVS_SP_* vars if UPVS_SSO_SUPPORT=false
-
       check_environment_variables
 
       check_postgresql_connection
@@ -32,7 +29,9 @@ class HealthController < ApplicationController
   private
 
   def check_environment_variables
-    variables = Rails.root.join('.env').read.lines.map { |v| v.split('=', 2).first if v.present? }.compact
+    environment = UpvsEnvironment.sso_support? ? '.env' : '.env.without-upvs-sso-support'
+    template = Rails.root.join('doc', 'templates', environment)
+    variables = template.read.lines.map { |v| v.split('=', 2).first if v.present? }.compact
     variables += ['DATABASE_URL', 'REDIS_URL'] if Rails.env.production? || Rails.env.staging?
     unset = variables.select { |v| ENV[v].blank? }
     raise "Unset environment variables #{unset.to_sentence}" if unset.any?
