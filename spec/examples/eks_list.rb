@@ -1,6 +1,6 @@
 require_relative '../../config/environment'
 
-eks = UpvsEnvironment.upvs_proxy(nil).eks
+eks = UpvsEnvironment.upvs_proxy(assertion: nil).eks
 
 # TODO add helper to hide the #values.value.folder chain
 # TODO add ArrayOfFolder conversion in Java #to_structure to convert ['values']['folder'] to just ['values']

@@ -79,6 +79,6 @@ class HealthController < ApplicationController
   end
 
   def check_sktalk_service
-    UpvsEnvironment.upvs_proxy.sktalk # initializes SKTalk service with STS certificate
+    UpvsEnvironment.upvs_proxy(assertion: nil).sktalk # initializes SKTalk service with STS certificate
   end
 end
