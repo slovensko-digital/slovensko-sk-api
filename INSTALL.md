@@ -23,7 +23,7 @@ Premenná | Popis | Príklad | Podpora ÚPVS SSO vypnutá
 `LOGIN_CALLBACK_URLS` | Prefixy adries oddelené čiarkou, na ktoré može byť používateľ presmerovaný po úspešnom prihlásení | `http://localhost:3000` | Nepotrebná 
 `LOGOUT_CALLBACK_URLS` | Prefixy adries oddelené čiarkou, na ktoré može byť používateľ presmerovaný po úspešnom odhlásení | `http://localhost:3000` | Nepotrebná
 `API_TOKEN_PUBLIC_KEY_FILE` | Cesta k verejnému kľúču pre verifikáciu API tokenov<sup>2</sup> | `security/api-token.public.pem` |  
-`OBO_TOKEN_PRIVATE_KEY_FILE` | Cesta k privátnemu a verejnému kľúču pre generovanie a verifikáciu OBO tokenov<sup>3</sup> | `security/obo-token.public.pem` | Nepotrebná  
+`OBO_TOKEN_PRIVATE_KEY_FILE` | Cesta k privátnemu a verejnému kľúču pre generovanie a verifikáciu OBO tokenov<sup>3</sup> | `security/obo-token.private.pem` | Nepotrebná  
 `EFORM_SYNC` | Automatická synchronizácia eForm formulárov | `true` alebo `false` | 
 `UPVS_ENV` | Prostredie ÚPVS | `dev`, `fix` alebo `prod` |   
 `UPVS_SSO_SUPPORT` | Podpora autentifikácie cez ÚPVS SSO | `true` alebo `false` | 
