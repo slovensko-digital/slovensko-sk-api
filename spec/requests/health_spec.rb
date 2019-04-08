@@ -15,26 +15,44 @@ RSpec.describe 'Health Check' do
     allow(UpvsEnvironment).to receive_message_chain(:upvs_proxy, :sktalk)
   end
 
+  def expect_pass(response)
+    expect(response.status).to eq(200)
+    expect(response.body).to eq({ status: 'pass' }.to_json)
+
+    expect(response.content_type).to eq('application/json')
+    expect(response.charset).to eq('utf-8')
+  end
+
+  def expect_fail(response, output)
+    expect(response.status).to eq(503)
+    expect(response.body).to eq({ status: 'fail', output: output }.to_json)
+  end
+
   context 'with UPVS SSO support', sso: true do
     describe 'GET /health' do
       it 'checks health' do
         get '/health'
-
-        expect(response.status).to eq(200)
-        expect(response.body).to eq({ status: 'pass' }.to_json)
-
-        expect(response.content_type).to eq('application/json')
-        expect(response.charset).to eq('utf-8')
+        expect_pass(response)
       end
 
       pending
     end
 
     describe 'GET /health?check=heartbeats' do
+      it 'checks various heartbeats' do
+        get '/health?check=heartbeats'
+        expect_pass(response)
+      end
+
       pending
     end
 
     describe 'GET /health?check=upvs' do
+      it 'checks UPVS connections' do
+        get '/health?check=upvs'
+        expect_pass(response)
+      end
+
       pending
     end
   end
@@ -43,22 +61,27 @@ RSpec.describe 'Health Check' do
     describe 'GET /health' do
       it 'checks health' do
         get '/health'
-
-        expect(response.status).to eq(200)
-        expect(response.body).to eq({ status: 'pass' }.to_json)
-
-        expect(response.content_type).to eq('application/json')
-        expect(response.charset).to eq('utf-8')
+        expect_pass(response)
       end
 
       pending
     end
 
     describe 'GET /health?check=heartbeats' do
+      it 'checks various heartbeats' do
+        get '/health?check=heartbeats'
+        expect_pass(response)
+      end
+
       pending
     end
 
     describe 'GET /health?check=upvs' do
+      it 'checks UPVS connections' do
+        get '/health?check=upvs'
+        expect_pass(response)
+      end
+
       pending
     end
   end
