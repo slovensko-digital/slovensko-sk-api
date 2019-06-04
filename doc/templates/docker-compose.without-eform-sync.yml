@@ -11,7 +11,7 @@ services:
     - redis:/data
 
   web:
-    image: jsuchal/slovensko-sk-api:latest
+    image: skdigital/slovensko-sk-api:latest
     volumes:
     - ./security:/app/security
     ports:
