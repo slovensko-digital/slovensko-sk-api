@@ -21,4 +21,4 @@ end
 
 # TC_EFORM_02
 
-service.fetch_form_template_ids
+service.fetch_all_form_template_ids
