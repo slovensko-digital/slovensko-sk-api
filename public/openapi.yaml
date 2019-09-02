@@ -96,7 +96,7 @@ paths:
                 200:
                   description: Úspešné odhlásenie.
       security:
-      - 'API + OBO token': []
+      - 'API + OBO Token': []
 
   /api/sktalk/receive_and_save_to_outbox:
     post:
@@ -129,8 +129,8 @@ paths:
                   receive_result: 0
                   save_to_outbox_result: 0
       security:
-      - 'API token': []
-      - 'API + OBO token': []
+      - 'API Token': []
+      - 'API + OBO Token': []
 
   /api/sktalk/receive:
     post:
@@ -159,8 +159,8 @@ paths:
                 example:
                   receive_result: 0
       security:
-      - 'API token': []
-      - 'API + OBO token': []
+      - 'API Token': []
+      - 'API + OBO Token': []
 
   /api/eform/validate:
     post:
@@ -205,7 +205,7 @@ paths:
                 example:
                   valid: true
       security:
-      - 'API token': []
+      - 'API Token': []
 
   /api/eform/status:
     get:
@@ -239,7 +239,7 @@ paths:
                 example:
                   status: Publikovaný
       security:
-      - 'API token': []
+      - 'API Token': []
 
   /api/upvs/user/info.saml:
     get:
@@ -255,7 +255,7 @@ paths:
                 example:
                   <saml:Assertion>...</saml:Assertion>
       security:
-      - 'API + OBO token': []
+      - 'API + OBO Token': []
 
 components:
   responses:
@@ -349,7 +349,7 @@ components:
               message: Unknown error
 
   securitySchemes:
-    'API token':
+    'API Token':
       description: |
         Požaduje API token vytvorený treťou stranou, ktorý:
 
@@ -375,11 +375,16 @@ components:
 
         - v hlavičke požiadavky ako `Authorization: Bearer <api-token>`,
         - alebo v URL parametri požiadavky ako `?token=<api-token>`.
+
+        Poznámky:
+
+        - hodnota `jti` sa kontroluje podľa regulárneho výrazu `/^[0-9a-z-_]{1,256}$/`,
+        - rovnaké `jti` sa nesmie použiť v viac ako jedenkrát počas 120 minút.
       type: http
       scheme: bearer
       bearerFormat: JWT
 
-    'API + OBO token':
+    'API + OBO Token':
       description: |
         Požaduje API token vytvorený treťou stranou, ktorý:
 
@@ -409,6 +414,11 @@ components:
 
         - v hlavičke požiadavky ako `Authorization: Bearer <api-token>`,
         - alebo v URL parametri požiadavky ako `?token=<api-token>`.
+
+        Poznámky:
+
+        - hodnota `jti` sa kontroluje podľa regulárneho výrazu `/^[0-9a-z-_]{1,256}$/`,
+        - rovnaké `jti` sa nesmie použiť viac ako jedenkrát počas 120 minút.
       type: http
       scheme: bearer
       bearerFormat: JWT
