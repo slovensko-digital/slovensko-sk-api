@@ -361,7 +361,7 @@ components:
         Príklad `header` segmentu:
 
               {
-                "alg": "HS256",
+                "alg": "RS256",
               }
 
         Príklad `payload` segmentu:
@@ -393,7 +393,7 @@ components:
         Príklad `header` segmentu:
 
               {
-                "alg": "HS256",
+                "alg": "RS256",
                 "cty": "JWT"
               }
 
