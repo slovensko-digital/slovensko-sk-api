@@ -89,7 +89,7 @@ RSpec.describe 'UPVS SAML Authentication' do
       end
 
       context 'with malformed response' do
-        let(:idp_response) { 'MALFORMED' }
+        let(:idp_response) { 'INVALID' }
 
         before(:example) { mock_idp_response(idp_response) }
 

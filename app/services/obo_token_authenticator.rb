@@ -35,8 +35,8 @@ class OboTokenAuthenticator
 
       begin
         return JWT.encode(payload, @key_pair, 'RS256')
-      rescue
-        @assertion_store.delete(jti) and raise
+      rescue => error
+        @assertion_store.delete(jti) and raise(error)
       end
     end
   end
