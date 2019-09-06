@@ -1,3 +1,5 @@
+# TODO should identifier_store be scoped per client? like: @identifier_store.write([sub, jti], ...)
+
 # See https://tools.ietf.org/html/rfc7519
 
 class ApiTokenAuthenticator
