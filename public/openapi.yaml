@@ -378,7 +378,7 @@ components:
 
         Poznámky:
 
-        - hodnota `jti` sa kontroluje podľa regulárneho výrazu `/^[0-9a-z-_]{1,256}$/`,
+        - hodnota `jti` sa kontroluje podľa regulárneho výrazu `/\A[0-9a-z\-_]{32,256}\z/i`,
         - rovnaké `jti` sa nesmie použiť v viac ako jedenkrát počas 120 minút.
       type: http
       scheme: bearer
@@ -417,7 +417,7 @@ components:
 
         Poznámky:
 
-        - hodnota `jti` sa kontroluje podľa regulárneho výrazu `/^[0-9a-z-_]{1,256}$/`,
+        - hodnota `jti` sa kontroluje podľa regulárneho výrazu `/\A[0-9a-z\-_]{32,256}\z/i`,
         - rovnaké `jti` sa nesmie použiť viac ako jedenkrát počas 120 minút.
       type: http
       scheme: bearer

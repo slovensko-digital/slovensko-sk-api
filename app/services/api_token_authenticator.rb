@@ -4,7 +4,7 @@
 
 class ApiTokenAuthenticator
   MAX_EXP_IN = UpvsEnvironment::PROXY_MAX_EXP_IN
-  JTI_PATTERN = /^[0-9a-z-_]{1,256}$/
+  JTI_PATTERN = /\A[0-9a-z\-_]{32,256}\z/i
 
   def initialize(identifier_store:, public_key:, obo_token_authenticator:)
     @identifier_store = identifier_store
