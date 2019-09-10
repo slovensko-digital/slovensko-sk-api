@@ -1,5 +1,3 @@
-# TODO should identifier_store be scoped per client? like: @identifier_store.write([sub, jti], ...)
-
 # See https://tools.ietf.org/html/rfc7519
 
 class ApiTokenAuthenticator
@@ -36,19 +34,23 @@ class ApiTokenAuthenticator
       raise JWT::InvalidPayload unless allow_obo
       raise JWT::InvalidPayload if cty != 'JWT'
 
-      ass = @obo_token_authenticator.verify_token(obo, scope: require_obo_scope)
+      # TODO scope JTIs per OBO SUB or not? (currently not scoped)
+
+      sub, ass = nil, @obo_token_authenticator.verify_token(obo, scope: require_obo_scope)
     else
       raise JWT::InvalidPayload unless allow_ta
       raise JWT::InvalidPayload if cty
 
-      ass = nil
+      # TODO set SUB here according to underlying TA
+
+      sub, ass = nil
     end
 
     exp, jti = payload['exp'], payload['jti']
 
     raise JWT::ExpiredSignature unless exp.is_a?(Integer)
     raise JWT::InvalidPayload if exp > (Time.now + MAX_EXP_IN).to_i
-    raise JWT::InvalidJtiError unless @identifier_store.write(jti, true, expires_in: MAX_EXP_IN, unless_exist: true)
+    raise JWT::InvalidJtiError unless @identifier_store.write([sub, jti], true, expires_in: MAX_EXP_IN, unless_exist: true)
 
     return yield payload, header, ass if block_given?
 
