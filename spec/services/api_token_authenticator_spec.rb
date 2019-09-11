@@ -278,7 +278,7 @@ RSpec.describe ApiTokenAuthenticator do
           expect { subject.verify_token(t1, allow_obo: true) }.to raise_error(JWT::ExpiredSignature)
         end
 
-        it 'can not verify another token with the same JTI in the first 120 minutes' do
+        it 'can not verify another token with the same JTI claim in the first 120 minutes' do
           jti = SecureRandom.uuid
 
           o1 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
@@ -298,7 +298,7 @@ RSpec.describe ApiTokenAuthenticator do
           expect { subject.verify_token(t2, allow_obo: true) }.to raise_error(JWT::InvalidJtiError)
         end
 
-        it 'can verify another token with the same JTI again on or after 120 minutes' do
+        it 'can verify another token with the same JTI claim again on or after 120 minutes' do
           jti = SecureRandom.uuid
 
           o1 = generate_obo_token(exp: (Time.now + 20.minutes).to_i, nbf: Time.now.to_i)
@@ -407,7 +407,13 @@ RSpec.describe ApiTokenAuthenticator do
           expect { subject.verify_token(t1, allow_ta: true) }.to raise_error(JWT::ExpiredSignature)
         end
 
-        it 'can not verify another token with the same JTI in the first 120 minutes' do
+        # TODO once SUB is supported replace examples below with:
+        # it 'can not verify another token with the same JTI and SUB claims in the first 120 minutes'
+        # it 'can verify another token with the same JTI and SUB claims again on or after 120 minutes'
+        # it 'can verify another token with the same JTI claim but different SUB claim in the first 120 minutes'
+        # it 'can verify another token with the same JTI claim but different SUB claim again on or after 120 minutes'
+
+        it 'can not verify another token with the same JTI claim in the first 120 minutes' do
           jti = SecureRandom.uuid
 
           t1 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti)
@@ -425,7 +431,7 @@ RSpec.describe ApiTokenAuthenticator do
           expect { subject.verify_token(t2, allow_ta: true) }.to raise_error(JWT::InvalidJtiError)
         end
 
-        it 'can verify another token with the same JTI again on or after 120 minutes' do
+        it 'can verify another token with the same JTI claim again on or after 120 minutes' do
           jti = SecureRandom.uuid
 
           t1 = generate_token(exp: (Time.now + 20.minutes).to_i, jti: jti)
@@ -445,7 +451,7 @@ RSpec.describe ApiTokenAuthenticator do
       end
     end
 
-    context 'token decoder failure' do
+    context 'decoder failure' do
       before(:example) { expect(JWT).to receive(:decode).with(any_args).and_raise(JWT::DecodeError) }
 
       it 'raises decode error' do
@@ -453,10 +459,10 @@ RSpec.describe ApiTokenAuthenticator do
       end
     end
 
-    context 'JTI cache failure' do
+    context 'identifier store failure' do
       let(:identifier_store) { redis_cache_store_without_connection }
 
-      it 'raises connection error' do
+      it 'raises original error' do
         expect { subject.verify_token(generate_token, allow_ta: true) }.to raise_error(Environment::RedisConnectionError)
       end
     end

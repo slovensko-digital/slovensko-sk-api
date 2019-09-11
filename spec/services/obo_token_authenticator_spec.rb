@@ -71,7 +71,7 @@ RSpec.describe OboTokenAuthenticator do
       expect(assertion_store.read(jti)).to eq(assertion)
     end
 
-    context 'assertion parser failure' do
+    context 'assertion extraction failure' do
       let(:response) { OneLogin::RubySaml::Response.new(file_fixture('oam/sso_response_no_authn_context.xml').read) }
 
       it 'raises argument error' do
