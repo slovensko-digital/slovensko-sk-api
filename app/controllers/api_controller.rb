@@ -3,6 +3,7 @@ class ApiController < ActionController::API
     if error.message == 'Nil JSON web token'
       render_bad_request(:no_credentials)
     else
+      logger.info(error.message)
       render_unauthorized
     end
   end
