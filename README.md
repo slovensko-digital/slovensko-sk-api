@@ -7,7 +7,7 @@ Tento projekt slúži ako komponent, ktorý vystavuje RESTové proxy API k služ
 ## Dokumentácia
 
 - [Inštalačná príručka](INSTALL.md)
-- [Špecifikácia API](https://generator.swagger.io/?url=https%3A//raw.githubusercontent.com/slovensko-digital/slovensko-sk-api/master/public/openapi.yaml)
+- [Špecifikácia API](https://generator.swagger.io/?url=https://raw.githubusercontent.com/slovensko-digital/slovensko-sk-api/master/public/openapi.yaml)
 
 ## Ďalšie služby
 
