@@ -79,6 +79,19 @@ Spojenie aplikácie s ÚPVS je možné skontrolovať pomocou:
 
 Log aplikácie ide na štandardný výstup.
 
+## Postup aktualizovania API komponentu 
+
+Najskôr je potrebné stiahnuť nový komponent:
+
+    docker-compose pull 
+
+Následne je možné komponent reštartovať:
+
+    docker-compose stop 
+    docker-compose up
+
+Na rozdiel od `docker-compose restart` toto reflektuje aj zmeny v rámci súboru `docker-compose.yml`. 
+
 ## Postup zriadenia integrácie na slovensko.sk - Ústredný portál verejnej správy (ÚPVS)
 
 ### 1. Zriadenie prístupu k dokumentácii ÚPVS
