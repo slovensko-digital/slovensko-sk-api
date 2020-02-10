@@ -1,25 +1,17 @@
 source 'https://rubygems.org'
 
-ruby '2.5.0', engine: 'jruby', engine_version: '9.2.5.0'
+ruby '2.5.7', engine: 'jruby', engine_version: '9.2.9.0'
 
-gem 'rails', '~> 5.2.1'
+gem 'rails', '~> 5.2.4.1'
 gem 'activerecord-jdbcpostgresql-adapter'
-gem 'puma', '~> 3.11'
+gem 'puma'
 gem 'omniauth-saml'
-gem 'jwt'
+gem 'jwt', '~> 2.1.0'
 gem 'delayed_job_active_record'
 gem 'clockwork'
 gem 'nokogiri'
 gem 'redis'
-
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-# gem 'jbuilder', '~> 2.5'
-
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: [:jruby]
 
 group :development, :test do
   gem 'dotenv-rails'
