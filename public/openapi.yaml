@@ -270,11 +270,16 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  oneOf:
-                    - $ref: '#/components/schemas/UpvsCorporateBody'
-                    - $ref: '#/components/schemas/UpvsNaturalPerson'
+                oneOf:
+                  - $ref: '#/components/schemas/UpvsCorporateBody'
+                  - $ref: '#/components/schemas/UpvsNaturalPerson'
+              examples:
+                'Právnická osoba':
+                  value:
+                    $ref: '#/components/schemas/UpvsCorporateBody/example'
+                'Fyzická osoba':
+                  value:
+                    $ref: '#/components/schemas/UpvsNaturalPerson/example'
       security:
         - 'API + OBO Token': []
 
