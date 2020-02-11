@@ -75,7 +75,7 @@ RSpec.describe 'UPVS API' do
   context 'without UPVS SSO support', sso: false do
     describe 'GET /api/upvs/user/info.saml' do
       it 'responds with 404' do
-        get '/auth/saml/login'
+        get '/api/upvs/user/info.saml'
 
         expect(response.status).to eq(404)
       end
