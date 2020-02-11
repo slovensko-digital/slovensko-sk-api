@@ -241,6 +241,22 @@ paths:
       security:
       - 'API Token': []
 
+  /api/upvs/user/info:
+    get:
+      tags: [Informácie o prihlásenom používateľovi]
+      description: Vráti profil prihláseného používateľa.
+      responses:
+        200:
+          description: Úspešne vrátený profil identity.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/UpvsCorporateBody'
+                  - $ref: '#/components/schemas/UpvsNaturalPerson'
+      security:
+        - 'API Token': []
+
   /api/upvs/user/info.saml:
     get:
       tags: [Informácie o prihlásenom používateľovi]
@@ -258,6 +274,798 @@ paths:
       - 'API + OBO Token': []
 
 components:
+  schemas:
+    UpvsIdentity:
+      description: ÚPVS identita.
+      properties:
+        ids:
+          description: Sektorové identifikátory.
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                description: Typ identifikátora.
+                type: string
+                example: sector_upvs
+              value:
+                description: Hodnota identifikátora.
+                type: string
+                format: uuid
+                example: 48e1fe89-ad95-46cf-b33a-5ddb76aea775
+        uri:
+          description: URI identifikátor.
+          type: string
+          format: uri
+          example: ico://sk/42156424
+        en:
+          description: Číslo eDesk schránky.
+          type: string
+          format: en
+          example: 99999951
+        type:
+          description: |
+            Typ:
+              - `natural_person` fyzická osoba,
+              - `corporate_body` právnická osoba,
+              - `technical_account` technický účet,
+              - `employee_of_public_administration` zamestnanec verejnej správy,
+              - `institution_of_public_administration` orgán verejnej moci.
+          type: string
+          enum: [natural_person, corporate_body, technical_account, employee_of_public_administration, institution_of_public_administration]
+          example: institution_of_public_administration
+        status:
+          description: |
+            Stav:
+              - `registered` registrovaný,
+              - `activated` aktivovaný,
+              - `verified` overený,
+              - `blocked` blokovaný,
+              - `deactivated` deaktivovaný.
+          type: string
+          enum: [registered, activated, verified, blocked, deactivated]
+          example: activated
+        name:
+          description: Názov alebo meno.
+          type: string
+          example: Národná agentúra pre sieťové a elektronické služby
+        suffix:
+          description: Sufix.
+          type: string
+          example: null
+        various_ids:
+          description: Rôzne identifikátory.
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                description: Typ identifikátora.
+                allOf:
+                  - $ref: '#/components/schemas/UpvsEnumeration'
+                  - example:
+                      id: 7
+                      name: IČO (Identifikačné číslo organizácie)
+                      description: null
+              value:
+                description: Hodnota identifikátora.
+                type: string
+                example: 42156424
+              specified:
+                description: Indikátor či ide o špecifikovaný identifikátor, ktorý bude nastavený.
+                type: boolean
+                example: true
+        upvs:
+          description: ÚPVS atribúty.
+          type: object
+          properties:
+            edesk_number:
+              description: Číslo eDesk schránky.
+              type: string
+              example: 99999951
+            edesk_status:
+              description: |
+                Stav eDesk schránky:
+                  - `nonexistent` neexistujúca schránka,
+                  - `created` vytvorená schránka (okrem prijímania správ),
+                  - `active` aktivovaná schránka (okrem prijímania doručeniek),
+                  - `deliverable` aktivovaná schránka na doručovanie (vrátane prijímania doručeniek),
+                  - `disabled` deaktivovaná schránka (okrem prijímania doručeniek),
+                  - `deleted` zrušená schránka.
+              type: string
+              enum: [nonexistent, created, active, deliverable, disabled, deleted]
+              example: deliverable
+            edesk_remote_uri:
+              description: URI adresa vzdialenej eDesk schránky.
+              type: string
+              format: uri
+              example: null
+            edesk_cuet_delivery_enabled:
+              description: Indikátor či do eDesk schránky budú doručované CUET správy.
+              type: boolean
+              example: false
+            edesk_delivery_limited:
+              description: Indikátor či je doručovanie do eDesk schránky obmedzené.
+              type: boolean
+              example: false
+            enotify_preferred_channel:
+              description: Preferovaný kanál prijímania správ.
+              type: string
+              enum: [email, sms]
+              example: null
+            enotify_preferred_calendar:
+              description: Preferovaný kalendár odosielania správ.
+              type: string
+              example: null
+            enotify_emergency_allowed:
+              description: Indikátor či je odosielanie núdzových správ povolené.
+              type: boolean
+              example: null
+            enotify_email_allowed:
+              description: Indikátor či je odosielanie e-mailov povolené.
+              type: boolean
+              example: null
+            enotify_sms_allowed:
+              description: Indikátor či je odosielanie SMS povolené.
+              type: boolean
+              example: null
+            preferred_language:
+              description: Preferovaný jazyk.
+              type: string
+              example: sk
+            re_iam_identity_id:
+              description: Identifikátor v pôvodnom RE IAM.
+              type: string
+              example: 201224
+        addresses:
+          description: Fyzické adresy.
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                description: |
+                  Typ adresy:
+                    - `resident` adresa trvalého pobytu alebo sídla,
+                    - `contact` kontaktná adresa,
+                    - `post_office_box` adresa poštovej schránky,
+                    - `military` vojenská adresa,
+                    - `undefined` nedefinovaná adresa.
+                type: string
+                enum: [resident, contact, post_office_box, military, undefined]
+                example: resident
+              inline:
+                description: Formátovaná adresa.
+                type: string
+                example: null
+              country:
+                description: Krajina podľa číselníka ŠÚSR 0086.
+                allOf:
+                  - $ref: '#/components/schemas/UpvsEnumeration'
+                  - example:
+                      id: 0
+                      name: Slovensko
+                      description: null
+              region:
+                description: Kraj.
+                type: string
+                example: null
+              district:
+                description: Okres podľa číselníka ŠÚSR 0024.
+                allOf:
+                  - $ref: '#/components/schemas/UpvsEnumeration'
+                  - example: null
+              municipality:
+                description: Obec podľa číselníka ŠÚSR 0025.
+                allOf:
+                  - $ref: '#/components/schemas/UpvsEnumeration'
+                  - example:
+                      id: 0
+                      name: Trnava 
+                      description: null
+              part:
+                description: Časť obce.
+                type: string
+                example: null
+              street:
+                description: Ulica.
+                type: string
+                example: Kollárova
+              building_number:
+                description: Orientačné číslo.
+                type: string
+                example: 8
+              registration_number:
+                description: Súpisné číslo.
+                type: integer
+                example: null
+              unit:
+                description: Časť budovy.
+                type: string
+                example: null
+              building_index:
+                description: Index budovy.
+                type: integer
+                example: null
+              delivery_address:
+                description: Doručovacia adresa.
+                type: object
+                properties:
+                  postal_code:
+                    description: Poštové smerové číslo.
+                    type: string
+                    example: 91702
+                  post_office_box:
+                    description: Poštová schránka.
+                    type: string
+                    example: null
+                  recipient:
+                    description: Príjemca.
+                    type: object
+                    properties:
+                      corporate_body:
+                        description: Právnická osoba.
+                        type: object
+                        properties:
+                          organization_unit:
+                            description: Organizačná jednotka.
+                            type: string
+                            example: null
+                          name:
+                            description: Názov.
+                            type: string
+                            example: null
+                        example: null
+                      natural_person:
+                        description: Fyzická osoba.
+                        type: object
+                        properties:
+                          name:
+                            description: Meno.
+                            type: string
+                            example: null
+                        example: null
+                      note:
+                        description: Poznámka.
+                        type: string
+                        example: null
+                    example: null
+                example:
+                  postal_code: 91702
+                  post_office_box: null
+                  recipient: null
+              ra_entry:
+                description: Záznam v registri adries.
+                type: string
+                example: null
+              specified:
+                description: Indikátor či ide o špecifikovanú adresu, ktorá bude nastavená.
+                type: boolean
+                example: true
+        emails:
+          description: E-mailové adresy.
+          type: array
+          items:
+            type: object
+            properties:
+              address:
+                description: Formátovaná adresa.
+                type: string
+                format: email
+                example: mailto:test2012upvs@gmail.com
+              dsig_key_info:
+                description: DSig KeyInfo.
+                type: string
+                format: base64
+                example: null
+        phones:
+          description: Telefónne čísla.
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                description: Typ telefónu podľa číselníka ŠÚSR 4005.
+                allOf:
+                  - $ref: '#/components/schemas/UpvsEnumeration'
+                  - example:
+                      id: 1
+                      name: Pevná sieť
+                      description: null
+              number:
+                description: Formátované číslo.
+                type: string
+                format: phone
+                example: +422232780700
+              international_country_code:
+                description: Medzinárodné smerové číslo.
+                type: string
+                example: null
+              national_number:
+                description: Národné číslo.
+                type: string
+                example: null
+              area_city_code:
+                description: Smerové číslo.
+                type: string
+                example: null
+              subscriber_number:
+                description: Účastnícke číslo.
+                type: string
+                example: null
+              extension:
+                description: Sublinka.
+                type: string
+                example: null
+
+    UpvsCorporateBody:
+      description: ÚPVS identita právnickej osoby.
+      allOf:
+        - $ref: '#/components/schemas/UpvsIdentity'
+      properties:
+        corporate_body:
+          description: Právnická osoba.
+          type: object
+          properties:
+            cin:
+              description: Identifikačné číslo organizácie.
+              type: string
+              format: cin
+              example: 42156424
+            tin:
+              description: Daňové identifikačné číslo.
+              type: string
+              format: tin
+              example: null
+            organization_id:
+              description: Identifikátor organizácie.
+              type: integer
+              example: null
+            organization_units:
+              description: Organizačné jednotky.
+              type: array
+              items:
+                type: string
+              example: []
+            name:
+              description: Názov.
+              type: string
+              example: Národná agentúra pre sieťové a elektronické služby
+            alternative_names:
+              description: Alternatívne názvy.
+              type: array
+              items:
+                type: string
+              example: []
+            legal_form:
+              description: Právna forma podľa číselníka ŠÚSR 0056.
+              allOf:
+                - $ref: '#/components/schemas/UpvsEnumeration'
+                - example:
+                    id: 000
+                    name: Zatiaľ neurčené
+                    description: null
+            legal_facts:
+              description: Právne skutočnosti.
+              type: array
+              items:
+                type: string
+              example: []
+            activities:
+              description: Predmety činnosti.
+              type: array
+              items:
+                type: string
+              example: []
+            established_on:
+              description: Dátum vzniku.
+              type: string
+              format: date
+              example: '2012-05-02'
+            terminated_on:
+              description: Dátum zániku.
+              type: string
+              format: date
+              example: null
+            updated_on:
+              description: Dátum nahlásenia zmeny stavu.
+              type: string
+              format: date
+              example: null
+      example:
+        ids:
+          - type: sector_upvs
+            value: 48e1fe89-ad95-46cf-b33a-5ddb76aea775
+        uri: ico://sk/42156424
+        en: 99999951
+        type: institution_of_public_administration
+        status: activated
+        name: Národná agentúra pre sieťové a elektronické služby
+        suffix: null
+        various_ids:
+          - type:
+            id: 7
+            name: IČO (Identifikačné číslo organizácie)
+            description: null
+            value: 42156424
+            specified: true
+        upvs:
+          edesk_number: 99999951
+          edesk_status: deliverable
+          edesk_remote_uri: null
+          edesk_cuet_delivery_enabled: false
+          edesk_delivery_limited: false
+          enotify_preferred_channel: null
+          enotify_preferred_calendar: null
+          enotify_emergency_allowed: null
+          enotify_email_allowed: null
+          enotify_sms_allowed: null
+          preferred_language: sk
+          re_iam_identity_id: 201224
+        corporate_body:
+          cin: 42156424
+          tin: null
+          organization_id: null
+          organization_units: []
+          name: Národná agentúra pre sieťové a elektronické služby
+          alternative_names: []
+          legal_form:
+            id: 000
+            name: Zatiaľ neurčené
+            description: null
+          legal_facts: []
+          activities: []
+          established_on: '2012-05-02'
+          terminated_on: null
+          updated_on: null
+        addresses:
+          - type: resident
+            inline: null
+            country:
+              id: 0
+              name: Slovensko
+              description: null
+            region: null
+            district: null
+            municipality:
+              id: 0
+              name: Trnava 
+              description: null
+            part: null
+            street: Kollárova
+            building_number: 8
+            registration_number: null
+            unit: null
+            building_index: null
+            delivery_address:
+              postal_code: 91702
+              post_office_box: null
+              recipient: null
+            ra_entry: null
+            specified: true
+          - type: contact
+            inline: null
+            country:
+              id: 0
+              name: Slovensko
+              description: null
+            region: null
+            district: null
+            municipality:
+              id: 0
+              name: Trnava 
+              description: null
+            part: null
+            street: Kollárova
+            building_number: 8
+            registration_number: null
+            unit: null
+            building_index: null
+            delivery_address:
+              postal_code: 91702
+              post_office_box: null
+              recipient: null
+            ra_entry: null
+            specified: true
+        emails:
+          - address: 'mailto:test2012upvs@gmail.com'
+            dsig_key_info: null
+        phones:
+          - type:
+            id: 1
+            name: Pevná sieť
+            description: null
+            number: +422232780700
+            international_country_code: null
+            national_number: null
+            area_city_code: null
+            subscriber_number: null
+            extension: null
+
+    UpvsNaturalPerson:
+      description: ÚPVS identita fyzickej osoby.
+      allOf:
+        - $ref: '#/components/schemas/UpvsIdentity'
+      properties:
+        natural_person:
+          description: Fyzická osoba.
+          type: object
+          properties:
+            type:
+              description: Typ.
+              allOf:
+                - $ref: '#/components/schemas/UpvsEnumeration'
+                - example:
+                    id: 1
+                    name: Občan SR s trvalým pobytom na území SR
+                    description: null
+            name:
+              description: Meno.
+              type: string
+              example: Ján Hrach
+            given_names:
+              description: Krstné mená.
+              type: array
+              items:
+                type: string
+              example: [Ján]
+            preferred_given_name:
+              description: Preferované krstné meno.
+              type: string
+              example: null
+            given_family_names:
+              description: Rodné priezviská.
+              type: array
+              items:
+                $ref: '#/components/schemas/UpvsNaturalPersonFamilyName'
+              example: []
+            family_names:
+              description: Priezviská.
+              type: array
+              items:
+                $ref: '#/components/schemas/UpvsNaturalPersonFamilyName'
+              example:
+                - primary: null
+                  prefix: null
+                  value: Hrach
+            legal_name:
+              description: Právne meno.
+              type: string
+              example: null
+            other_name:
+              description: Ďalšie meno.
+              type: string
+              example: null
+            prefixes:
+              description: Tituly pred menom podľa číselníka ŠÚSR 0062.
+              type: array
+              items:
+                $ref: '#/components/schemas/UpvsNaturalPersonAffix'
+              example: []
+            suffixes:
+              description: Tituly za menom podľa číselníka ŠÚSR 0063.
+              type: array
+              items:
+                $ref: '#/components/schemas/UpvsNaturalPersonAffix'
+              example: []
+            alternative_names:
+              description: Alternatívne meno.
+              type: array
+              items:
+                type: string
+              example: []
+            gender:
+              description: Pohlavie podľa číselníka ŠÚSR 3003.
+              allOf:
+                - $ref: '#/components/schemas/UpvsEnumeration'
+                - example:
+                    id: 0
+                    name: nezistené
+                    description: null
+            marital_status:
+              description: Rodinný stav podľa číselníka ŠÚSR 4002.
+              type: string
+              example: nezistené
+            vital_status:
+              description: Existenčný stav podľa číselníka ŠÚSR 4003.
+              allOf:
+                - $ref: '#/components/schemas/UpvsEnumeration'
+                - example: null
+            nationality:
+              description: Štátna príslušnosť podľa číselníka ŠÚSR 0086.
+              allOf:
+                - $ref: '#/components/schemas/UpvsEnumeration'
+                - example:
+                    id: 0
+                    name: 703
+                    description: null
+            occupation:
+              description: Povolanie podľa číselníka ŠÚSR 5598.
+              allOf:
+                - $ref: '#/components/schemas/UpvsEnumeration'
+                - example: null
+            birth:
+              description: Narodenie.
+              allOf:
+                - $ref: '#/components/schemas/UpvsNaturalPersonVitalEvent'
+                - example:
+                    date: '1967-08-13'
+                    country: null
+                    district: null
+                    municipality: null
+                    part: null
+            death:
+              description: Úmrtie.
+              allOf:
+                - $ref: '#/components/schemas/UpvsNaturalPersonVitalEvent'
+                - example:
+                    date: '2014-08-13'
+                    country: null
+                    district: null
+                    municipality: null
+                    part: null
+            updated_on:
+              description: Dátum nahlásenia zmeny stavu.
+              type: string
+              format: date
+              example: null
+      example:
+        ids:
+          - type: sector_upvs
+            value: 9da88804-626b-4a38-b441-0b658fdacf3a
+        uri: rc://sk/6901014578_hrach_jan
+        en: E0000012641
+        type: natural_person
+        status: activated
+        name: Ján Hrach
+        suffix: null
+        various_ids: []
+        upvs:
+          edesk_number: E0000012641
+          edesk_status: created
+          edesk_remote_uri: null
+          edesk_cuet_delivery_enabled: false
+          edesk_delivery_limited: false
+          enotify_preferred_channel: null
+          enotify_preferred_calendar: null
+          enotify_emergency_allowed: null
+          enotify_email_allowed: null
+          enotify_sms_allowed: null
+          preferred_language: sk
+          re_iam_identity_id: 217116
+        natural_person:
+          type:
+            id: 1
+            name: Občan SR s trvalým pobytom na území SR
+            description: null
+          name: Ján Hrach
+          given_names:
+            - Ján
+          preferred_given_name: null
+          given_family_names: []
+          family_names:
+            - primary: null
+              prefix: null
+              value: Hrach
+          legal_name: null
+          other_name: null
+          prefixes: []
+          suffixes: []
+          alternative_names: []
+          gender:
+            id: 0
+            name: nezistené
+            description: null
+          marital_status: nezistené
+          vital_status: null
+          nationality:
+            id: 0
+            name: 703
+            description: null
+          occupation: null
+          birth:
+            date: '1967-08-13'
+            country: null
+            district: null
+            municipality: null
+            part: null
+          death:
+            date: '2014-08-13'
+            country: null
+            district: null
+            municipality: null
+            part: null
+          updated_on: null
+        addresses:
+          - type: resident
+            inline: null
+            country:
+              id: 0
+              name: Slovenská republika
+              description: null
+            region: null
+            district: null
+            municipality:
+              id: 0
+              name: Smižany
+              description: null
+            part: null
+            street: Javorová
+            building_number: null
+            registration_number: 4645
+            unit: null
+            building_index: null
+            delivery_address: null
+            ra_entry: null
+            specified: true
+        emails: []
+        phones: []
+
+    UpvsNaturalPersonAffix:
+      description: Afix fyzickej osoby.
+      properties:
+        type:
+          description: |
+            Typ afixu:
+              - `aristocratic` aristokratický titul,
+              - `generation` generačný titul,
+              - `military` vojenský titul,
+              - `qualification` kvalifikačný titul.
+          type: string
+          enum: [aristocratic, generation, military, qualification]
+        value:
+          description: Afix.
+          type: string
+
+    UpvsNaturalPersonFamilyName:
+      description: Priezvisko fyzickej osoby.
+      properties:
+        primary:
+          description: Indikátor či ide o hlavné priezvisko.
+          type: boolean
+        prefix:
+          description: Prefix priezviska.
+          type: string
+        value:
+          description: Priezvisko.
+          type: string
+
+    UpvsNaturalPersonVitalEvent:
+      description: Existenčná udalosť fyzickej osoby.
+      properties:
+        date:
+          description: Dátum udalosti.
+          type: string
+          format: date
+        country:
+          description: Krajina udalosti podľa číselníka ŠÚSR 0086.
+          allOf:
+            - $ref: '#/components/schemas/UpvsEnumeration'
+        district:
+          description: Okres udalosti podľa číselníka ŠÚSR 0024.
+          allOf:
+            - $ref: '#/components/schemas/UpvsEnumeration'
+        municipality:
+          description: Obec udalosti podľa číselníka ŠÚSR 0025.
+          allOf:
+            - $ref: '#/components/schemas/UpvsEnumeration'
+        part:
+          description: Časť obce udalosti.
+          type: string
+
+    UpvsEnumeration:
+      description: Hodnota podľa číselníka.
+      properties:
+        id:
+          description: Identifikátor hodnoty.
+          type: string
+        name:
+          description: Názov hodnoty.
+          type: string
+        description:
+          description: Popis hodnoty.
+          type: string
+
   securitySchemes:
     'API Token':
       description: |
