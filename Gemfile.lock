@@ -80,6 +80,8 @@ GEM
     hashie (3.6.0)
     i18n (1.8.2)
       concurrent-ruby (~> 1.0)
+    jbuilder (2.9.1)
+      activesupport (>= 4.2.0)
     jdbc-postgres (42.2.6)
     jwt (2.1.0)
     listen (3.2.1)
@@ -190,6 +192,7 @@ DEPENDENCIES
   delayed_job_active_record
   dotenv-rails
   factory_bot_rails
+  jbuilder
   jwt (~> 2.1.0)
   listen
   nokogiri

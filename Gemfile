@@ -11,6 +11,7 @@ gem 'delayed_job_active_record'
 gem 'clockwork'
 gem 'nokogiri'
 gem 'redis'
+gem 'jbuilder'
 gem 'tzinfo-data', platforms: [:jruby]
 
 group :development, :test do
