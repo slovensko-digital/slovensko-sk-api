@@ -31,44 +31,50 @@ paths:
   /login:
     get:
       tags: [Prihlasovanie pomocou eID]
-      description: Prihlásenie pomocou slovensko.sk (ÚPVS). Po úspešnom prihlásení nasleduje presmerovanie späť na callback URL tretej strany. V parametri `token` bude zaslaný OBO (On-Behalf-Of) token využiteľný na získanie údajov o prihlásenom subjekte alebo volanie ďaľších rozhraní v mene prihláseného subjektu.
+      summary: Prihlási používateľa pomocou eID
+      description: |
+        Prihlási používateľa pomocou slovensko.sk (ÚPVS).
+
+        Po úspešnom prihlásení nasleduje presmerovanie späť na callback URL tretej strany.
+
+        V parametri `token` bude zaslaný OBO (On-Behalf-Of) token použiteľný na získanie údajov o prihlásenom používateľovi alebo na volanie ďaľších rozhraní v mene prihláseného používateľa.
       parameters:
-      - name: callback
-        in: query
-        required: true
-        description: Callback URL, na ktorú bude používateľ presmerovaný po úspešnom prihlásení. Callback URL musí byť prefixom jednej zo zaregistrovaných adries na úrovni API komponentu, musí mať rovnakú doménu a schému.
-        schema:
-          type: string
-          format: URL
+        - name: callback
+          in: query
+          required: true
+          description: Callback URL, na ktorú bude používateľ presmerovaný po úspešnom prihlásení. Callback URL musí byť prefixom jednej zo zaregistrovaných adries na úrovni API komponentu, musí mať rovnakú doménu a schému.
+          schema:
+            type: string
+            format: URL
       responses:
         302:
-          description: Presmerovanie na prihlasovaciu stránku ÚPVS a následne na callback URL tretej strany.
+          description: Úspešné presmerovanie na prihlasovaciu stránku ÚPVS a následne na callback URL tretej strany.
       callbacks:
         login:
           '{$request.query.callback}':
             get:
               parameters:
-              - name: token
-                in: query
-                required: true
-                description: |
-                  OBO token v JWT formáte, ktorého payload vyzerá nasledovne:
+                - name: token
+                  in: query
+                  required: true
+                  description: |
+                    OBO token v JWT formáte, ktorého payload vyzerá nasledovne:
 
-                      {
-                        "sub": "rc://sk/8311577984_tisici_janko",
-                        "exp": 1545147549,
-                        "nbf": 1545146349,
-                        "iat": 1545146349,
-                        "jti": "ad8e5d2a-85ff-46b9-a13f-ac860db9acee",
-                        "name": "Janko Tisíci",
-                        "scopes": [
-                          "sktalk/receive",
-                          "sktalk/receive_and_save_to_outbox"
-                        ]
-                      }
-                schema:
-                  type: string
-                  format: JWT
+                        {
+                          "sub": "rc://sk/8311577984_tisici_janko",
+                          "exp": 1545147549,
+                          "nbf": 1545146349,
+                          "iat": 1545146349,
+                          "jti": "ad8e5d2a-85ff-46b9-a13f-ac860db9acee",
+                          "name": "Janko Tisíci",
+                          "scopes": [
+                            "sktalk/receive",
+                            "sktalk/receive_and_save_to_outbox"
+                          ]
+                        }
+                  schema:
+                    type: string
+                    format: JWT
               responses:
                 200:
                   description: Úspešné prihlásenie.
@@ -76,18 +82,22 @@ paths:
   /logout:
     get:
       tags: [Prihlasovanie pomocou eID]
-      description: Odhlásenie pomocou slovensko.sk (ÚPVS). Po úspešnom odhlásení nasleduje presmerovanie späť na callback URL tretej strany.
+      summary: Odhlási používateľa
+      description: |
+        Odhlási používateľa pomocou slovensko.sk (ÚPVS).
+
+        Po úspešnom odhlásení nasleduje presmerovanie späť na callback URL tretej strany.
       parameters:
-      - name: callback
-        in: query
-        required: true
-        description: Callback URL, na ktorú bude používateľ presmerovaný po úspešnom odhlásení. Callback URL musí byť prefixom jednej zo zaregistrovaných adries na úrovni API komponentu, musí mať rovnakú doménu a schému.
-        schema:
-          type: string
-          format: URL
+        - name: callback
+          in: query
+          required: true
+          description: Callback URL, na ktorú bude používateľ presmerovaný po úspešnom odhlásení. Callback URL musí byť prefixom jednej zo zaregistrovaných adries na úrovni API komponentu, musí mať rovnakú doménu a schému.
+          schema:
+            type: string
+            format: URL
       responses:
         302:
-          description: Presmerovanie na callback URL tretej strany.
+          description: Úspešné presmerovanie na callback URL tretej strany.
       callbacks:
         logout:
           '{$request.query.callback}':
@@ -96,99 +106,102 @@ paths:
                 200:
                   description: Úspešné odhlásenie.
       security:
-      - 'API + OBO Token': []
+        - 'API + OBO Token': []
 
   /api/sktalk/receive_and_save_to_outbox:
     post:
       tags: [Zasielanie podaní]
-      description: Odošle SKTalk správu a uloží ju medzi odoslané správy v schránke.
-      parameters:
-      - name: message
-        in: query
-        required: true
-        description: 'SKTalk správa vo formáte XML, napríklad `<SKTalkMessage>...</SKTalkMessage>`'
-        schema:
-          type: string
-          format: XML
+      summary: Odošle správu a uloží ju medzi odoslané správy v schránke
+      description: |
+        Odošle SKTalk správu a uloží ju medzi odoslané správy v schránke.
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                message:
+                  description: SKTalk správa vo formáte XML.
+                  type: string
+                  format: xml
+                  example: <SKTalkMessage> ...
+              required:
+                - message
       responses:
         200:
-          description: SKTalk správa bola odoslaná a uložená medzi odoslané správy v schránke.
+          description: Úspešné odoslanie SKTalk správy a uloženie medzi odoslané správy v schránke.
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  receive_result:
-                    type: integer
-                  save_to_outbox_result:
-                    type: integer
-                required:
-                - receive_result
-                - save_to_outbox_result
-                example:
-                  receive_result: 0
-                  save_to_outbox_result: 0
+                $ref: '#/components/schemas/SktalkReceiveAndSaveToOutboxResult'
       security:
-      - 'API Token': []
-      - 'API + OBO Token': []
+        - 'API Token': []
+        - 'API + OBO Token': []
 
   /api/sktalk/receive:
     post:
       tags: [Zasielanie podaní]
-      description: Odošle SKTalk správu.
-      parameters:
-      - name: message
-        in: query
-        required: true
-        description: 'SKTalk správa vo formáte XML, napríklad `<SKTalkMessage>...</SKTalkMessage>`'
-        schema:
-          type: string
-          format: XML
+      summary: Odošle SKTalk správu
+      description: |
+        Odošle SKTalk správu.
+
+        Za normálnych okolností je však potrebné odoslanú správu aj vložiť do odoslaných správ. Využite endpoint `api/sktalk/receive_and_save_to_outbox`.
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                message:
+                  description: SKTalk správa vo formáte XML.
+                  type: string
+                  format: xml
+                  example: <SKTalkMessage> ...
+              required:
+                - message
       responses:
         200:
-          description: SKTalk správa bola odoslaná.
+          description: Úspešné odosialnie SKTalk správy.
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  receive_result:
-                    type: integer
-                required:
-                - receive_result
-                example:
-                  receive_result: 0
+                $ref: '#/components/schemas/SktalkReceiveResult'
       security:
-      - 'API Token': []
-      - 'API + OBO Token': []
+        - 'API Token': []
+        - 'API + OBO Token': []
 
   /api/eform/validate:
     post:
       tags: [Zasielanie podaní]
-      description: Zvaliduje eForm dáta voči definícii formuláru.
-      parameters:
-      - name: identifier
-        in: query
-        required: true
-        description: 'Identifikátor formuláru, napríklad `App.GeneralAgenda`'
-        schema:
-          type: string
-      - name: version
-        in: query
-        required: true
-        description: 'Verzia formuláru, napríklad `1.9`'
-        schema:
-          type: string
-      - name: data
-        in: query
-        required: true
-        description: 'Dáta formuláru, napríklad `<GeneralAgenda>...</GeneralAgenda>`'
-        schema:
-          type: string
-          format: XML
+      summary: Zvaliduje dáta voči definícii formuláru
+      description: |
+        Zvaliduje dáta voči definícii formuláru.
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                identifier:
+                  description: Identifikátor formuláru.
+                  type: string
+                  example: App.GeneralAgenda
+                version:
+                  description: Verzia formuláru.
+                  type: string
+                  example: 1.9
+                form:
+                  description: Dáta formuláru.
+                  type: string
+                  format: xml
+                  example: <GeneralAgenda> ...
+              required:
+                - identifier
+                - version
+                - form
       responses:
         200:
-          description: eForm dáta boli úspešne validované voči definícii formuláru.
+          description: Úspešné validovanie dát voči definícii formuláru.
           content:
             application/json:
               schema:
@@ -201,32 +214,36 @@ paths:
                     items:
                       type: string
                 required:
-                - valid
+                  - valid
                 example:
                   valid: true
       security:
-      - 'API Token': []
+        - 'API Token': []
 
   /api/eform/status:
     get:
       tags: [Zasielanie podaní]
-      description: Vráti eForm status formuláru.
+      summary: Vráti stav formuláru
+      description: |
+        Vráti stav formuláru.
       parameters:
-      - name: identifier
-        in: query
-        required: true
-        description: 'Identifikátor formuláru, napríklad `App.GeneralAgenda`'
-        schema:
-          type: string
-      - name: version
-        in: query
-        required: true
-        description: 'Verzia formuláru, napríklad `1.9`'
-        schema:
-          type: string
+        - name: identifier
+          in: query
+          required: true
+          description: Identifikátor formuláru.
+          schema:
+            type: string
+            example: App.GeneralAgenda
+        - name: version
+          in: query
+          required: true
+          description: Verzia formuláru.
+          schema:
+            type: string
+            example: 1.9
       responses:
         200:
-          description: eForm status formuláru bol vrátený.
+          description: Úspešne vrátený stav formuláru.
           content:
             application/json:
               schema:
@@ -235,46 +252,82 @@ paths:
                   status:
                     type: string
                 required:
-                - status
+                  - status
                 example:
                   status: Publikovaný
       security:
-      - 'API Token': []
+        - 'API Token': []
 
   /api/upvs/user/info:
     get:
       tags: [Informácie o prihlásenom používateľovi]
-      description: Vráti profil prihláseného používateľa.
+      summary: Vráti informácie o prihlásenom používateľovi
+      description: |
+        Vráti informácie o prihlásenom používateľovi ako ÚPVS profil identity.
       responses:
         200:
           description: Úspešne vrátený profil identity.
           content:
             application/json:
               schema:
-                oneOf:
-                  - $ref: '#/components/schemas/UpvsCorporateBody'
-                  - $ref: '#/components/schemas/UpvsNaturalPerson'
+                type: array
+                items:
+                  oneOf:
+                    - $ref: '#/components/schemas/UpvsCorporateBody'
+                    - $ref: '#/components/schemas/UpvsNaturalPerson'
       security:
-        - 'API Token': []
+        - 'API + OBO Token': []
 
   /api/upvs/user/info.saml:
     get:
       tags: [Informácie o prihlásenom používateľovi]
-      description: Vráti ÚPVS SAML assertion v pôvodnom formáte.
+      summary: Vráti informácie o prihlásenom používateľovi
+      description: |
+        Vráti informácie o prihlásenom používateľovi ako ÚPVS SAML assertion v pôvodnom formáte.
       responses:
         200:
-          description: ÚPVS SAML assertion v pôvodnom formáte bola vrátená.
+          description: Úspešné vrátenie ÚPVS SAML assertion v pôvodnom formáte.
           content:
             application/samlassertion+xml:
               schema:
                 type: string
+                format: saml
+                xml:
+                  name: saml:Assertion
                 example:
-                  <saml:Assertion>...</saml:Assertion>
+                  ...
       security:
-      - 'API + OBO Token': []
+        - 'API + OBO Token': []
 
 components:
   schemas:
+    SktalkReceiveResult:
+      description: Výsledok odoslania SKTalk správy.
+      properties:
+        receive_result:
+          description: Výsledný kód operácie, hodnota `0` znamená úspešné prijatie správy na odoslanie.
+          type: integer
+      required:
+        - receive_result
+      example:
+        receive_result: 0
+
+    SktalkReceiveAndSaveToOutboxResult:
+      description: Výsledok odoslania SKTalk správy a uloženia medzi odoslané správy.
+      properties:
+        receive_result:
+          description: Výsledok odoslania správy, hodnota `0` znamená úspešné prijatie správy na odoslanie.
+          type: integer
+        save_to_outbox_result:
+          description: Výsledok uloženia medzi odoslané správy, hodnota `0` znamená úspešné prijatie správy na uloženie medzi odoslané správy.
+          type: integer
+      required:
+        - receive_result
+        - save_to_outbox_result
+      example:
+        receive_result: 0
+        save_to_outbox_result: 0
+
     UpvsIdentity:
       description: ÚPVS identita.
       properties:
