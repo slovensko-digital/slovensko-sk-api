@@ -1,7 +1,6 @@
-.dockerignore
 .git
 
-log/
-tmp/
+/log/*
+/tmp/*
 
-security/
+/security/*
