@@ -3,9 +3,9 @@ class IamRepository
     @upvs = proxy
   end
 
-  def identity(key)
+  def identity(id)
     request = factory.create_get_identity_request
-    request.identity_id = key
+    request.identity_id = id
 
     @upvs.iam.get_identity(request).identity_data
   end
