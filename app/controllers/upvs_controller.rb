@@ -54,6 +54,7 @@ class UpvsController < ApiController
   end
 
   def fetch_profile(assertion)
+    # TODO maybe move this to some SAML assertions helper module (also extract assertion related helpers from OBO token authenticator)
     id = Nokogiri::XML(assertion).at_xpath('//saml:Attribute[@Name="SubjectID"]/saml:AttributeValue').content
     UpvsEnvironment.iam_repository(assertion: assertion).identity(id)
   end
