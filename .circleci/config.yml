@@ -4,8 +4,6 @@ jobs:
     working_directory: ~/slovensko-digital/slovensko-sk-api
 
     docker:
-      # TODO add Java image here to force proper version (probably still uses 1.8 by default)
-
       - image: circleci/jruby:9.2.9.0-jdk
         environment:
           RAILS_ENV: test
@@ -13,7 +11,7 @@ jobs:
       - image: circleci/postgres:11
         environment:
           POSTGRES_USER: ubuntu
-          POSTGRES_PASSWORD: ''
+          POSTGRES_HOST_AUTH_METHOD: trust
 
       - image: circleci/redis:5
 
