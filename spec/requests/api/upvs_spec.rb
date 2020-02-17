@@ -6,6 +6,8 @@ RSpec.describe 'UPVS API' do
 
     let!(:token) { api_token_with_obo_token_from_response(file_fixture('oam/sso_response_success.xml').read) }
 
+    before(:example) { allow(UpvsProxy).to receive(:new).and_wrap_original { double }}
+
     after(:example) { travel_back }
 
     describe 'GET /api/upvs/user/info' do
