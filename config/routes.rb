@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  scope constraints: { format: :json } do
+  scope defaults: { format: :json }, constraints: { format: :json } do
     namespace :admin do
       get :eform_sync, path: 'eform/sync'
     end
