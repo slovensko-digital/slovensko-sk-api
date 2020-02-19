@@ -1,12 +1,20 @@
-FROM jruby:9.2.5.0-jdk-alpine
-RUN apk add --no-cache --update build-base postgresql-dev nodejs curl
+FROM jruby:9.2.9.0-jdk
+
+RUN apt-get update
+RUN apt-get install -y build-essential libpq-dev curl openssl
+
 RUN mkdir /app
 WORKDIR /app
+
+# compile then cache libraries
 COPY lib lib
-RUN ./lib/upvs/compile
-RUN gem install bundler
-RUN gem update --system
+RUN lib/upvs/compile
+
+# install then cache dependencies
 COPY Gemfile Gemfile.lock ./
-RUN bundle install --without development:test --path vendor/bundle --deployment
+RUN gem update --system
+RUN gem install bundler
+RUN bundle install --deployment --without development:test
+
 COPY . .
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]

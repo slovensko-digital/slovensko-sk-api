@@ -1,4 +1,6 @@
 class UpvsController < ApiController
+  include ActionController::MimeResponds
+
   def login
     session[:login_callback_url] = fetch_callback_url(Environment.login_callback_urls)
 
@@ -13,10 +15,13 @@ class UpvsController < ApiController
     redirect_to callback_url_with_token(session[:login_callback_url], token)
   end
 
-  def assertion
+  def profile
     assertion = Environment.api_token_authenticator.verify_token(authenticity_token, allow_obo: true)
 
-    render content_type: 'application/samlassertion+xml', plain: assertion
+    respond_to do |format|
+      format.json { render partial: 'iam/identities/identity', locals: { identity: fetch_profile(assertion) }}
+      format.saml { render plain: assertion }
+    end
   end
 
   def logout
@@ -46,6 +51,12 @@ class UpvsController < ApiController
     params[:callback]
   rescue URI::Error
     raise CallbackError, :malformed_callback
+  end
+
+  def fetch_profile(assertion)
+    # TODO maybe move this to some SAML assertions helper module (also extract assertion related helpers from OBO token authenticator)
+    id = Nokogiri::XML(assertion).at_xpath('//saml:Attribute[@Name="SubjectID"]/saml:AttributeValue').content
+    UpvsEnvironment.iam_repository(assertion: assertion).identity(id)
   end
 
   def callback_url_with_token(callback_url, token)

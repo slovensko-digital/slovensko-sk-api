@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  scope constraints: { format: :json } do
+  scope defaults: { format: :json }, constraints: { format: :json } do
     namespace :admin do
       get :eform_sync, path: 'eform/sync'
     end
@@ -31,7 +31,7 @@ Rails.application.routes.draw do
 
       if UpvsEnvironment.sso_support?
         namespace :upvs do
-          get :assertion, constraints: { format: :saml }, path: 'user/info'
+          get :profile, constraints: { format: :saml }, path: 'user/info'
         end
       end
     end

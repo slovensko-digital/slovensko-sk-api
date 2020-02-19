@@ -53,11 +53,11 @@ Následne je vhodné vykonať testy pomocou:
 
 - ak je podpora ÚPVS SSO zapnutá:
 
-      docker-compose run web rspec 
+      docker-compose run web sh -c 'bundle install --with test && RAILS_ENV=test rspec' 
 
 - ak je podpora ÚPVS SSO vypnutá:
 
-      docker-compose run web rspec -t ~sso:true
+      docker-compose run web sh -c 'bundle install --with test && RAILS_ENV=test rspec -t ~sso:true'
 
 - pričom pridanie `-t ~upvs` vynechá testy, ktoré používajú živé spojenie s ÚPVS DEV prostredím.
  

@@ -4,16 +4,14 @@ jobs:
     working_directory: ~/slovensko-digital/slovensko-sk-api
 
     docker:
-      # TODO add Java image here to force proper version (probably still uses 1.8 by default)
-
-      - image: circleci/jruby:9.2.5.0-jdk
+      - image: circleci/jruby:9.2.9.0-jdk
         environment:
           RAILS_ENV: test
 
       - image: circleci/postgres:11
         environment:
           POSTGRES_USER: ubuntu
-          POSTGRES_PASSWORD: ''
+          POSTGRES_HOST_AUTH_METHOD: trust
 
       - image: circleci/redis:5
 
@@ -27,7 +25,9 @@ jobs:
 
       - run: ruby --version
       - restore_cache: { keys: ['{{ checksum "Gemfile.lock" }}'] }
-      - run: bundle install --path vendor/bundle
+      - run: gem update --system
+      - run: gem install bundler
+      - run: bundle install --deployment
       - save_cache: { key: '{{ checksum "Gemfile.lock" }}', paths: [vendor/bundle] }
 
       - run: dockerize -wait tcp://localhost:5432 -timeout 60s

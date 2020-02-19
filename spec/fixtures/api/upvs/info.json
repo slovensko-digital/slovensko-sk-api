@@ -1,0 +1,113 @@
+{
+  "ids": [
+    {
+      "type": "sector_upvs",
+      "value": "a9c233b5-6bd7-4d71-87ba-0dad05aa78b0"
+    }
+  ],
+  "uri": "rc://sk/8314451337_tisici_janko",
+  "en": "E0000046176",
+  "type": "natural_person",
+  "status": "activated",
+  "name": "Janko Tisíci",
+  "suffix": null,
+  "various_ids": [],
+  "upvs": {
+    "edesk_number": "E0000046176",
+    "edesk_status": "deliverable",
+    "edesk_remote_uri": null,
+    "edesk_cuet_delivery_enabled": false,
+    "edesk_delivery_limited": false,
+    "enotify_preferred_channel": null,
+    "enotify_preferred_calendar": null,
+    "enotify_emergency_allowed": null,
+    "enotify_email_allowed": null,
+    "enotify_sms_allowed": null,
+    "preferred_language": null,
+    "re_iam_identity_id": null
+  },
+  "natural_person": {
+    "type": {
+      "id": "1",
+      "name": "Občan SR s trvalým pobytom na území SR",
+      "description": null
+    },
+    "name": "Janko Tisíci",
+    "given_names": [
+      "Janko"
+    ],
+    "preferred_given_name": null,
+    "given_family_names": [],
+    "family_names": [
+      {
+        "primary": null,
+        "prefix": null,
+        "value": "Tisíci"
+      }
+    ],
+    "legal_name": null,
+    "other_name": null,
+    "prefixes": [],
+    "suffixes": [],
+    "alternative_names": [],
+    "gender": null,
+    "marital_status": "nezistené",
+    "vital_status": null,
+    "nationality": {
+      "id": "0",
+      "name": "703",
+      "description": null
+    },
+    "occupation": null,
+    "birth": {
+      "date": "1983-11-24",
+      "country": null,
+      "district": null,
+      "municipality": {
+        "id": "SK0104529389",
+        "name": "Bratislava - mestská časť Dúbravka",
+        "description": null
+      },
+      "part": null
+    },
+    "death": null,
+    "updated_on": null
+  },
+  "addresses": [
+    {
+      "type": "resident",
+      "inline": null,
+      "country": {
+        "id": "703",
+        "name": "Slovenská republika",
+        "description": null
+      },
+      "region": null,
+      "district": {
+        "id": "SK0104",
+        "name": "Okres Bratislava IV",
+        "description": null
+      },
+      "municipality": {
+        "id": "SK0104529389",
+        "name": "Bratislava - mestská časť Dúbravka",
+        "description": null
+      },
+      "part": null,
+      "street": "Saratovská",
+      "building_number": "1",
+      "registration_number": 1111,
+      "unit": null,
+      "building_index": null,
+      "delivery_address": {
+        "postal_code": "84102",
+        "post_office_box": null,
+        "recipient": null
+      },
+      "ra_entry": null,
+      "specified": true
+    }
+  ],
+  "emails": [],
+  "phones": []
+}
