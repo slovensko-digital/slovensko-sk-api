@@ -1,21 +1,19 @@
 class SktalkController < ApiController
   before_action { render_bad_request(:no_message) if params[:message].blank? }
 
-  rescue_from(javax.xml.bind.UnmarshalException) { render_bad_request(:malformed_message) }
+  rescue_from(SktalkReceiver::ReceiveMessageFormatError) { render_bad_request(:malformed_message) }
+  rescue_from(SktalkReceiver::ReceiveAsSaveToOutboxError) { render_bad_request(:unsupported_message) }
 
   def receive
     assertion = assertion('sktalk/receive')
-    receive_result = receiver(assertion).receive(params[:message])
 
-    render json: { receive_result: receive_result }
+    render json: receiver(assertion).receive(params[:message], save_to_outbox: false).to_h.compact
   end
 
   def receive_and_save_to_outbox
     assertion = assertion('sktalk/receive_and_save_to_outbox')
-    receive_result = receiver(assertion).receive(params[:message])
-    save_to_outbox_result = receiver(assertion).save_to_outbox(params[:message])
 
-    render json: { receive_result: receive_result, save_to_outbox_result: save_to_outbox_result }
+    render json: receiver(assertion).receive(params[:message], save_to_outbox: true)
   end
 
   private

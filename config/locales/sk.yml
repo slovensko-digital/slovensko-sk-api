@@ -11,6 +11,7 @@ sk:
     no_message: 'Chýba správa'
     no_recipient: 'Chýba príjemca'
     unregistered_callback: 'Nezaregistrované spätné volanie'
+    unsupported_message: 'Nepodporovaná správa'
   internal_server_error: 'Neznáma chyba'
   not_found:
     form_template: 'Formulár %{identifier} verzie %{version} nebol nájdený'
