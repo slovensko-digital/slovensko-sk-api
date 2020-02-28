@@ -10,70 +10,132 @@ RSpec.describe SktalkReceiver, :upvs do
 
   before(:example) { cache_java_object_proxy!(upvs.sktalk) }
 
+  before(:example) { message.gsub!(/(MessageID)>.*</i, "\\1>#{SecureRandom.uuid}<") }
+
   describe '#receive' do
-    it 'receives message' do
-      expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class('EGOV_APPLICATION')).and_call_original
+    context 'with saving to outbox' do
+      it 'receives message and saves it to outbox' do
+        expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class('EGOV_APPLICATION')).and_call_original
+        expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class('EDESK_SAVE_APPLICATION_TO_OUTBOX')).and_call_original
 
-      expect(subject.receive(message)).to be_an(Integer)
-    end
+        expect(subject.receive(message, save_to_outbox: true)).to have_attributes(receive_result: 0, save_to_outbox_result: 0)
+      end
 
-    context 'with malformed message' do
-      let(:message) { 'INVALID' }
+      context 'with malformed message' do
+        let(:message) { 'INVALID' }
 
-      it 'raises error' do
-        expect { subject.receive(message) }.to raise_error(javax.xml.bind.UnmarshalException)
+        it 'does not receive message or save it to outbox' do
+          expect(upvs.sktalk).not_to receive(:receive)
+
+          suppress(SktalkReceiver::ReceiveMessageFormatError) { subject.receive(message, save_to_outbox: true) }
+        end
+
+        it 'raises error' do
+          expect { subject.receive(message, save_to_outbox: true) }.to raise_error(SktalkReceiver::ReceiveMessageFormatError)
+        end
+      end
+
+      context 'with message being saved to outbox' do
+        let(:message) { file_fixture('sktalk/edesk_save_application_to_outbox_general_agenda.xml').read }
+
+        it 'does not receive message or save it to outbox' do
+          expect(upvs.sktalk).not_to receive(:receive)
+
+          suppress(SktalkReceiver::ReceiveAsSaveToOutboxError) { subject.receive(message, save_to_outbox: true) }
+        end
+
+        it 'raises error' do
+          expect { subject.receive(message, save_to_outbox: true) }.to raise_error(SktalkReceiver::ReceiveAsSaveToOutboxError)
+        end
+      end
+
+      context 'with message returning non-zero result' do
+        let(:message) { super.sub(/(Class)>.*</, '\1><') }
+
+        it 'receives message but does not save it to outbox' do
+          expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class(nil)).and_call_original
+          expect(upvs.sktalk).not_to receive(:receive).with(sktalk_message_of_class('EDESK_SAVE_APPLICATION_TO_OUTBOX'))
+
+          expect(subject.receive(message, save_to_outbox: true)).to have_attributes(receive_result: 3100119, save_to_outbox_result: nil)
+        end
+      end
+
+      context 'with connection timeout' do
+        let(:properties) { UpvsEnvironment.properties(assertion: nil).merge('upvs.timeout.connection' => 2) }
+
+        it 'raises error' do
+          expect { subject.receive(message, save_to_outbox: true) }.to raise_error(javax.xml.ws.soap.SOAPFaultException, /connect timed out/i)
+        end
+      end
+
+      context 'with receive timeout' do
+        let(:properties) { UpvsEnvironment.properties(assertion: nil).merge('upvs.timeout.receive' => 2) }
+
+        it 'raises error' do
+          expect { subject.receive(message, save_to_outbox: true) }.to raise_error(javax.xml.ws.soap.SOAPFaultException, /read timed out/i)
+        end
       end
     end
 
-    pending 'with too large message'
+    context 'without saving to outbox' do
+      it 'receives message' do
+        expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class('EGOV_APPLICATION')).and_call_original
 
-    context 'with connection timeout' do
-      let(:properties) { UpvsEnvironment.properties(assertion: nil).merge('upvs.timeout.connection' => 2) }
-
-      it 'raises error' do
-        expect { subject.receive(message) }.to raise_error(javax.xml.ws.soap.SOAPFaultException, /connect timed out/i)
+        expect(subject.receive(message, save_to_outbox: false)).to have_attributes(receive_result: 0, save_to_outbox_result: nil)
       end
-    end
 
-    context 'with receive timeout' do
-      let(:properties) { UpvsEnvironment.properties(assertion: nil).merge('upvs.timeout.receive' => 2) }
+      context 'with malformed message' do
+        let(:message) { 'INVALID' }
 
-      it 'raises error' do
-        expect { subject.receive(message) }.to raise_error(javax.xml.ws.soap.SOAPFaultException, /read timed out/i)
+        it 'does not receive message' do
+          expect(upvs.sktalk).not_to receive(:receive)
+
+          suppress(SktalkReceiver::ReceiveMessageFormatError) { subject.receive(message, save_to_outbox: false) }
+        end
+
+        it 'raises error' do
+          expect { subject.receive(message, save_to_outbox: false) }.to raise_error(SktalkReceiver::ReceiveMessageFormatError)
+        end
       end
-    end
-  end
 
-  describe '#save_to_outbox' do
-    it 'saves message to outbox' do
-      expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class('EDESK_SAVE_APPLICATION_TO_OUTBOX')).and_call_original
+      context 'with message being saved to outbox' do
+        let(:message) { file_fixture('sktalk/edesk_save_application_to_outbox_general_agenda.xml').read }
 
-      expect(subject.save_to_outbox(message)).to be_an(Integer)
-    end
+        it 'does not receive message' do
+          expect(upvs.sktalk).not_to receive(:receive)
 
-    context 'with malformed message' do
-      let(:message) { 'INVALID' }
+          suppress(SktalkReceiver::ReceiveAsSaveToOutboxError) { subject.receive(message, save_to_outbox: false) }
+        end
 
-      it 'raises error' do
-        expect { subject.save_to_outbox(message) }.to raise_error(javax.xml.bind.UnmarshalException)
+        it 'raises error' do
+          expect { subject.receive(message, save_to_outbox: false) }.to raise_error(SktalkReceiver::ReceiveAsSaveToOutboxError)
+        end
       end
-    end
 
-    pending 'with too large message'
+      context 'with message returning non-zero result' do
+        let(:message) { super.sub(/(Class)>.*</, '\1><') }
 
-    context 'with connection timeout' do
-      let(:properties) { UpvsEnvironment.properties(assertion: nil).merge('upvs.timeout.connection' => 2) }
+        it 'receives message' do
+          expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class(nil)).and_call_original
 
-      it 'raises error' do
-        expect { subject.save_to_outbox(message) }.to raise_error(javax.xml.ws.soap.SOAPFaultException, /connect timed out/i)
+          expect(subject.receive(message, save_to_outbox: false)).to have_attributes(receive_result: 3100119, save_to_outbox_result: nil)
+        end
       end
-    end
 
-    context 'with receive timeout' do
-      let(:properties) { UpvsEnvironment.properties(assertion: nil).merge('upvs.timeout.receive' => 2) }
+      context 'with connection timeout' do
+        let(:properties) { UpvsEnvironment.properties(assertion: nil).merge('upvs.timeout.connection' => 2) }
 
-      it 'raises error' do
-        expect { subject.save_to_outbox(message) }.to raise_error(javax.xml.ws.soap.SOAPFaultException, /read timed out/i)
+        it 'raises error' do
+          expect { subject.receive(message, save_to_outbox: false) }.to raise_error(javax.xml.ws.soap.SOAPFaultException, /connect timed out/i)
+        end
+      end
+
+      context 'with receive timeout' do
+        let(:properties) { UpvsEnvironment.properties(assertion: nil).merge('upvs.timeout.receive' => 2) }
+
+        it 'raises error' do
+          expect { subject.receive(message, save_to_outbox: false) }.to raise_error(javax.xml.ws.soap.SOAPFaultException, /read timed out/i)
+        end
       end
     end
   end
