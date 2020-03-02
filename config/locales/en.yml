@@ -11,6 +11,7 @@ en:
     no_message: 'No message'
     no_recipient: 'No recipient'
     unregistered_callback: 'Unregistered callback'
+    unsupported_message: 'Unsupported message'
   internal_server_error: 'Unknown error'
   not_found:
     form_template: 'Form %{identifier} version %{version} not found'

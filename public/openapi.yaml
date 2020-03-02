@@ -114,6 +114,8 @@ paths:
       summary: Odošle správu a uloží ju medzi odoslané správy v schránke
       description: |
         Odošle SKTalk správu a uloží ju medzi odoslané správy v schránke.
+
+        *Volanie neuloží správu medzi odoslané ak výsledok odoslania nemá hodnotu `0`.*
       requestBody:
         content:
           application/x-www-form-urlencoded:

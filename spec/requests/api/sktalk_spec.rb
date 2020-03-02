@@ -13,7 +13,7 @@ RSpec.describe 'SKTalk API' do
 
   describe 'POST /api/sktalk/receive' do
     before(:example) do
-      allow_any_instance_of(SktalkReceiver).to receive(:receive).with(message).and_return(0)
+      allow_any_instance_of(SktalkReceiver).to receive(:receive).with(message, save_to_outbox: false).and_return(SktalkReceiver::ReceiveResults.new(0, nil))
     end
 
     it 'receives message' do
@@ -65,20 +65,29 @@ RSpec.describe 'SKTalk API' do
       expect(response.body).to eq({ message: 'No credentials' }.to_json)
     end
 
-    it 'responds with 400 if request does not contain message to receive' do
+    it 'responds with 400 if request does not contain message' do
       post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + token }
 
       expect(response.status).to eq(400)
       expect(response.body).to eq({ message: 'No message' }.to_json)
     end
 
-    it 'responds with 400 if request contains malformed message to receive' do
-      expect_any_instance_of(SktalkReceiver).to receive(:receive).with('INVALID').and_call_original
+    it 'responds with 400 if request contains malformed message' do
+      expect_any_instance_of(SktalkReceiver).to receive(:receive).with('INVALID', save_to_outbox: false).and_call_original
 
       post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: 'INVALID' }
 
       expect(response.status).to eq(400)
       expect(response.body).to eq({ message: 'Malformed message' }.to_json)
+    end
+
+    it 'responds with 400 if request contains message being saved to outbox' do
+      expect_any_instance_of(SktalkReceiver).to receive(:receive).with(file_fixture('sktalk/edesk_save_application_to_outbox_general_agenda.xml').read, save_to_outbox: false).and_call_original
+
+      post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: file_fixture('sktalk/edesk_save_application_to_outbox_general_agenda.xml').read }
+
+      expect(response.status).to eq(400)
+      expect(response.body).to eq({ message: 'Unsupported message' }.to_json)
     end
 
     it 'responds with 401 if authenticating via expired token' do
@@ -91,7 +100,7 @@ RSpec.describe 'SKTalk API' do
     end
 
     it 'responds with 408 if external service times out' do
-      expect_any_instance_of(SktalkReceiver).to receive(:receive).with(message).and_raise(execution_exception(soap_fault_exception('connect timed out')))
+      expect_any_instance_of(SktalkReceiver).to receive(:receive).with(message, save_to_outbox: false).and_raise(execution_exception(soap_fault_exception('connect timed out')))
 
       post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: message }
 
@@ -138,8 +147,7 @@ RSpec.describe 'SKTalk API' do
 
   describe 'POST /api/sktalk/receive_and_save_to_outbox' do
     before(:example) do
-      allow_any_instance_of(SktalkReceiver).to receive(:receive).with(message).and_return(0)
-      allow_any_instance_of(SktalkReceiver).to receive(:save_to_outbox).with(message).and_return(0)
+      allow_any_instance_of(SktalkReceiver).to receive(:receive).with(message, save_to_outbox: true).and_return(SktalkReceiver::ReceiveResults.new(0, 0))
     end
 
     it 'receives message and saves it to outbox' do
@@ -191,20 +199,29 @@ RSpec.describe 'SKTalk API' do
       expect(response.body).to eq({ message: 'No credentials' }.to_json)
     end
 
-    it 'responds with 400 if request does not contain message to receive' do
+    it 'responds with 400 if request does not contain message' do
       post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + token }
 
       expect(response.status).to eq(400)
       expect(response.body).to eq({ message: 'No message' }.to_json)
     end
 
-    it 'responds with 400 if request contains malformed message to receive' do
-      expect_any_instance_of(SktalkReceiver).to receive(:receive).with('INVALID').and_call_original
+    it 'responds with 400 if request contains malformed message' do
+      expect_any_instance_of(SktalkReceiver).to receive(:receive).with('INVALID', save_to_outbox: true).and_call_original
 
       post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: 'INVALID' }
 
       expect(response.status).to eq(400)
       expect(response.body).to eq({ message: 'Malformed message' }.to_json)
+    end
+
+    it 'responds with 400 if request contains message being saved to outbox' do
+      expect_any_instance_of(SktalkReceiver).to receive(:receive).with(file_fixture('sktalk/edesk_save_application_to_outbox_general_agenda.xml').read, save_to_outbox: true).and_call_original
+
+      post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: file_fixture('sktalk/edesk_save_application_to_outbox_general_agenda.xml').read }
+
+      expect(response.status).to eq(400)
+      expect(response.body).to eq({ message: 'Unsupported message' }.to_json)
     end
 
     it 'responds with 401 if authenticating via expired token' do
@@ -217,7 +234,7 @@ RSpec.describe 'SKTalk API' do
     end
 
     it 'responds with 408 if external service times out' do
-      expect_any_instance_of(SktalkReceiver).to receive(:receive).with(message).and_raise(execution_exception(soap_fault_exception('connect timed out')))
+      expect_any_instance_of(SktalkReceiver).to receive(:receive).with(message, save_to_outbox: true).and_raise(execution_exception(soap_fault_exception('connect timed out')))
 
       post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: message }
 
