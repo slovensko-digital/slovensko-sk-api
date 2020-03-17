@@ -108,46 +108,14 @@ paths:
       security:
         - 'API + OBO Token': []
 
-  /api/sktalk/receive_and_save_to_outbox:
-    post:
-      tags: [Zasielanie podaní]
-      summary: Odošle správu a uloží ju medzi odoslané správy v schránke
-      description: |
-        Odošle SKTalk správu a uloží ju medzi odoslané správy v schránke.
-
-        *Volanie neuloží správu medzi odoslané ak výsledok odoslania nemá hodnotu `0`.*
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                message:
-                  description: SKTalk správa vo formáte XML.
-                  type: string
-                  format: xml
-                  example: <SKTalkMessage> ...
-              required:
-                - message
-      responses:
-        200:
-          description: Úspešné odoslanie SKTalk správy a uloženie medzi odoslané správy v schránke.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SktalkReceiveAndSaveToOutboxResult'
-      security:
-        - 'API Token': []
-        - 'API + OBO Token': []
-
   /api/sktalk/receive:
     post:
       tags: [Zasielanie podaní]
-      summary: Odošle SKTalk správu
+      summary: Odošle správu
       description: |
         Odošle SKTalk správu.
 
-        Za normálnych okolností je však potrebné odoslanú správu aj vložiť do odoslaných správ. Využite endpoint `api/sktalk/receive_and_save_to_outbox`.
+        Za normálnych okolností je potrebné odoslanú správu následne uložiť medzi odoslané správy v schránke. Využite endpoint `api/sktalk/save_to_outbox` alebo `api/sktalk/receive_and_save_to_outbox`.
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -168,6 +136,110 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SktalkReceiveResult'
+      security:
+        - 'API Token': []
+        - 'API + OBO Token': []
+
+  /api/sktalk/receive_and_save_to_outbox:
+    post:
+      tags: [Zasielanie podaní]
+      summary: Odošle správu a uloží ju medzi odoslané správy v schránke
+      description: |
+        Odošle SKTalk správu a uloží ju medzi odoslané správy v schránke.
+
+        Nakoľko ide o dve operácie, ktoré nie je možné transakčne spojiť, možu nastať prípady keď odoslanie prebehne úspešne ale uloženie zlyhá.
+
+        *Volanie neuloží správu medzi odoslané ak výsledok odoslania nemá hodnotu `0` alebo ak prišlo k vypršaniu času požiadavky ÚPVS.*
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                message:
+                  description: SKTalk správa vo formáte XML.
+                  type: string
+                  format: xml
+                  example: <SKTalkMessage> ...
+              required:
+                - message
+      responses:
+        200:
+          description: Úspešné odoslanie SKTalk správy a uloženie medzi odoslané správy v schránke.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SktalkReceiveAndSaveToOutboxResult'
+              examples:
+                'Úspešné odoslanie a úspešné uloženie':
+                  value:
+                    receive_result: 0
+                    receive_timeout: false
+                    save_to_outbox_result: 0
+                    save_to_outbox_timeout: false
+                'Úspešné odoslanie a neúspešné uloženie':
+                  value:
+                    receive_result: 0
+                    receive_timeout: false
+                    save_to_outbox_result: 3100101
+                    save_to_outbox_timeout: false
+                'Neúspešné odoslanie':
+                  value:
+                    receive_result: 3100101
+                    receive_timeout: false
+                    save_to_outbox_result: null
+                    save_to_outbox_timeout: null
+        408:
+          description: Neúspešné odoslanie SKTalk správy alebo uloženie medzi odoslané správy v schránke ak prišlo k vypršaniu času požiadavky ÚPVS.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SktalkReceiveAndSaveToOutboxResult'
+              examples:
+                'Neúspešné odoslanie':
+                  value:
+                    receive_result: null
+                    receive_timeout: true
+                    save_to_outbox_result: null
+                    save_to_outbox_timeout: null
+                'Úspešné odoslanie a neúspešné uloženie':
+                  value:
+                    receive_result: 0
+                    receive_timeout: false
+                    save_to_outbox_result: null
+                    save_to_outbox_timeout: true
+      security:
+        - 'API Token': []
+        - 'API + OBO Token': []
+
+  /api/sktalk/save_to_outbox:
+    post:
+      tags: [Zasielanie podaní]
+      summary: Uloží správu medzi odoslané správy v schránke
+      description: |
+        Uloží SKTalk správu medzi odoslané správy v schránke.
+
+        Za normálnych okolností je potrebné uloženú správu predtým odoslať. Využite endpoint `api/sktalk/receive` alebo `api/sktalk/receive_and_save_to_outbox`.
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                message:
+                  description: SKTalk správa vo formáte XML.
+                  type: string
+                  format: xml
+                  example: <SKTalkMessage> ...
+              required:
+                - message
+      responses:
+        200:
+          description: Úspešné uloženie SKTalk správy medzi odoslané správy v schránke.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SktalkSaveToOutboxResult'
       security:
         - 'API Token': []
         - 'API + OBO Token': []
@@ -312,7 +384,7 @@ components:
       description: Výsledok odoslania SKTalk správy.
       properties:
         receive_result:
-          description: Výsledný kód operácie, hodnota `0` znamená úspešné prijatie správy na odoslanie.
+          description: Výsledok odoslania správy, hodnota `0` znamená úspešné prijatie správy na odoslanie.
           type: integer
       required:
         - receive_result
@@ -325,14 +397,39 @@ components:
         receive_result:
           description: Výsledok odoslania správy, hodnota `0` znamená úspešné prijatie správy na odoslanie.
           type: integer
+          nullable: true
+        receive_timeout:
+          description: Indikátor či pri odoslaní správy prišlo k vypršaniu času požiadavky ÚPVS.
+          type: boolean
+          nullable: false
         save_to_outbox_result:
-          description: Výsledok uloženia medzi odoslané správy, hodnota `0` znamená úspešné prijatie správy na uloženie medzi odoslané správy.
+          description: Výsledok uloženia správy medzi odoslané správy, hodnota `0` znamená úspešné prijatie správy na uloženie medzi odoslané správy.
           type: integer
+          nullable: true
+        save_to_outbox_timeout:
+          description: Indikátor či pri uložení správy medzi odoslané správy prišlo k vypršaniu času požiadavky ÚPVS.
+          type: boolean
+          nullable: true
       required:
         - receive_result
+        - receive_timeout
         - save_to_outbox_result
+        - save_to_outbox_timeout
       example:
         receive_result: 0
+        receive_timeout: false
+        save_to_outbox_result: 0
+        save_to_outbox_timeout: false
+
+    SktalkSaveToOutboxResult:
+      description: Výsledok uloženia SKTalk správy medzi odoslané správy.
+      properties:
+        save_to_outbox_result:
+          description: Výsledok uloženia správy medzi odoslané správy, hodnota `0` znamená úspešné prijatie správy na uloženie medzi odoslané správy.
+          type: integer
+      required:
+        - save_to_outbox_result
+      example:
         save_to_outbox_result: 0
 
     UpvsIdentity:

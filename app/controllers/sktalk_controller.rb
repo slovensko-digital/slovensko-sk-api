@@ -7,13 +7,22 @@ class SktalkController < ApiController
   def receive
     assertion = assertion('sktalk/receive')
 
-    render json: receiver(assertion).receive(params[:message], save_to_outbox: false).to_h.compact
+    render json: { receive_result: receiver(assertion).receive(params[:message]) }
   end
 
   def receive_and_save_to_outbox
     assertion = assertion('sktalk/receive_and_save_to_outbox')
 
-    render json: receiver(assertion).receive(params[:message], save_to_outbox: true)
+    results = receiver(assertion).receive_and_save_to_outbox!(params[:message])
+    status = results.receive_timeout || results.save_to_outbox_timeout ? :request_timeout : :ok
+
+    render status: status, json: results
+  end
+
+  def save_to_outbox
+    assertion = assertion('sktalk/save_to_outbox')
+
+    render json: { save_to_outbox_result: receiver(assertion).save_to_outbox(params[:message]) }
   end
 
   private
