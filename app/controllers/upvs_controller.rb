@@ -9,7 +9,7 @@ class UpvsController < ApiController
 
   def callback
     response = request.env['omniauth.auth']['extra']['response_object']
-    scopes = ['sktalk/receive', 'sktalk/receive_and_save_to_outbox']
+    scopes = ['sktalk/receive', 'sktalk/receive_and_save_to_outbox', 'sktalk/save_to_outbox']
     token = Environment.obo_token_authenticator.generate_token(response, scopes: scopes)
 
     redirect_to callback_url_with_token(session[:login_callback_url], token)

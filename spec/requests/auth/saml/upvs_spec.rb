@@ -119,7 +119,7 @@ RSpec.describe 'UPVS SAML Authentication' do
         it 'generates OBO token with appropriate scopes' do
           authenticator = Environment.obo_token_authenticator
 
-          scopes = ['sktalk/receive', 'sktalk/receive_and_save_to_outbox']
+          scopes = ['sktalk/receive', 'sktalk/receive_and_save_to_outbox', 'sktalk/save_to_outbox']
 
           expect(authenticator).to receive(:generate_token).with(idp_response_object, scopes: scopes).and_call_original
 
