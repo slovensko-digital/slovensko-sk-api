@@ -6,26 +6,61 @@ class SktalkReceiver
   ReceiveMessageFormatError = Class.new(ArgumentError)
   ReceiveAsSaveToOutboxError = Class.new(ArgumentError)
 
-  ReceiveResults = Struct.new(:receive_result, :save_to_outbox_result)
+  ReceiveAndSaveToOutboxResults = Struct.new(:receive_result, :receive_timeout, :save_to_outbox_result, :save_to_outbox_timeout, keyword_init: true)
 
-  def receive(message, save_to_outbox:)
-    message = SktalkMessages.from_xml(message)
-    raise ReceiveAsSaveToOutboxError if message.header.message_info.clazz == SAVE_TO_OUTBOX_CLASS
-    results = ReceiveResults.new(@upvs.sktalk.receive(message))
+  def receive(message)
+    message = parse(message)
+    @upvs.sktalk.receive(message)
+  end
 
-    if save_to_outbox && results.receive_result.zero?
+  def receive_and_save_to_outbox!(message)
+    message = parse(message)
+    results = ReceiveAndSaveToOutboxResults.new
+
+    begin
+      results.receive_result = @upvs.sktalk.receive(message)
+      results.receive_timeout = false
+    rescue => error
+      raise error unless timeout?(error)
+      results.receive_timeout = true
+    end
+
+    if results.receive_result&.zero?
       message.header.message_info.clazz = SAVE_TO_OUTBOX_CLASS
-      results.save_to_outbox_result = @upvs.sktalk.receive(message)
+
+      begin
+        results.save_to_outbox_result = @upvs.sktalk.receive(message)
+        results.save_to_outbox_timeout = false
+      rescue => error
+        raise error unless timeout?(error)
+        results.save_to_outbox_timeout = true
+      end
     end
 
     results
-  rescue javax.xml.bind.UnmarshalException
-    raise ReceiveMessageFormatError
+  end
+
+  def save_to_outbox(message)
+    message = parse(message)
+    message.header.message_info.clazz = SAVE_TO_OUTBOX_CLASS
+    @upvs.sktalk.receive(message)
   end
 
   private
 
   SAVE_TO_OUTBOX_CLASS = 'EDESK_SAVE_APPLICATION_TO_OUTBOX'
+
+  def parse(message)
+    message = SktalkMessages.from_xml(message)
+    raise ReceiveAsSaveToOutboxError if message.header.message_info.clazz == SAVE_TO_OUTBOX_CLASS
+    message
+  rescue javax.xml.bind.UnmarshalException
+    raise ReceiveMessageFormatError
+  end
+
+  def timeout?(error)
+    error.message =~ /(connect|read) timed out/i
+  end
 
   private_constant :SAVE_TO_OUTBOX_CLASS
 end
