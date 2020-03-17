@@ -27,6 +27,7 @@ Rails.application.routes.draw do
       namespace :sktalk do
         post :receive
         post :receive_and_save_to_outbox
+        post :save_to_outbox
       end
 
       if UpvsEnvironment.sso_support?
