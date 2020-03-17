@@ -149,7 +149,7 @@ paths:
 
         Nakoľko ide o dve operácie, ktoré nie je možné transakčne spojiť, možu nastať prípady keď odoslanie prebehne úspešne ale uloženie zlyhá.
 
-        *Volanie neuloží správu medzi odoslané ak výsledok odoslania nemá hodnotu `0` alebo ak prišlo k vypršaniu času požiadavky ÚPVS.*
+        *Volanie neuloží správu medzi odoslané ak výsledok odoslania nemá hodnotu `0` alebo ak prišlo k vypršaniu času požiadavky na ÚPVS.*
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -190,7 +190,7 @@ paths:
                     save_to_outbox_result: null
                     save_to_outbox_timeout: null
         408:
-          description: Neúspešné odoslanie SKTalk správy alebo uloženie medzi odoslané správy v schránke ak prišlo k vypršaniu času požiadavky ÚPVS.
+          description: Neúspešné odoslanie SKTalk správy alebo uloženie medzi odoslané správy v schránke ak prišlo k vypršaniu času požiadavky na ÚPVS.
           content:
             application/json:
               schema:
@@ -399,7 +399,7 @@ components:
           type: integer
           nullable: true
         receive_timeout:
-          description: Indikátor či pri odoslaní správy prišlo k vypršaniu času požiadavky ÚPVS.
+          description: Indikátor či pri odoslaní správy prišlo k vypršaniu času požiadavky na ÚPVS.
           type: boolean
           nullable: false
         save_to_outbox_result:
@@ -407,7 +407,7 @@ components:
           type: integer
           nullable: true
         save_to_outbox_timeout:
-          description: Indikátor či pri uložení správy medzi odoslané správy prišlo k vypršaniu času požiadavky ÚPVS.
+          description: Indikátor či pri uložení správy medzi odoslané správy prišlo k vypršaniu času požiadavky na ÚPVS.
           type: boolean
           nullable: true
       required:
