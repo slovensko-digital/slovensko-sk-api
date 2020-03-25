@@ -69,7 +69,8 @@ paths:
                           "name": "Janko Tisíci",
                           "scopes": [
                             "sktalk/receive",
-                            "sktalk/receive_and_save_to_outbox"
+                            "sktalk/receive_and_save_to_outbox",
+                            "sktalk/save_to_outbox"
                           ]
                         }
                   schema:

@@ -2,7 +2,7 @@ class SktalkController < ApiController
   before_action { render_bad_request(:no_message) if params[:message].blank? }
 
   rescue_from(SktalkReceiver::ReceiveMessageFormatError) { render_bad_request(:malformed_message) }
-  rescue_from(SktalkReceiver::ReceiveAsSaveToOutboxError) { render_bad_request(:unsupported_message) }
+  rescue_from(SktalkReceiver::ReceiveAsSaveToFolderError) { render_bad_request(:unsupported_message) }
 
   def receive
     assertion = assertion('sktalk/receive')

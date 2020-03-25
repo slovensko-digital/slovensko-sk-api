@@ -81,6 +81,15 @@ RSpec.describe 'SKTalk API' do
       expect(response.body).to eq({ message: 'Malformed message' }.to_json)
     end
 
+    it 'responds with 400 if request contains message being saved to drafts' do
+      expect_any_instance_of(SktalkReceiver).to receive(:receive).with(file_fixture('sktalk/edesk_save_application_to_drafts_general_agenda.xml').read).and_call_original
+
+      post '/api/sktalk/receive', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: file_fixture('sktalk/edesk_save_application_to_drafts_general_agenda.xml').read }
+
+      expect(response.status).to eq(400)
+      expect(response.body).to eq({ message: 'Unsupported message' }.to_json)
+    end
+
     it 'responds with 400 if request contains message being saved to outbox' do
       expect_any_instance_of(SktalkReceiver).to receive(:receive).with(file_fixture('sktalk/edesk_save_application_to_outbox_general_agenda.xml').read).and_call_original
 
@@ -213,6 +222,15 @@ RSpec.describe 'SKTalk API' do
 
       expect(response.status).to eq(400)
       expect(response.body).to eq({ message: 'Malformed message' }.to_json)
+    end
+
+    it 'responds with 400 if request contains message being saved to drafts' do
+      expect_any_instance_of(SktalkReceiver).to receive(:receive_and_save_to_outbox!).with(file_fixture('sktalk/edesk_save_application_to_drafts_general_agenda.xml').read).and_call_original
+
+      post '/api/sktalk/receive_and_save_to_outbox', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: file_fixture('sktalk/edesk_save_application_to_drafts_general_agenda.xml').read }
+
+      expect(response.status).to eq(400)
+      expect(response.body).to eq({ message: 'Unsupported message' }.to_json)
     end
 
     it 'responds with 400 if request contains message being saved to outbox' do
@@ -356,6 +374,15 @@ RSpec.describe 'SKTalk API' do
 
       expect(response.status).to eq(400)
       expect(response.body).to eq({ message: 'Malformed message' }.to_json)
+    end
+
+    it 'responds with 400 if request contains message being saved to drafts' do
+      expect_any_instance_of(SktalkReceiver).to receive(:save_to_outbox).with(file_fixture('sktalk/edesk_save_application_to_drafts_general_agenda.xml').read).and_call_original
+
+      post '/api/sktalk/save_to_outbox', headers: { 'Authorization' => 'Bearer ' + token }, params: { message: file_fixture('sktalk/edesk_save_application_to_drafts_general_agenda.xml').read }
+
+      expect(response.status).to eq(400)
+      expect(response.body).to eq({ message: 'Unsupported message' }.to_json)
     end
 
     it 'responds with 400 if request contains message being saved to outbox' do
