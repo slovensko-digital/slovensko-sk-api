@@ -4,7 +4,7 @@ class SktalkReceiver
   end
 
   ReceiveMessageFormatError = Class.new(ArgumentError)
-  ReceiveAsSaveToOutboxError = Class.new(ArgumentError)
+  ReceiveAsSaveToFolderError = Class.new(ArgumentError)
 
   ReceiveAndSaveToOutboxResults = Struct.new(:receive_result, :receive_timeout, :save_to_outbox_result, :save_to_outbox_timeout, keyword_init: true)
 
@@ -48,11 +48,12 @@ class SktalkReceiver
 
   private
 
+  SAVE_TO_DRAFTS_CLASS = 'EDESK_SAVE_APPLICATION_TO_DRAFTS'
   SAVE_TO_OUTBOX_CLASS = 'EDESK_SAVE_APPLICATION_TO_OUTBOX'
 
   def parse(message)
     message = SktalkMessages.from_xml(message)
-    raise ReceiveAsSaveToOutboxError if message.header.message_info.clazz == SAVE_TO_OUTBOX_CLASS
+    raise ReceiveAsSaveToFolderError if message.header.message_info.clazz.in?([SAVE_TO_DRAFTS_CLASS, SAVE_TO_OUTBOX_CLASS])
     message
   rescue javax.xml.bind.UnmarshalException
     raise ReceiveMessageFormatError

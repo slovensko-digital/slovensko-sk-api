@@ -33,17 +33,31 @@ RSpec.describe SktalkReceiver, :upvs do
       end
     end
 
+    context 'with message being saved to drafts' do
+      let(:message) { file_fixture('sktalk/edesk_save_application_to_drafts_general_agenda.xml').read }
+
+      it 'does not receive message' do
+        expect(upvs.sktalk).not_to receive(:receive)
+
+        suppress(SktalkReceiver::ReceiveAsSaveToFolderError) { subject.receive(message) }
+      end
+
+      it 'raises error' do
+        expect { subject.receive(message) }.to raise_error(SktalkReceiver::ReceiveAsSaveToFolderError)
+      end
+    end
+
     context 'with message being saved to outbox' do
       let(:message) { file_fixture('sktalk/edesk_save_application_to_outbox_general_agenda.xml').read }
 
       it 'does not receive message' do
         expect(upvs.sktalk).not_to receive(:receive)
 
-        suppress(SktalkReceiver::ReceiveAsSaveToOutboxError) { subject.receive(message) }
+        suppress(SktalkReceiver::ReceiveAsSaveToFolderError) { subject.receive(message) }
       end
 
       it 'raises error' do
-        expect { subject.receive(message) }.to raise_error(SktalkReceiver::ReceiveAsSaveToOutboxError)
+        expect { subject.receive(message) }.to raise_error(SktalkReceiver::ReceiveAsSaveToFolderError)
       end
     end
 
@@ -96,17 +110,31 @@ RSpec.describe SktalkReceiver, :upvs do
       end
     end
 
+    context 'with message being saved to drafts' do
+      let(:message) { file_fixture('sktalk/edesk_save_application_to_drafts_general_agenda.xml').read }
+
+      it 'does not receive message or save it to outbox' do
+        expect(upvs.sktalk).not_to receive(:receive)
+
+        suppress(SktalkReceiver::ReceiveAsSaveToFolderError) { subject.receive_and_save_to_outbox!(message) }
+      end
+
+      it 'raises error' do
+        expect { subject.receive_and_save_to_outbox!(message) }.to raise_error(SktalkReceiver::ReceiveAsSaveToFolderError)
+      end
+    end
+
     context 'with message being saved to outbox' do
       let(:message) { file_fixture('sktalk/edesk_save_application_to_outbox_general_agenda.xml').read }
 
       it 'does not receive message or save it to outbox' do
         expect(upvs.sktalk).not_to receive(:receive)
 
-        suppress(SktalkReceiver::ReceiveAsSaveToOutboxError) { subject.receive_and_save_to_outbox!(message) }
+        suppress(SktalkReceiver::ReceiveAsSaveToFolderError) { subject.receive_and_save_to_outbox!(message) }
       end
 
       it 'raises error' do
-        expect { subject.receive_and_save_to_outbox!(message) }.to raise_error(SktalkReceiver::ReceiveAsSaveToOutboxError)
+        expect { subject.receive_and_save_to_outbox!(message) }.to raise_error(SktalkReceiver::ReceiveAsSaveToFolderError)
       end
     end
 
@@ -168,17 +196,31 @@ RSpec.describe SktalkReceiver, :upvs do
       end
     end
 
+    context 'with message being saved to drafts' do
+      let(:message) { file_fixture('sktalk/edesk_save_application_to_drafts_general_agenda.xml').read }
+
+      it 'does not save message to outbox' do
+        expect(upvs.sktalk).not_to receive(:receive)
+
+        suppress(SktalkReceiver::ReceiveAsSaveToFolderError) { subject.save_to_outbox(message) }
+      end
+
+      it 'raises error' do
+        expect { subject.save_to_outbox(message) }.to raise_error(SktalkReceiver::ReceiveAsSaveToFolderError)
+      end
+    end
+
     context 'with message being saved to outbox' do
       let(:message) { file_fixture('sktalk/edesk_save_application_to_outbox_general_agenda.xml').read }
 
       it 'does not save message to outbox' do
         expect(upvs.sktalk).not_to receive(:receive)
 
-        suppress(SktalkReceiver::ReceiveAsSaveToOutboxError) { subject.save_to_outbox(message) }
+        suppress(SktalkReceiver::ReceiveAsSaveToFolderError) { subject.save_to_outbox(message) }
       end
 
       it 'raises error' do
-        expect { subject.save_to_outbox(message) }.to raise_error(SktalkReceiver::ReceiveAsSaveToOutboxError)
+        expect { subject.save_to_outbox(message) }.to raise_error(SktalkReceiver::ReceiveAsSaveToFolderError)
       end
     end
 
