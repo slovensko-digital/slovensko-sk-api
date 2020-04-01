@@ -9,16 +9,16 @@ class SktalkReceiver
   ReceiveAndSaveToOutboxResults = Struct.new(:receive_result, :receive_timeout, :save_to_outbox_result, :save_to_outbox_timeout, keyword_init: true)
 
   def receive(message)
-    message = parse(message)
-    @upvs.sktalk.receive(message)
+    object = parse(message)
+    @upvs.sktalk.receive(object)
   end
 
   def receive_and_save_to_outbox!(message)
-    message = parse(message)
+    object = parse(message)
     results = ReceiveAndSaveToOutboxResults.new
 
     begin
-      results.receive_result = @upvs.sktalk.receive(message)
+      results.receive_result = @upvs.sktalk.receive(object)
       results.receive_timeout = false
     rescue => error
       raise error unless timeout?(error)
@@ -26,10 +26,11 @@ class SktalkReceiver
     end
 
     if results.receive_result&.zero?
-      message.header.message_info.clazz = SAVE_TO_OUTBOX_CLASS
+      object = parse(message)
+      object.header.message_info.clazz = SAVE_TO_OUTBOX_CLASS
 
       begin
-        results.save_to_outbox_result = @upvs.sktalk.receive(message)
+        results.save_to_outbox_result = @upvs.sktalk.receive(object)
         results.save_to_outbox_timeout = false
       rescue => error
         raise error unless timeout?(error)
@@ -41,9 +42,9 @@ class SktalkReceiver
   end
 
   def save_to_outbox(message)
-    message = parse(message)
-    message.header.message_info.clazz = SAVE_TO_OUTBOX_CLASS
-    @upvs.sktalk.receive(message)
+    object = parse(message)
+    object.header.message_info.clazz = SAVE_TO_OUTBOX_CLASS
+    @upvs.sktalk.receive(object)
   end
 
   private
@@ -52,9 +53,9 @@ class SktalkReceiver
   SAVE_TO_OUTBOX_CLASS = 'EDESK_SAVE_APPLICATION_TO_OUTBOX'
 
   def parse(message)
-    message = SktalkMessages.from_xml(message)
-    raise ReceiveAsSaveToFolderError if message.header.message_info.clazz.in?([SAVE_TO_DRAFTS_CLASS, SAVE_TO_OUTBOX_CLASS])
-    message
+    object = SktalkMessages.from_xml(message)
+    raise ReceiveAsSaveToFolderError if object.header.message_info.clazz.in?([SAVE_TO_DRAFTS_CLASS, SAVE_TO_OUTBOX_CLASS])
+    object
   rescue javax.xml.bind.UnmarshalException
     raise ReceiveMessageFormatError
   end
