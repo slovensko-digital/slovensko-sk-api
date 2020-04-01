@@ -25,6 +25,8 @@ class SktalkReceiver
       results.receive_timeout = true
     end
 
+    # reparse message object to prevent potential modification by previous receive invocation
+
     if results.receive_result&.zero?
       object = parse(message)
       object.header.message_info.clazz = SAVE_TO_OUTBOX_CLASS
