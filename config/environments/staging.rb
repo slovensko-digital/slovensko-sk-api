@@ -37,7 +37,7 @@ Rails.application.configure do
   config.log_level = ENV['LOG_LEVEL'] || :debug
 
   # Prepend all log lines with the following tags.
-  config.log_tags = [ :request_id ]
+  config.log_tags = [:request_id]
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
