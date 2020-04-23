@@ -1,9 +1,10 @@
 class ApiController < ActionController::API
   rescue_from JWT::DecodeError do |error|
+    logger.debug { error.full_message }
+
     if error.message == 'Nil JSON web token'
       render_bad_request(:no_credentials)
     else
-      logger.info(error.message)
       render_unauthorized
     end
   end
@@ -15,10 +16,29 @@ class ApiController < ActionController::API
     java.lang.reflect.UndeclaredThrowableException,
   ]
 
-  rescue_from(*wrappers) { |error| rescue_with_handler(error.cause) || raise }
+  rescue_from(*wrappers) do |error|
+    unless rescue_with_handler(error.cause)
+      logger.debug { error.full_message }
 
-  rescue_from(java.net.SocketTimeoutException, java.util.concurrent.TimeoutException) { render_request_timeout }
-  rescue_from(javax.xml.ws.soap.SOAPFaultException) { |error| render_request_timeout if soap_timeout?(error) }
+      render_internal_server_error
+    end
+  end
+
+  rescue_from(java.net.SocketTimeoutException, java.util.concurrent.TimeoutException) do
+    logger.debug { error.full_message }
+
+    render_request_timeout
+  end
+
+  rescue_from(javax.xml.ws.soap.SOAPFaultException) do |error|
+    logger.debug { error.full_message }
+
+    if soap_timeout?(error)
+      render_request_timeout
+    else
+      render_internal_server_error
+    end
+  end
 
   private
 
