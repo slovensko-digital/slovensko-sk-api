@@ -37,6 +37,6 @@ Rails.application.routes.draw do
       end
     end
 
-    get '500', to: 'errors#internal_server_error'
+    match '500', to: 'errors#internal_server_error', via: :all
   end
 end
