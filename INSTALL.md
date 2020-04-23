@@ -19,6 +19,7 @@ Pred prvým spustením je potrebné pripraviť si adresár, ktorý bude obsahova
 Premenná | Popis | Príklad | Podpora ÚPVS SSO vypnutá
 --- | --- | --- | ---
 `RAILS_ENV` | Prostredie Rails aplikácie | štandardne `production` |
+`LOG_LEVEL` | Úroveň logovania Rails aplikácie | `debug` |
 `SECRET_KEY_BASE` | Kľúč pre zabezpečenie Rails aplikácie<sup>1</sup> | reťazec vygenerovaný cez `rails secret` | 
 `LOGIN_CALLBACK_URLS` | Prefixy adries oddelené čiarkou, na ktoré može byť používateľ presmerovaný po úspešnom prihlásení | `http://localhost:3000` | Nepotrebná 
 `LOGOUT_CALLBACK_URLS` | Prefixy adries oddelené čiarkou, na ktoré može byť používateľ presmerovaný po úspešnom odhlásení | `http://localhost:3000` | Nepotrebná
