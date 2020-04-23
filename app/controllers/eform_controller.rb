@@ -11,8 +11,15 @@ class EformController < ApiController
 
   # TODO consider some sort of rescue-from-soap-fault helper, the goal is not ot override soap fault rescue handler here but reuse the definition in api controller
   rescue_from javax.xml.ws.soap.SOAPFaultException do |error|
-    render_not_found(:form_template, identifier: params[:identifier], version: params[:version]) if error.message == '06000798'
-    render_request_timeout if soap_timeout?(error)
+    logger.debug { error.full_message }
+
+    if soap_timeout?(error)
+      render_request_timeout
+    elsif error.message == '06000798'
+      render_not_found(:form_template, identifier: params[:identifier], version: params[:version])
+    else
+      render_internal_server_error
+    end
   end
 
   def status
