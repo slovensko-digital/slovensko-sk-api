@@ -53,15 +53,15 @@ jobs:
       - run: cp doc/templates/.env.without-upvs-sso-support .env.test
       - run: bundle exec rspec -t ~upvs -t ~sso:true
 
-deploy:
-  machine:
-    enabled: true
+  deploy:
+    machine:
+      enabled: true
 
-  steps:
-    - checkout
+    steps:
+      - checkout
 
-    - run: git push dokku@195.210.28.160:dev.slovensko-sk-api master
-    - run: git push dokku@195.210.28.160:fix.slovensko-sk-api master
+      - run: git push dokku@195.210.28.160:dev.slovensko-sk-api master
+      - run: git push dokku@195.210.28.160:fix.slovensko-sk-api master
 
 workflows:
   main:
