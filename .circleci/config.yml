@@ -7,6 +7,7 @@ jobs:
     docker:
       - image: circleci/jruby:9.2.9.0-jdk
         environment:
+          JRUBY_OPTS: -J-Xmx2048m
           PGHOST: localhost
           RAILS_ENV: test
 
@@ -29,7 +30,8 @@ jobs:
       - restore_cache: { keys: ['{{ checksum "Gemfile.lock" }}'] }
       - run: gem update --system
       - run: gem install bundler
-      - run: bundle install --deployment
+      - run: bundle config set deployment true
+      - run: bundle install
       - save_cache: { key: '{{ checksum "Gemfile.lock" }}', paths: [vendor/bundle] }
 
       - run: dockerize -wait tcp://localhost:5432 -timeout 60s
