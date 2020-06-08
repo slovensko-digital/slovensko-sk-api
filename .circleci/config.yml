@@ -11,12 +11,12 @@ jobs:
           PGHOST: localhost
           RAILS_ENV: test
 
-      - image: circleci/postgres:12.3
+      - image: circleci/postgres:12-alpine-ram
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
 
-      - image: circleci/redis:5.0
+      - image: circleci/redis:5-alpine
 
     steps:
       - checkout
