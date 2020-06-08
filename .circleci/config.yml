@@ -56,14 +56,16 @@ jobs:
       - run: bundle exec rspec -t ~upvs -t ~sso:true
 
   deploy:
-    machine:
-      enabled: true
+    machine: true
+
+    parameters:
+      upvs_env:
+        type: string
 
     steps:
       - checkout
 
-      - run: git push dokku@195.210.28.160:dev.slovensko-sk-api master
-      - run: git push dokku@195.210.28.160:fix.slovensko-sk-api master
+      - run: git push dokku@195.210.28.160:<< parameters.upvs_env >>.slovensko-sk-api master
 
 workflows:
   main:
@@ -75,3 +77,6 @@ workflows:
           filters:
             branches:
               only: master
+          matrix:
+            parameters:
+              upvs_env: [dev, fix]
