@@ -65,7 +65,7 @@ jobs:
     steps:
       - checkout
 
-      - run: git push dokku@195.210.28.160:<< parameters.upvs_env >>.slovensko-sk-api master
+      - run: git push dokku@staging.slovensko.digital:<< parameters.upvs_env >>.slovensko-sk-api master
 
 workflows:
   main:
