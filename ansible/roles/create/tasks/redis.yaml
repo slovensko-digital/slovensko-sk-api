@@ -1,0 +1,20 @@
+---
+- name: Create redis instance
+  gcp_redis_instance:
+    name: '{{ redis_instance_name }}'
+    tier: STANDARD_HA
+    memory_size_gb: 1
+    region: '{{ location }}'
+    redis_version: REDIS_3_2
+    display_name: Auth db
+    project: '{{ project_id }}'
+    state: present
+  register: redis
+
+- name: Enable vpc connectors
+  command: gcloud services enable --project {{project_id}} vpcaccess.googleapis.com
+
+- name: Create redis connector
+  command: gcloud compute networks vpc-access connectors create redis-connector --network default --project {{project_id}} --region {{ location }} --range 10.8.0.0/28
+  ignore_errors: yes
+

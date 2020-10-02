@@ -1,0 +1,11 @@
+---
+- name: Delete sql instance
+  gcp_sql_instance:
+    name: '{{ sql_instance_name }}'
+    backend_type: '{{ sql_instance.backend_type }}'
+    database_version: '{{ sql_instance.database_version }}'
+    settings:
+      tier: '{{ sql_instance.tier }}'
+    region: '{{ location }}'
+    project: '{{ project_id }}'
+    state: absent

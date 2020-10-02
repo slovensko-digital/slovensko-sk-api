@@ -1,0 +1,5 @@
+---
+- import_tasks: sql.yaml
+- import_tasks: redis.yaml
+- import_tasks: slovensko-sk-api-db.yaml
+- import_tasks: slovensko-sk-api.yaml

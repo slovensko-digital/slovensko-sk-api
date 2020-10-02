@@ -1,0 +1,18 @@
+---
+- hosts: localhost
+  tasks:
+    - include_vars: vars/dev.yaml
+      when: env == "dev"
+
+    - include_vars: vars/prod.yaml
+      when: env == "prod"
+
+    - include_vars: vars/common.yaml
+
+    - import_role:
+        name: create
+      when: state == "create"
+
+    - import_role:
+        name: clean
+      when: state == "clean"

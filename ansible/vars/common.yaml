@@ -1,0 +1,15 @@
+---
+project_name: einvoice
+location: europe-west1
+sql_instance:
+  backend_type: SECOND_GEN
+  database_version: POSTGRES_12
+  tier: db-g1-small
+  db_user: slovensko-sk-api
+  db_password: 12345
+  db_name: slovensko-sk-api
+service_account_file: "{{ lookup('env', 'GCP_SERVICE_ACCOUNT_FILE') }}"
+docker_password: " {{ lookup('file', '{{ service_account_file }}' ) }}"
+sql_db_version: 3
+sql_instance_name: "{{ project_name }}-{{ sql_db_version }}-slovensko-sk"
+redis_instance_name: '{{ project_name }}-slovensko-sk'

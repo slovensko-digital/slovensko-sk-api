@@ -1,0 +1,44 @@
+---
+- name: Create sql instance
+  gcp_sql_instance:
+    name: '{{ sql_instance_name }}'
+    backend_type: '{{ sql_instance.backend_type }}'
+    database_version: '{{ sql_instance.database_version }}'
+    settings:
+      tier: '{{ sql_instance.tier }}'
+    region: '{{ location }}'
+    project: '{{ project_id }}'
+    state: present
+  register: sql_instance_res_tmp
+
+- name: Enable private ip
+  command: gcloud --project={{ project_id }} beta sql instances patch {{sql_instance_res_tmp.name}} --network=default --no-assign-ip
+
+- name: Get sql instance info
+  gcp_sql_instance:
+    name: '{{ sql_instance_name }}'
+    backend_type: '{{ sql_instance.backend_type }}'
+    database_version: '{{ sql_instance.database_version }}'
+    settings:
+      tier: '{{ sql_instance.tier }}'
+    region: '{{ location }}'
+    project: '{{ project_id }}'
+    state: present
+  register: sql_instance_res
+
+- name: Create a user
+  ignore_errors: yes
+  gcp_sql_user:
+    name: '{{ sql_instance.db_user }}'
+    host: '{{ sql_instance_res.ipAddresses[0].ipAddress }}'
+    password: '{{ sql_instance.db_password }}'
+    instance: "{{ sql_instance_res }}"
+    project: '{{ project_id }}'
+    state: present
+
+- name: Enable vpc connectors
+  command: gcloud services enable --project {{project_id}} vpcaccess.googleapis.com
+
+- name: Create sql connector
+  command: gcloud compute networks vpc-access connectors create sk-api-sql-connector --network default --project {{project_id}} --region {{ location }} --range 10.9.0.0/28
+  ignore_errors: yes
