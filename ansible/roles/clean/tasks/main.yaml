@@ -1,4 +1,4 @@
 ---
-- import_tasks: cloud-run.yaml
+- import_tasks: slovensko-sk-api.yaml
 - import_tasks: sql.yaml
 - import_tasks: redis.yaml

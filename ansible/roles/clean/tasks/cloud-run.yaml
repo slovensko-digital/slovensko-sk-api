@@ -1,3 +1,0 @@
----
-- name: Delete cloud run slovensko-sk-api
-  command: yes | gcloud run services delete slovensko-sk-api --platform managed --region '{{ location }}'
