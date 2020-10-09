@@ -23,19 +23,13 @@ echo yes | keytool -import -file upvs-dev.pem -keystore upvs-dev.truststore -sto
 # curl -k https://prihlasenie.slovensko.sk/fed/idp/metadata > upvs-prod-idp.metadata.xml
 
 # UPVS_SP_METADATA_FILE UPVS_SP_KS_FILE UPVS_SP_KS_ALIAS UPVS_SP_KS_PASSWORD UPVS_SP_KS_PRIVATE_PASSWORD
-# Prerequisite: Generate einvoice-dev-sp.key.pem and einvoice-dev-sp.certificate.pem as:
-# openssl req -newkey rsa:2048 -nodes -keyout einvoice-dev-sp.key.pem -x509 -days 730 -out einvoice-dev-sp.certificate.cer  -subj "/CN=ico-00151742" -extensions usr_cert -outform DER
-openssl x509 -inform der -in einvoice-dev-sp.certificate.cer -out einvoice-dev-sp.certificate.pem
-openssl pkcs12 -export -inkey einvoice-dev-sp.key.pem -in einvoice-dev-sp.certificate.pem -out einvoice-dev-sp.p12 -name einvoicesp -password pass:password
-keytool -importkeystore -deststorepass password -destkeypass password -destkeystore einvoice-dev-sp.keystore -srckeystore einvoice-dev-sp.p12 -srcstoretype PKCS12 -srcstorepass password -alias einvoicesp
-xmlsec1 --sign --output einvoice-dev-sp.signed.metadata.xml --privkey-pem einvoice-dev-sp.key.pem einvoice-dev-sp.metadata.xml
-
 # UPVS_STS_KS_FILE UPVS_STS_KS_ALIAS UPVS_STS_KS_PASSWORD UPVS_STS_KS_PRIVATE_PASSWORD
-# Prerequisite: Generate einvoice-dev-sts.key.pem and einvoice-dev-sts.certificate.pem as:
-# openssl req -newkey rsa:2048 -nodes -keyout einvoice-dev-sts.key.pem -x509 -days 730 -out einvoice-dev-sts.certificate.cer  -subj "/CN=ico-00151742" -extensions usr_cert -outform DER
-openssl x509 -inform der -in einvoice-dev-sts.certificate.cer -out einvoice-dev-sts.certificate.pem
-openssl pkcs12 -export -inkey einvoice-dev-sts.key.pem -in einvoice-dev-sts.certificate.pem -out einvoice-dev-sts.p12 -name einvoicests -password pass:password
-keytool -importkeystore -deststorepass password -destkeypass password -destkeystore einvoice-dev-sts.keystore -srckeystore einvoice-dev-sts.p12 -srcstoretype PKCS12 -srcstorepass password -alias einvoicests
+# Send einvoice-dev.certificate.cer and einvoice-dev.signed.metadata.xml to UPVS.
+openssl req -newkey rsa:2048 -nodes -keyout einvoice-dev.key.pem -x509 -days 730 -out einvoice-dev.certificate.cer -subj "/CN=ico-11248756" -extensions usr_cert -outform DER
+openssl x509 -inform der -in einvoice-dev.certificate.cer -out einvoice-dev.certificate.pem
+openssl pkcs12 -export -inkey einvoice-dev.key.pem -in einvoice-dev.certificate.pem -out einvoice-dev.p12 -name einvoice -password pass:password
+keytool -importkeystore -deststorepass password -destkeypass password -destkeystore einvoice-dev.keystore -srckeystore einvoice-dev.p12 -srcstoretype PKCS12 -srcstorepass password -alias einvoice
+xmlsec1 --sign --output einvoice-dev.signed.metadata.xml --privkey-pem einvoice-dev.key.pem einvoice-dev.metadata.xml
 
 # Use openssl rand -hex 64 instead of rails secret to generate SECRET_KEY_BASE
 
