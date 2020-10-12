@@ -7,6 +7,7 @@ set -ex
 
 # OBO_TOKEN_PRIVATE_KEY_FILE
 openssl genrsa -out obo-token.private.pem 2048
+openssl rsa -in obo-token.private.pem -pubout -out obo-token.public.pem
 
 # API_TOKEN_PUBLIC_KEY_FILE
 openssl genrsa -out api-token.private.pem 2048
