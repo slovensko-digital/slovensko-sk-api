@@ -1,0 +1,244 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  description: This is REST endpoints API documentation for E-invoice project.
+  title: E-invoice API
+  contact:
+    name: Filip Sládek
+    email: filip.sladek@gmail.com
+servers:
+  - description: Dev
+    url: https://authproxy.dev.filipsladek.com
+paths:
+  /login:
+    get:
+      tags:
+        - Auth
+      summary: Authenticate user with slovensko.sk token
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: User is sucessfully logged in.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInfo'
+  /logout:
+    get:
+      tags:
+        - Auth
+      summary: Logout user
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: User is successfully logged out.
+        401:
+          description: Unauthorized
+
+  /me:
+    get:
+      tags:
+        - Users
+      summary: Get info about current user
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: User is successfully logged out.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInfo'
+        401:
+          description: Unauthorized
+    put:
+      tags:
+        - Users
+      summary: Update user info
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Updated user info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInfo'
+        401:
+          description: Unauthorized
+
+  /api/invoices:
+    get:
+      tags:
+        - Invoices
+      summary: Get list of metadata of all invoices
+      responses:
+        200:
+          description: Successfull response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoices'
+  /api/invoice/full/{invoice_id}:
+    get:
+      tags:
+        - Invoices
+      summary: Get invoice
+      parameters:
+        - name: invoice_id
+          in: path
+          description: Invoice ID
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+  /api/invoice/meta/{invoice_id}:
+    get:
+      tags:
+        - Invoices
+      summary: Get invoice meta data
+      parameters:
+        - name: invoice_id
+          in: path
+          description: Invoice ID
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        200:
+          description: Successfull response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+  /api/invoice/json:
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - Invoices
+      summary: Create JSON invoice
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInvoiceRequest'
+      responses:
+        201:
+          description: Invoice created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+  /api/invoice/ubl:
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - Invoices
+      summary: Create UBL invoice
+      requestBody:
+        description: Invoice in UBL format
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/CreateInvoiceRequest'
+      responses:
+        201:
+          description: Invoice created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+  /api/invoice/d16b:
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - Invoices
+      summary: Create D16B invoice
+      requestBody:
+        description: Invoice in D16B format
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/CreateInvoiceRequest'
+      responses:
+        201:
+          description: Invoice created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    UserInfo:
+      type: object
+      properties:
+        token:
+          type: string
+          example: 80f2baac-43c2-497b-b78e-e6680f5b809b
+        id:
+          type: integer
+          example: 8498081
+        email:
+          type: string
+          example: test@test.example.com
+        name:
+          type: string
+        serviceAccountKey:
+          type: string
+    Invoices:
+      type: array
+      items:
+        $ref: '#/components/schemas/Invoice'
+    Invoice:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        sender:
+          type: string
+          example: SubjectA
+        receiver:
+          type: string
+          example: SubjectB
+        format:
+          type: string
+          enum:
+            - json
+            - ubl2.1
+            - d16b
+        price:
+          type: integer
+          example: 100
+    CreateInvoiceRequest:
+      type: object
+      properties:
+        sender:
+          type: string
+          example: SubjectA
+        receiver:
+          type: string
+          example: SubjectB
+        price:
+          type: integer
+          example: 100
