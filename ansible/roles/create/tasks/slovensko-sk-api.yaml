@@ -38,8 +38,8 @@
       --set-env-vars UPVS_STS_KS_PRIVATE_PASSWORD=password
       --set-env-vars UPVS_TLS_TS_FILE=security/upvs-dev.truststore
       --set-env-vars UPVS_TLS_TS_PASSWORD=password
-      --set-env-vars ^;^LOGIN_CALLBACK_URLS=http://localhost,https://web-app.dev.filipsladek.com
-      --set-env-vars ^;^LOGOUT_CALLBACK_URLS=http://localhost,https://web-app.dev.filipsladek.com
+      --set-env-vars ^;^LOGIN_CALLBACK_URLS=http://localhost:3000,https://web-app.dev.filipsladek.com
+      --set-env-vars ^;^LOGOUT_CALLBACK_URLS=http://localhost:3000,https://web-app.dev.filipsladek.com
       --set-env-vars OBO_TOKEN_PRIVATE_KEY_FILE=security/obo-token.private.pem
       --set-env-vars UPVS_IDP_METADATA_FILE=security/upvs-dev-idp.metadata.xml
       --set-env-vars UPVS_SP_METADATA_FILE=security/einvoice-dev.signed.metadata.xml
@@ -77,8 +77,8 @@
       --set-env-vars UPVS_STS_KS_PRIVATE_PASSWORD=password
       --set-env-vars UPVS_TLS_TS_FILE=security/upvs-dev.truststore
       --set-env-vars UPVS_TLS_TS_PASSWORD=password
-      --set-env-vars ^;^LOGIN_CALLBACK_URLS=http://localhost,https://web-app.dev.filipsladek.com
-      --set-env-vars ^;^LOGOUT_CALLBACK_URLS=http://localhost,https://web-app.dev.filipsladek.com
+      --set-env-vars ^;^LOGIN_CALLBACK_URLS=http://localhost:3000,https://web-app.dev.filipsladek.com
+      --set-env-vars ^;^LOGOUT_CALLBACK_URLS=http://localhost:3000,https://web-app.dev.filipsladek.com
       --set-env-vars OBO_TOKEN_PRIVATE_KEY_FILE=security/obo-token.private.pem
       --set-env-vars UPVS_IDP_METADATA_FILE=security/upvs-dev-idp.metadata.xml
       --set-env-vars UPVS_SP_METADATA_FILE=security/einvoice-dev.signed.metadata.xml
