@@ -57,7 +57,7 @@
     gcloud run deploy slovensko-sk-api
       --project '{{ project_id }}'
       --image gcr.io/{{ project_id }}/slovensko-sk-api:latest
-      --memory 512Mi
+      --memory 2048Mi
       --platform managed
       --region '{{ location }}'
       --allow-unauthenticated
