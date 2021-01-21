@@ -5,7 +5,7 @@ openapi: 3.0.0
 
 info:
   title: slovensko.sk API
-  version: 6.2.2
+  version: 2.0.0-alpha
 
   description: |
     slovensko.sk API je proxy REST API komponent k službám www.slovensko.sk (Ústredný portál verejnej správy – ÚPVS), pomocou ktorých je možné:
@@ -1967,7 +1967,7 @@ paths:
                 'Stav komponentu je v poriadku':
                   value:
                     description: slovensko.sk API
-                    version: 6.2.2
+                    version: 2.0.0-alpha
                     status: pass
                     checks:
                       environment:variables:
@@ -1994,7 +1994,7 @@ paths:
                 'Stav komponentu je v poriadku ale s varovaním':
                   value:
                     description: slovensko.sk API
-                    version: 6.2.2
+                    version: 2.0.0-alpha
                     status: warn
                     checks:
                       environment:variables:
@@ -2029,7 +2029,7 @@ paths:
                 'Stav komponentu nie je v poriadku':
                   value:
                     description: slovensko.sk API
-                    version: 6.2.2
+                    version: 2.0.0-alpha
                     status: fail
                     checks:
                       environment:variables:
