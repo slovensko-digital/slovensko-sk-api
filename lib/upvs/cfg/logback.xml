@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 
-<!-- TODO remove this file in favor of Java code  -->
+<!-- TODO remove this file in favor of Java code -->
 
 <configuration>
-  <define scope="local" name="upvs.logger" class="digital.slovensko.upvs.log.PropertyResolver">
-    <propertyKey>upvs.logger</propertyKey>
-    <propertyDefault>NULL</propertyDefault>
+  <define scope="local" name="upvs.log.level" class="digital.slovensko.upvs.internals.LoggerPropertyDefiner">
+    <propertyKey>upvs.log.level</propertyKey>
+    <propertyDefault>INFO</propertyDefault>
   </define>
 
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -14,12 +14,7 @@
     </encoder>
   </appender>
 
-  <appender name="NULL" class="ch.qos.logback.core.helpers.NOPAppender" />
-
-  <logger name="ch.qos.logback" level="WARN" />
-  <logger name="org.apache.cxf" level="INFO" />
-
-  <root level="INFO">
-    <appender-ref ref="${upvs.logger}" />
+  <root level="${upvs.log.level}">
+    <appender-ref ref="STDOUT"/>
   </root>
 </configuration>

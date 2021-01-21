@@ -1,33 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ns1:GetIdentityResponse xmlns:ns1="http://schemas.gov.sk/identity/service/1.7">
   <IdentityData>
-    <PhysicalPerson>
-      <PersonName>
-        <FormattedName>Janko Tisíci</FormattedName>
-        <GivenName>Janko</GivenName>
-        <FamilyName>Tisíci</FamilyName>
-      </PersonName>
-      <IdentityTypeDetail>
+    <CorporateBody>
+      <CorporateBodyName>UPVS</CorporateBodyName>
+      <LegalForm>
+        <Id>321</Id>
+        <TitleSk>Rozpočtová organizácia</TitleSk>
+      </LegalForm>
+      <Establishment>2013-12-13+01:00</Establishment>
+    </CorporateBody>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0101</Id>
+        <TitleSk>Okres Bratislava I</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0101528595</Id>
+        <TitleSk>Bratislava - mestská časť Staré Mesto</TitleSk>
+      </Municipality>
+      <StreetName>Pribinova</StreetName>
+      <DeliveryAddress>
+        <PostalCode>81272</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <TelephoneAddress>
+      <TelephoneType>
         <Id>1</Id>
-        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
-      </IdentityTypeDetail>
-      <PCO>8314451337</PCO>
-    </PhysicalPerson>
+        <TitleSk>Pevná sieť</TitleSk>
+      </TelephoneType>
+      <TelephoneNumber>
+        <FormattedNumber>+42121234111</FormattedNumber>
+      </TelephoneNumber>
+    </TelephoneAddress>
+    <InternetAddress>
+      <Address>mailto:test@slovensko.sk</Address>
+    </InternetAddress>
+    <ID specified="true">
+      <IdentifierType>
+        <Id>7</Id>
+        <TitleSk>IČO (Identifikačné číslo organizácie)</TitleSk>
+      </IdentifierType>
+      <IdentifierValue>42156424</IdentifierValue>
+    </ID>
     <GeneralData>
-      <FormattedName>Janko Tisíci</FormattedName>
-      <IdentityType>NATURAL_PERSON</IdentityType>
+      <FormattedName>UPVS</FormattedName>
+      <IdentityType>INSTITUTION_OF_PUBLIC_ADMINISTRATION</IdentityType>
       <EGovIdentifier>
         <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
-        <Identifier>A9C233B5-6BD7-4D71-87BA-0DAD05AA78B0</Identifier>
+        <Identifier>6D9DC77B-70ED-432F-ABAA-5DE8753C967C</Identifier>
       </EGovIdentifier>
-      <Uri>rc://sk/8314451337_tisici_janko</Uri>
+      <Uri>ico://sk/42156424_10001</Uri>
+      <Suffix>10001</Suffix>
     </GeneralData>
     <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
       <eDeskStatus>DELIVERABLE</eDeskStatus>
       <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
       <eDeskCuetEnabled>false</eDeskCuetEnabled>
-      <eDeskNumber>E0000046176</eDeskNumber>
+      <eDeskNumber>E0000012800</eDeskNumber>
       <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>217275</RE_IdentityID>
+      <OrganizacnaZlozkaOVM>true</OrganizacnaZlozkaOVM>
     </UPVSAttributes>
   </IdentityData>
 </ns1:GetIdentityResponse>

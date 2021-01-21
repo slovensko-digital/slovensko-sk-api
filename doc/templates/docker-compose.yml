@@ -1,12 +1,10 @@
 version: '3'
+
 services:
   postgres:
-    image: postgres:11-alpine
+    image: postgres:12-alpine
     volumes:
       - postgres:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
 
   redis:
     image: redis:5-alpine
@@ -14,39 +12,11 @@ services:
       - redis:/data
 
   web:
-    image: skdigital/slovensko-sk-api:latest
+    image: ghcr.io/slovensko-digital/slovensko-sk-api:latest
     volumes:
       - ./security:/app/security
     ports:
       - 3000:3000
-    depends_on:
-      - postgres
-      - redis
-    env_file:
-      - .env
-    environment:
-      DATABASE_URL: postgres://postgres:postgres@postgres:5432/slovensko-sk-api
-      REDIS_URL: redis://redis:6379
-
-  worker:
-    image: skdigital/slovensko-sk-api:latest
-    command: bundle exec rake jobs:work
-    volumes:
-      - ./security:/app/security
-    depends_on:
-      - postgres
-      - redis
-    env_file:
-      - .env
-    environment:
-      DATABASE_URL: postgres://postgres:postgres@postgres:5432/slovensko-sk-api
-      REDIS_URL: redis://redis:6379
-
-  clock:
-    image: skdigital/slovensko-sk-api:latest
-    command: bundle exec clockwork config/clock.rb
-    volumes:
-      - ./security:/app/security
     depends_on:
       - postgres
       - redis

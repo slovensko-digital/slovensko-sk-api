@@ -3,59 +3,71 @@ require 'rails_helper'
 RSpec.describe UpvsEnvironment do
   subject { described_class }
 
+  pending '.upvs_properties'
+
   describe '.upvs_proxy' do
+    before(:example) { allow(UpvsProxy).to receive(:new).and_wrap_original { Object.new }}
+
     before(:example) { UpvsEnvironment.upvs_proxy_cache.invalidate_all }
 
-    before(:example) { allow(UpvsProxy).to receive(:new).with(any_args).and_wrap_original { Object.new }}
+    it 'returns same proxy object in the first 120 minutes' do
+      travel_to Time.now
 
-    before(:example) { travel_to '2018-11-28T20:26:16Z' }
+      u1 = subject.upvs_proxy(sub: 'test')
 
-    after(:example) { travel_back }
+      travel_to 120.minutes.from_now - 0.1.seconds
 
-    context 'with assertion' do
+      u2 = subject.upvs_proxy(sub: 'test')
+
+      expect(u1).to equal(u2)
+    end
+
+    it 'returns new proxy object on or after 120 minutes' do
+      travel_to Time.now
+
+      u1 = subject.upvs_proxy(sub: 'test')
+
+      travel_to 120.minutes.from_now
+
+      u2 = subject.upvs_proxy(sub: 'test')
+
+      expect(u1).not_to equal(u2)
+    end
+
+    pending 'with OBO identifier'
+
+    context 'with OBO assertion' do
       let(:assertion) { file_fixture('oam/sso_response_success_assertion.xml').read.strip }
 
       it 'returns same proxy object in the first 120 minutes' do
-        u1 = subject.upvs_proxy(assertion: assertion)
+        travel_to Time.now
 
-        travel_to Time.now + 120.minutes - 0.1.seconds
+        u1 = subject.upvs_proxy(sub: 'test', obo: assertion)
 
-        u2 = subject.upvs_proxy(assertion: assertion)
+        travel_to 120.minutes.from_now - 0.1.seconds
 
-        expect(u1).to equal(u2)
-      end
-
-      it 'returns new proxy object on or after 120 minutes' do
-        u1 = subject.upvs_proxy(assertion: assertion)
-
-        travel_to Time.now + 120.minutes
-
-        u2 = subject.upvs_proxy(assertion: assertion)
-
-        expect(u1).not_to equal(u2)
-      end
-    end
-
-    context 'with TA key' do
-      it 'returns same proxy object in the first 120 minutes' do
-        u1 = subject.upvs_proxy(assertion: nil)
-
-        travel_to Time.now + 120.minutes - 0.1.seconds
-
-        u2 = subject.upvs_proxy(assertion: nil)
+        u2 = subject.upvs_proxy(sub: 'test', obo: assertion)
 
         expect(u1).to equal(u2)
       end
 
       it 'returns new proxy object on or after 120 minutes' do
-        u1 = subject.upvs_proxy(assertion: nil)
+        travel_to Time.now
 
-        travel_to Time.now + 120.minutes
+        u1 = subject.upvs_proxy(sub: 'test', obo: assertion)
 
-        u2 = subject.upvs_proxy(assertion: nil)
+        travel_to 120.minutes.from_now
+
+        u2 = subject.upvs_proxy(sub: 'test', obo: assertion)
 
         expect(u1).not_to equal(u2)
       end
     end
   end
+
+  pending '.sso_support?'
+
+  pending '.sso_settings'
+
+  pending '.sso_proxy_subject'
 end

@@ -1,37 +1,25 @@
-class SktalkController < ApiController
-  before_action { render_bad_request(:no_message) if params[:message].blank? }
+# TODO validate form version status in #before_action
+# TODO validate input message against XSD in #before_action
 
-  rescue_from(SktalkReceiver::ReceiveMessageFormatError) { render_bad_request(:malformed_message) }
-  rescue_from(SktalkReceiver::ReceiveAsSaveToFolderError) { render_bad_request(:unsupported_message) }
+class SktalkController < ApiController
+  include SktalkReceiving
+
+  before_action { authenticate(allow_sub: true, allow_obo_token: true, require_obo_token_scope: action_scope) }
+
+  before_action { params.require(:message) }
+
+  rescue_from(SktalkReceiver::ReceiveMessageFormatError) { render_bad_request(:invalid, :message) }
+  rescue_from(SktalkReceiver::ReceiveAsSaveToFolderError) { render_unprocessable_entity(:received_as_being_saved_to_folder) }
 
   def receive
-    assertion = assertion('sktalk/receive')
-
-    render json: { receive_result: receiver(assertion).receive(params[:message]) }
+    render json: { receive_result: sktalk_receiver(upvs_identity).receive(params[:message]) }
   end
 
   def receive_and_save_to_outbox
-    assertion = assertion('sktalk/receive_and_save_to_outbox')
-
-    results = receiver(assertion).receive_and_save_to_outbox!(params[:message])
-    status = results.receive_timeout || results.save_to_outbox_timeout ? :request_timeout : :ok
-
-    render status: status, json: results
+    render_sktalk_results sktalk_receiver(upvs_identity).receive_and_save_to_outbox!(params[:message])
   end
 
   def save_to_outbox
-    assertion = assertion('sktalk/save_to_outbox')
-
-    render json: { save_to_outbox_result: receiver(assertion).save_to_outbox(params[:message]) }
-  end
-
-  private
-
-  def assertion(scope)
-    authenticate(allow_ta: true, allow_obo: true, require_obo_scope: scope)
-  end
-
-  def receiver(assertion)
-    UpvsEnvironment.sktalk_receiver(assertion: assertion)
+    render json: { save_to_outbox_result: sktalk_receiver(upvs_identity).save_to_outbox(params[:message]) }
   end
 end

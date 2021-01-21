@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CallServiceResponse xmlns="http://schemas.gov.sk/ServiceBus/service/1.0">
+  <CallServiceResult xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns:a="http://schemas.gov.sk/ServiceBusServiceProvider/Ness/eFormProvider/1.0" i:type="a:GetFormTemplateStatusRes">
+    <a:FormStatus>Publikovaný</a:FormStatus>
+    <a:FormTemplate>
+      <a:Identifier>App.GeneralAgenda</a:Identifier>
+      <a:Version>
+        <a:Major>1</a:Major>
+        <a:Minor>9</a:Minor>
+      </a:Version>
+    </a:FormTemplate>
+  </CallServiceResult>
+</CallServiceResponse>

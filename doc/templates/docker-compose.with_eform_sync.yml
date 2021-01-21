@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:12-alpine
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+  redis:
+    image: redis:5-alpine
+    volumes:
+      - redis:/data
+
+  web:
+    image: ghcr.io/slovensko-digital/slovensko-sk-api:latest
+    volumes:
+      - ./security:/app/security
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/slovensko-sk-api
+      REDIS_URL: redis://redis:6379
+
+  worker:
+    image: ghcr.io/slovensko-digital/slovensko-sk-api:latest
+    volumes:
+      - ./security:/app/security
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/slovensko-sk-api
+      REDIS_URL: redis://redis:6379
+    command: bundle exec rake jobs:work
+
+  clock:
+    image: ghcr.io/slovensko-digital/slovensko-sk-api:latest
+    volumes:
+      - ./security:/app/security
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/slovensko-sk-api
+      REDIS_URL: redis://redis:6379
+    command: bundle exec clockwork config/clock.rb
+
+volumes:
+  postgres:
+  redis:

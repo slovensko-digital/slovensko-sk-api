@@ -1,9 +1,8 @@
 .idea
 .bundle
+.opensource
 
 *.local
-
-/config/master.key
 
 /log/*
 /tmp/*

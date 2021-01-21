@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SKTalkMessage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://gov.sk/SKTalkMessage">
+  <EnvelopeVersion>3.0</EnvelopeVersion>
+  <Header>
+    <MessageInfo>
+      <Class>ED_DELIVERY_NOTIFICATION</Class>
+      <MessageID>54f09bda-164e-4993-a2c1-7a8f465ae194</MessageID>
+      <CorrelationID>41bb250e-db29-4ccf-aa76-83c934ae25c3</CorrelationID>
+      <ReferenceID>2c00f73f-6d49-4ed6-ac91-31a612dd08bd</ReferenceID>
+      <ChannelInfo/>
+      <ChannelInfoReply/>
+    </MessageInfo>
+    <SenderInfo/>
+  </Header>
+  <Body>
+    <MessageContainer xmlns="http://schemas.gov.sk/core/MessageContainer/1.0">
+      <MessageId>54f09bda-164e-4993-a2c1-7a8f465ae194</MessageId>
+      <SenderId>ico://sk/30807484</SenderId>
+      <RecipientId>ico://sk/46058397</RecipientId>
+      <MessageType>ED.DeliveryReportNotification</MessageType>
+      <MessageSubject>Doručenka</MessageSubject>
+      <SenderBusinessReference>2c00f73f-6d49-4ed6-ac91-31a612dd08bd</SenderBusinessReference>
+      <Object Id="74ec2b80-9fe8-400e-b274-8745dd87e9db" Name="Doručenka" Description="" Class="FORM" IsSigned="false" MimeType="application/x-eform-xml" Encoding="XML">
+        <DeliveryReportNotification xmlns="http://schemas.gov.sk/form/ED.DeliveryReportNotification/1.6">
+          <Persons>
+            <SenderID>ico://sk/30807484</SenderID>
+            <RecipientID>ico://sk/46058397</RecipientID>
+          </Persons>
+          <DeliveryInformation>
+            <Received>2017-05-17T11:31:05.2057748+02:00</Received>
+            <DeliveryPeriod>15</DeliveryPeriod>
+            <DeliveryPeriodEnd>2017-06-02T00:00:00+02:00</DeliveryPeriodEnd>
+          </DeliveryInformation>
+          <Consignment>
+            <MessageID>2c00f73f-6d49-4ed6-ac91-31a612dd08bd</MessageID>
+            <MessageSubject>BAM-76975/2017</MessageSubject>
+            <MessageType>Doc.GeneralAgendaFiction</MessageType>
+            <Note>Pri doručovaní správy sa uplatňuje fikcia doručenia. Po uplynutí dátumu doručenia a neprevzatí správy sa doručovaná správa považuje za doručenú.</Note>
+            <Attachments>
+              <Attachment>
+                <AttachmentId>e521be81-9e74-4c76-980b-81a8eb84dc44</AttachmentId>
+                <AttachmentName>Všeobecná agenda - rozhodnutie do vlastných rúk s fikciou doručenia</AttachmentName>
+              </Attachment>
+              <Attachment>
+                <AttachmentId>9613f9b0-ea4f-450a-bcf1-6ba65b1b6e9a</AttachmentId>
+                <AttachmentName>minio rozhodnutie 704-0215132917-GC04-17.xzep</AttachmentName>
+              </Attachment>
+              <Attachment>
+                <AttachmentId>c77bf7f8-2f60-4723-880e-427a0ca4c35c</AttachmentId>
+                <AttachmentName>minio príloha.xzep</AttachmentName>
+              </Attachment>
+            </Attachments>
+          </Consignment>
+        </DeliveryReportNotification>
+      </Object>
+    </MessageContainer>
+  </Body>
+</SKTalkMessage>

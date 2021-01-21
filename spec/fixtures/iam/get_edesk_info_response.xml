@@ -1,0 +1,2807 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ns1:GetEdeskInfo2Response xmlns:ns1="http://schemas.gov.sk/identity/service/1.7">
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <GivenName>Boleslav</GivenName>
+        <FamilyName>Hnipirdo</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <PCO/>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+    </PhysicalAddress>
+    <GeneralData>
+      <IdentityType>EDEMO_USER</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>a0cdbcbd-693d-4e6f-b42c-b00f790f2fad</Identifier>
+      </EGovIdentifier>
+      <Uri>edemo://D000057</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <IdentityStatus>DEACTIVATED</IdentityStatus>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <GivenName>Dlhe</GivenName>
+        <FamilyName>Heslo</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <PCO/>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <Municipality>
+        <Id>SK0324518271</Id>
+        <TitleSk>Detvianska Huta</TitleSk>
+      </Municipality>
+      <StreetName>Hh</StreetName>
+      <BuildingNumber>h</BuildingNumber>
+      <DeliveryAddress>
+        <PostalCode>12334</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <GeneralData>
+      <IdentityType>EDEMO_USER</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>2c47bacd-321d-46fc-a597-a6982b58eacc</Identifier>
+      </EGovIdentifier>
+      <Uri>edemo://D000432</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <IdentityStatus>DEACTIVATED</IdentityStatus>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <GivenName>Herki</GivenName>
+        <FamilyName>Herki</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <PCO/>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+    </PhysicalAddress>
+    <GeneralData>
+      <IdentityType>EDEMO_USER</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>a51fd0cf-ae6e-4766-b02c-e6d0de95dab0</Identifier>
+      </EGovIdentifier>
+      <Uri>edemo://D000701</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <IdentityStatus>DEACTIVATED</IdentityStatus>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Hans Gruber von Leber-Hoßen</FormattedName>
+        <GivenName>Hans Gruber</GivenName>
+        <FamilyName>von Leber-Hoßen</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <PCO/>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0326</Id>
+        <TitleSk>Okres Lučenec</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0326511226</Id>
+        <TitleSk>Ábelová</TitleSk>
+      </Municipality>
+      <StreetName>Testovacia</StreetName>
+      <BuildingNumber>123</BuildingNumber>
+      <DeliveryAddress>
+        <PostalCode>12345</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <InternetAddress>
+      <Address>mailto:sharfesss123123123@estestdnv.de</Address>
+    </InternetAddress>
+    <GeneralData>
+      <FormattedName>Hans Gruber von Leber-Hoßen</FormattedName>
+      <IdentityType>EDEMO_USER</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>9ef1d896-98b5-45bb-bef3-5186c8fd81ad</Identifier>
+      </EGovIdentifier>
+      <Uri>edemo://D004861</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <IdentityStatus>REGISTERED</IdentityStatus>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <CorporateBody>
+      <CorporateBodyName>Národná agentúra pre sieťové a elektronické služby</CorporateBodyName>
+      <LegalForm>
+        <Id>000</Id>
+        <TitleSk>Zatiaľ neurčené</TitleSk>
+      </LegalForm>
+      <Establishment>2012-05-02+02:00</Establishment>
+    </CorporateBody>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>0</Id>
+        <TitleSk>Slovensko</TitleSk>
+      </Country>
+      <Municipality>
+        <Id>0</Id>
+        <TitleSk>Trnava </TitleSk>
+      </Municipality>
+      <StreetName>Kollárova</StreetName>
+      <BuildingNumber>8</BuildingNumber>
+      <DeliveryAddress>
+        <PostalCode>91702</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <PhysicalAddress type="ContactAddress" specified="true">
+      <Country>
+        <Id>0</Id>
+        <TitleSk>Slovensko</TitleSk>
+      </Country>
+      <Municipality>
+        <Id>0</Id>
+        <TitleSk>Trnava </TitleSk>
+      </Municipality>
+      <StreetName>Kollárova</StreetName>
+      <BuildingNumber>8</BuildingNumber>
+      <DeliveryAddress>
+        <PostalCode>91702</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <TelephoneAddress>
+      <TelephoneType>
+        <Id>1</Id>
+        <TitleSk>Pevná sieť</TitleSk>
+      </TelephoneType>
+      <TelephoneNumber>
+        <FormattedNumber>+422232780700</FormattedNumber>
+      </TelephoneNumber>
+    </TelephoneAddress>
+    <InternetAddress>
+      <Address>mailto:test2012upvs@gmail.com</Address>
+    </InternetAddress>
+    <ID specified="true">
+      <IdentifierType>
+        <Id>7</Id>
+        <TitleSk>IČO (Identifikačné číslo organizácie)</TitleSk>
+      </IdentifierType>
+      <IdentifierValue>42156424</IdentifierValue>
+    </ID>
+    <GeneralData>
+      <FormattedName>Národná agentúra pre sieťové a elektronické služby</FormattedName>
+      <IdentityType>INSTITUTION_OF_PUBLIC_ADMINISTRATION</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>48E1FE89-AD95-46CF-B33A-5DDB76AEA775</Identifier>
+      </EGovIdentifier>
+      <Uri>ico://sk/42156424</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>DELIVERABLE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>99999951</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>201224</RE_IdentityID>
+      <OrganizacnaZlozkaOVM>true</OrganizacnaZlozkaOVM>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Vladimír Holec</FormattedName>
+        <GivenName>Vladimír</GivenName>
+        <FamilyName>Holec</FamilyName>
+        <GivenFamilyName>Holec</GivenFamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Sex>
+        <Id>1</Id>
+        <TitleSk>muž</TitleSk>
+      </Sex>
+      <Birth>
+        <DateOfBirth>1980-12-05+01:00</DateOfBirth>
+      </Birth>
+      <Nationality>
+        <Id>0</Id>
+        <TitleSk>703</TitleSk>
+      </Nationality>
+      <IdentityTypeDetail>
+        <Id>1</Id>
+        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
+      </IdentityTypeDetail>
+      <PCO>1102035055</PCO>
+    </PhysicalPerson>
+    <GeneralData>
+      <FormattedName>Vladimír Holec</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>CA842636-A601-495A-B05C-C9E73774F1B6</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://sk/8012057504_holec_vladimir</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>CREATED</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000001176</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>205603</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Lucia Hanková</FormattedName>
+        <GivenName>Lucia</GivenName>
+        <FamilyName>Hanková</FamilyName>
+        <GivenFamilyName>Hanková</GivenFamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Sex>
+        <Id>2</Id>
+        <TitleSk>žena</TitleSk>
+      </Sex>
+      <Birth>
+        <DateOfBirth>1980-12-06+01:00</DateOfBirth>
+      </Birth>
+      <Nationality>
+        <Id>0</Id>
+        <TitleSk>703</TitleSk>
+      </Nationality>
+      <IdentityTypeDetail>
+        <Id>1</Id>
+        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
+      </IdentityTypeDetail>
+      <PCO>1102078771</PCO>
+    </PhysicalPerson>
+    <GeneralData>
+      <FormattedName>Lucia Hanková</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>FE043C79-F7E4-46CD-8810-462D49B86F72</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://sk/8062067519_hankova_lucia</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>CREATED</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000001244</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>205671</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Helena Zlochová</FormattedName>
+        <GivenName>Helena</GivenName>
+        <FamilyName>Zlochová</FamilyName>
+        <GivenFamilyName>Čibiková</GivenFamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Sex>
+        <Id>2</Id>
+        <TitleSk>žena</TitleSk>
+      </Sex>
+      <Birth>
+        <DateOfBirth>2027-08-03+02:00</DateOfBirth>
+      </Birth>
+      <Nationality>
+        <Id>0</Id>
+        <TitleSk>703</TitleSk>
+      </Nationality>
+      <IdentityTypeDetail>
+        <Id>1</Id>
+        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
+      </IdentityTypeDetail>
+      <PCO>1102139569</PCO>
+    </PhysicalPerson>
+    <GeneralData>
+      <FormattedName>Helena Zlochová</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>F7DF3F29-0F5A-4F3B-8BAA-88A20CBD9929</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://sk/275803731_zlochova_helena</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>CREATED</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000001365</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>205792</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Terézia Halasová</FormattedName>
+        <GivenName>Terézia</GivenName>
+        <FamilyName>Halasová</FamilyName>
+        <GivenFamilyName>Štugelová</GivenFamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Sex>
+        <Id>2</Id>
+        <TitleSk>žena</TitleSk>
+      </Sex>
+      <Birth>
+        <DateOfBirth>2048-07-24+02:00</DateOfBirth>
+      </Birth>
+      <Nationality>
+        <Id>0</Id>
+        <TitleSk>703</TitleSk>
+      </Nationality>
+      <IdentityTypeDetail>
+        <Id>1</Id>
+        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
+      </IdentityTypeDetail>
+      <PCO>1102218802</PCO>
+    </PhysicalPerson>
+    <GeneralData>
+      <FormattedName>Terézia Halasová</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>69ADC4CF-9017-466E-980E-B829EF2EE1DC</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://sk/485724116_halasova_terezia</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>CREATED</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000001514</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>205941</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Helena Hlasicová</FormattedName>
+        <GivenName>Helena</GivenName>
+        <FamilyName>Hlasicová</FamilyName>
+        <GivenFamilyName>Očenášová</GivenFamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Sex>
+        <Id>2</Id>
+        <TitleSk>žena</TitleSk>
+      </Sex>
+      <Birth>
+        <DateOfBirth>2039-01-07+01:00</DateOfBirth>
+      </Birth>
+      <Nationality>
+        <Id>0</Id>
+        <TitleSk>703</TitleSk>
+      </Nationality>
+      <IdentityTypeDetail>
+        <Id>1</Id>
+        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
+      </IdentityTypeDetail>
+      <PCO>1102412818</PCO>
+    </PhysicalPerson>
+    <GeneralData>
+      <FormattedName>Helena Hlasicová</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>1E92D854-DB75-4017-8D4E-FB947023EDC9</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://sk/395107726_hlasicova_helena</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>CREATED</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000001968</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>206395</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Hana Molnarova</FormattedName>
+        <GivenName>Hana</GivenName>
+        <FamilyName>Molnarova</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Sex>
+        <Id>1</Id>
+        <TitleSk>muž</TitleSk>
+      </Sex>
+      <Birth>
+        <DateOfBirth>1980-02-10+01:00</DateOfBirth>
+      </Birth>
+      <Nationality>
+        <Id>0</Id>
+        <TitleSk>703</TitleSk>
+      </Nationality>
+      <IdentityTypeDetail>
+        <Id>1</Id>
+        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
+      </IdentityTypeDetail>
+      <PCO>57</PCO>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0101</Id>
+        <TitleSk>Okres Bratislava I</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0101528595</Id>
+        <TitleSk>Bratislava - mestská časť Staré Mesto</TitleSk>
+      </Municipality>
+      <StreetName>Obchodná</StreetName>
+      <PropertyRegistrationNumber>75</PropertyRegistrationNumber>
+      <DeliveryAddress>
+        <PostalCode>82101</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <InternetAddress>
+      <Address>mailto:dmasar@gratex.sk</Address>
+    </InternetAddress>
+    <GeneralData>
+      <FormattedName>Hana Molnarova</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>586F3FF6-4ACA-47E4-B5D4-013BAFFC99CC</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://sk/8002107701_molnarova_hana</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>ACTIVE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000005567</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>210009</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Ján Hrach</FormattedName>
+        <GivenName>Ján</GivenName>
+        <FamilyName>Hrach</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Sex>
+        <Id>0</Id>
+        <TitleSk>nezistené</TitleSk>
+      </Sex>
+      <Birth>
+        <DateOfBirth>1967-08-13+01:00</DateOfBirth>
+      </Birth>
+      <Death>
+        <DateOfDeath>2014-08-13+02:00</DateOfDeath>
+      </Death>
+      <Nationality>
+        <Id>0</Id>
+        <TitleSk>703</TitleSk>
+      </Nationality>
+      <IdentityTypeDetail>
+        <Id>1</Id>
+        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
+      </IdentityTypeDetail>
+      <PCO>5286058</PCO>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>0</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <Municipality>
+        <Id>0</Id>
+        <TitleSk>Smižany</TitleSk>
+      </Municipality>
+      <StreetName>Javorová</StreetName>
+      <PropertyRegistrationNumber>4645</PropertyRegistrationNumber>
+    </PhysicalAddress>
+    <GeneralData>
+      <FormattedName>Ján Hrach</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>9DA88804-626B-4A38-B441-0B658FDACF3A</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://sk/6901014578_hrach_jan</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>CREATED</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000012641</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>217116</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Janko Hraško</FormattedName>
+        <GivenName>Janko</GivenName>
+        <FamilyName>Hraško</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Sex>
+        <Id>0</Id>
+        <TitleSk>nezistené</TitleSk>
+      </Sex>
+      <Birth>
+        <DateOfBirth>1967-08-13+01:00</DateOfBirth>
+      </Birth>
+      <Death>
+        <DateOfDeath>2014-08-13+02:00</DateOfDeath>
+        <Status>
+          <Id>?</Id>
+        </Status>
+      </Death>
+      <Nationality>
+        <Id>0</Id>
+        <TitleSk>703</TitleSk>
+      </Nationality>
+      <IdentityTypeDetail>
+        <Id>1</Id>
+        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
+      </IdentityTypeDetail>
+      <PCO>12053033</PCO>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>0</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <Municipality>
+        <Id>0</Id>
+        <TitleSk>Smižany</TitleSk>
+      </Municipality>
+      <StreetName>Javorová</StreetName>
+      <PropertyRegistrationNumber>4645</PropertyRegistrationNumber>
+    </PhysicalAddress>
+    <GeneralData>
+      <FormattedName>Janko Hraško</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>E6D5104C-1E35-4180-8B3D-27D626F81491</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://sk/6901014571_hrasko_janko</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>CREATED</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000012642</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>217117</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <CorporateBody>
+      <CorporateBodyName>UPVS</CorporateBodyName>
+      <LegalForm>
+        <Id>321</Id>
+        <TitleSk>Rozpočtová organizácia</TitleSk>
+      </LegalForm>
+      <Establishment>2013-12-13+01:00</Establishment>
+    </CorporateBody>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0101</Id>
+        <TitleSk>Okres Bratislava I</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0101528595</Id>
+        <TitleSk>Bratislava - mestská časť Staré Mesto</TitleSk>
+      </Municipality>
+      <StreetName>Pribinova</StreetName>
+      <DeliveryAddress>
+        <PostalCode>81272</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <TelephoneAddress>
+      <TelephoneType>
+        <Id>1</Id>
+        <TitleSk>Pevná sieť</TitleSk>
+      </TelephoneType>
+      <TelephoneNumber>
+        <FormattedNumber>+42121234111</FormattedNumber>
+      </TelephoneNumber>
+    </TelephoneAddress>
+    <InternetAddress>
+      <Address>mailto:test@slovensko.sk</Address>
+    </InternetAddress>
+    <ID specified="true">
+      <IdentifierType>
+        <Id>7</Id>
+        <TitleSk>IČO (Identifikačné číslo organizácie)</TitleSk>
+      </IdentifierType>
+      <IdentifierValue>42156424</IdentifierValue>
+    </ID>
+    <GeneralData>
+      <FormattedName>UPVS</FormattedName>
+      <IdentityType>INSTITUTION_OF_PUBLIC_ADMINISTRATION</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>6D9DC77B-70ED-432F-ABAA-5DE8753C967C</Identifier>
+      </EGovIdentifier>
+      <Uri>ico://sk/42156424_10001</Uri>
+      <Suffix>10001</Suffix>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>DELIVERABLE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000012800</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>217275</RE_IdentityID>
+      <OrganizacnaZlozkaOVM>true</OrganizacnaZlozkaOVM>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <CorporateBody>
+      <CorporateBodyName>Národná agentúra pre sieťové a elektronické služby: Test</CorporateBodyName>
+      <LegalForm>
+        <Id>331</Id>
+        <TitleSk>Príspevková organizácia</TitleSk>
+      </LegalForm>
+      <Establishment>2014-03-18+01:00</Establishment>
+    </CorporateBody>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0217</Id>
+        <TitleSk>Okres Trnava</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0217506745</Id>
+        <TitleSk>Trnava</TitleSk>
+      </Municipality>
+      <StreetName>Kollárova</StreetName>
+      <DeliveryAddress>
+        <PostalCode>91702</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <PhysicalAddress type="ContactAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0416</Id>
+        <TitleSk>Okres Poprad</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0416523381</Id>
+        <TitleSk>Poprad</TitleSk>
+      </Municipality>
+      <StreetName>ulica</StreetName>
+      <PropertyRegistrationNumber>1</PropertyRegistrationNumber>
+      <DeliveryAddress>
+        <PostalCode>03601</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <ID specified="true">
+      <IdentifierType>
+        <Id>8</Id>
+        <TitleSk>Daňové identifikačné číslo</TitleSk>
+      </IdentifierType>
+      <IdentifierValue>2022556677</IdentifierValue>
+    </ID>
+    <ID specified="true">
+      <IdentifierType>
+        <Id>7</Id>
+        <TitleSk>IČO (Identifikačné číslo organizácie)</TitleSk>
+      </IdentifierType>
+      <IdentifierValue>42156424</IdentifierValue>
+    </ID>
+    <GeneralData>
+      <FormattedName>Národná agentúra pre sieťové a elektronické služby: Test</FormattedName>
+      <IdentityType>INSTITUTION_OF_PUBLIC_ADMINISTRATION</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>4BE2E1D9-AC4C-47A7-B6E5-BB38DBAC8307</Identifier>
+      </EGovIdentifier>
+      <Uri>ico://sk/42156424_90000</Uri>
+      <Suffix>90000</Suffix>
+    </GeneralData>
+    <UPVSAttributes>
+      <Location>SK0226513083</Location>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>DELIVERABLE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000013423</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>CZ</PreferredLanguage>
+      <RE_IdentityID>217991</RE_IdentityID>
+      <eNotifyPreferredChannel>EMAIL</eNotifyPreferredChannel>
+      <eNotifyPreferredCalendar>2</eNotifyPreferredCalendar>
+      <OrganizacnaZlozkaOVM>true</OrganizacnaZlozkaOVM>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <CorporateBody>
+      <CorporateBodyName>Hotelová akadémia Brezno</CorporateBodyName>
+      <LegalForm>
+        <Id>321</Id>
+        <TitleSk>Rozpočtová organizácia</TitleSk>
+      </LegalForm>
+      <Establishment>2014-03-18+01:00</Establishment>
+    </CorporateBody>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <Municipality>
+        <Id>SK0323508497</Id>
+        <TitleSk>Brezno</TitleSk>
+      </Municipality>
+      <StreetName>Malinovského</StreetName>
+      <PropertyRegistrationNumber>1106</PropertyRegistrationNumber>
+      <DeliveryAddress>
+        <PostalCode>97701</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <ID specified="true">
+      <IdentifierType>
+        <Id>8</Id>
+        <TitleSk>Daňové identifikačné číslo</TitleSk>
+      </IdentifierType>
+      <IdentifierValue>2021171152</IdentifierValue>
+    </ID>
+    <ID specified="true">
+      <IdentifierType>
+        <Id>7</Id>
+        <TitleSk>IČO (Identifikačné číslo organizácie)</TitleSk>
+      </IdentifierType>
+      <IdentifierValue>00162035</IdentifierValue>
+    </ID>
+    <GeneralData>
+      <FormattedName>Hotelová akadémia Brezno</FormattedName>
+      <IdentityType>INSTITUTION_OF_PUBLIC_ADMINISTRATION</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>1927D610-1600-4D61-A11B-2DC07C1FEB3B</Identifier>
+      </EGovIdentifier>
+      <Uri>ico://sk/00162035</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>DELIVERABLE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000013748</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>218319</RE_IdentityID>
+      <OrganizacnaZlozkaOVM>true</OrganizacnaZlozkaOVM>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <CorporateBody>
+      <CorporateBodyName>Hotelová akadémia Liptovský Mikuláš</CorporateBodyName>
+      <LegalForm>
+        <Id>321</Id>
+        <TitleSk>Rozpočtová organizácia</TitleSk>
+      </LegalForm>
+      <Establishment>2014-03-18+01:00</Establishment>
+    </CorporateBody>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <Municipality>
+        <Id>SK0315510262</Id>
+        <TitleSk>Liptovský Mikuláš</TitleSk>
+      </Municipality>
+      <StreetName>Čs.brigády</StreetName>
+      <PropertyRegistrationNumber>1804</PropertyRegistrationNumber>
+      <DeliveryAddress>
+        <PostalCode>03101</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <ID specified="true">
+      <IdentifierType>
+        <Id>8</Id>
+        <TitleSk>Daňové identifikačné číslo</TitleSk>
+      </IdentifierType>
+      <IdentifierValue>2020581750</IdentifierValue>
+    </ID>
+    <ID specified="true">
+      <IdentifierType>
+        <Id>7</Id>
+        <TitleSk>IČO (Identifikačné číslo organizácie)</TitleSk>
+      </IdentifierType>
+      <IdentifierValue>00893528</IdentifierValue>
+    </ID>
+    <GeneralData>
+      <FormattedName>Hotelová akadémia Liptovský Mikuláš</FormattedName>
+      <IdentityType>INSTITUTION_OF_PUBLIC_ADMINISTRATION</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>0BC2CF9E-24D8-4A20-8DD0-2D9201C8FF49</Identifier>
+      </EGovIdentifier>
+      <Uri>ico://sk/00893528</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>DELIVERABLE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000013749</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>218320</RE_IdentityID>
+      <OrganizacnaZlozkaOVM>true</OrganizacnaZlozkaOVM>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <CorporateBody>
+      <CorporateBodyName>Hotelová akadémia Ľudovíta Wintera Piešťany</CorporateBodyName>
+      <LegalForm>
+        <Id>321</Id>
+        <TitleSk>Rozpočtová organizácia</TitleSk>
+      </LegalForm>
+      <Establishment>2014-03-18+01:00</Establishment>
+    </CorporateBody>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <Municipality>
+        <Id>SK0214507440</Id>
+        <TitleSk>Piešťany</TitleSk>
+      </Municipality>
+      <StreetName>Stromová</StreetName>
+      <PropertyRegistrationNumber>1324</PropertyRegistrationNumber>
+      <DeliveryAddress>
+        <PostalCode>92101</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <ID specified="true">
+      <IdentifierType>
+        <Id>8</Id>
+        <TitleSk>Daňové identifikačné číslo</TitleSk>
+      </IdentifierType>
+      <IdentifierValue>2020530710</IdentifierValue>
+    </ID>
+    <ID specified="true">
+      <IdentifierType>
+        <Id>7</Id>
+        <TitleSk>IČO (Identifikačné číslo organizácie)</TitleSk>
+      </IdentifierType>
+      <IdentifierValue>00162019</IdentifierValue>
+    </ID>
+    <GeneralData>
+      <FormattedName>Hotelová akadémia Ľudovíta Wintera Piešťany</FormattedName>
+      <IdentityType>INSTITUTION_OF_PUBLIC_ADMINISTRATION</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>ACEBD88D-4AAD-4051-894C-155CCB276FC5</Identifier>
+      </EGovIdentifier>
+      <Uri>ico://sk/00162019</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>DELIVERABLE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000013750</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>218321</RE_IdentityID>
+      <OrganizacnaZlozkaOVM>true</OrganizacnaZlozkaOVM>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Laco Hrmeň</FormattedName>
+        <GivenName>Laco</GivenName>
+        <FamilyName>Hrmeň</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Sex>
+        <Id>1</Id>
+        <TitleSk>muž</TitleSk>
+      </Sex>
+      <Birth>
+        <DateOfBirth>1975-04-25+01:00</DateOfBirth>
+      </Birth>
+      <Nationality>
+        <Id>0</Id>
+        <TitleSk>703</TitleSk>
+      </Nationality>
+      <IdentityTypeDetail>
+        <Id>1</Id>
+        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
+      </IdentityTypeDetail>
+      <PCO>13692454</PCO>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0411</Id>
+        <TitleSk>Okres Bardejov</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0411519006</Id>
+        <TitleSk>Bardejov</TitleSk>
+      </Municipality>
+      <StreetName>Vietorná</StreetName>
+      <PropertyRegistrationNumber>58</PropertyRegistrationNumber>
+      <DeliveryAddress>
+        <PostalCode>085 01</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <InternetAddress>
+      <Address>mailto:hrmen@hrmeni.sk</Address>
+    </InternetAddress>
+    <GeneralData>
+      <FormattedName>Laco Hrmeň</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>D7E6AC09-F797-4D70-9EAE-794292B94B1D</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://sk/7504251313_hrmen_laco</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>DELIVERABLE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000015417</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>220027</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Pavol Hrdina</FormattedName>
+        <GivenName>Pavol</GivenName>
+        <FamilyName>Hrdina</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Sex>
+        <Id>1</Id>
+        <TitleSk>muž</TitleSk>
+      </Sex>
+      <Birth>
+        <DateOfBirth>1955-05-05+01:00</DateOfBirth>
+      </Birth>
+      <Nationality>
+        <Id>0</Id>
+        <TitleSk>703</TitleSk>
+      </Nationality>
+      <IdentityTypeDetail>
+        <Id>1</Id>
+        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
+      </IdentityTypeDetail>
+      <PCO>9157232414</PCO>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0426</Id>
+        <TitleSk>Okres Košice - okolie</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0426521345</Id>
+        <TitleSk>Družstevná pri Hornáde</TitleSk>
+      </Municipality>
+      <StreetName>Hlavná</StreetName>
+      <PropertyRegistrationNumber>283</PropertyRegistrationNumber>
+      <DeliveryAddress>
+        <PostalCode>04431</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <InternetAddress>
+      <Address>mailto:es.ksktest@gmail.com</Address>
+    </InternetAddress>
+    <GeneralData>
+      <FormattedName>Pavol Hrdina</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>8DA34893-B899-46CE-A591-92E19823916D</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://sk/9157232414_hrdina_pavol</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>DELIVERABLE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000015455</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>220103</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Hedvika Prskavcová</FormattedName>
+        <GivenName>Hedvika</GivenName>
+        <FamilyName>Prskavcová</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Sex>
+        <Id>1</Id>
+        <TitleSk>muž</TitleSk>
+      </Sex>
+      <Birth>
+        <DateOfBirth>1983-11-03+01:00</DateOfBirth>
+      </Birth>
+      <Nationality>
+        <Id>0</Id>
+        <TitleSk>703</TitleSk>
+      </Nationality>
+      <IdentityTypeDetail>
+        <Id>1</Id>
+        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
+      </IdentityTypeDetail>
+      <PCO>19807613</PCO>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0101</Id>
+        <TitleSk>Okres Bratislava I</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0101528595</Id>
+        <TitleSk>Bratislava - mestská časť Staré Mesto</TitleSk>
+      </Municipality>
+      <StreetName>Mudroňova</StreetName>
+      <PropertyRegistrationNumber>112</PropertyRegistrationNumber>
+      <DeliveryAddress>
+        <PostalCode>811 01</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <GeneralData>
+      <FormattedName>Hedvika Prskavcová</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>71263BD7-9FA5-4B33-B28B-F22E9CD710A1</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://sk/8361030062_prskavcova_hedvika</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>DELIVERABLE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000015518</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>220170</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Beáta  Horáčková</FormattedName>
+        <GivenName>Beáta</GivenName>
+        <FamilyName>Horáčková</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Sex>
+        <Id>1</Id>
+        <TitleSk>muž</TitleSk>
+      </Sex>
+      <Birth>
+        <DateOfBirth>1964-01-30+01:00</DateOfBirth>
+      </Birth>
+      <Nationality>
+        <Id>0</Id>
+        <TitleSk>703</TitleSk>
+      </Nationality>
+      <IdentityTypeDetail>
+        <Id>1</Id>
+        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
+      </IdentityTypeDetail>
+      <PCO>8289775</PCO>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0101</Id>
+        <TitleSk>Okres Bratislava I</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0101528595</Id>
+        <TitleSk>Bratislava - mestská časť Staré Mesto</TitleSk>
+      </Municipality>
+      <StreetName>Gondova</StreetName>
+      <PropertyRegistrationNumber>122</PropertyRegistrationNumber>
+      <DeliveryAddress>
+        <PostalCode>811 02</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <GeneralData>
+      <FormattedName>Beáta  Horáčková</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>190113CE-445A-4825-9C8B-B7E05D554F9A</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://sk/6451300075_horackova_beata</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>DELIVERABLE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000015521</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>220173</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Jana Hudečková</FormattedName>
+        <GivenName>Jana</GivenName>
+        <FamilyName>Hudečková</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Sex>
+        <Id>1</Id>
+        <TitleSk>muž</TitleSk>
+      </Sex>
+      <Birth>
+        <DateOfBirth>1955-08-16+01:00</DateOfBirth>
+      </Birth>
+      <Nationality>
+        <Id>0</Id>
+        <TitleSk>703</TitleSk>
+      </Nationality>
+      <IdentityTypeDetail>
+        <Id>1</Id>
+        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
+      </IdentityTypeDetail>
+      <PCO>11836709</PCO>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0233</Id>
+        <TitleSk>Okres Nitra</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0233500011</Id>
+        <TitleSk>Nitra</TitleSk>
+      </Municipality>
+      <StreetName>Škultétyho</StreetName>
+      <PropertyRegistrationNumber>346</PropertyRegistrationNumber>
+      <DeliveryAddress>
+        <PostalCode>949 11</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <GeneralData>
+      <FormattedName>Jana Hudečková</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>9F2D5A5F-C1EF-4A8C-9B4A-A8D46D39AFE1</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://sk/5558160124_hudeckova_jana</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>DELIVERABLE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000015527</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>220179</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Abdul Hasan</FormattedName>
+        <GivenName>Abdul</GivenName>
+        <FamilyName>Hasan</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Sex>
+        <Id>1</Id>
+        <TitleSk>muž</TitleSk>
+      </Sex>
+      <Birth>
+        <DateOfBirth>1994-05-09+02:00</DateOfBirth>
+      </Birth>
+      <Nationality>
+        <Id>0</Id>
+        <TitleSk>703</TitleSk>
+      </Nationality>
+      <IdentityTypeDetail>
+        <Id>1</Id>
+        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
+      </IdentityTypeDetail>
+      <PCO>345678</PCO>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0103</Id>
+        <TitleSk>Okres Bratislava III</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0102529320</Id>
+        <TitleSk>Bratislava - mestská časť Ružinov</TitleSk>
+      </Municipality>
+      <StreetName>Jahodová</StreetName>
+      <PropertyRegistrationNumber>541</PropertyRegistrationNumber>
+      <DeliveryAddress>
+        <PostalCode>82103</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <InternetAddress>
+      <Address>mailto:hasan@abdul.sk</Address>
+    </InternetAddress>
+    <GeneralData>
+      <FormattedName>Abdul Hasan</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>B70D17FE-493D-48C6-B2D2-3B0F65E5B791</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://sk/9405095579_hasan_abdul</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>DELIVERABLE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000015542</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>220194</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Ján Hraškoa</FormattedName>
+        <GivenName>Ján</GivenName>
+        <FamilyName>Hraškoa</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Sex>
+        <Id>1</Id>
+        <TitleSk>muž</TitleSk>
+      </Sex>
+      <Birth>
+        <DateOfBirth>1989-04-01+02:00</DateOfBirth>
+      </Birth>
+      <Nationality>
+        <Id>0</Id>
+        <TitleSk>703</TitleSk>
+      </Nationality>
+      <IdentityTypeDetail>
+        <Id>1</Id>
+        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
+      </IdentityTypeDetail>
+      <PCO>8904016001</PCO>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0229</Id>
+        <TitleSk>Okres Trenčín</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0229505960</Id>
+        <TitleSk>Drietoma</TitleSk>
+      </Municipality>
+      <PropertyRegistrationNumber>29</PropertyRegistrationNumber>
+      <DeliveryAddress>
+        <PostalCode>91303</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <InternetAddress>
+      <Address>mailto:tester@land.gov.sk</Address>
+    </InternetAddress>
+    <GeneralData>
+      <FormattedName>Ján Hraškoa</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>D59ECC68-1D01-4516-A6F7-88FF5A89996A</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://sk/8904016001_hraskoa_jan</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>ACTIVE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000015584</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>220278</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Ján Hraškob</FormattedName>
+        <GivenName>Ján</GivenName>
+        <FamilyName>Hraškob</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Sex>
+        <Id>1</Id>
+        <TitleSk>muž</TitleSk>
+      </Sex>
+      <Birth>
+        <DateOfBirth>1989-04-02+02:00</DateOfBirth>
+      </Birth>
+      <Nationality>
+        <Id>0</Id>
+        <TitleSk>703</TitleSk>
+      </Nationality>
+      <IdentityTypeDetail>
+        <Id>1</Id>
+        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
+      </IdentityTypeDetail>
+      <PCO>8904016002</PCO>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0229</Id>
+        <TitleSk>Okres Trenčín</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0229505960</Id>
+        <TitleSk>Drietoma</TitleSk>
+      </Municipality>
+      <PropertyRegistrationNumber>30</PropertyRegistrationNumber>
+      <DeliveryAddress>
+        <PostalCode>91303</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <InternetAddress>
+      <Address>mailto:tester@land.gov.sk</Address>
+    </InternetAddress>
+    <GeneralData>
+      <FormattedName>Ján Hraškob</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>A182A121-9572-42F1-92C2-A29E41F85B89</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://sk/8904016002_hraskob_jan</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>ACTIVE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000015585</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>220279</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Ján Hraškod</FormattedName>
+        <GivenName>Ján</GivenName>
+        <FamilyName>Hraškod</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Sex>
+        <Id>1</Id>
+        <TitleSk>muž</TitleSk>
+      </Sex>
+      <Birth>
+        <DateOfBirth>1989-04-04+02:00</DateOfBirth>
+      </Birth>
+      <Nationality>
+        <Id>0</Id>
+        <TitleSk>703</TitleSk>
+      </Nationality>
+      <IdentityTypeDetail>
+        <Id>1</Id>
+        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
+      </IdentityTypeDetail>
+      <PCO>8904016004</PCO>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0229</Id>
+        <TitleSk>Okres Trenčín</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0229505960</Id>
+        <TitleSk>Drietoma</TitleSk>
+      </Municipality>
+      <PropertyRegistrationNumber>32</PropertyRegistrationNumber>
+      <DeliveryAddress>
+        <PostalCode>91303</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <InternetAddress>
+      <Address>mailto:tester@land.gov.sk</Address>
+    </InternetAddress>
+    <GeneralData>
+      <FormattedName>Ján Hraškod</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>5F8017FC-B1D6-4699-87F1-938ECFD84C9A</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://sk/8904016004_hraskod_jan</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>ACTIVE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000015587</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>220281</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Ján Hraškoe</FormattedName>
+        <GivenName>Ján</GivenName>
+        <FamilyName>Hraškoe</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Sex>
+        <Id>1</Id>
+        <TitleSk>muž</TitleSk>
+      </Sex>
+      <Birth>
+        <DateOfBirth>1989-04-05+02:00</DateOfBirth>
+      </Birth>
+      <Nationality>
+        <Id>0</Id>
+        <TitleSk>703</TitleSk>
+      </Nationality>
+      <IdentityTypeDetail>
+        <Id>1</Id>
+        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
+      </IdentityTypeDetail>
+      <PCO>8904016005</PCO>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0229</Id>
+        <TitleSk>Okres Trenčín</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0229505960</Id>
+        <TitleSk>Drietoma</TitleSk>
+      </Municipality>
+      <PropertyRegistrationNumber>33</PropertyRegistrationNumber>
+      <DeliveryAddress>
+        <PostalCode>91303</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <InternetAddress>
+      <Address>mailto:tester@land.gov.sk</Address>
+    </InternetAddress>
+    <GeneralData>
+      <FormattedName>Ján Hraškoe</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>79B31426-01D1-43C9-A76B-1078F5AD7B5A</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://sk/8904016005_hraskoe_jan</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>ACTIVE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000015588</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>220282</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Helena Holáková</FormattedName>
+        <GivenName>Helena</GivenName>
+        <FamilyName>Holáková</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Sex>
+        <Id>1</Id>
+        <TitleSk>muž</TitleSk>
+      </Sex>
+      <Birth>
+        <DateOfBirth>1952-09-08+01:00</DateOfBirth>
+      </Birth>
+      <Nationality>
+        <Id>0</Id>
+        <TitleSk>703</TitleSk>
+      </Nationality>
+      <IdentityTypeDetail>
+        <Id>1</Id>
+        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
+      </IdentityTypeDetail>
+      <PCO>18396986</PCO>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0415</Id>
+        <TitleSk>Okres Medzilaborce</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0415520411</Id>
+        <TitleSk>Krásny Brod</TitleSk>
+      </Municipality>
+      <StreetName>Krásny Brod</StreetName>
+      <DeliveryAddress>
+        <PostalCode>068 01</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <InternetAddress>
+      <Address>mailto:h.holakova@rusnet.sk</Address>
+    </InternetAddress>
+    <GeneralData>
+      <FormattedName>Helena Holáková</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>D4E9829A-5B2E-46F7-B3CB-89705968B29C</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://sk/525908264_holakova_helena</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>CREATED</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000015726</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>220599</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <CorporateBody>
+      <CorporateBodyName>OJ NaS 10010</CorporateBodyName>
+      <LegalForm>
+        <Id>331</Id>
+        <TitleSk>Príspevková organizácia</TitleSk>
+      </LegalForm>
+      <Establishment>2014-10-23+02:00</Establishment>
+    </CorporateBody>
+    <ID specified="true">
+      <IdentifierType>
+        <Id>7</Id>
+        <TitleSk>IČO (Identifikačné číslo organizácie)</TitleSk>
+      </IdentifierType>
+      <IdentifierValue>42156424</IdentifierValue>
+    </ID>
+    <GeneralData>
+      <FormattedName>OJ NaS 10010</FormattedName>
+      <IdentityType>INSTITUTION_OF_PUBLIC_ADMINISTRATION</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>2EF97370-BD3D-40CD-9D91-FAAE8D56A4B3</Identifier>
+      </EGovIdentifier>
+      <Uri>ico://sk/42156424_10010</Uri>
+      <Suffix>10010</Suffix>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>NONEXISTENT</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000015816</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>220843</RE_IdentityID>
+      <OrganizacnaZlozkaOVM>true</OrganizacnaZlozkaOVM>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <CorporateBody>
+      <CorporateBodyName>HK AGRO Topoľčany</CorporateBodyName>
+      <LegalForm>
+        <Id>995</Id>
+        <TitleSk>Nešpecifikovaná právna forma</TitleSk>
+      </LegalForm>
+      <Establishment>1990-07-16+02:00</Establishment>
+    </CorporateBody>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <Municipality>
+        <Id>SK0236504998</Id>
+        <TitleSk>Topoľčany</TitleSk>
+      </Municipality>
+      <StreetName>Bernolákova</StreetName>
+      <PropertyRegistrationNumber>0</PropertyRegistrationNumber>
+      <DeliveryAddress>
+        <PostalCode>95501</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <TelephoneAddress>
+      <TelephoneType>
+        <Id>1</Id>
+        <TitleSk>Pevná sieť</TitleSk>
+      </TelephoneType>
+      <TelephoneNumber>
+        <FormattedNumber>+421915630714</FormattedNumber>
+      </TelephoneNumber>
+    </TelephoneAddress>
+    <ID specified="true">
+      <IdentifierType>
+        <Id>7</Id>
+        <TitleSk>IČO (Identifikačné číslo organizácie)</TitleSk>
+      </IdentifierType>
+      <IdentifierValue>00688347</IdentifierValue>
+    </ID>
+    <GeneralData>
+      <FormattedName>HK AGRO Topoľčany</FormattedName>
+      <IdentityType>LEGAL_ENTITY</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>0BC7ED56-C551-495D-9715-228D69A663E7</Identifier>
+      </EGovIdentifier>
+      <Uri>ico://sk/00688347</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>CREATED</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000016339</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>221725</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <CorporateBody>
+      <CorporateBodyName>Hruška trans s. r. o.</CorporateBodyName>
+      <LegalForm>
+        <Id>701</Id>
+        <TitleSk>Združenie (zväz, spolok, spoločnosť, klub ai.)</TitleSk>
+      </LegalForm>
+      <Establishment>2013-10-25+02:00</Establishment>
+    </CorporateBody>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <Municipality>
+        <Id>0</Id>
+        <TitleSk>-</TitleSk>
+      </Municipality>
+    </PhysicalAddress>
+    <ID specified="true">
+      <IdentifierType>
+        <Id>7</Id>
+        <TitleSk>IČO (Identifikačné číslo organizácie)</TitleSk>
+      </IdentifierType>
+      <IdentifierValue>47456019</IdentifierValue>
+    </ID>
+    <GeneralData>
+      <FormattedName>Hruška trans s. r. o.</FormattedName>
+      <IdentityType>LEGAL_ENTITY</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>8B00156B-950E-43C5-BBAE-164CF32B8E8C</Identifier>
+      </EGovIdentifier>
+      <Uri>ico://sk/47456019</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>DELIVERABLE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000016590</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>222077</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <CorporateBody>
+      <CorporateBodyName>Hlavné mesto Bratislava</CorporateBodyName>
+      <LegalForm>
+        <Id>321</Id>
+        <TitleSk>Rozpočtová organizácia</TitleSk>
+      </LegalForm>
+      <Establishment>2000-01-01+01:00</Establishment>
+    </CorporateBody>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0101</Id>
+        <TitleSk>Okres Bratislava I</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0101528595</Id>
+        <TitleSk>Bratislava - mestská časť Staré Mesto</TitleSk>
+      </Municipality>
+      <StreetName>Primaciálne námestie</StreetName>
+      <PropertyRegistrationNumber>1</PropertyRegistrationNumber>
+      <DeliveryAddress>
+        <PostalCode>814 99</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <InternetAddress>
+      <Address>mailto:jan.riaditel@ovmtest.sk</Address>
+    </InternetAddress>
+    <ID specified="true">
+      <IdentifierType>
+        <Id>8</Id>
+        <TitleSk>Daňové identifikačné číslo</TitleSk>
+      </IdentifierType>
+      <IdentifierValue>SK2020372596</IdentifierValue>
+    </ID>
+    <ID specified="true">
+      <IdentifierType>
+        <Id>7</Id>
+        <TitleSk>IČO (Identifikačné číslo organizácie)</TitleSk>
+      </IdentifierType>
+      <IdentifierValue>00603483</IdentifierValue>
+    </ID>
+    <GeneralData>
+      <FormattedName>Hlavné mesto Bratislava</FormattedName>
+      <IdentityType>INSTITUTION_OF_PUBLIC_ADMINISTRATION</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>D5924802-E7AF-4FA5-B3B7-707DFC6C7021</Identifier>
+      </EGovIdentifier>
+      <Uri>ico://sk/00603483</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>DELIVERABLE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000016741</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>222371</RE_IdentityID>
+      <OrganizacnaZlozkaOVM>true</OrganizacnaZlozkaOVM>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <CorporateBody>
+      <CorporateBodyName>Národná agentúra pre sieťové a elektronické služby: IS PEP</CorporateBodyName>
+      <LegalForm>
+        <Id>383</Id>
+        <TitleSk>Iná organizácia verejnej správy</TitleSk>
+      </LegalForm>
+      <Establishment>2015-10-14+02:00</Establishment>
+    </CorporateBody>
+    <ID specified="true">
+      <IdentifierType>
+        <Id>7</Id>
+        <TitleSk>IČO (Identifikačné číslo organizácie)</TitleSk>
+      </IdentifierType>
+      <IdentifierValue>42156424</IdentifierValue>
+    </ID>
+    <GeneralData>
+      <FormattedName>Národná agentúra pre sieťové a elektronické služby: IS PEP</FormattedName>
+      <IdentityType>INSTITUTION_OF_PUBLIC_ADMINISTRATION</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>79793A29-69F9-4333-83F7-AED0456CD5A6</Identifier>
+      </EGovIdentifier>
+      <Uri>ico://sk/42156424_10002</Uri>
+      <Suffix>10002</Suffix>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>DELIVERABLE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000016878</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>222677</RE_IdentityID>
+      <OrganizacnaZlozkaOVM>true</OrganizacnaZlozkaOVM>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Henrieta Maková</FormattedName>
+        <GivenName>Henrieta</GivenName>
+        <FamilyName>Maková</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Sex>
+        <Id>0</Id>
+        <TitleSk>nezistené</TitleSk>
+      </Sex>
+      <Birth>
+        <DateOfBirth>1983-11-09+01:00</DateOfBirth>
+      </Birth>
+      <Nationality>
+        <Id>0</Id>
+        <TitleSk>703</TitleSk>
+      </Nationality>
+      <IdentityTypeDetail>
+        <Id>1</Id>
+        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
+      </IdentityTypeDetail>
+      <PCO>1112110</PCO>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0106</Id>
+        <TitleSk>Okres Malacky</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0106508063</Id>
+        <TitleSk>Malacky</TitleSk>
+      </Municipality>
+      <StreetName>Záhorácka</StreetName>
+      <PropertyRegistrationNumber>2356</PropertyRegistrationNumber>
+      <DeliveryAddress>
+        <PostalCode>90101</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <InternetAddress>
+      <Address>mailto:henrieta.makova@sp.sk</Address>
+    </InternetAddress>
+    <GeneralData>
+      <FormattedName>Henrieta Maková</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>82042E87-1FD1-4102-8B43-510F10440A57</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://sk/8361097899_makova_henrieta</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>DELIVERABLE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000016973</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>222905</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Henrich Simonics</FormattedName>
+        <GivenName>Henrich</GivenName>
+        <FamilyName>Simonics</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Sex>
+        <Id>0</Id>
+        <TitleSk>nezistené</TitleSk>
+      </Sex>
+      <Birth>
+        <DateOfBirth>1970-04-02+01:00</DateOfBirth>
+      </Birth>
+      <Nationality>
+        <Id>0</Id>
+        <TitleSk>703</TitleSk>
+      </Nationality>
+      <IdentityTypeDetail>
+        <Id>1</Id>
+        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
+      </IdentityTypeDetail>
+      <PCO>16876274</PCO>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0108</Id>
+        <TitleSk>Okres Senec</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0108508276</Id>
+        <TitleSk>Tomášov</TitleSk>
+      </Municipality>
+      <StreetName>Záhradnícka</StreetName>
+      <DeliveryAddress>
+        <PostalCode>90044</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <InternetAddress>
+      <Address>mailto:hsimonics@dokumenta.sk</Address>
+    </InternetAddress>
+    <GeneralData>
+      <FormattedName>Henrich Simonics</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>5DDA7582-F4F3-485C-8C20-785ADE5783AF</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://sk/7004026381_simonics_henrich</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>ACTIVE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000017161</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>223407</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Helena  Bielčiková</FormattedName>
+        <GivenName>Helena</GivenName>
+        <FamilyName>Bielčiková</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Sex>
+        <Id>0</Id>
+        <TitleSk>nezistené</TitleSk>
+      </Sex>
+      <Birth>
+        <DateOfBirth>1970-06-24+01:00</DateOfBirth>
+      </Birth>
+      <Nationality>
+        <Id>0</Id>
+        <TitleSk>703</TitleSk>
+      </Nationality>
+      <IdentityTypeDetail>
+        <Id>1</Id>
+        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
+      </IdentityTypeDetail>
+      <PCO>16171190</PCO>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0211</Id>
+        <TitleSk>Okres Dunajská Streda</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0211501905</Id>
+        <TitleSk>Šamorín</TitleSk>
+      </Municipality>
+      <StreetName>Vodárenská</StreetName>
+      <DeliveryAddress>
+        <PostalCode>93101</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <InternetAddress>
+      <Address>mailto:hbielcikova@dokumenta.sk</Address>
+    </InternetAddress>
+    <GeneralData>
+      <FormattedName>Helena  Bielčiková</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>B61E1258-FE45-4BBC-A153-0723075B2AE7</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://sk/7056246098_bielcikova_helena</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>ACTIVE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000017162</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>223408</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Homo Antecessor</FormattedName>
+        <GivenName>Homo</GivenName>
+        <FamilyName>Antecessor</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Sex>
+        <Id>0</Id>
+        <TitleSk>nezistené</TitleSk>
+      </Sex>
+      <Birth>
+        <DateOfBirth>1984-09-23+02:00</DateOfBirth>
+      </Birth>
+      <Nationality>
+        <Id>0</Id>
+        <TitleSk>703</TitleSk>
+      </Nationality>
+      <IdentityTypeDetail>
+        <Id>1</Id>
+        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
+      </IdentityTypeDetail>
+      <PCO>14591295</PCO>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0318</Id>
+        <TitleSk>Okres Ružomberok</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0318510998</Id>
+        <TitleSk>Ružomberok</TitleSk>
+      </Municipality>
+      <StreetName>Mlynská</StreetName>
+      <PropertyRegistrationNumber>2</PropertyRegistrationNumber>
+      <DeliveryAddress>
+        <PostalCode>034 01</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <GeneralData>
+      <FormattedName>Homo Antecessor</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>4D352613-747D-4AC6-B35A-669B2D0287D4</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://sk/8409231369_antecessor_homo</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>DELIVERABLE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000017422</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>223833</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Homo Opulentus</FormattedName>
+        <GivenName>Homo</GivenName>
+        <FamilyName>Opulentus</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Sex>
+        <Id>0</Id>
+        <TitleSk>nezistené</TitleSk>
+      </Sex>
+      <Birth>
+        <DateOfBirth>1988-04-25+02:00</DateOfBirth>
+      </Birth>
+      <Nationality>
+        <Id>0</Id>
+        <TitleSk>703</TitleSk>
+      </Nationality>
+      <IdentityTypeDetail>
+        <Id>1</Id>
+        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
+      </IdentityTypeDetail>
+      <PCO>11552153</PCO>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0214</Id>
+        <TitleSk>Okres Piešťany</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0214506991</Id>
+        <TitleSk>Drahovce</TitleSk>
+      </Municipality>
+      <StreetName>Drahovce</StreetName>
+      <PropertyRegistrationNumber>45</PropertyRegistrationNumber>
+      <DeliveryAddress>
+        <PostalCode>922 41</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <GeneralData>
+      <FormattedName>Homo Opulentus</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>21A3FBBF-DAF0-492C-8FD0-4E5D79DA062C</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://sk/8804257132_opulentus_homo</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>DELIVERABLE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000017423</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>223834</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Homo Ergaster</FormattedName>
+        <GivenName>Homo</GivenName>
+        <FamilyName>Ergaster</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Sex>
+        <Id>0</Id>
+        <TitleSk>nezistené</TitleSk>
+      </Sex>
+      <Birth>
+        <DateOfBirth>1975-06-27+01:00</DateOfBirth>
+      </Birth>
+      <Nationality>
+        <Id>0</Id>
+        <TitleSk>703</TitleSk>
+      </Nationality>
+      <IdentityTypeDetail>
+        <Id>1</Id>
+        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
+      </IdentityTypeDetail>
+      <PCO>18269737</PCO>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0322</Id>
+        <TitleSk>Okres Banská Štiavnica</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0322516643</Id>
+        <TitleSk>Banská Štiavnica</TitleSk>
+      </Municipality>
+      <StreetName>Dolná</StreetName>
+      <PropertyRegistrationNumber>88</PropertyRegistrationNumber>
+      <DeliveryAddress>
+        <PostalCode>969 01</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <GeneralData>
+      <FormattedName>Homo Ergaster</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>D69AE7D1-0175-486C-A64B-4933AE64E1D5</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://sk/7556276805_ergaster_homo</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>DELIVERABLE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000017424</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>223835</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <CorporateBody>
+      <CorporateBodyName>Hospodar</CorporateBodyName>
+      <LegalForm>
+        <Id>521</Id>
+        <TitleSk>Samostatná drobná prevádzkareň obecného úradu</TitleSk>
+      </LegalForm>
+      <Establishment>1999-11-25+01:00</Establishment>
+    </CorporateBody>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>704</Id>
+        <TitleSk>Vietnamská socialistická republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0104</Id>
+        <TitleSk>Okres Bratislava IV</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0104529397</Id>
+        <TitleSk>Bratislava - mestská časť Karlova Ves</TitleSk>
+      </Municipality>
+      <StreetName>Líščie údolie</StreetName>
+      <DeliveryAddress>
+        <PostalCode>84104</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <InternetAddress>
+      <Address>mailto:info@activeprocurement.sk</Address>
+    </InternetAddress>
+    <ID specified="true">
+      <IdentifierType>
+        <Id>7</Id>
+        <TitleSk>IČO (Identifikačné číslo organizácie)</TitleSk>
+      </IdentifierType>
+      <IdentifierValue>54704841</IdentifierValue>
+    </ID>
+    <GeneralData>
+      <FormattedName>Hospodar</FormattedName>
+      <IdentityType>LEGAL_ENTITY</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>1807A0C9-C821-4057-B6ED-22EC594F9597</Identifier>
+      </EGovIdentifier>
+      <Uri>ico://sk/54704841</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>DELIVERABLE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000023576</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>230068</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <CorporateBody>
+      <CorporateBodyName>HERBARIA, S.R.O.</CorporateBodyName>
+      <LegalForm>
+        <Id>112</Id>
+        <TitleSk>Spoločnosť s ručením obmedzeným</TitleSk>
+      </LegalForm>
+      <Establishment>2010-02-24+01:00</Establishment>
+    </CorporateBody>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0229</Id>
+        <TitleSk>Okres Trenčín</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0229505820</Id>
+        <TitleSk>TRENČÍN</TitleSk>
+      </Municipality>
+      <StreetName>HVIEZDOVÁ</StreetName>
+      <DeliveryAddress>
+        <PostalCode>91101</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <ID specified="true">
+      <IdentifierType>
+        <Id>7</Id>
+        <TitleSk>IČO (Identifikačné číslo organizácie)</TitleSk>
+      </IdentifierType>
+      <IdentifierValue>31443982</IdentifierValue>
+    </ID>
+    <GeneralData>
+      <FormattedName>HERBARIA, S.R.O.</FormattedName>
+      <IdentityType>LEGAL_ENTITY</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>8B493417-0E79-40AB-95D9-1EFF09192EB4</Identifier>
+      </EGovIdentifier>
+      <Uri>ico://sk/31443982</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>DELIVERABLE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000029985</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>236614</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>HENRICH Volný</FormattedName>
+        <GivenName>HENRICH</GivenName>
+        <FamilyName>Volný</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Sex>
+        <Id>0</Id>
+        <TitleSk>nezistené</TitleSk>
+      </Sex>
+      <Birth>
+        <DateOfBirth>1978-10-01+01:00</DateOfBirth>
+      </Birth>
+      <Nationality>
+        <Id>0</Id>
+        <TitleSk>703</TitleSk>
+      </Nationality>
+      <IdentityTypeDetail>
+        <Id>1</Id>
+        <TitleSk>Občan SR s trvalým pobytom na území SR</TitleSk>
+      </IdentityTypeDetail>
+      <PCO>15814982</PCO>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0101</Id>
+        <TitleSk>Okres Bratislava I</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0101528595</Id>
+        <TitleSk>Bratislava - mestská časť Staré Mesto</TitleSk>
+      </Municipality>
+      <StreetName>Gorkého</StreetName>
+      <DeliveryAddress>
+        <PostalCode>81101</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <InternetAddress>
+      <Address>mailto:upvsinteg@icz.sk</Address>
+    </InternetAddress>
+    <GeneralData>
+      <FormattedName>HENRICH Volný</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>8914332C-587F-4303-8EF8-1E8D1460ADE1</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://sk/7810016071_volny_henrich</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <LocationActivated>false</LocationActivated>
+      <eDeskStatus>DELIVERABLE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000030039</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>SK</PreferredLanguage>
+      <RE_IdentityID>236674</RE_IdentityID>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <GivenName>Hans-Günther</GivenName>
+        <FamilyName>von</FamilyName>
+        <FamilyName>Drebenbusch-Dalgoßen</FamilyName>
+        <GivenFamilyName>Hans-Günther</GivenFamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Birth>
+        <DateOfBirth>1946-01-25+01:00</DateOfBirth>
+      </Birth>
+      <PCO/>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>0</Id>
+        <TitleSk>D</TitleSk>
+      </Country>
+      <StreetName>WEG NR.</StreetName>
+      <BuildingNumber>12 8E</BuildingNumber>
+      <DeliveryAddress>
+        <PostalCode>22043</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <GeneralData>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>bdd20750-ad13-477e-a6c7-a161a8955a49</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://SK/DE/SK/95520D222A14A8FD5F90649319E6581CD8963B4A32A90576D999F5BAFC039352_von_drebenbusch-dalgoen_hans-gunther</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <eDeskStatus>CREATED</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000072793</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <GivenName>Hans-Günther</GivenName>
+        <FamilyName>von</FamilyName>
+        <FamilyName>Drebenbusch-Dalgoßen</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Birth>
+        <DateOfBirth>1946-01-25+01:00</DateOfBirth>
+      </Birth>
+      <PCO/>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>0</Id>
+        <TitleSk>D</TitleSk>
+      </Country>
+      <StreetName>WEG NR.</StreetName>
+      <BuildingNumber>12 8E</BuildingNumber>
+      <DeliveryAddress>
+        <PostalCode>22043</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <GeneralData>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>8a433d6d-0d8c-4c91-908d-8d0b1ee732fb</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://DE/DE/SK/95520D222A14A8FD5F90649319E6581CD8963B4A32A90576D999F5BAFC039352-UT1_von_drebenbusch-dalgoen_hans-gunther</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <eDeskStatus>CREATED</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000072794</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <GivenName>Hans-Günther</GivenName>
+        <FamilyName>von</FamilyName>
+        <FamilyName>Drebenbusch-Dalgoßen</FamilyName>
+        <GivenFamilyName>Hans-Günther</GivenFamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Birth>
+        <DateOfBirth>1946-01-25+01:00</DateOfBirth>
+      </Birth>
+      <PCO/>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <StreetName>WEG NR.</StreetName>
+      <BuildingNumber>12 8E</BuildingNumber>
+      <DeliveryAddress>
+        <PostalCode>22043</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <GeneralData>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>3113fe07-730d-4bfb-91f5-87abf0f772f8</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://DE/95520D222A14A8FD5F90649319E6581CD8963B4A32A90576D999F5BAFC039352_vondrebenbusch-dalgoen_hans-gunther</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <eDeskStatus>CREATED</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000072813</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <GivenName>Hans-Günther</GivenName>
+        <FamilyName>von</FamilyName>
+        <FamilyName>Drebenbusch-Dalgoßen</FamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Birth>
+        <DateOfBirth>1946-01-25+01:00</DateOfBirth>
+      </Birth>
+      <PCO/>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <StreetName>WEG NR.</StreetName>
+      <BuildingNumber>12 8E</BuildingNumber>
+      <DeliveryAddress>
+        <PostalCode>22043</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <GeneralData>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>68514f21-cf57-4467-b134-7d9871a40eb9</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://DE/95520D222A14A8FD5F90649319E6581CD8963B4A32A90576D999F5BAFC039352-UT1_vondrebenbusch-dalgoen_hans-gunther</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <eDeskStatus>CREATED</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000076933</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <FormattedName>Hans-Günther von Drebenbusch-Dalgoßen</FormattedName>
+        <GivenName>Hans-Günther</GivenName>
+        <FamilyName>von</FamilyName>
+        <FamilyName>Drebenbusch-Dalgoßen</FamilyName>
+        <GivenFamilyName>Onases</GivenFamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Birth>
+        <DateOfBirth>1946-01-25+01:00</DateOfBirth>
+      </Birth>
+      <PCO/>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>276</Id>
+        <TitleSk>Nemecká spolková republika</TitleSk>
+      </Country>
+      <Municipality>
+        <Id>0</Id>
+        <TitleSk>HAMBURG</TitleSk>
+      </Municipality>
+      <StreetName>WEG NR.</StreetName>
+      <BuildingNumber>12 8E</BuildingNumber>
+      <DeliveryAddress>
+        <PostalCode>22043</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <InternetAddress>
+      <Address>mailto:rtt@dddd.sk</Address>
+    </InternetAddress>
+    <GeneralData>
+      <FormattedName>Hans-Günther von Drebenbusch-Dalgoßen</FormattedName>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>2342fc7a-3b5f-438d-a866-81ab7633aec2</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://DE/95520D222A14A8FD5F90649319E6581CD8963B4A32A90576D999F5BAFC039352-UT2_vondrebenbuschdalgossen_hansgunther</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <eDeskStatus>CREATED</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000077073</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <PreferredLanguage>EN</PreferredLanguage>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <PhysicalPerson>
+      <PersonName>
+        <GivenName>Hans-Gunther</GivenName>
+        <FamilyName>von</FamilyName>
+        <FamilyName>Drebenbusch-DalgoBen</FamilyName>
+        <GivenFamilyName>Onases</GivenFamilyName>
+      </PersonName>
+      <MaritalStatus>nezistené</MaritalStatus>
+      <Birth>
+        <DateOfBirth>1965-01-01+01:00</DateOfBirth>
+      </Birth>
+      <PCO/>
+    </PhysicalPerson>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <StreetName>Arcacia Avenue</StreetName>
+      <BuildingNumber>22</BuildingNumber>
+      <DeliveryAddress>
+        <PostalCode>SW1A 1AA</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <GeneralData>
+      <IdentityType>NATURAL_PERSON</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>92607dd0-0979-40ee-9b2f-cef73e432362</Identifier>
+      </EGovIdentifier>
+      <Uri>rc://CA/36A436E7F2A4709237F4CC2F9AAC1C9E9E4A32C4AFFF9078F27744B0FA2B75BBDD_vondrebenbusch-dalgoben_hans-gunther</Uri>
+    </GeneralData>
+    <UPVSAttributes>
+      <eDeskStatus>ACTIVE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000077134</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+    </UPVSAttributes>
+  </IdentityData>
+  <IdentityData>
+    <CorporateBody>
+      <CorporateBodyName>Národná agentúra pre sieťové a elektronické služby: MUKP</CorporateBodyName>
+      <LegalForm>
+        <Id>331</Id>
+        <TitleSk>Príspevková organizácia</TitleSk>
+      </LegalForm>
+    </CorporateBody>
+    <PhysicalAddress type="StreetAddress" specified="true">
+      <Country>
+        <Id>703</Id>
+        <TitleSk>Slovenská republika</TitleSk>
+      </Country>
+      <County>
+        <Id>SK0102</Id>
+        <TitleSk>Okres Bratislava II</TitleSk>
+      </County>
+      <Municipality>
+        <Id>SK0102529320</Id>
+        <TitleSk>Bratislava - mestská časť Ružinov</TitleSk>
+      </Municipality>
+      <StreetName>Trnavská cesta</StreetName>
+      <PropertyRegistrationNumber>100</PropertyRegistrationNumber>
+      <DeliveryAddress>
+        <PostalCode>82101</PostalCode>
+      </DeliveryAddress>
+    </PhysicalAddress>
+    <ID specified="true">
+      <IdentifierType>
+        <Id>7</Id>
+        <TitleSk>IČO (Identifikačné číslo organizácie)</TitleSk>
+      </IdentifierType>
+      <IdentifierValue>42156424</IdentifierValue>
+    </ID>
+    <GeneralData>
+      <FormattedName>Národná agentúra pre sieťové a elektronické služby: MUKP</FormattedName>
+      <IdentityType>INSTITUTION_OF_PUBLIC_ADMINISTRATION</IdentityType>
+      <EGovIdentifier>
+        <SectorIdentifier>SECTOR_UPVS</SectorIdentifier>
+        <Identifier>2DE09A10-2DAC-45FE-A7F2-535BD4CEF15B</Identifier>
+      </EGovIdentifier>
+      <Uri>ico://sk/42156424_10021</Uri>
+      <Suffix>10021</Suffix>
+    </GeneralData>
+    <UPVSAttributes>
+      <eDeskStatus>DELIVERABLE</eDeskStatus>
+      <eDeskDeliveryLimited>false</eDeskDeliveryLimited>
+      <eDeskCuetEnabled>false</eDeskCuetEnabled>
+      <eDeskNumber>E0000081016</eDeskNumber>
+      <IdentityStatus>ACTIVATED</IdentityStatus>
+      <RE_IdentityID>253140</RE_IdentityID>
+      <OrganizacnaZlozkaOVM>true</OrganizacnaZlozkaOVM>
+    </UPVSAttributes>
+  </IdentityData>
+  <Paging>
+    <NumRecords>50</NumRecords>
+    <NumRecordsPerPage>0</NumRecordsPerPage>
+    <StartIndex>1</StartIndex>
+  </Paging>
+</ns1:GetEdeskInfo2Response>

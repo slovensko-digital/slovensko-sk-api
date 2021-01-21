@@ -9,13 +9,13 @@ FactoryBot.define do
     form_template
     language { 'sk' }
     document_type { 'CLS_F_XSD_EDOC' }
-    data { '<?xml version="1.0" encoding="UTF-8"?>' }
+    data { '<?xml version="1.0" encoding="utf-8"?>' }
 
     trait :general_agenda_xsd_schema do
       association :form_template, identifier: 'App.GeneralAgenda', version_major: 1, version_minor: 9
       data do
         <<~HEREDOC
-        <?xml version="1.0" encoding="UTF-8"?>
+        <?xml version="1.0" encoding="utf-8"?>
         <xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://schemas.gov.sk/form/App.GeneralAgenda/1.9" xmlns="http://schemas.gov.sk/form/App.GeneralAgenda/1.9">
           <xs:simpleType name="textArea">
             <xs:restriction base="xs:string"></xs:restriction>

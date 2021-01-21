@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SKTalkMessage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://gov.sk/SKTalkMessage">
+  <EnvelopeVersion>3.0</EnvelopeVersion>
+  <Header>
+    <MessageInfo>
+      <Class>ED_AUTHORIZE</Class>
+      <MessageID>ea489bb6-7956-47f1-97dd-f87c64999554</MessageID>
+      <CorrelationID>ac64292e-e06a-4147-8b8c-d56275a9f625</CorrelationID>
+      <ReferenceID>6d65268e-495e-45f4-a3cb-3e8fca85b40a</ReferenceID>
+    </MessageInfo>
+    <SenderInfo>
+      <SecurityMethod>SAML2</SecurityMethod>
+      <SecurityToken>
+        <saml:Assertion ID="id-ISZb3dJ0-1U77-9jdFf0RMjXjLk-" IssueInstant="2016-10-18T13:51:44Z" Version="2.0" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:enc="http://www.w3.org/2001/04/xmlenc#" xmlns:x500="urn:oasis:names:tc:SAML:2.0:profiles:attribute:X500">
+          <saml:Issuer>idp:sts.upvsfix.gov.sk</saml:Issuer>
+          <dsig:Signature>
+            <dsig:SignedInfo>
+              <dsig:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#">
+              </dsig:CanonicalizationMethod>
+              <dsig:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1">
+              </dsig:SignatureMethod>
+              <dsig:Reference URI="#id-ISZb3dJ0-1U77-9jdFf0RMjXjLk-">
+                <dsig:Transforms>
+                  <dsig:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature">
+                  </dsig:Transform>
+                  <dsig:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#">
+                  </dsig:Transform>
+                </dsig:Transforms>
+                <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1">
+                </dsig:DigestMethod>
+                <dsig:DigestValue>k1DxZIiXZqnsXee5X7FtK7CR/yU=</dsig:DigestValue>
+              </dsig:Reference>
+            </dsig:SignedInfo>
+            <dsig:SignatureValue>GehzRLmzjm2cNEK410Uem1TmFFMDr1M7q+fdKM/wLBS8vi6tdb3GFpDzMFhZx2n78LuumsjUW0T9SpeavjpofsbOKIgeLKMa5oMeLnpsYcF0A0FQ2VNQciwk2VR9qwT2nbLeNDXykS320BpmbMJVZfAcTGKZo2v/9em1yfKN84I=</dsig:SignatureValue>
+            <dsig:KeyInfo>
+              <dsig:X509Data>
+                <dsig:X509Certificate>MIIB8DCCAVmgAwIBAgIBCjANBgkqhkiG9w0BAQQFADAdMRswGQYDVQQDExJpYW0xLnVwdnNmaXgubG9jYWwwHhcNMTMwNjEyMDYxMzQwWhcNMjMwNjEwMDYxMzQwWjAdMRswGQYDVQQDExJpYW0xLnVwdnNmaXgubG9jYWwwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAL4tgBWlI5hlaRD1pYxC6gi9fPhCLzbofKJxTnfgZMrTSDh7VTdh3LvnvbdO9RzfKDjyM6IuSrUJ792yfSvmVokt435DfjLVcgS6YtuEwjapf6mvPWW+Rcix510tJzByo2OnWpEit/8AJ2AQKIPSf9pNyk/r8BImkudPdeGB3tVZAgMBAAGjQDA+MAwGA1UdEwEB/wQCMAAwDwYDVR0PAQH/BAUDAwfYADAdBgNVHQ4EFgQU7xHOPfuetdBr1R0KePkN6d8MQE4wDQYJKoZIhvcNAQEEBQADgYEAR9YrG2ZuK6TjQL19wwkpbgLWV2Au8PavMLdyHSKd0yI8T4cOtLpTCzyIdLg0qTvjO2wSZ2k8/9XUWUzR9MObyfjdZbkgJl+Hedx0ZvDiLHt1OibODAM6anc7KVn1JmYIaFqJoY0sOV8TbR90IPa18t6FTN9LzDe0UPanrPOY00Y=</dsig:X509Certificate>
+              </dsig:X509Data>
+            </dsig:KeyInfo>
+          </dsig:Signature>
+          <saml:Subject>
+            <saml:NameID Format="" NameQualifier="UpvsFederatedIdentification">TECH-TEST.MEDED17.FIX</saml:NameID>
+            <saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+            </saml:SubjectConfirmation>
+          </saml:Subject>
+          <saml:Conditions NotBefore="2016-10-18T13:51:44Z" NotOnOrAfter="2016-10-18T15:51:44Z">
+          </saml:Conditions>
+          <saml:AuthnStatement AuthnInstant="2016-10-18T13:51:44Z">
+            <saml:AuthnContext>
+              <saml:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:X509</saml:AuthnContextClassRef>
+            </saml:AuthnContext>
+          </saml:AuthnStatement>
+          <saml:AttributeStatement>
+            <saml:Attribute Name="DelegationType" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">0</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute Name="Actor.IdentityType" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">3</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute Name="Subject.PreferredLanguage" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">sk</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute Name="SubjectIDSector" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">SECTOR_UPVS</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute Name="Subject.REIdentityId" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">5109160</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute Name="Subject.FormattedName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">Testovacia PO/IVS 22205</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute Name="Actor.PreferredLanguage" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">sk</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute Name="Actor.UPVSIdentityID" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">AE37B180-6982-4B80-9E8C-ABBBA7856B68</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute Name="ActorIDSector" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">SECTOR_UPVS</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute Name="Subject.Email" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">test@slovensko.sk</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute Name="SubjectID" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">ico://sk/6501012225</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute Name="AssertionType" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">TECH</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute Name="QAALevel" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">3</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute Name="ActorID" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">tech://TECH-TEST.MEDED17.FIX</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute Name="Actor.Username" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">TECH-TEST.MEDED17.FIX</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute Name="Subject.IdentityType" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">2</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute Name="Subject.UPVSIdentityID" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">AF9246AC-C559-4CCD-9F5D-C90E9E74CC14</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute Name="Roles" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">R_OID_TECHNICAL_USER</saml:AttributeValue>
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">R_TECH_USER</saml:AttributeValue>
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">R_UPVS_IAM_SVC_GETCURRENTDELEGATION</saml:AttributeValue>
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">R_UPVS_IAM_SVC_GETDELEGATIONDETAIL</saml:AttributeValue>
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">R_UPVS_IAM_SVC_GETDELEGATIONS</saml:AttributeValue>
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">R_UPVS_IAM_SVC_GETEDESKHISTORY</saml:AttributeValue>
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">R_UPVS_IAM_SVC_GETEDESKINFO</saml:AttributeValue>
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">R_UPVS_IAM_SVC_GETIDENTITY</saml:AttributeValue>
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">R_UPVS_IAM_SVC_GETROLESFORIDENTITY</saml:AttributeValue>
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">R_UPVS_IAM_SVC_ISIDENTITYINROLE</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute Name="Actor.Email" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">tech-test.meded17.fix@iam.local</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute Name="Actor.FormattedName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+              <saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">tech-test.meded17.fix</saml:AttributeValue>
+            </saml:Attribute>
+          </saml:AttributeStatement>
+        </saml:Assertion>
+      </SecurityToken>
+      <Identity>
+        <Assertions xmlns="http://gov.sk/Iam/SamlAssertions">
+          <ActorID>tech://TECH-TEST.MEDED17.FIX</ActorID>
+          <Actor.UPVSIdentityID>AE37B180-6982-4B80-9E8C-ABBBA7856B68</Actor.UPVSIdentityID>
+          <ActorIDSector>SECTOR_UPVS</ActorIDSector>
+          <Actor.Email>tech-test.meded17.fix@iam.local</Actor.Email>
+          <Actor.FormattedName>tech-test.meded17.fix</Actor.FormattedName>
+          <Actor.IdentityType>TechnicalAccount</Actor.IdentityType>
+          <Actor.Username>TECH-TEST.MEDED17.FIX</Actor.Username>
+          <SubjectID>ico://sk/6501012225</SubjectID>
+          <Subject.UPVSIdentityID>AF9246AC-C559-4CCD-9F5D-C90E9E74CC14</Subject.UPVSIdentityID>
+          <SubjectIDSector>SECTOR_UPVS</SubjectIDSector>
+          <Subject.Email>test@slovensko.sk</Subject.Email>
+          <Subject.FormattedName>Testovacia PO/IVS 22205</Subject.FormattedName>
+          <Subject.IdentityType>Company</Subject.IdentityType>
+          <Subject.REIdentityId>5109160</Subject.REIdentityId>
+          <QAAlevel>3_X509Cert</QAAlevel>
+          <DelegationType>RepresentationByLaw</DelegationType>
+          <Roles>
+            <Role>R_OID_TECHNICAL_USER</Role>
+            <Role>R_TECH_USER</Role>
+            <Role>R_UPVS_IAM_SVC_GETCURRENTDELEGATION</Role>
+            <Role>R_UPVS_IAM_SVC_GETDELEGATIONDETAIL</Role>
+            <Role>R_UPVS_IAM_SVC_GETDELEGATIONS</Role>
+            <Role>R_UPVS_IAM_SVC_GETEDESKHISTORY</Role>
+            <Role>R_UPVS_IAM_SVC_GETEDESKINFO</Role>
+            <Role>R_UPVS_IAM_SVC_GETIDENTITY</Role>
+            <Role>R_UPVS_IAM_SVC_GETROLESFORIDENTITY</Role>
+            <Role>R_UPVS_IAM_SVC_ISIDENTITYINROLE</Role>
+          </Roles>
+        </Assertions>
+      </Identity>
+    </SenderInfo>
+  </Header>
+  <Body>
+    <MessageContainer xmlns="http://schemas.gov.sk/core/MessageContainer/1.0">
+      <MessageId>ea489bb6-7956-47f1-97dd-f87c64999554</MessageId>
+      <SenderId>ico://sk/6501012225</SenderId>
+      <RecipientId>ico://sk/42156424_90000</RecipientId>
+      <MessageType>ED.DeliveryReportAuthorization</MessageType>
+      <MessageSubject>Autorizacia dorucenky</MessageSubject>
+      <Object Id="9b581868-ebf2-4db9-a816-fc15d9636a29" Name="up.xml" Description="Formulr UP" Class="FORM" MimeType="application/x-eform-xml" Encoding="XML">
+        <DeliveryReportAuthorization:DeliveryReportAuthorization xmlns:DeliveryReportAuthorization="http://schemas.gov.sk/form/ED.DeliveryReportAuthorization/1.3" xmlns="http://schemas.gov.sk/form/ED.DeliveryReportAuthorization/1.3">
+          <MessageID>e411c801-8290-47c2-8250-801f3cf56e58</MessageID>
+          <ActorID>ico://sk/6501012225</ActorID>
+          <SubjectID>ico://sk/6501012225</SubjectID>
+          <Authorized>2016-10-18T16:35:44+02:00</Authorized>
+        </DeliveryReportAuthorization:DeliveryReportAuthorization>
+      </Object>
+    </MessageContainer>
+  </Body>
+</SKTalkMessage>

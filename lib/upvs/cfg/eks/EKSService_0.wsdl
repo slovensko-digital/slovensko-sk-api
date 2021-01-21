@@ -37,159 +37,159 @@
                 <trust:KeyType xmlns:trust="http://docs.oasis-open.org/ws-sx/ws-trust/200512">http://docs.oasis-open.org/ws-sx/ws-trust/200512/Bearer</trust:KeyType>
               </sp:RequestSecurityTokenTemplate>
               <wsp:Policy>
-                <sp:RequireInternalReference />
+                <sp:RequireInternalReference/>
               </wsp:Policy>
             </sp:IssuedToken>
           </wsp:Policy>
         </sp:SignedSupportingTokens>
         <sp:Wss11 xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
-          <wsp:Policy />
+          <wsp:Policy/>
         </sp:Wss11>
         <sp:Trust13 xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
           <wsp:Policy>
-            <sp:MustSupportIssuedTokens />
-            <sp:RequireClientEntropy />
-            <sp:RequireServerEntropy />
+            <sp:MustSupportIssuedTokens/>
+            <sp:RequireClientEntropy/>
+            <sp:RequireServerEntropy/>
           </wsp:Policy>
         </sp:Trust13>
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
-  <wsdl:import namespace="http://schemas.gov.sk/edesk/eksService/1" location="EKSService.wsdl" />
-  <wsdl:types />
+  <wsdl:import namespace="http://schemas.gov.sk/edesk/eksService/1" location="EKSService.wsdl"/>
+  <wsdl:types/>
   <wsdl:binding name="CustomBinding_IEKSService" type="i0:IEKSService">
-    <wsp:PolicyReference URI="#CustomBinding_IEKSService_policy" />
-    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsp:PolicyReference URI="#CustomBinding_IEKSService_policy"/>
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
     <wsdl:operation name="GetMessage">
-      <soap12:operation soapAction="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessage" style="document" />
+      <soap12:operation soapAction="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessage" style="document"/>
       <wsdl:input>
-        <soap12:body use="literal" />
+        <soap12:body use="literal"/>
       </wsdl:input>
       <wsdl:output>
-        <soap12:body use="literal" />
+        <soap12:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="EDeskFaultFault">
-        <soap12:fault name="EDeskFaultFault" use="literal" />
+        <soap12:fault name="EDeskFaultFault" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="GetMessageByMessageId">
-      <soap12:operation soapAction="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessageByMessageId" style="document" />
+      <soap12:operation soapAction="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessageByMessageId" style="document"/>
       <wsdl:input>
-        <soap12:body use="literal" />
+        <soap12:body use="literal"/>
       </wsdl:input>
       <wsdl:output>
-        <soap12:body use="literal" />
+        <soap12:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="EDeskFaultFault">
-        <soap12:fault name="EDeskFaultFault" use="literal" />
+        <soap12:fault name="EDeskFaultFault" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="GetNewMessage">
-      <soap12:operation soapAction="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetNewMessage" style="document" />
+      <soap12:operation soapAction="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetNewMessage" style="document"/>
       <wsdl:input>
-        <soap12:body use="literal" />
+        <soap12:body use="literal"/>
       </wsdl:input>
       <wsdl:output>
-        <soap12:body use="literal" />
+        <soap12:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="EDeskFaultFault">
-        <soap12:fault name="EDeskFaultFault" use="literal" />
+        <soap12:fault name="EDeskFaultFault" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="GetNewMessageCount">
-      <soap12:operation soapAction="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetNewMessageCount" style="document" />
+      <soap12:operation soapAction="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetNewMessageCount" style="document"/>
       <wsdl:input>
-        <soap12:body use="literal" />
+        <soap12:body use="literal"/>
       </wsdl:input>
       <wsdl:output>
-        <soap12:body use="literal" />
+        <soap12:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="EDeskFaultFault">
-        <soap12:fault name="EDeskFaultFault" use="literal" />
+        <soap12:fault name="EDeskFaultFault" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="GetMessages">
-      <soap12:operation soapAction="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessages" style="document" />
+      <soap12:operation soapAction="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessages" style="document"/>
       <wsdl:input>
-        <soap12:body use="literal" />
+        <soap12:body use="literal"/>
       </wsdl:input>
       <wsdl:output>
-        <soap12:body use="literal" />
+        <soap12:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="EDeskFaultFault">
-        <soap12:fault name="EDeskFaultFault" use="literal" />
+        <soap12:fault name="EDeskFaultFault" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="GetMessagesByFilter">
-      <soap12:operation soapAction="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessagesByFilter" style="document" />
+      <soap12:operation soapAction="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessagesByFilter" style="document"/>
       <wsdl:input>
-        <soap12:body use="literal" />
+        <soap12:body use="literal"/>
       </wsdl:input>
       <wsdl:output>
-        <soap12:body use="literal" />
+        <soap12:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="EDeskFaultFault">
-        <soap12:fault name="EDeskFaultFault" use="literal" />
+        <soap12:fault name="EDeskFaultFault" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="GetMessagePart">
-      <soap12:operation soapAction="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessagePart" style="document" />
+      <soap12:operation soapAction="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessagePart" style="document"/>
       <wsdl:input>
-        <soap12:body use="literal" />
+        <soap12:body use="literal"/>
       </wsdl:input>
       <wsdl:output>
-        <soap12:body use="literal" />
+        <soap12:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="EDeskFaultFault">
-        <soap12:fault name="EDeskFaultFault" use="literal" />
+        <soap12:fault name="EDeskFaultFault" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="DeleteMessage">
-      <soap12:operation soapAction="http://schemas.gov.sk/edesk/eksService/1/IEKSService/DeleteMessage" style="document" />
+      <soap12:operation soapAction="http://schemas.gov.sk/edesk/eksService/1/IEKSService/DeleteMessage" style="document"/>
       <wsdl:input>
-        <soap12:body use="literal" />
+        <soap12:body use="literal"/>
       </wsdl:input>
       <wsdl:output>
-        <soap12:body use="literal" />
+        <soap12:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="EDeskFaultFault">
-        <soap12:fault name="EDeskFaultFault" use="literal" />
+        <soap12:fault name="EDeskFaultFault" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="MoveMessage">
-      <soap12:operation soapAction="http://schemas.gov.sk/edesk/eksService/1/IEKSService/MoveMessage" style="document" />
+      <soap12:operation soapAction="http://schemas.gov.sk/edesk/eksService/1/IEKSService/MoveMessage" style="document"/>
       <wsdl:input>
-        <soap12:body use="literal" />
+        <soap12:body use="literal"/>
       </wsdl:input>
       <wsdl:output>
-        <soap12:body use="literal" />
+        <soap12:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="EDeskFaultFault">
-        <soap12:fault name="EDeskFaultFault" use="literal" />
+        <soap12:fault name="EDeskFaultFault" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="GetFolders">
-      <soap12:operation soapAction="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetFolders" style="document" />
+      <soap12:operation soapAction="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetFolders" style="document"/>
       <wsdl:input>
-        <soap12:body use="literal" />
+        <soap12:body use="literal"/>
       </wsdl:input>
       <wsdl:output>
-        <soap12:body use="literal" />
+        <soap12:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="EDeskFaultFault">
-        <soap12:fault name="EDeskFaultFault" use="literal" />
+        <soap12:fault name="EDeskFaultFault" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="CreateFolder">
-      <soap12:operation soapAction="http://schemas.gov.sk/edesk/eksService/1/IEKSService/CreateFolder" style="document" />
+      <soap12:operation soapAction="http://schemas.gov.sk/edesk/eksService/1/IEKSService/CreateFolder" style="document"/>
       <wsdl:input>
-        <soap12:body use="literal" />
+        <soap12:body use="literal"/>
       </wsdl:input>
       <wsdl:output>
-        <soap12:body use="literal" />
+        <soap12:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="EDeskFaultFault">
-        <soap12:fault name="EDeskFaultFault" use="literal" />
+        <soap12:fault name="EDeskFaultFault" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
   </wsdl:binding>

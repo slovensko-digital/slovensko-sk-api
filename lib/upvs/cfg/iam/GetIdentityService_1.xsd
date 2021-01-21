@@ -1,353 +1,2131 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xs:schema version="1.0" targetNamespace="http://schemas.gov.sk/identity/identityData/1.7" xmlns:tns="http://schemas.gov.sk/identity/identityData/1.7" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:complexType name="IdentityData">
-    <xs:sequence>
-      <xs:element name="PhysicalPerson" type="tns:PhysicalPersonType" minOccurs="0" />
-      <xs:element name="CorporateBody" type="tns:CorporateBodyType" minOccurs="0" />
-      <xs:element name="PhysicalAddress" type="tns:PhysicalAddressType" minOccurs="0" maxOccurs="unbounded" />
-      <xs:element name="TelephoneAddress" type="tns:TelephoneAddressType" minOccurs="0" maxOccurs="unbounded" />
-      <xs:element name="InternetAddress" type="tns:InternetAddressType" minOccurs="0" maxOccurs="unbounded" />
-      <xs:element name="ID" type="tns:IDType" minOccurs="0" maxOccurs="unbounded" />
-      <xs:element name="GeneralData" type="tns:GeneralDataType" minOccurs="0" />
-      <xs:element name="UPVSAttributes" type="tns:UPVSAttributesType" minOccurs="0" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="PhysicalPersonType">
-    <xs:sequence>
-      <xs:element name="PersonName" type="tns:PersonNameType" minOccurs="0" />
-      <xs:element name="AlternativeName" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
-      <xs:element name="MaritalStatus" type="xs:string" default="0" minOccurs="0" />
-      <xs:element name="Sex" type="tns:CodeListType" minOccurs="0" />
-      <xs:element name="Birth" type="tns:BirthType" minOccurs="0" />
-      <xs:element name="Death" type="tns:DeathType" minOccurs="0" />
-      <xs:element name="Nationality" type="tns:CodeListType" minOccurs="0" />
-      <xs:element name="Confession" type="xs:string" minOccurs="0" />
-      <xs:element name="Occupation" type="tns:CodeListType" minOccurs="0" />
-      <xs:element name="RelatedPerson" type="tns:RelatedPersonType" minOccurs="0" maxOccurs="unbounded" />
-      <xs:element name="BankConnection" type="tns:BankConnectionType" minOccurs="0" maxOccurs="unbounded" />
-      <xs:element name="IdentityTypeDetail" type="tns:CodeListType" minOccurs="0" />
-      <xs:element name="PCO" type="xs:string" minOccurs="0" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="PersonNameType">
-    <xs:sequence>
-      <xs:element name="FormattedName" type="xs:string" minOccurs="0" />
-      <xs:element name="LegalName" type="xs:string" minOccurs="0" />
-      <xs:element name="GivenName" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
-      <xs:element name="PreferredGivenName" type="xs:string" minOccurs="0" />
-      <xs:element name="OtherName" type="xs:string" minOccurs="0" />
-      <xs:element name="FamilyName" type="tns:FamilyNameType" minOccurs="0" maxOccurs="unbounded" />
-      <xs:element name="GivenFamilyName" type="tns:FamilyNameType" minOccurs="0" maxOccurs="unbounded" />
-      <xs:element name="Affix" type="tns:AffixType" minOccurs="0" maxOccurs="unbounded" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="FamilyNameType">
-    <xs:simpleContent>
-      <xs:extension base="xs:string">
-        <xs:attribute name="primary" type="xs:boolean" />
-        <xs:attribute name="prefix" type="xs:string" />
-      </xs:extension>
-    </xs:simpleContent>
-  </xs:complexType>
-  <xs:complexType name="AffixType">
-    <xs:simpleContent>
-      <xs:extension base="xs:string">
-        <xs:attribute name="type" type="tns:EAffixType" />
-        <xs:attribute name="position" type="tns:EAffixPosition" />
-      </xs:extension>
-    </xs:simpleContent>
-  </xs:complexType>
-  <xs:complexType name="CodeListType">
-    <xs:sequence>
-      <xs:element name="Id" type="xs:string" />
-      <xs:element name="TitleSk" type="xs:string" />
-      <xs:element name="Desc" type="xs:string" minOccurs="0" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="BirthType">
-    <xs:sequence>
-      <xs:element name="DateOfBirth" type="xs:date" />
-      <xs:element name="County" type="tns:CodeListType" minOccurs="0" />
-      <xs:element name="Municipality" type="tns:CodeListType" minOccurs="0" />
-      <xs:element name="District" type="xs:string" minOccurs="0" />
-      <xs:element name="Country" type="tns:CodeListType" minOccurs="0" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="DeathType">
-    <xs:sequence>
-      <xs:element name="DateOfDeath" type="xs:date" minOccurs="0" />
-      <xs:element name="County" type="tns:CodeListType" minOccurs="0" />
-      <xs:element name="Municipality" type="tns:CodeListType" minOccurs="0" />
-      <xs:element name="District" type="xs:string" minOccurs="0" />
-      <xs:element name="Country" type="tns:CodeListType" minOccurs="0" />
-      <xs:element name="Status" type="tns:CodeListType" />
-      <xs:element name="DateOfStatusChange" type="xs:date" minOccurs="0" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="RelatedPersonType">
-    <xs:sequence>
-      <xs:element name="TypeOfRelation" type="tns:CodeListType" />
-      <xs:element name="PhysicalPerson" type="tns:PhysicalPersonType" minOccurs="0" />
-      <xs:element name="ID" type="tns:IDType" minOccurs="0" maxOccurs="unbounded" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="IDType">
-    <xs:sequence>
-      <xs:element name="IdentifierType" type="tns:CodeListType" minOccurs="0" />
-      <xs:element name="IdentifierValue" type="xs:string" minOccurs="0" />
-    </xs:sequence>
-    <xs:attribute name="specified" type="xs:boolean" />
-  </xs:complexType>
-  <xs:complexType name="BankConnectionType">
-    <xs:sequence>
-      <xs:element name="Holder" type="tns:HolderType" minOccurs="0" />
-      <xs:element name="BankName" type="xs:string" nillable="true" minOccurs="0" />
-      <xs:element name="DomesticBankConnection" type="tns:DomesticBankConnectionType" minOccurs="0" />
-      <xs:element name="InternationalBankConnection" type="tns:InternationalBankConnectionType" minOccurs="0" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="HolderType">
-    <xs:sequence>
-      <xs:element name="PersonName" type="tns:PersonNameType" minOccurs="0" />
-      <xs:element name="CorporateBodyName" type="xs:string" minOccurs="0" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="DomesticBankConnectionType">
-    <xs:sequence>
-      <xs:element name="FormattedDomesticBankConnection" type="xs:string" minOccurs="0" />
-      <xs:element name="AccountNumberPrefix" type="xs:string" minOccurs="0" />
-      <xs:element name="AccountNumber" type="xs:string" minOccurs="0" />
-      <xs:element name="BankCode" type="xs:string" minOccurs="0" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="InternationalBankConnectionType">
-    <xs:sequence>
-      <xs:element name="IBAN" type="xs:string" minOccurs="0" />
-      <xs:element name="BIC" type="xs:string" minOccurs="0" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="CorporateBodyType">
-    <xs:sequence>
-      <xs:element name="CorporateBodyName" type="xs:string" />
-      <xs:element name="CorporateBodyAlternativeName" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
-      <xs:element name="LegalForm" type="tns:CodeListType" />
-      <xs:element name="OrganizationUnit" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
-      <xs:element name="Establishment" type="xs:date" minOccurs="0" />
-      <xs:element name="Termination" type="xs:date" minOccurs="0" />
-      <xs:element name="BankConnection" type="tns:BankConnectionType" minOccurs="0" maxOccurs="unbounded" />
-      <xs:element name="Activities" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
-      <xs:element name="OtherLegalFacts" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
-      <xs:element name="Equity" type="tns:EquityType" minOccurs="0" />
-      <xs:element name="Stakeholder" type="tns:StakeholderType" minOccurs="0" maxOccurs="unbounded" />
-      <xs:element name="Sid" type="xs:string" minOccurs="0" />
-      <xs:element name="OrgId" type="xs:int" minOccurs="0" />
-      <xs:element name="Suspension" type="tns:SuspensionType" minOccurs="0" />
-      <xs:element name="DateOfStatusChange" type="xs:date" minOccurs="0" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="EquityType">
-    <xs:sequence>
-      <xs:element name="Currency" type="xs:string" nillable="true" minOccurs="0" />
-      <xs:element name="EquityValue" type="xs:float" minOccurs="0" />
-      <xs:element name="EquityValuePaid" type="xs:float" minOccurs="0" />
-      <xs:element name="EquityValueApproved" type="xs:float" minOccurs="0" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="StakeholderType">
-    <xs:sequence>
-      <xs:element name="StakeholderForm" type="xs:string" minOccurs="0" />
-      <xs:element name="PhysicalPerson" type="tns:PhysicalPersonType" minOccurs="0" />
-      <xs:element name="CorporateBody" type="tns:CorporateBodyType" minOccurs="0" />
-      <xs:element name="ID" type="tns:IDType" minOccurs="0" maxOccurs="unbounded" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="SuspensionType">
-    <xs:sequence>
-      <xs:element name="DateFrom" type="xs:date" />
-      <xs:element name="DateTo" type="xs:date" minOccurs="0" />
-      <xs:element name="Reason" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="PhysicalAddressType">
-    <xs:sequence>
-      <xs:element name="AddressLine" type="xs:string" minOccurs="0" />
-      <xs:element name="Country" type="tns:CodeListType" minOccurs="0" />
-      <xs:element name="Region" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
-      <xs:element name="County" type="tns:CodeListType" minOccurs="0" />
-      <xs:element name="Municipality" type="tns:CodeListType" minOccurs="0" />
-      <xs:element name="District" type="xs:string" minOccurs="0" />
-      <xs:element name="StreetName" type="xs:string" minOccurs="0" />
-      <xs:element name="BuildingNumber" type="xs:string" minOccurs="0" />
-      <xs:element name="PropertyRegistrationNumber" type="xs:integer" minOccurs="0" />
-      <xs:element name="Unit" type="xs:string" minOccurs="0" />
-      <xs:element name="AddressRegisterEntry" type="xs:string" minOccurs="0" />
-      <xs:element name="AddressPoint" type="tns:AddressPointType" minOccurs="0" />
-      <xs:element name="BuildingIndex" type="xs:integer" minOccurs="0" />
-      <xs:element name="DeliveryAddress" type="tns:DeliveryAddressType" minOccurs="0" />
-    </xs:sequence>
-    <xs:attribute name="type" type="tns:EPhysicalAddressType" />
-    <xs:attribute name="specified" type="xs:boolean" />
-  </xs:complexType>
-  <xs:complexType name="AddressPointType">
-    <xs:sequence>
-      <xs:element name="XYH" type="tns:XYHType" minOccurs="0" />
-      <xs:element name="BLH" type="tns:BLHType" minOccurs="0" />
-      <xs:element name="AddressPointID" type="xs:float" minOccurs="0" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="XYHType">
-    <xs:sequence>
-      <xs:element name="AxisX" type="xs:float" minOccurs="0" />
-      <xs:element name="AxisY" type="xs:float" minOccurs="0" />
-      <xs:element name="HeightH" type="xs:float" minOccurs="0" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="BLHType">
-    <xs:sequence>
-      <xs:element name="AxisB" type="xs:float" minOccurs="0" />
-      <xs:element name="AxisL" type="xs:float" minOccurs="0" />
-      <xs:element name="AxisH" type="xs:float" minOccurs="0" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="DeliveryAddressType">
-    <xs:sequence>
-      <xs:element name="PostalCode" type="xs:string" minOccurs="0" />
-      <xs:element name="PostOfficeBox" type="xs:string" minOccurs="0" />
-      <xs:element name="Recipient" type="tns:RecipientType" minOccurs="0" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="RecipientType">
-    <xs:sequence>
-      <xs:element name="PersonName" type="tns:PersonNameType" minOccurs="0" />
-      <xs:element name="AdditionalText" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
-      <xs:element name="OrganizationUnit" type="xs:string" minOccurs="0" />
-      <xs:element name="CorporateBodyName" type="xs:string" minOccurs="0" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="TelephoneAddressType">
-    <xs:sequence>
-      <xs:element name="TelephoneType" type="tns:CodeListType" minOccurs="0" />
-      <xs:element name="TelephoneNumber" type="tns:TelephoneNumberType" minOccurs="0" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="TelephoneNumberType">
-    <xs:sequence>
-      <xs:element name="FormattedNumber" type="xs:string" nillable="true" minOccurs="0" />
-      <xs:element name="InternationalCountryCode" type="xs:string" minOccurs="0" />
-      <xs:element name="NationalNumber" type="xs:string" minOccurs="0" />
-      <xs:element name="AreaCityCode" type="xs:string" minOccurs="0" />
-      <xs:element name="SubscriberNumber" type="xs:string" minOccurs="0" />
-      <xs:element name="Extension" type="xs:string" minOccurs="0" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="InternetAddressType">
-    <xs:sequence>
-      <xs:element name="Address" type="xs:anyURI" minOccurs="0" />
-      <xs:element name="DsigKeyInfo" type="xs:base64Binary" minOccurs="0" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="GeneralDataType">
-    <xs:sequence>
-      <xs:element name="FormattedName" type="xs:string" minOccurs="0" />
-      <xs:element name="IdentityType" type="tns:EIdentityType" />
-      <xs:element name="EGovIdentifier" type="tns:EGovIdentifierType" minOccurs="0" maxOccurs="unbounded" />
-      <xs:element name="Uri" type="xs:string" minOccurs="0" />
-      <xs:element name="Suffix" type="xs:integer" minOccurs="0" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="EGovIdentifierType">
-    <xs:sequence>
-      <xs:element name="SectorIdentifier" type="xs:string" minOccurs="0" />
-      <xs:element name="Identifier" type="xs:string" minOccurs="0" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="UPVSAttributesType">
-    <xs:sequence>
-      <xs:element name="Location" type="xs:string" minOccurs="0" />
-      <xs:element name="LocationActivated" type="xs:boolean" minOccurs="0" />
-      <xs:element name="eDeskStatus" type="tns:EeDeskStatus" minOccurs="0" />
-      <xs:element name="eDeskDeliveryLimited" type="xs:boolean" minOccurs="0" />
-      <xs:element name="eDeskCuetEnabled" type="xs:boolean" minOccurs="0" />
-      <xs:element name="eDeskNumber" type="xs:string" minOccurs="0" />
-      <xs:element name="IdentityStatus" type="tns:EStates" minOccurs="0" />
-      <xs:element name="PreferredLanguage" type="tns:EPreferredLanguages" minOccurs="0" />
-      <xs:element name="RE_IdentityID" type="xs:string" minOccurs="0" />
-      <xs:element name="eNotifyEmailAllowed" type="xs:boolean" minOccurs="0" />
-      <xs:element name="eNotifySmsAllowed" type="xs:boolean" minOccurs="0" />
-      <xs:element name="eNotifyEmergencyAllowed" type="xs:boolean" minOccurs="0" />
-      <xs:element name="eNotifyPreferredChannel" type="tns:EPreferredChannel" minOccurs="0" />
-      <xs:element name="eNotifyPreferredCalendar" type="xs:string" minOccurs="0" />
-      <xs:element name="eDeskRemoteUri" type="xs:anyURI" minOccurs="0" />
-      <xs:element name="OrganizacnaZlozkaOVM" type="xs:boolean" minOccurs="0" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:simpleType name="EAffixType">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="AristocraticTitle" />
-      <xs:enumeration value="FormOfAddress" />
-      <xs:enumeration value="Generation" />
-      <xs:enumeration value="Qualification" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="EAffixPosition">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Prefix" />
-      <xs:enumeration value="Postfix" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="EPhysicalAddressType">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="StreetAddress" />
-      <xs:enumeration value="ContactAddress" />
-      <xs:enumeration value="PostOfficeBoxAddress" />
-      <xs:enumeration value="MilitaryAddress" />
-      <xs:enumeration value="Undefined" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="EIdentityType">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="NATURAL_PERSON" />
-      <xs:enumeration value="LEGAL_ENTITY" />
-      <xs:enumeration value="TECHNICAL_ACCOUNT" />
-      <xs:enumeration value="ADMINISTRATOR_CPAP" />
-      <xs:enumeration value="EMPLOYEE_OF_PUBLIC_ADMINISTRATION" />
-      <xs:enumeration value="INSTITUTION_OF_PUBLIC_ADMINISTRATION" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="EeDeskStatus">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="NONEXISTENT" />
-      <xs:enumeration value="CREATED" />
-      <xs:enumeration value="ACTIVE" />
-      <xs:enumeration value="DELIVERABLE" />
-      <xs:enumeration value="DISABLED" />
-      <xs:enumeration value="DELETED" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="EStates">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="REGISTERED" />
-      <xs:enumeration value="ACTIVATED" />
-      <xs:enumeration value="VERIFIED" />
-      <xs:enumeration value="BLOCKED" />
-      <xs:enumeration value="DEACTIVATED" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="EPreferredLanguages">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="SK" />
-      <xs:enumeration value="EN" />
-      <xs:enumeration value="PL" />
-      <xs:enumeration value="CZ" />
-      <xs:enumeration value="HU" />
-      <xs:enumeration value="RU" />
-      <xs:enumeration value="DE" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="EPreferredChannel">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="SMS" />
-      <xs:enumeration value="EMAIL" />
-    </xs:restriction>
-  </xs:simpleType>
-</xs:schema>
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.gov.sk/identity/service/1.7" xmlns:ns1="http://schemas.gov.sk/identity/identityData/1.7" elementFormDefault="unqualified" targetNamespace="http://schemas.gov.sk/identity/service/1.7" version="1.0">
+  <xsd:element name="AddAssociatedAuthResourceFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="AddAssociatedAuthResourceRequest" nillable="true" type="tns:AddAssociatedAuthResourceRequest"/>
+  <xsd:element name="AddAssociatedAuthResourceResponse" nillable="true" type="tns:AddAssociatedAuthResourceResponse"/>
+  <xsd:element name="AddAuthenticationResourceToIdentityFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="AddAuthenticationResourceToIdentityRequest" nillable="true" type="tns:AddAuthenticationResourceToIdentityRequest"/>
+  <xsd:element name="AddAuthenticationResourceToIdentityResponse" nillable="true" type="tns:AddAuthenticationResourceToIdentityResponse"/>
+  <xsd:element name="AddCertificateToIdentityFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="AddCertificateToIdentityRequest" nillable="true" type="tns:AddCertificateToIdentityRequest"/>
+  <xsd:element name="AddCertificateToIdentityResponse" nillable="true" type="tns:AddCertificateToIdentityResponse"/>
+  <xsd:element name="AddDelegationFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="AddDelegationRequest" nillable="true" type="tns:AddDelegationRequest"/>
+  <xsd:element name="AddDelegationResponse" nillable="true" type="tns:AddDelegationResponse"/>
+  <xsd:element name="AddDelegationTuFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="AddDelegationTuRequest" nillable="true" type="tns:AddDelegationTuRequest"/>
+  <xsd:element name="AddDelegationTuResponse" nillable="true" type="tns:AddDelegationTuResponse"/>
+  <xsd:element name="AddDelegationRoleFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="AddDelegationRoleRequest" nillable="true" type="tns:AddDelegationRoleRequest"/>
+  <xsd:element name="AddDelegationRoleResponse" nillable="true" type="tns:AddDelegationRoleResponse"/>
+  <xsd:element name="AuthorizeIdentityCertificateFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="AuthorizeIdentityCertificateRequest" nillable="true" type="tns:AuthorizeIdentityCertificateRequest"/>
+  <xsd:element name="AuthorizeIdentityCertificateResponse" nillable="true" type="tns:AuthorizeIdentityCertificateResponse"/>
+  <xsd:element name="CreateIdentityFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="CreateIdentityRequest" nillable="true" type="tns:CreateIdentityRequest"/>
+  <xsd:element name="CreateIdentityResponse" nillable="true" type="tns:CreateIdentityResponse"/>
+  <xsd:element name="CreateRoleFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="CreateRoleRequest" nillable="true" type="tns:CreateRoleRequest"/>
+  <xsd:element name="CreateRoleResponse" nillable="true" type="tns:CreateRoleResponse"/>
+  <xsd:element name="DeleteACFromTUFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="DeleteACFromTURequest" nillable="true" type="tns:DeleteACFromTURequest"/>
+  <xsd:element name="DeleteACFromTUResponse" nillable="true" type="tns:DeleteACFromTUResponse"/>
+  <xsd:element name="DeleteAssociatedAuthResourceFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="DeleteAssociatedAuthResourceRequest" nillable="true" type="tns:DeleteAssociatedAuthResourceRequest"/>
+  <xsd:element name="DeleteAssociatedAuthResourceResponse" nillable="true" type="tns:DeleteAssociatedAuthResourceResponse"/>
+  <xsd:element name="DeleteDelegationFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="DeleteDelegationRequest" nillable="true" type="tns:DeleteDelegationRequest"/>
+  <xsd:element name="DeleteDelegationResponse" nillable="true" type="tns:DeleteDelegationResponse"/>
+  <xsd:element name="DeleteIdentityFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="DeleteIdentityRequest" nillable="true" type="tns:DeleteIdentityRequest"/>
+  <xsd:element name="DeleteIdentityResponse" nillable="true" type="tns:DeleteIdentityResponse"/>
+  <xsd:element name="DeleteRoleFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="DeleteRoleRequest" nillable="true" type="tns:DeleteRoleRequest"/>
+  <xsd:element name="DeleteRoleResponse" nillable="true" type="tns:DeleteRoleResponse"/>
+  <xsd:element name="DisableEnableIdentityFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="DisableEnableIdentityRequest" nillable="true" type="tns:DisableEnableIdentityRequest"/>
+  <xsd:element name="DisableEnableIdentityResponse" nillable="true" type="tns:DisableEnableIdentityResponse"/>
+  <xsd:element name="GenerateHashFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GenerateHashRequest" nillable="true" type="tns:GenerateHashRequest"/>
+  <xsd:element name="GenerateHashResponse" nillable="true" type="tns:GenerateHashResponse"/>
+  <xsd:element name="GenerateOrResetPasswordFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GenerateOrResetPasswordRequest" nillable="true" type="tns:GenerateOrResetPasswordRequest"/>
+  <xsd:element name="GenerateOrResetPasswordResponse" nillable="true" type="tns:GenerateOrResetPasswordResponse"/>
+  <xsd:element name="GenerateRandomPasswordFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GenerateRandomPasswordRequest" nillable="true" type="tns:GenerateRandomPasswordRequest"/>
+  <xsd:element name="GenerateRandomPasswordResponse" nillable="true" type="tns:GenerateRandomPasswordResponse"/>
+  <xsd:element name="GenerateUsernameFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GenerateUsernameRequest" nillable="true">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="IdentityType" type="xsd:integer"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="GenerateUsernameResponse" nillable="true">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="Username" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="GenerateVerificationEmailFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GenerateVerificationEmailRequest" nillable="true" type="tns:GenerateVerificationEmailRequest"/>
+  <xsd:element name="GenerateVerificationEmailResponse" nillable="true" type="tns:GenerateVerificationEmailResponse"/>
+  <xsd:element name="GetAllRolesForSystemFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetAllRolesForSystemRequest" nillable="true" type="tns:GetAllRolesForSystemRequest"/>
+  <xsd:element name="GetAllRolesForSystemResponse" nillable="true" type="tns:GetAllRolesForSystemResponse"/>
+  <xsd:element name="GetAssociatedAuthResourceByIdentityIDFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetAssociatedAuthResourceByIdentityIDRequest" nillable="true" type="tns:GetAssociatedAuthResourceByIdentityIDRequest"/>
+  <xsd:element name="GetAssociatedAuthResourceByIdentityIDResponse" nillable="true" type="tns:GetAssociatedAuthResourceByIdentityIDResponse"/>
+  <xsd:element name="GetAssociatedAuthResourceBySerialNumberFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetAssociatedAuthResourceBySerialNumberRequest" nillable="true" type="tns:GetAssociatedAuthResourceBySerialNumberRequest"/>
+  <xsd:element name="GetAssociatedAuthResourceBySerialNumberResponse" nillable="true" type="tns:GetAssociatedAuthResourceBySerialNumberResponse"/>
+  <xsd:element name="GetAuthResourceTypeByQALevelFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetAuthResourceTypeByQALevelRequest" nillable="true" type="tns:GetAuthResourceTypeByQALevelRequest"/>
+  <xsd:element name="GetAuthResourceTypeByQALevelResponse" nillable="true" type="tns:GetAuthResourceTypeByQALevelResponse"/>
+  <xsd:element name="GetAuthResourceTypeFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetAuthResourceTypeRequest" nillable="true" type="tns:GetAuthResourceTypeRequest"/>
+  <xsd:element name="GetAuthResourceTypeResponse" nillable="true" type="tns:GetAuthResourceTypeResponse"/>
+  <xsd:element name="GetBusinessRolesFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetBusinessRolesRequest" nillable="true" type="tns:GetBusinessRolesRequest"/>
+  <xsd:element name="GetBusinessRolesResponse" nillable="true" type="tns:GetBusinessRolesResponse"/>
+  <xsd:element name="GetCodeTableFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetCodeTableRequest" nillable="true" type="tns:GetCodeTableRequest"/>
+  <xsd:element name="GetCodeTableResponse" nillable="true" type="tns:GetCodeTableResponse"/>
+  <xsd:element name="GetCurrentDelegationFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetCurrentDelegationRequest" nillable="true" type="tns:GetCurrentDelegationRequest"/>
+  <xsd:element name="GetCurrentDelegationResponse" nillable="true" type="tns:GetCurrentDelegationResponse"/>
+  <xsd:element name="GetCustomAttributesBasedOnValueFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetCustomAttributesBasedOnValueRequest" nillable="true" type="tns:GetCustomAttributesBasedOnValueRequest"/>
+  <xsd:element name="GetCustomAttributesBasedOnValueResponse" nillable="true" type="tns:GetCustomAttributesBasedOnValueResponse"/>
+  <xsd:element name="GetCustomAttributesBasedOnValue2Fault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetCustomAttributesBasedOnValue2Request" nillable="true" type="tns:GetCustomAttributesBasedOnValue2Request"/>
+  <xsd:element name="GetCustomAttributesBasedOnValue2Response" nillable="true" type="tns:GetCustomAttributesBasedOnValue2Response"/>
+  <xsd:element name="GetCustomAttributesForIdentitiesFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetCustomAttributesForIdentitiesRequest" nillable="true" type="tns:GetCustomAttributesForIdentitiesRequest"/>
+  <xsd:element name="GetCustomAttributesForIdentitiesResponse" nillable="true" type="tns:GetCustomAttributesForIdentitiesResponse"/>
+  <xsd:element name="GetCustomAttributesForIdentities2Fault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetCustomAttributesForIdentities2Request" nillable="true" type="tns:GetCustomAttributesForIdentities2Request"/>
+  <xsd:element name="GetCustomAttributesForIdentities2Response" nillable="true" type="tns:GetCustomAttributesForIdentities2Response"/>
+  <xsd:element name="GetDeactivatedIdentitiesFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetDeactivatedIdentitiesRequest" nillable="true" type="tns:GetDeactivatedIdentitiesRequest"/>
+  <xsd:element name="GetDeactivatedIdentitiesResponse" nillable="true" type="tns:GetDeactivatedIdentitiesResponse"/>
+  <xsd:element name="GetDelegationDetailFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetDelegationDetailRequest" nillable="true" type="tns:GetDelegationDetailRequest"/>
+  <xsd:element name="GetDelegationDetailResponse" nillable="true" type="tns:GetDelegationDetailResponse"/>
+  <xsd:element name="GetDelegationsFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetDelegationsRequest" nillable="true" type="tns:GetDelegationsRequest"/>
+  <xsd:element name="GetDelegationsResponse" nillable="true" type="tns:GetDelegationsResponse"/>
+  <xsd:element name="GetDelegationsSimpleFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetDelegationsSimpleRequest" nillable="true" type="tns:GetDelegationsSimpleRequest"/>
+  <xsd:element name="GetDelegationsSimpleResponse" nillable="true" type="tns:GetDelegationsSimpleResponse"/>
+  <xsd:element name="GetDelegationTypesFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetDelegationTypesRequest" nillable="true" type="tns:GetDelegationTypesRequest"/>
+  <xsd:element name="GetDelegationTypesResponse" nillable="true" type="tns:GetDelegationTypesResponse"/>
+  <xsd:element name="GetEdeliveryDeactivationDateFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetEdeliveryDeactivationDateRequest" nillable="true" type="tns:GetEdeliveryDeactivationDateRequest"/>
+  <xsd:element name="GetEdeliveryDeactivationDateResponse" nillable="true" type="tns:GetEdeliveryDeactivationDateResponse"/>
+  <xsd:element name="GetEdeskActivationListFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetEdeskActivationListRequest" nillable="true" type="tns:GetEdeskActivationListRequest"/>
+  <xsd:element name="GetEdeskActivationListResponse" nillable="true" type="tns:GetEdeskActivationListResponse"/>
+  <xsd:element name="GetEdeskCuetListFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetEdeskCuetListRequest" nillable="true" type="tns:GetEdeskCuetListRequest"/>
+  <xsd:element name="GetEdeskCuetListResponse" nillable="true" type="tns:GetEdeskCuetListResponse"/>
+  <xsd:element name="GetEdeskCuetList2Fault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetEdeskCuetList2Request" nillable="true" type="tns:GetEdeskCuetList2Request"/>
+  <xsd:element name="GetEdeskCuetList2Response" nillable="true" type="tns:GetEdeskCuetList2Response"/>
+  <xsd:element name="GetEdeskHistoryFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetEdeskHistoryRequest" nillable="true" type="tns:GetEdeskHistoryRequest"/>
+  <xsd:element name="GetEdeskHistoryResponse" nillable="true" type="tns:GetEdeskHistoryResponse"/>
+  <xsd:element name="GetEdeskInfoFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetEdeskInfoRequest" nillable="true" type="tns:GetEdeskInfoRequest"/>
+  <xsd:element name="GetEdeskInfoResponse" nillable="true" type="tns:GetEdeskInfoResponse"/>
+  <xsd:element name="GetEdeskInfo2Fault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetEdeskInfo2Request" nillable="true" type="tns:GetEdeskInfo2Request"/>
+  <xsd:element name="GetEdeskInfo2Response" nillable="true" type="tns:GetEdeskInfo2Response"/>
+  <xsd:element name="GetExpiredIdentitiesFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetExpiredIdentitiesRequest" nillable="true" type="tns:GetExpiredIdentitiesRequest"/>
+  <xsd:element name="GetExpiredIdentitiesResponse" nillable="true" type="tns:GetExpiredIdentitiesResponse"/>
+  <xsd:element name="GetHistoryOfAssociatedAuthResourceByIdentityIDFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetHistoryOfAssociatedAuthResourceByIdentityIDRequest" nillable="true" type="tns:GetHistoryOfAssociatedAuthResourceByIdentityIDRequest"/>
+  <xsd:element name="GetHistoryOfAssociatedAuthResourceByIdentityIDResponse" nillable="true" type="tns:GetHistoryOfAssociatedAuthResourceByIdentityIDResponse"/>
+  <xsd:element name="GetChallengeFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetChallengeQuestionsFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetChallengeQuestionsRequest" nillable="true" type="tns:GetChallengeQuestionsRequest"/>
+  <xsd:element name="GetChallengeQuestionsResponse" nillable="true" type="tns:GetChallengeQuestionsResponse"/>
+  <xsd:element name="GetChallengeRequest" nillable="true" type="tns:GetChallengeRequest"/>
+  <xsd:element name="GetChallengeResponse" nillable="true" type="tns:GetChallengeResponse"/>
+  <xsd:element name="GetIdentitiesFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetIdentitiesForRoleFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetIdentitiesForRoleRequest" nillable="true" type="tns:GetIdentitiesForRoleRequest"/>
+  <xsd:element name="GetIdentitiesForRoleResponse" nillable="true" type="tns:GetIdentitiesForRoleResponse"/>
+  <xsd:element name="GetIdentitiesForRole2Fault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetIdentitiesForRole2Request" nillable="true" type="tns:GetIdentitiesForRole2Request"/>
+  <xsd:element name="GetIdentitiesForRole2Response" nillable="true" type="tns:GetIdentitiesForRole2Response"/>
+  <xsd:element name="GetIdentitiesForServiceFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetIdentitiesForServiceRequest" nillable="true" type="tns:GetIdentitiesForServiceRequest"/>
+  <xsd:element name="GetIdentitiesForServiceResponse" nillable="true" type="tns:GetIdentitiesForServiceResponse"/>
+  <xsd:element name="GetIdentitiesForService2Fault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetIdentitiesForService2Request" nillable="true" type="tns:GetIdentitiesForService2Request"/>
+  <xsd:element name="GetIdentitiesForService2Response" nillable="true" type="tns:GetIdentitiesForService2Response"/>
+  <xsd:element name="GetIdentitiesRequest" nillable="true" type="tns:GetIdentitiesRequest"/>
+  <xsd:element name="GetIdentitiesResponse" nillable="true" type="tns:GetIdentitiesResponse"/>
+  <xsd:element name="GetIdentitiesToDeletedFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetIdentitiesToDeletedRequest" nillable="true" type="tns:GetIdentitiesToDeletedRequest"/>
+  <xsd:element name="GetIdentitiesToDeletedResponse" nillable="true" type="tns:GetIdentitiesToDeletedResponse"/>
+  <xsd:element name="GetIdentityBasedOnExtendedAttributesFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetIdentityBasedOnExtendedAttributesRequest" nillable="true" type="tns:GetIdentityBasedOnExtendedAttributesRequest"/>
+  <xsd:element name="GetIdentityBasedOnExtendedAttributesResponse" nillable="true" type="tns:GetIdentityBasedOnExtendedAttributesResponse"/>
+  <xsd:element name="GetIdentityByCertificateFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetIdentityByCertificateRequest" nillable="true" type="tns:GetIdentityByCertificateRequest"/>
+  <xsd:element name="GetIdentityByCertificateResponse" nillable="true" type="tns:GetIdentityByCertificateResponse"/>
+  <xsd:element name="GetIdentityCertificateDataByIDFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetIdentityCertificateDataByIDRequest" nillable="true" type="tns:GetIdentityCertificateDataByIDRequest"/>
+  <xsd:element name="GetIdentityCertificateDataByIDResponse" nillable="true" type="tns:GetIdentityCertificateDataByIDResponse"/>
+  <xsd:element name="GetIdentityCertificatesFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetIdentityCertificatesRequest" nillable="true" type="tns:GetIdentityCertificatesRequest"/>
+  <xsd:element name="GetIdentityCertificatesResponse" nillable="true" type="tns:GetIdentityCertificatesResponse"/>
+  <xsd:element name="GetIdentityFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetIdentityHistoryFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetIdentityHistoryRequest" nillable="true" type="tns:GetIdentityHistoryRequest"/>
+  <xsd:element name="GetIdentityHistoryResponse" nillable="true" type="tns:GetIdentityHistoryResponse"/>
+  <xsd:element name="GetIdentityIdFromReIdentityIdFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetIdentityIdFromReIdentityIdRequest" nillable="true" type="tns:GetIdentityIdFromReIdentityIdRequest"/>
+  <xsd:element name="GetIdentityIdFromReIdentityIdResponse" nillable="true" type="tns:GetIdentityIdFromReIdentityIdResponse"/>
+  <xsd:element name="GetIdentityRequest" nillable="true" type="tns:GetIdentityRequest"/>
+  <xsd:element name="GetIdentityResponse" nillable="true" type="tns:GetIdentityResponse"/>
+  <xsd:element name="GetInactiveIdentitiesFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetInactiveIdentitiesRequest" nillable="true" type="tns:GetInactiveIdentitiesRequest"/>
+  <xsd:element name="GetInactiveIdentitiesResponse" nillable="true" type="tns:GetInactiveIdentitiesResponse"/>
+  <xsd:element name="GetNewEdeskIdFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetNewEdeskIdRequest" nillable="true" type="tns:GetNewEdeskIdRequest"/>
+  <xsd:element name="GetNewEdeskIdResponse" nillable="true" type="tns:GetNewEdeskIdResponse"/>
+  <xsd:element name="GetOrganizationsFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetOrganizationsRequest" nillable="true" type="tns:GetOrganizationsRequest"/>
+  <xsd:element name="GetOrganizationsResponse" nillable="true" type="tns:GetOrganizationsResponse"/>
+  <xsd:element name="GetRolesByServiceFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetRolesByServiceRequest" nillable="true" type="tns:GetRolesByServiceRequest"/>
+  <xsd:element name="GetRolesByServiceResponse" nillable="true" type="tns:GetRolesByServiceResponse"/>
+  <xsd:element name="GetRolesDetailForIdentityFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetRolesDetailForIdentityRequest" nillable="true" type="tns:GetRolesDetailForIdentityRequest"/>
+  <xsd:element name="GetRolesDetailForIdentityResponse" nillable="true" type="tns:GetRolesDetailForIdentityResponse"/>
+  <xsd:element name="GetRolesFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetRolesForIdentityFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetRolesForIdentityRequest" nillable="true" type="tns:GetRolesForIdentityRequest"/>
+  <xsd:element name="GetRolesForIdentityResponse" nillable="true" type="tns:GetRolesForIdentityResponse"/>
+  <xsd:element name="GetRolesRequest" nillable="true" type="tns:GetRolesRequest"/>
+  <xsd:element name="GetRolesResponse" nillable="true" type="tns:GetRolesResponse"/>
+  <xsd:element name="GetServicesFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetServicesRequest" nillable="true" type="tns:GetServicesRequest"/>
+  <xsd:element name="GetServicesResponse" nillable="true" type="tns:GetServicesResponse"/>
+  <xsd:element name="GetUriHistoryFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetUriHistoryRequest" nillable="true" type="tns:GetUriHistoryRequest"/>
+  <xsd:element name="GetUriHistoryResponse" nillable="true" type="tns:GetUriHistoryResponse"/>
+  <xsd:element name="GetVersionFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GetVersionRequest" nillable="true" type="tns:GetVersionRequest"/>
+  <xsd:element name="GetVersionResponse" nillable="true" type="tns:GetVersionResponse"/>
+  <xsd:element name="GrantRoleToIdentityFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="GrantRoleToIdentityRequest" nillable="true" type="tns:GrantRoleToIdentityRequest"/>
+  <xsd:element name="GrantRoleToIdentityResponse" nillable="true" type="tns:GrantRoleToIdentityResponse"/>
+  <xsd:element name="ChangePasswordFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="ChangePasswordQAFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="ChangePasswordQARequest" nillable="true" type="tns:ChangePasswordQARequest"/>
+  <xsd:element name="ChangePasswordQAResponse" nillable="true" type="tns:ChangePasswordQAResponse"/>
+  <xsd:element name="ChangePasswordRequest" nillable="true" type="tns:ChangePasswordRequest"/>
+  <xsd:element name="ChangePasswordResponse" nillable="true" type="tns:ChangePasswordResponse"/>
+  <xsd:element name="IsIdentityAuthenticatedFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="IsIdentityAuthenticatedRequest" nillable="true" type="tns:IsIdentityAuthenticatedRequest"/>
+  <xsd:element name="IsIdentityAuthenticatedResponse" nillable="true" type="tns:IsIdentityAuthenticatedResponse"/>
+  <xsd:element name="IsIdentityInRoleFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="IsIdentityInRoleRequest" nillable="true" type="tns:IsIdentityInRoleRequest"/>
+  <xsd:element name="IsIdentityInRoleResponse" nillable="true" type="tns:IsIdentityInRoleResponse"/>
+  <xsd:element name="RegObGetAddressFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="RegObGetAddressRequest" nillable="true" type="tns:RegObGetAddressRequest"/>
+  <xsd:element name="RegObGetAddressResponse" nillable="true" type="tns:RegObGetAddressResponse"/>
+  <xsd:element name="RegObCheckIdentityFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="RegObCheckIdentityRequest" nillable="true" type="tns:RegObCheckIdentityRequest"/>
+  <xsd:element name="RegObCheckIdentityResponse" nillable="true" type="tns:RegObCheckIdentityResponse"/>
+  <xsd:element name="RemoveAuthenticationResourceFromIdentityFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="RemoveAuthenticationResourceFromIdentityRequest" nillable="true" type="tns:RemoveAuthenticationResourceFromIdentityRequest"/>
+  <xsd:element name="RemoveAuthenticationResourceFromIdentityResponse" nillable="true" type="tns:RemoveAuthenticationResourceFromIdentityResponse"/>
+  <xsd:element name="RevokeRoleFromIdentityAndDelegationsFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="RevokeRoleFromIdentityAndDelegationsRequest" nillable="true" type="tns:RevokeRoleFromIdentityAndDelegationsRequest"/>
+  <xsd:element name="RevokeRoleFromIdentityAndDelegationsResponse" nillable="true" type="tns:RevokeRoleFromIdentityAndDelegationsResponse"/>
+  <xsd:element name="RevokeRoleFromIdentityFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="RevokeRoleFromIdentityRequest" nillable="true" type="tns:RevokeRoleFromIdentityRequest"/>
+  <xsd:element name="RevokeRoleFromIdentityResponse" nillable="true" type="tns:RevokeRoleFromIdentityResponse"/>
+  <xsd:element name="SetCustomAttributesFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="SetCustomAttributesRequest" nillable="true" type="tns:SetCustomAttributesRequest"/>
+  <xsd:element name="SetCustomAttributesResponse" nillable="true" type="tns:SetCustomAttributesResponse"/>
+  <xsd:element name="SetIdentityStateFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="SetIdentityStateRequest" nillable="true" type="tns:SetIdentityStateRequest"/>
+  <xsd:element name="SetIdentityStateResponse" nillable="true" type="tns:SetIdentityStateResponse"/>
+  <xsd:element name="UpdateDelegationFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="UpdateDelegationRequest" nillable="true" type="tns:UpdateDelegationRequest"/>
+  <xsd:element name="UpdateDelegationResponse" nillable="true" type="tns:UpdateDelegationResponse"/>
+  <xsd:element name="UpdateChallengeQuestionsFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="UpdateChallengeQuestionsRequest" nillable="true" type="tns:UpdateChallengeQuestionsRequest"/>
+  <xsd:element name="UpdateChallengeQuestionsResponse" nillable="true" type="tns:UpdateChallengeQuestionsResponse"/>
+  <xsd:element name="UpdateIdentityFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="UpdateIdentityRequest" nillable="true" type="tns:UpdateIdentityRequest"/>
+  <xsd:element name="UpdateIdentityResponse" nillable="true" type="tns:UpdateIdentityResponse"/>
+  <xsd:element name="UpdateRoleFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="UpdateRoleRequest" nillable="true" type="tns:UpdateRoleRequest"/>
+  <xsd:element name="UpdateRoleResponse" nillable="true" type="tns:UpdateRoleResponse"/>
+  <xsd:element name="VerifyEmailIfExistsFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="VerifyEmailIfExistsRequest" nillable="true" type="tns:VerifyEmailIfExistsRequest"/>
+  <xsd:element name="VerifyEmailIfExistsResponse" nillable="true" type="tns:VerifyEmailIfExistsResponse"/>
+  <xsd:element name="VerifyHashFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="VerifyHashRequest" nillable="true" type="tns:VerifyHashRequest"/>
+  <xsd:element name="VerifyHashResponse" nillable="true" type="tns:VerifyHashResponse"/>
+  <xsd:element name="VerifyChallengeQuestionsFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="VerifyChallengeQuestionsRequest" nillable="true" type="tns:VerifyChallengeQuestionsRequest"/>
+  <xsd:element name="VerifyChallengeQuestionsResponse" nillable="true" type="tns:VerifyChallengeQuestionsResponse"/>
+  <xsd:element name="VerifyLoginAgainstPolicyFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="VerifyLoginAgainstPolicyRequest" nillable="true" type="tns:VerifyLoginAgainstPolicyRequest"/>
+  <xsd:element name="VerifyLoginAgainstPolicyResponse" nillable="true" type="tns:VerifyLoginAgainstPolicyResponse"/>
+  <xsd:element name="VerifyPasswordAgainstPolicyFault" nillable="true" type="tns:IamFault"/>
+  <xsd:element name="VerifyPasswordAgainstPolicyRequest" nillable="true" type="tns:VerifyPasswordAgainstPolicyRequest"/>
+  <xsd:element name="VerifyPasswordAgainstPolicyResponse" nillable="true" type="tns:VerifyPasswordAgainstPolicyResponse"/>
+  <xsd:complexType name="AddAssociatedAuthResourceRequest">
+    <xsd:sequence>
+      <xsd:element name="identityID" type="xsd:string"/>
+      <xsd:element name="authResourceTypeID" type="xsd:integer"/>
+      <xsd:element name="serialNumber" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="X509Issuer" nillable="true" type="xsd:string"/>
+      <xsd:element name="validFrom" type="xsd:date"/>
+      <xsd:element name="validTo" type="xsd:date"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AddAssociatedAuthResourceResponse">
+    <xsd:sequence>
+      <xsd:element name="AssociatedAuthResourceID" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AddAuthenticationResourceToIdentityRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IdentityID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="AuthenticationResource" type="tns:CredentialsType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AddAuthenticationResourceToIdentityResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="AuthenticationResourceAdded" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AddCertificateToIdentityRequest">
+    <xsd:sequence>
+      <xsd:element name="IdentityID" type="xsd:string"/>
+      <xsd:element name="Data" type="tns:Credentials"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AddCertificateToIdentityResponse">
+    <xsd:sequence>
+      <xsd:element name="CredentialsID" type="xsd:long"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AddDelegationRequest">
+    <xsd:sequence>
+      <xsd:element name="owner" type="xsd:string"/>
+      <xsd:element name="recipient" type="xsd:string"/>
+      <xsd:element name="delegationTypeID" type="xsd:integer"/>
+      <xsd:element minOccurs="0" name="delegationParentID" type="xsd:integer"/>
+      <xsd:element minOccurs="0" name="associatedAuthResID" nillable="true" type="xsd:integer"/>
+      <xsd:element name="validFrom" type="xsd:date"/>
+      <xsd:element minOccurs="0" name="validTo" nillable="true" type="xsd:date"/>
+      <xsd:element default="0" minOccurs="0" name="oneTimeDelegation" type="xsd:integer"/>
+      <xsd:element default="0" minOccurs="0" name="redelegationAllowed" type="xsd:integer"/>
+      <xsd:element default="1" name="accepted" type="xsd:integer"/>
+      <xsd:element minOccurs="0" name="delegationRoleNames" type="tns:DelegationRoleNamesType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AddDelegationResponse">
+    <xsd:sequence>
+      <xsd:element name="delegationID" type="xsd:integer"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AddDelegationTuRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="1" name="owner" type="xsd:string"/>
+      <xsd:element minOccurs="1" name="recipient" type="xsd:string"/>
+      <xsd:element minOccurs="1" name="recipientSystem" type="tns:RecipentSystemIDs"/>
+      <xsd:element minOccurs="1" name="delegationTypeID" type="xsd:integer"/>
+      <xsd:element minOccurs="0" name="delegationParentID" type="xsd:integer"/>
+      <xsd:element minOccurs="1" name="validFrom" type="xsd:date"/>
+      <xsd:element minOccurs="0" name="validTo" type="xsd:date"/>
+      <xsd:element minOccurs="1" name="redelegationAllowed" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="delegationRoleNames" type="tns:DelegationRoleNamesType"/>
+      <xsd:element minOccurs="0" name="AccessFromEID" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="AccessFromEIDAS" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="AccessFromMobileID" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="AssociatedAuthResourceTU" type="tns:AuthResTus"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AuthResTus">
+    <xsd:sequence>
+      <xsd:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="AssociatedAuthResource" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RecipentSystemIDs">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="1" name="recipientSystemID" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AddDelegationTuResponse">
+    <xsd:sequence>
+      <xsd:element name="delegationID" type="xsd:integer"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AddDelegationRoleRequest">
+    <xsd:sequence>
+      <xsd:element form="qualified" name="delegationRoleName" type="xsd:string"/>
+      <xsd:element form="qualified" minOccurs="0" name="description_SK" type="xsd:string"/>
+      <xsd:element form="qualified" minOccurs="0" name="description_EN" type="xsd:string"/>
+      <xsd:element form="qualified" name="delegationID" nillable="true" type="xsd:integer"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AddDelegationRoleResponse">
+    <xsd:sequence>
+      <xsd:element form="qualified" name="errorCode" nillable="true" type="xsd:integer"/>
+      <xsd:element form="qualified" name="errorMessage" nillable="true" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AssociatedAuthResourceType">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="authResourceTypeID" nillable="true" type="xsd:integer"/>
+      <xsd:element minOccurs="0" name="valid" type="xsd:integer"/>
+      <xsd:element minOccurs="0" name="validFrom" nillable="true" type="xsd:date"/>
+      <xsd:element minOccurs="0" name="validTo" nillable="true" type="xsd:date"/>
+      <xsd:element minOccurs="0" name="serialNumber" nillable="true" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="X509Issuer" nillable="true" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="authResourceType" type="tns:AuthResourceType"/>
+      <xsd:element minOccurs="0" name="AssociatedAuthResourceID" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="associatedAuthResourceTypeC">
+    <xsd:sequence>
+      <xsd:element name="authResourceTypeID" type="xsd:string"/>
+      <xsd:element name="validFrom" type="xsd:date"/>
+      <xsd:element minOccurs="0" name="validTo" type="xsd:date"/>
+      <xsd:element minOccurs="0" name="serialNumber" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="X509Issuer" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AuthorizeIdentityCertificateRequest">
+    <xsd:sequence>
+      <xsd:element name="CredentialsID" type="xsd:long"/>
+      <xsd:element name="SignedData" type="tns:SignedData"/>
+      <xsd:element name="Verified" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AuthorizeIdentityCertificateResponse">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:complexType name="AuthResourceType">
+    <xsd:sequence>
+      <xsd:element form="qualified" minOccurs="0" name="authResourceTypeID" type="xsd:integer"/>
+      <xsd:element form="qualified" minOccurs="0" name="authResourceName" type="xsd:string"/>
+      <xsd:element form="qualified" minOccurs="0" name="qaLevel" type="xsd:integer"/>
+      <xsd:element form="qualified" minOccurs="0" name="description" type="xsd:string"/>
+      <xsd:element form="qualified" minOccurs="0" name="valid" type="xsd:integer"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AuthResourceTypeNoQALevel">
+    <xsd:sequence>
+      <xsd:element form="qualified" minOccurs="0" name="authResourceTypeID" type="xsd:integer"/>
+      <xsd:element form="qualified" minOccurs="0" name="authResourceName" type="xsd:string"/>
+      <xsd:element form="qualified" minOccurs="0" name="description" type="xsd:string"/>
+      <xsd:element form="qualified" minOccurs="0" name="valid" type="xsd:integer"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Certificate">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="CommonName" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Issuer" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="IssuerBase64" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="PublicKey" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Sn" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="SnBase64" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="ValidFrom" type="xsd:dateTime"/>
+      <xsd:element minOccurs="0" name="ValidTo" type="xsd:dateTime"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="CodeTableItemType">
+    <xsd:sequence>
+      <xsd:element name="Code" type="xsd:string"/>
+      <xsd:element name="Value" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="CodeValueType">
+    <xsd:sequence>
+      <xsd:element name="Code" type="xsd:string"/>
+      <xsd:element name="Value" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="ValidFrom" type="xsd:dateTime"/>
+      <xsd:element minOccurs="0" name="ValidTo" type="xsd:dateTime"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="CorporateBodyRequestType">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="CorporateBodyName" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="LegalForm" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="CompanyRegistrationNumber" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Sid" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="VatNumber" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="CreateIdentityRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IdentityData" type="ns1:IdentityData"/>
+      <xsd:element minOccurs="0" name="QuestionsAnswers">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="Questions" type="xsd:string"/>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="Answers" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="UserLogin" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Password" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="CreateIdentityResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IdentityID" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!--
+  <xsd:complexType name="CreateRoleRequest">
+    <xsd:sequence>
+      <xsd:element name="Category" type="xsd:string"/>
+      <xsd:element name="Name" type="xsd:string"/>
+      <xsd:element name="Description" type="xsd:string"/>
+      <xsd:element name="DisplayName" type="xsd:string"/>
+      <xsd:element name="Type" type="tns:ERoleType" minOccurs="0"/>
+      <xsd:element name="NestedRoles" type="tns:NestedRolesType" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+    -->
+  <xsd:complexType name="CreateRoleRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="CreateRole" type="tns:Role"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Role">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Category" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Name" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Description" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="DisplayName" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Type" type="tns:ERoleType"/>
+      <xsd:element minOccurs="0" name="NestedRoles" type="tns:NestedRolesType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="CreateRoleResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="RoleCreated" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Credentials">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Certificate" type="tns:Certificate"/>
+      <xsd:element minOccurs="0" name="CredentialsState" type="tns:CredentialsState"/>
+      <xsd:element minOccurs="0" name="DateCreated" type="xsd:dateTime"/>
+      <xsd:element minOccurs="0" name="ProtectedData" type="tns:ProtectedData"/>
+      <xsd:element minOccurs="0" name="IdentityID" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DeactivatedIdentities">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IdentityID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="FormattedName" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="IdentityType" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Login" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="ChangeDate" type="xsd:date"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Delegation">
+    <xsd:sequence>
+      <xsd:element default="0" minOccurs="0" name="delegationID" type="xsd:integer"/>
+      <xsd:element minOccurs="0" name="owner" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="recipient" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="ownerName" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="recipientName" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="delegationTypeID" type="xsd:integer"/>
+      <xsd:element minOccurs="0" name="delegationParentID" type="xsd:integer"/>
+      <xsd:element minOccurs="0" name="associatedAuthResID" nillable="true" type="xsd:integer"/>
+      <xsd:element name="validFrom" type="xsd:date"/>
+      <xsd:element name="validTo" nillable="true" type="xsd:date"/>
+      <xsd:element default="0" minOccurs="0" name="oneTimeDelegation" type="xsd:integer"/>
+      <xsd:element default="0" minOccurs="0" name="redelegationAllowed" type="xsd:integer"/>
+      <xsd:element default="1" minOccurs="0" name="accepted" type="xsd:integer"/>
+      <xsd:element minOccurs="0" name="type" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="delegationTypeCode" type="xsd:integer"/>
+      <xsd:element minOccurs="0" name="associatedAuthResTypeID" nillable="true" type="xsd:integer"/>
+      <xsd:element minOccurs="0" name="delegationRoleNames" type="tns:DelegationRoleNamesType"/>
+      <xsd:element minOccurs="0" name="associatedAuthResource" type="tns:AssociatedAuthResourceType"/>
+      <xsd:element minOccurs="0" name="delegationType" type="tns:DelegationTypeType"/>
+      <xsd:element minOccurs="0" name="roles" type="tns:DelegationRolesType"/>
+      <xsd:element minOccurs="1" name="recipientSystem" type="tns:RecipentSystemIDs"/>
+      <xsd:element minOccurs="0" name="AccessFromEID" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="AccessFromEIDAS" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="AccessFromMobileID" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="AssociatedAuthResourceTU" type="tns:AuthResTus"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DelegationDetailAssociatedAuthResourceType">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="associatedAuthResID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="authResourceTypeID" type="xsd:integer"/>
+      <xsd:element minOccurs="0" name="authResourceName" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="qaLevel" type="xsd:integer"/>
+      <xsd:element minOccurs="0" name="validFrom" type="xsd:date"/>
+      <xsd:element minOccurs="0" name="validTo" type="xsd:date"/>
+      <xsd:element minOccurs="0" name="serialNumber" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="X509Issuer" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="valid">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:integer">
+            <xsd:totalDigits value="1"/>
+            <xsd:enumeration value="0"/>
+            <xsd:enumeration value="1"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DelegationRoleNamesType">
+    <xsd:sequence>
+      <xsd:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="roleName" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DelegationRolesType">
+    <xsd:sequence>
+      <xsd:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="role" type="tns:DelegationRoleType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DelegationRoleType">
+    <xsd:sequence>
+      <xsd:element form="qualified" minOccurs="0" name="delegationRoleID" type="xsd:integer"/>
+      <xsd:element form="qualified" minOccurs="0" name="delegationRoleName" type="xsd:string"/>
+      <xsd:element form="qualified" minOccurs="0" name="description_SK" type="xsd:string"/>
+      <xsd:element form="qualified" minOccurs="0" name="description_EN" type="xsd:string"/>
+      <xsd:element form="qualified" name="delegationID" type="xsd:integer"/>
+      <xsd:element form="qualified" minOccurs="0" name="valid" type="xsd:integer"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DelegationTypeType">
+    <xsd:sequence>
+      <xsd:element form="qualified" minOccurs="0" name="delegationTypeCode" nillable="true" type="xsd:integer"/>
+      <xsd:element form="qualified" minOccurs="0" name="value_SK" type="xsd:string"/>
+      <xsd:element form="qualified" minOccurs="0" name="value_EN" type="xsd:string"/>
+      <xsd:element form="qualified" minOccurs="0" name="desc_SK" type="xsd:string"/>
+      <xsd:element form="qualified" minOccurs="0" name="desc_EN" type="xsd:string"/>
+      <xsd:element form="qualified" minOccurs="0" name="revocable" type="xsd:integer"/>
+      <xsd:element form="qualified" minOccurs="0" name="valid" type="xsd:integer"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DeleteACFromTURequest">
+    <xsd:sequence>
+      <xsd:element name="identityID" type="xsd:string"/>
+      <xsd:element name="DN" type="xsd:string"/>
+      <xsd:element name="Thumbprint" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DeleteACFromTUResponse">
+    <xsd:sequence>
+      <xsd:element name="Result" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DeleteAssociatedAuthResourceRequest">
+    <xsd:sequence>
+      <xsd:element name="identityID" type="xsd:string"/>
+      <xsd:element name="serialNumber" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="authResTypeID" nillable="true" type="xsd:integer"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DeleteAssociatedAuthResourceResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="errorCode" nillable="true" type="xsd:integer"/>
+      <xsd:element name="errorMessage" nillable="true" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DeleteDelegationRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="delegationID" type="xsd:integer"/>
+      <xsd:element minOccurs="0" name="owner" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="recipient" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DeleteDelegationResponse">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:complexType name="DeleteIdentityRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IdentityID" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DeleteIdentityResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IdentityDeleted" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DeleteRoleRequest">
+    <xsd:sequence>
+      <xsd:element name="RoleName" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DeleteRoleResponse">
+    <xsd:sequence>
+      <xsd:element name="Result" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DisableEnableIdentityRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IdentityID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="DisableEnable" type="tns:IdentityStates"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DisableEnableIdentityResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="DisabledEnabled" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ExpiredIdentities">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="eDeskID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="eDeskStatus" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="IdentityID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="URI" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="StatusChanged" type="xsd:date"/>
+      <xsd:element minOccurs="0" name="terminationDate" type="xsd:date"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GenerateHashRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IdentityID" type="xsd:string"/>
+      <xsd:element name="Action" type="xsd:int"/>
+      <xsd:element minOccurs="0" name="Email" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GenerateHashResponse">
+    <xsd:sequence>
+      <xsd:element name="Hash" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GenerateOrResetPasswordRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IdentityID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="GenerateOrReset" type="tns:PasswordStates"/>
+      <xsd:element minOccurs="0" name="NewPassword" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GenerateOrResetPasswordResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="PasswordGeneratedReset" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GenerateRandomPasswordRequest">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:complexType name="GenerateRandomPasswordResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Password" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GenerateVerificationEmailRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Login" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Email" type="xsd:string"/>
+      <xsd:element name="Action" type="xsd:int"/>
+      <xsd:element minOccurs="0" name="IdentityID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="NewEmail" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GenerateVerificationEmailResponse">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:complexType name="GetAllRolesForSystemRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="SystemName" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetAllRolesForSystemResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="AllSystemsRoles" type="tns:Role"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetAssociatedAuthResourceByIdentityIDRequest">
+    <xsd:sequence>
+      <xsd:element name="identityID" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetAssociatedAuthResourceByIdentityIDResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="associatedAuthResource" nillable="true" type="tns:AssociatedAuthResourceType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetAssociatedAuthResourceBySerialNumberRequest">
+    <xsd:sequence>
+      <xsd:element name="serialNumber" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="authResTypeID" type="xsd:integer"/>
+      <xsd:element minOccurs="0" name="X509Issuer" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetAssociatedAuthResourceBySerialNumberResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="associatedAuthResource" nillable="true">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="identityID" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="authResourceTypeID" type="xsd:integer"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetAuthResourceTypeByQALevelRequest">
+    <xsd:sequence>
+      <xsd:element form="qualified" name="qaLevel" type="xsd:integer"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetAuthResourceTypeByQALevelResponse">
+    <xsd:sequence>
+      <xsd:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="authResourceType" type="tns:AuthResourceTypeNoQALevel"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetAuthResourceTypeRequest">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:complexType name="GetAuthResourceTypeResponse">
+    <xsd:sequence>
+      <xsd:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="authResourceType" type="tns:AuthResourceType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetBusinessRolesRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="paging" type="tns:PagingType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetBusinessRolesResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="BizRoles" type="tns:RoleType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetCodeTableRequest">
+    <xsd:sequence>
+      <xsd:element name="Table" type="xsd:string"/>
+      <xsd:element name="Language" type="tns:ELang"/>
+      <xsd:element minOccurs="0" name="paging" type="tns:PagingType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetCodeTableResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Title" type="tns:CodeValueType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetCurrentDelegationRequest">
+    <xsd:sequence>
+      <xsd:element form="qualified" name="owner" type="xsd:string"/>
+      <xsd:element form="qualified" name="recipient" type="xsd:string"/>
+      <xsd:element form="qualified" maxOccurs="1" minOccurs="0" name="derivedFromId" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetCurrentDelegationResponse">
+    <xsd:sequence>
+      <xsd:element form="qualified" minOccurs="0" name="delegation" type="tns:Delegation"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetCustomAttributesBasedOnValueRequest">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Attribute" type="tns:EIAMAttributes"/>
+      <xsd:element maxOccurs="unbounded" name="ValueAttribute" type="tns:IAMAttribute"/>
+      <xsd:element minOccurs="0" name="paging" type="tns:PagingType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetCustomAttributesBasedOnValueResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="IdentityAttributes" type="tns:IdentityAttributes"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetCustomAttributesBasedOnValue2Request">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Attribute" type="tns:EIAMAttributes"/>
+      <xsd:element maxOccurs="unbounded" name="ValueAttribute" type="tns:IAMAttribute"/>
+      <xsd:element minOccurs="0" name="SearchType" type="tns:SearchType"/>
+      <xsd:element minOccurs="0" name="Paging" type="tns:PagingType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetCustomAttributesBasedOnValue2Response">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="IdentityAttributes" type="tns:IdentityAttributes"/>
+      <xsd:element minOccurs="0" name="Paging" type="tns:PagingResponseType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetCustomAttributesForIdentitiesRequest">
+    <xsd:sequence>
+      <xsd:element name="IdentityRequest" type="tns:IdentityRequest2Type"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Attribute" type="tns:EIAMAttributes"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetCustomAttributesForIdentitiesResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="IdentityAttributes" type="tns:IdentityAttributes"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetCustomAttributesForIdentities2Request">
+    <xsd:sequence>
+      <xsd:element name="IdentityRequest" type="tns:IdentityRequest2Type"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Attribute" type="tns:EIAMAttributes"/>
+      <xsd:element minOccurs="0" name="SearchType" type="tns:SearchType"/>
+      <xsd:element minOccurs="0" name="Paging" type="tns:PagingType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetCustomAttributesForIdentities2Response">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="IdentityAttributes" type="tns:IdentityAttributes"/>
+      <xsd:element minOccurs="0" name="Paging" type="tns:PagingResponseType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetDeactivatedIdentitiesRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Name" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Surname" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Login" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="ICO" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetDeactivatedIdentitiesResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="DeactivatedIdentities" type="tns:DeactivatedIdentities"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetDelegationDetailRequest">
+    <xsd:sequence>
+      <xsd:element form="qualified" name="delegationID" type="xsd:integer"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetDelegationDetailResponse">
+    <xsd:sequence>
+      <xsd:element form="qualified" minOccurs="0" name="delegation" type="tns:Delegation"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetDelegationsRequest">
+    <xsd:sequence>
+      <xsd:element form="qualified" minOccurs="0" name="owner" type="xsd:string"/>
+      <xsd:element form="qualified" minOccurs="0" name="recipient" type="xsd:string"/>
+      <xsd:element form="qualified" minOccurs="0" name="associatedAuthResTypeID" type="xsd:integer"/>
+      <xsd:element form="qualified" minOccurs="0" name="associatedAuthResSerialNumber" type="xsd:string"/>
+      <xsd:element form="qualified" minOccurs="0" name="delegationTypeCode" type="xsd:integer"/>
+      <xsd:element default="0" form="qualified" minOccurs="0" name="redelegationAllowed" type="xsd:integer"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetDelegationsResponse">
+    <xsd:sequence>
+      <xsd:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="delegation" type="tns:Delegation"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetDelegationsSimpleRequest">
+    <xsd:sequence>
+      <xsd:element form="qualified" minOccurs="0" name="owner" type="xsd:string"/>
+      <xsd:element form="qualified" minOccurs="0" name="recipient" type="xsd:string"/>
+      <xsd:element form="qualified" minOccurs="0" name="validate" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetDelegationsSimpleResponse">
+    <xsd:sequence>
+      <xsd:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="delegation" type="tns:Delegation"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetDelegationTypesRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="paging" type="tns:PagingType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetDelegationTypesResponse">
+    <xsd:sequence>
+      <xsd:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="delegationType" type="tns:DelegationTypeType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetEdeliveryDeactivationDateRequest">
+    <xsd:sequence>
+      <xsd:element name="IdentityID" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetEdeliveryDeactivationDateResponse">
+    <xsd:sequence>
+      <xsd:element name="EdeliveryDeactivationDate" nillable="true" type="xsd:date"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetEdeskActivationListRequest">
+    <xsd:sequence>
+      <xsd:element form="qualified" name="IdentityType">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="LEGAL_ENTITY"/>
+            <xsd:enumeration value="INSTITUTION_OF_PUBLIC_ADMINISTRATION"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element form="qualified" name="CreateDate" type="xsd:date"/>
+      <xsd:element form="qualified" name="Period" type="xsd:int"/>
+      <xsd:element form="qualified" minOccurs="0" name="RoleName" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetEdeskActivationListResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Identity" type="ns1:IdentityResp"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetEdeskCuetListRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="paging" type="tns:PagingType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetEdeskCuetListResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="eDeskNumber" nillable="true" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetEdeskCuetList2Request">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="paging" type="tns:PagingType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetEdeskCuetList2Response">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="eDeskNumber" nillable="true" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="paging" type="tns:PagingResponseType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetEdeskHistoryRequest">
+    <xsd:sequence>
+      <xsd:element name="IdentityID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="DateFrom" type="xsd:dateTime"/>
+      <xsd:element minOccurs="0" name="DateTo" type="xsd:dateTime"/>
+      <xsd:element minOccurs="0" name="paging" type="tns:PagingType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetEdeskHistoryResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="IdentityHistory" type="tns:IdentityHistoryResponseType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetEdeskInfoRequest">
+    <xsd:sequence>
+      <xsd:element name="IdentityRequest" type="tns:IdentityRequestType"/>
+      <xsd:element minOccurs="0" name="paging" type="tns:PagingType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetEdeskInfoResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="IdentityData" type="ns1:IdentityData"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetEdeskInfo2Request">
+    <xsd:sequence>
+      <xsd:element name="IdentityRequest" type="tns:IdentityRequest2Type"/>
+      <xsd:element minOccurs="0" name="SearchType" type="tns:SearchType"/>
+      <xsd:element minOccurs="0" name="Paging" type="tns:PagingType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetEdeskInfo2Response">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="IdentityData" type="ns1:IdentityData"/>
+      <xsd:element minOccurs="0" name="Paging" type="tns:PagingResponseType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetExpiredIdentitiesRequest">
+    <xsd:sequence>
+      <xsd:element name="dateFrom" type="xsd:date"/>
+      <xsd:element name="dateTo" type="xsd:date"/>
+      <xsd:element name="IdentityType" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetExpiredIdentitiesResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="ExpiredIdentities" type="tns:ExpiredIdentities"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetHistoryOfAssociatedAuthResourceByIdentityIDRequest">
+    <xsd:sequence>
+      <xsd:element name="IdentityID" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetHistoryOfAssociatedAuthResourceByIdentityIDResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="associatedAuthResource" type="tns:associatedAuthResourceTypeC"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetChallengeQuestionsRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Login" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Email" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="IdentityID" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetChallengeQuestionsResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Questions" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetChallengeRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IdentityID" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetChallengeResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Questions" type="xsd:string"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Answers" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetIdentitiesForRoleRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="RoleName" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetIdentitiesForRoleResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="IdentityID" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetIdentitiesForRole2Request">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="RoleName" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Paging" type="tns:PagingType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetIdentitiesForRole2Response">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="IdentityID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Paging" type="tns:PagingResponseType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetIdentitiesForServiceRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="CategoryName" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetIdentitiesForServiceResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="IdentityID" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetIdentitiesForService2Request">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="CategoryName" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Paging" type="tns:PagingType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetIdentitiesForService2Response">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="IdentityID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Paging" type="tns:PagingResponseType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetIdentitiesRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="ForeName" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="SurName" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="SerialNumber" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Issuer" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="LoginName" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Email" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="paging" type="tns:PagingType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetIdentitiesResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="IdentitiesData" type="ns1:IdentityData"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetIdentitiesToDeletedRequest">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:complexType name="GetIdentitiesToDeletedResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="IdentityID" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetIdentityBasedOnExtendedAttributesRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IdentityID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="PersonalIdentificationNumber" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="AuthResourceSerialNumber" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="GivenName" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="FamilyName" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="CorporateBodyName" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="CompanyRegistrationNumber" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Email" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Suffix" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Login" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="IssuerForeignEID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="NationalityID" type="xsd:string"/>
+      <xsd:element name="IdentityType" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetIdentityBasedOnExtendedAttributesResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="IdentityData" type="ns1:IdentityData"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetIdentityByCertificateRequest">
+    <xsd:sequence>
+      <xsd:element name="SerialNumber" type="xsd:string"/>
+      <xsd:element name="Issuer" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetIdentityByCertificateResponse">
+    <xsd:sequence>
+      <xsd:element name="IdentityData" type="ns1:IdentityData"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetIdentityCertificateDataByIDRequest">
+    <xsd:sequence>
+      <xsd:element name="CredentialsID" type="xsd:long"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetIdentityCertificateDataByIDResponse">
+    <xsd:sequence>
+      <xsd:element name="Credentials" type="tns:Credentials"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetIdentityCertificatesRequest">
+    <xsd:sequence>
+      <xsd:element name="IdentityID" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetIdentityCertificatesResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Credentials" type="tns:Credentials"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetIdentityHistoryRequest">
+    <xsd:sequence>
+      <xsd:element name="IdentityID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="DateFrom" type="xsd:dateTime"/>
+      <xsd:element minOccurs="0" name="DateTo" type="xsd:dateTime"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Attribute" type="tns:EIAMAuditAttributes"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Role" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="paging" type="tns:PagingType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetIdentityHistoryResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="IdentityHistory" type="tns:IdentityHistoryResponseType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetIdentityIdFromReIdentityIdRequest">
+    <xsd:sequence>
+      <xsd:element name="ReIdentityId" type="xsd:long"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetIdentityIdFromReIdentityIdResponse">
+    <xsd:sequence>
+      <xsd:element name="IdentityID" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetIdentityRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IdentityID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="PersonalIdentificationNumber" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="GivenName" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="FamilyName" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="CompanyRegistrationNumber" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetIdentityResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IdentityData" type="ns1:IdentityData"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetInactiveIdentitiesRequest">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:complexType name="GetInactiveIdentitiesResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="IncativeIdentitiesID" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetNewEdeskIdRequest">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:complexType name="GetNewEdeskIdResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="eDeskId" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetOrganizationsRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Parent" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetOrganizationsResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Organizations" type="tns:Organization"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetRolesByServiceRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Service" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="paging" type="tns:PagingType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetRolesByServiceResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Roles" type="tns:RoleType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetRolesDetailForIdentityRequest">
+    <xsd:sequence>
+      <xsd:element name="IdentityID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Parameters" type="tns:RoleDetailParametersType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetRolesDetailForIdentityResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="IdentityRoleDetail" type="tns:RoleDetailType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetRolesForIdentityRequest">
+    <xsd:sequence>
+      <xsd:element name="IdentityID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Service" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetRolesForIdentityResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="IdentityRoles" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetRolesRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="paging" type="tns:PagingType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetRolesResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="ISRoles" type="tns:RoleType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetServicesRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="paging" type="tns:PagingType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetServicesResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Service" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetUriHistoryRequest">
+    <xsd:sequence>
+      <xsd:element name="IdentityID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="DateFrom" type="xsd:dateTime"/>
+      <xsd:element minOccurs="0" name="DateTo" type="xsd:dateTime"/>
+      <xsd:element minOccurs="0" name="paging" type="tns:PagingType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetUriHistoryResponse">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="IdentityHistory" type="tns:IdentityHistoryResponseType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetVersionRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Data" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GetVersionResponse">
+    <xsd:sequence>
+      <xsd:element name="Version" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GrantRoleToIdentityRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IdentityID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="RoleName" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GrantRoleToIdentityResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="GrantRoleToIdentity" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ChangePasswordQARequest">
+    <xsd:sequence>
+      <xsd:element name="IdentityID" type="xsd:string"/>
+      <xsd:element name="Question" type="xsd:string"/>
+      <xsd:element name="Answer" type="xsd:string"/>
+      <xsd:element name="NewPassword" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ChangePasswordQAResponse">
+    <xsd:sequence>
+      <xsd:element name="Result" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ChangePasswordRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IdentityID" type="xsd:string"/>
+      <xsd:element name="OldPassword" type="xsd:string"/>
+      <xsd:element name="NewPassword" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ChangePasswordResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="PasswordChanged" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="IAMAttribute">
+    <xsd:sequence>
+      <xsd:element name="AttributeName" type="tns:EIAMAttributes"/>
+      <xsd:element name="AttributeValue" nillable="true" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="IamFault">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="faultCode" nillable="true" type="xsd:string"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="faultMessage" nillable="true" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="IdentityAttributes">
+    <xsd:sequence>
+      <xsd:element name="IdentityId">
+        <xsd:complexType>
+          <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+              <xsd:attribute name="UserNotFound" type="xsd:boolean"/>
+            </xsd:extension>
+          </xsd:simpleContent>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Attribute" nillable="true">
+        <xsd:complexType>
+          <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+              <xsd:attribute name="Type" type="tns:EIAMAttributes" use="required"/>
+            </xsd:extension>
+          </xsd:simpleContent>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="IdentityHistoryResponseType">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Name" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="OldValue" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="NewValue" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Type" type="tns:EEntityType"/>
+      <xsd:element minOccurs="0" name="Date" type="xsd:dateTime"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="IdentityRequestType">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="IdentityID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="eDeskNumber" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="IdentityType" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Email" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="TelephoneNumber" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="PhysicalPerson" type="tns:PhysicalPersonRequestType"/>
+      <xsd:element minOccurs="0" name="CorporateBody" type="tns:CorporateBodyRequestType"/>
+      <xsd:element minOccurs="0" name="PhysicalAddress" type="tns:PhysicalAddressRequestType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="IdentityRequest2Type">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="IdentityID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="eDeskNumber" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="IdentityType" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Email" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="TelephoneNumber" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="PhysicalPerson" type="tns:PhysicalPersonRequestType"/>
+      <xsd:element minOccurs="0" name="CorporateBody" type="tns:CorporateBodyRequestType"/>
+      <xsd:element minOccurs="0" name="PhysicalAddress" type="tns:PhysicalAddressRequest2Type"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="IsIdentityAuthenticatedRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IdentityID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Credentials" type="tns:CredentialsType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="IsIdentityAuthenticatedResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IdentityAuthenticated" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="IsIdentityInRoleRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IdentityID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="RoleName" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="IsIdentityInRoleResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IdentityInRole" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="NestedRolesType">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" name="RoleName" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="NestedRoleType">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" name="IdentityRole" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Organization">
+    <xsd:sequence>
+      <xsd:element name="Name" type="xsd:string"/>
+      <xsd:element name="Key" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Parent" type="xsd:string"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="OrganizationAttribute" type="tns:OrganizationAttribute"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Organization" type="tns:Organization"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="OrganizationAttribute">
+    <xsd:sequence>
+      <xsd:element name="AttributeName" type="xsd:string"/>
+      <xsd:element name="AttributeValue" nillable="true" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PagingType">
+    <xsd:annotation>
+      <xsd:documentation>strankovanie</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="NumRecordsPerPage">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:int">
+            <xsd:minInclusive value="1"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="StartIndex">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:int">
+            <xsd:minInclusive value="1"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PagingResponseType">
+    <xsd:annotation>
+      <xsd:documentation>strankovanie na vystupe</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="NumRecords" type="xsd:int"/>
+      <xsd:element name="NumRecordsPerPage" type="xsd:int"/>
+      <xsd:element name="StartIndex" type="xsd:int"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PhysicalAddressRequestType">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="AddressType" type="tns:ERequestAddressType"/>
+      <xsd:element minOccurs="0" name="Street" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Country" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="County" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Municipality" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="BuildingNumber" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="PropertyRegistrationNumber" type="xsd:integer"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PhysicalAddressRequest2Type">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="AddressType" type="tns:ERequestAddressType"/>
+      <xsd:element minOccurs="0" name="Street" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Country" type="tns:LOVValue"/>
+      <xsd:element minOccurs="0" name="County" type="tns:LOVValue"/>
+      <xsd:element minOccurs="0" name="Municipality" type="tns:LOVValue"/>
+      <xsd:element minOccurs="0" name="BuildingNumber" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="PropertyRegistrationNumber" type="xsd:integer"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PhysicalPersonRequestType">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="PCO" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="GivenName" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="FamilyName" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="BirthDate" type="xsd:date"/>
+      <xsd:element minOccurs="0" name="BirthCity" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="IdentityTypeDetail" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ProtectedData">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="DateOfBirth" type="xsd:dateTime"/>
+      <xsd:element minOccurs="0" name="Forename" type="xsd:string"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="SignedData" nillable="true" type="tns:SignedData"/>
+      <xsd:element minOccurs="0" name="Surname" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="UniqueId" type="xsd:string"/>
+      <xsd:element name="Verified" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RegObAddress">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Typ" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Okres" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Obec" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="ObecCast" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Ulica" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Cislo" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="CisloSupisne" type="xsd:string"/>
+      <xsd:element name="DatumPrihlasenia" type="xsd:dateTime"/>
+      <xsd:element name="DatumOdhlasenia" nillable="true" type="xsd:dateTime"/>
+      <xsd:element name="JeMimoSR" nillable="true" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="MiestoMimoSR" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RegObGetAddressRequest">
+    <xsd:sequence>
+      <xsd:element name="cisloZiadosti" type="xsd:long"/>
+      <xsd:element minOccurs="0" name="rodneCislo" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="meno" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="priezvisko" type="xsd:string"/>
+      <xsd:element name="datumNarodenia" nillable="true" type="xsd:dateTime"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RegObGetAddressResponse">
+    <xsd:sequence>
+      <xsd:element name="RegObGetAddressResult" type="tns:RegObCheckIdentityResult"/>
+      <xsd:element minOccurs="0" name="pRegObAddress" type="tns:RegObAddress"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RegObCheckIdentityRequest">
+    <xsd:sequence>
+      <xsd:element name="cisloZiadosti" type="xsd:long"/>
+      <xsd:element minOccurs="0" name="rodneCislo" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="meno" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="priezvisko" type="xsd:string"/>
+      <xsd:element name="datumNarodenia" type="xsd:dateTime"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RegObCheckIdentityResponse">
+    <xsd:sequence>
+      <xsd:element name="RegObCheckIdentityResult" type="tns:RegObCheckIdentityResult"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RemoveAuthenticationResourceFromIdentityRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IdentityID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="AuthenticationResource" type="tns:CredentialsType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RemoveAuthenticationResourceFromIdentityResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="AuthenticationResourceRemoved" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Request">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:complexType name="Response">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:complexType name="RevokeRoleFromIdentityAndDelegationsRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IdentityID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="RoleName" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RevokeRoleFromIdentityAndDelegationsResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="RevokeRoleFromIdentityAndDelegations" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RevokeRoleFromIdentityRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IdentityID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="RoleName" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RevokeRoleFromIdentityResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="RevokeRoleFromIdentity" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!--
+  <xsd:complexType name="Role">
+    <xsd:sequence>
+      <xsd:element name="Name" type="xsd:string"/>
+      <xsd:element name="DisplayName" type="xsd:string"/>
+      <xsd:element name="Description" type="xsd:string"/>
+      <xsd:element name="Category" type="xsd:string"/>
+      <xsd:element name="Type" type="tns:ERoleType"/>
+      <xsd:element name="NestedRoles" type="tns:NestedRolesType" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+   -->
+  <xsd:complexType name="RoleDetailParametersType">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="ParameterName" type="tns:RoleDetailParameterType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RoleDetailType">
+    <xsd:sequence>
+      <xsd:element name="IdentityRole" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="IdentityRoleName" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="RoleNameDescription" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="RoleCategory" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="RoleType" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="NestedRole" type="tns:NestedRoleType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RoleType">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Category" nillable="true" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Name" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Description" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="DisplayName" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="SearchType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="BEGINWITH"/>
+      <xsd:enumeration value="EXACT"/>
+      <xsd:enumeration value="INMIDDLE"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="SetCustomAttributesRequest">
+    <xsd:sequence>
+      <xsd:element name="IdentityID" type="xsd:string"/>
+      <xsd:element maxOccurs="unbounded" name="Attribute">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="AttributeName" type="tns:EIAMSettableAttributes"/>
+            <xsd:element maxOccurs="unbounded" name="AttributeValue" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="SetCustomAttributesResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="CustomAttributeSet" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="SetIdentityStateRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IdentityID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="IdentityStatus" type="ns1:EStates"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="SetIdentityStateResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IdentityStateChanged" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="SignedData">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="ParentId" type="xsd:long"/>
+      <xsd:element minOccurs="0" name="SignedCheckedData" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="SignedData" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="ValidFrom" type="xsd:dateTime"/>
+      <xsd:element minOccurs="0" name="ValidTo" type="xsd:dateTime"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="UpdateDelegationRequest">
+    <xsd:sequence>
+      <xsd:element name="delegationID" type="xsd:integer"/>
+      <xsd:element minOccurs="0" name="owner" nillable="true" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="recipient" nillable="true" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="delegationParentID" type="xsd:integer"/>
+      <xsd:element minOccurs="0" name="associatedAuthResTypeID" nillable="true" type="xsd:integer"/>
+      <xsd:element minOccurs="0" name="delegationTypeID" nillable="true" type="xsd:integer"/>
+      <xsd:element minOccurs="0" name="delegationRoleNames" type="tns:DelegationRoleNamesType"/>
+      <xsd:element minOccurs="0" name="validFrom" nillable="true" type="xsd:date"/>
+      <xsd:element minOccurs="0" name="validTo" nillable="true" type="xsd:date"/>
+      <xsd:element default="0" minOccurs="0" name="oneTimeDelegation" nillable="true" type="xsd:integer"/>
+      <xsd:element default="0" minOccurs="0" name="redelegationAllowed" nillable="true" type="xsd:integer"/>
+      <xsd:element default="1" minOccurs="0" name="accepted" nillable="true" type="xsd:integer"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="UpdateDelegationResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="errorCode" nillable="true" type="xsd:integer"/>
+      <xsd:element name="errorMessage" nillable="true" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="UpdateChallengeQuestionsRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IdentityLogin" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="IdentityPassword" type="xsd:string"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="IdentityQuestions" type="xsd:string"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="IdentityAnswers" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="UpdateChallengeQuestionsResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="QuestionsUpdated" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="UpdateIdentityRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IdentityID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="IdentityData" type="ns1:IdentityData"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="UpdateIdentityResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Updated" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="UpdateRoleRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="OldRoleName" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="NewRole" type="tns:Role"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="UpdateRoleResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="RoleUpdated" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="VerifyEmailIfExistsRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Email" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="VerifyEmailIfExistsResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="IsEmail" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="VerifyHashRequest">
+    <xsd:sequence>
+      <xsd:element maxOccurs="1" minOccurs="1" name="Hash" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>Hash.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="1" minOccurs="1" name="Action" type="xsd:int">
+        <xsd:annotation>
+          <xsd:documentation>Akcia. 1 - aktivácia, 2 - zabudnuté heslo, 3 - zmena
+            emailovej adresy, 4 - overenie hashu a vratenie sifo
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="VerifyHashResponse">
+    <xsd:sequence>
+      <xsd:element name="IdentityID" type="xsd:string"/>
+      <xsd:element name="Result" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="VerifyChallengeQuestionsRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Login" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Email" type="xsd:string"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Answers" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="VerifyChallengeQuestionsResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="AnswersVerify" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="VerifyLoginAgainstPolicyRequest">
+    <xsd:sequence>
+      <xsd:element maxOccurs="1" minOccurs="0" name="Login" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>Login, ktorý sa má overiť.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="IdentityType" type="tns:EIdentityType2">
+        <xsd:annotation>
+          <xsd:documentation>Typ identity, hodnota z množiny [1,2,5,6,7]
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="EIdentityType2">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="1"/>
+      <xsd:enumeration value="2"/>
+      <xsd:enumeration value="5"/>
+      <xsd:enumeration value="6"/>
+      <xsd:enumeration value="7"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="VerifyLoginAgainstPolicyResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="LoginPolicy" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="VerifyPasswordAgainstPolicyRequest">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Password" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="VerifyPasswordAgainstPolicyResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="PasswordPolicy" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="CredentialsState">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="STATE1"/>
+      <xsd:enumeration value="STATE2"/>
+      <xsd:enumeration value="STATE3"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="CredentialsType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="EID"/>
+      <xsd:enumeration value="LOGINPASSWORD"/>
+      <xsd:enumeration value="GRID"/>
+      <xsd:enumeration value="X509"/>
+      <xsd:enumeration value="GOOGLE"/>
+      <xsd:enumeration value="TWITTER"/>
+      <xsd:enumeration value="MICROSOFT"/>
+      <xsd:enumeration value="FACEBOOK"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="EAuthResourceType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="LOGINPASSWORD"/>
+      <xsd:enumeration value="EID"/>
+      <xsd:enumeration value="GRID"/>
+      <xsd:enumeration value="X509"/>
+      <xsd:enumeration value="FACEBOOK"/>
+      <xsd:enumeration value="GOOGLE"/>
+      <xsd:enumeration value="TWITTER"/>
+      <xsd:enumeration value="MICROSOFT"/>
+      <xsd:enumeration value="EIDAS"/>
+      <xsd:enumeration value="TU"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="EEntityType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="ATTRIBUTE"/>
+      <xsd:enumeration value="ROLE"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="EIAMAttributes">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="POBOX"/>
+      <xsd:enumeration value="DISPLAYNAME"/>
+      <xsd:enumeration value="COMPANYREGISTRATIONNUMBER"/>
+      <xsd:enumeration value="COMPANYNAME"/>
+      <xsd:enumeration value="DISTRICT"/>
+      <xsd:enumeration value="CONTACTDISTRICT"/>
+      <xsd:enumeration value="LEGALFORM"/>
+      <xsd:enumeration value="SID"/>
+      <xsd:enumeration value="VATNUMBER"/>
+      <xsd:enumeration value="EDESKID"/>
+      <xsd:enumeration value="EMAIL"/>
+      <xsd:enumeration value="TELEPHONENUMBER"/>
+      <xsd:enumeration value="FIRSTNAME"/>
+      <xsd:enumeration value="LASTNAME"/>
+      <xsd:enumeration value="BIRTHDATE"/>
+      <xsd:enumeration value="BIRTHCITY"/>
+      <xsd:enumeration value="TITLEBEFORENAME"/>
+      <xsd:enumeration value="TITLEAFTERNAME"/>
+      <xsd:enumeration value="STREET"/>
+      <xsd:enumeration value="PROPERTYREGISTRATIONNUMBER"/>
+      <xsd:enumeration value="BUILDINGNUMBER"/>
+      <xsd:enumeration value="POSTALCODE"/>
+      <xsd:enumeration value="MUNICIPALITY"/>
+      <xsd:enumeration value="MUNICIPALITY_ID"/>
+      <xsd:enumeration value="COUNTY"/>
+      <xsd:enumeration value="COUNTY_ID"/>
+      <xsd:enumeration value="COUNTRY"/>
+      <xsd:enumeration value="COUNTRY_ID"/>
+      <xsd:enumeration value="CONTACTSTREET"/>
+      <xsd:enumeration value="CONTACTPROPERTYREGISTRATIONNUMBER"/>
+      <xsd:enumeration value="CONTACTBUILDINGNUMBER"/>
+      <xsd:enumeration value="CONTACTPOSTALCODE"/>
+      <xsd:enumeration value="CONTACTMUNICIPALITY_ID"/>
+      <xsd:enumeration value="CONTACTMUNICIPALITY"/>
+      <xsd:enumeration value="CONTACTCOUNTY"/>
+      <xsd:enumeration value="CONTACTCOUNTY_ID"/>
+      <xsd:enumeration value="CONTACTCOUNTRY"/>
+      <xsd:enumeration value="CONTACTCOUNTRY_ID"/>
+      <xsd:enumeration value="ENOTIFY_EMAIL_ALLOWED"/>
+      <xsd:enumeration value="ENOTIFY_SMS_ALLOWED"/>
+      <xsd:enumeration value="ENOTIFY_EMERGENCY_ALLOWED"/>
+      <xsd:enumeration value="PREFEREDCHANNEL"/>
+      <xsd:enumeration value="PREFEREDCALENDAR"/>
+      <xsd:enumeration value="PREFERREDLANGUAGE"/>
+      <xsd:enumeration value="IDENTITYTYPE"/>
+      <xsd:enumeration value="IDENTITYTYPEDETAIL"/>
+      <xsd:enumeration value="IDENTITY_ID"/>
+      <xsd:enumeration value="EDESK_CUET_ENABLED"/>
+      <xsd:enumeration value="IDENTITY_STATUS"/>
+      <xsd:enumeration value="EDESK_STATUS"/>
+      <xsd:enumeration value="EDESK_REMOTE_URI"/>
+      <xsd:enumeration value="ORG_UNIT_OVM"/>
+      <xsd:enumeration value="URI"/>
+      <xsd:enumeration value="PARENT_ID"/>
+      <xsd:enumeration value="CALENDAR_ID"/>
+      <xsd:enumeration value="CALENDAR"/>
+      <xsd:enumeration value="THEME_ID"/>
+      <xsd:enumeration value="THEME"/>
+      <xsd:enumeration value="LOCALITY_NAME"/>
+      <xsd:enumeration value="SOURCE"/>
+      <xsd:enumeration value="FIRST_LOGIN"/>
+      <xsd:enumeration value="FIRST_LOGIN_UID"/>
+      <xsd:enumeration value="LAST_LOGIN"/>
+      <xsd:enumeration value="MUST_CHANGE_PWD"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="EIAMAuditAttributes">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="BIRTH_DATE"/>
+      <xsd:enumeration value="CITY"/>
+      <xsd:enumeration value="COMPANY_NAME"/>
+      <xsd:enumeration value="CONTACT_BUILDING_NUMBER"/>
+      <xsd:enumeration value="CONTACT_CITY"/>
+      <xsd:enumeration value="CONTACT_COUNTRY"/>
+      <xsd:enumeration value="CONTACT_DISTRICT"/>
+      <xsd:enumeration value="CONTACT_POSTAL_CODE"/>
+      <xsd:enumeration value="CONTACT_PROPERTY_NUMBER"/>
+      <xsd:enumeration value="CONTACT_STREET"/>
+      <xsd:enumeration value="COUNTRY"/>
+      <xsd:enumeration value="DEATH_DATE"/>
+      <xsd:enumeration value="DISPLAY_NAME"/>
+      <xsd:enumeration value="DISTRICT"/>
+      <xsd:enumeration value="DSIG_KEY_INFO"/>
+      <xsd:enumeration value="EDESK_DELIVERY_LIMITED"/>
+      <xsd:enumeration value="EDESK_REMOTE_URI"/>
+      <xsd:enumeration value="EDESK_STATUS"/>
+      <xsd:enumeration value="EDESK_CUET_ENABLED"/>
+      <xsd:enumeration value="EDESK_ID"/>
+      <xsd:enumeration value="EMAIL1"/>
+      <xsd:enumeration value="EMAIL2"/>
+      <xsd:enumeration value="EMAIL3"/>
+      <xsd:enumeration value="ESTABLISHMENT_DATE"/>
+      <xsd:enumeration value="FIRST_NAME"/>
+      <xsd:enumeration value="ICO"/>
+      <xsd:enumeration value="LAST_NAME"/>
+      <xsd:enumeration value="ORG_UNIT_OVM"/>
+      <xsd:enumeration value="PCO"/>
+      <xsd:enumeration value="POSTAL_CODE"/>
+      <xsd:enumeration value="PREFERRED_CALENDAR"/>
+      <xsd:enumeration value="PREFERRED_CHANNEL"/>
+      <xsd:enumeration value="PROPERTY_NUMBER"/>
+      <xsd:enumeration value="RE_IDENTITY_ID"/>
+      <xsd:enumeration value="SALUTATION"/>
+      <xsd:enumeration value="SIFO"/>
+      <xsd:enumeration value="STREET"/>
+      <xsd:enumeration value="SUFFIX"/>
+      <xsd:enumeration value="TELEPHONE_NUMBER"/>
+      <xsd:enumeration value="TERMINATION_DATE"/>
+      <xsd:enumeration value="IDENTITY_TYPE"/>
+      <xsd:enumeration value="UPVS_STATUS"/>
+      <xsd:enumeration value="URI"/>
+      <xsd:enumeration value="PARENT_ID"/>
+      <xsd:enumeration value="DEATH_STATUS"/>
+      <xsd:enumeration value="EDELIVERY_DEACTIVATION_DATE"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="EIAMSettableAttributes">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="CALENDAR_ID"/>
+      <xsd:enumeration value="THEME_ID"/>
+      <xsd:enumeration value="FIRST_LOGIN"/>
+      <xsd:enumeration value="FIRST_LOGIN_UID"/>
+      <xsd:enumeration value="LAST_LOGIN"/>
+      <xsd:enumeration value="MUST_CHANGE_PWD"/>
+      <xsd:enumeration value="CERTDN"/>
+      <xsd:enumeration value="CERTHASH"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ELang">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="SK"/>
+      <xsd:enumeration value="EN"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ERequestAddressType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="CONTACTADDRESS"/>
+      <xsd:enumeration value="STREETADDRESS"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ERoleType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="PERMISSION">
+        <xsd:annotation>
+          <xsd:documentation>Elementárne oprávnenie (má väzbu na konkrétny ÚPVS modul),
+            nemá väzbu na iné role.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="NESTED">
+        <xsd:annotation>
+          <xsd:documentation>Skupinová rola, ktorá môže obsahovať väzbu na iné role typu
+            PERSMISSION
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ETables">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="UPVSIAM_0001"/>
+      <xsd:enumeration value="UPVSIAM_0002"/>
+      <xsd:enumeration value="UPVSIAM_0003"/>
+      <xsd:enumeration value="UPVSIAM_0004"/>
+      <xsd:enumeration value="UPVSIAM_0005"/>
+      <xsd:enumeration value="SUSR_0024"/>
+      <xsd:enumeration value="SUSR_0025"/>
+      <xsd:enumeration value="SUSR_0056"/>
+      <xsd:enumeration value="SUSR_0062"/>
+      <xsd:enumeration value="SUSR_0063"/>
+      <xsd:enumeration value="SUSR_0086"/>
+      <xsd:enumeration value="SUSR_0859"/>
+      <xsd:enumeration value="SUSR_3003"/>
+      <xsd:enumeration value="SUSR_4001"/>
+      <xsd:enumeration value="SUSR_4002"/>
+      <xsd:enumeration value="SUSR_4003"/>
+      <xsd:enumeration value="SUSR_4004"/>
+      <xsd:enumeration value="SUSR_4005"/>
+      <xsd:enumeration value="APPLICATION_PROVIDER"/>
+      <xsd:enumeration value="APPLICATION"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="IdentityStates">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="DISABLE"/>
+      <xsd:enumeration value="ENABLE"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="PasswordStates">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="GENERATE"/>
+      <xsd:enumeration value="RESET"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="RegObCheckIdentityResult">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Matched"/>
+      <xsd:enumeration value="NotFound"/>
+      <xsd:enumeration value="FoundMore"/>
+      <xsd:enumeration value="FoundBadDiacritic"/>
+      <xsd:enumeration value="FoundBadAddress"/>
+      <xsd:enumeration value="Error"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="RoleDetailParameterType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="NAME"/>
+      <xsd:enumeration value="DESC"/>
+      <xsd:enumeration value="CATEGORY"/>
+      <xsd:enumeration value="TYPE"/>
+      <xsd:enumeration value="NESTED"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="LOVValue">
+    <xsd:sequence>
+      <xsd:element minOccurs="1" name="Id" type="xsd:string"/>
+      <xsd:element minOccurs="1" name="TitleSk" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,5220 @@
+[
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "a0cdbcbd-693d-4e6f-b42c-b00f790f2fad"
+      }
+    ],
+    "uri": "edemo://D000057",
+    "en": null,
+    "type": "edemo_user",
+    "status": "deactivated",
+    "name": null,
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": null,
+      "edesk_status": null,
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": null,
+      "edesk_delivery_limited": null,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": null,
+      "re_iam_identity_id": null
+    },
+    "natural_person": {
+      "type": null,
+      "name": null,
+      "given_names": [
+        "Boleslav"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Hnipirdo"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": null,
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": null,
+      "occupation": null,
+      "birth": null,
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": null,
+        "municipality": null,
+        "part": null,
+        "street": null,
+        "building_number": null,
+        "registration_number": null,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": null,
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "2c47bacd-321d-46fc-a597-a6982b58eacc"
+      }
+    ],
+    "uri": "edemo://D000432",
+    "en": null,
+    "type": "edemo_user",
+    "status": "deactivated",
+    "name": null,
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": null,
+      "edesk_status": null,
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": null,
+      "edesk_delivery_limited": null,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": null,
+      "re_iam_identity_id": null
+    },
+    "natural_person": {
+      "type": null,
+      "name": null,
+      "given_names": [
+        "Dlhe"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Heslo"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": null,
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": null,
+      "occupation": null,
+      "birth": null,
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": null,
+        "municipality": {
+          "id": "SK0324518271",
+          "name": "Detvianska Huta",
+          "description": null
+        },
+        "part": null,
+        "street": "Hh",
+        "building_number": "h",
+        "registration_number": null,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "12334",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "a51fd0cf-ae6e-4766-b02c-e6d0de95dab0"
+      }
+    ],
+    "uri": "edemo://D000701",
+    "en": null,
+    "type": "edemo_user",
+    "status": "deactivated",
+    "name": null,
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": null,
+      "edesk_status": null,
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": null,
+      "edesk_delivery_limited": null,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": null,
+      "re_iam_identity_id": null
+    },
+    "natural_person": {
+      "type": null,
+      "name": null,
+      "given_names": [
+        "Herki"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Herki"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": null,
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": null,
+      "occupation": null,
+      "birth": null,
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": null,
+        "municipality": null,
+        "part": null,
+        "street": null,
+        "building_number": null,
+        "registration_number": null,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": null,
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "9ef1d896-98b5-45bb-bef3-5186c8fd81ad"
+      }
+    ],
+    "uri": "edemo://D004861",
+    "en": null,
+    "type": "edemo_user",
+    "status": "registered",
+    "name": "Hans Gruber von Leber-Hoßen",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": null,
+      "edesk_status": null,
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": null,
+      "edesk_delivery_limited": null,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": null,
+      "re_iam_identity_id": null
+    },
+    "natural_person": {
+      "type": null,
+      "name": "Hans Gruber von Leber-Hoßen",
+      "given_names": [
+        "Hans Gruber"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "von Leber-Hoßen"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": null,
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": null,
+      "occupation": null,
+      "birth": null,
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0326",
+          "name": "Okres Lučenec",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0326511226",
+          "name": "Ábelová",
+          "description": null
+        },
+        "part": null,
+        "street": "Testovacia",
+        "building_number": "123",
+        "registration_number": null,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "12345",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [
+      {
+        "address": "mailto:sharfesss123123123@estestdnv.de",
+        "dsig_key_info": null
+      }
+    ],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "48e1fe89-ad95-46cf-b33a-5ddb76aea775"
+      }
+    ],
+    "uri": "ico://sk/42156424",
+    "en": "99999951",
+    "type": "institution_of_public_administration",
+    "status": "activated",
+    "name": "Národná agentúra pre sieťové a elektronické služby",
+    "suffix": null,
+    "various_ids": [
+      {
+        "type": {
+          "id": "7",
+          "name": "IČO (Identifikačné číslo organizácie)",
+          "description": null
+        },
+        "value": "42156424",
+        "specified": true
+      }
+    ],
+    "upvs": {
+      "edesk_number": "99999951",
+      "edesk_status": "deliverable",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "201224"
+    },
+    "corporate_body": {
+      "cin": "42156424",
+      "tin": null,
+      "organization_id": null,
+      "organization_units": [],
+      "name": "Národná agentúra pre sieťové a elektronické služby",
+      "alternative_names": [],
+      "legal_form": {
+        "id": "000",
+        "name": "Zatiaľ neurčené",
+        "description": null
+      },
+      "legal_facts": [],
+      "activities": [],
+      "established_on": "2012-05-02",
+      "terminated_on": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "0",
+          "name": "Slovensko",
+          "description": null
+        },
+        "region": null,
+        "district": null,
+        "municipality": {
+          "id": "0",
+          "name": "Trnava ",
+          "description": null
+        },
+        "part": null,
+        "street": "Kollárova",
+        "building_number": "8",
+        "registration_number": null,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "91702",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      },
+      {
+        "type": "contact",
+        "inline": null,
+        "country": {
+          "id": "0",
+          "name": "Slovensko",
+          "description": null
+        },
+        "region": null,
+        "district": null,
+        "municipality": {
+          "id": "0",
+          "name": "Trnava ",
+          "description": null
+        },
+        "part": null,
+        "street": "Kollárova",
+        "building_number": "8",
+        "registration_number": null,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "91702",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [
+      {
+        "address": "mailto:test2012upvs@gmail.com",
+        "dsig_key_info": null
+      }
+    ],
+    "phones": [
+      {
+        "type": {
+          "id": "1",
+          "name": "Pevná sieť",
+          "description": null
+        },
+        "number": "+422232780700",
+        "international_country_code": null,
+        "national_number": null,
+        "area_city_code": null,
+        "subscriber_number": null,
+        "extension": null
+      }
+    ]
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "ca842636-a601-495a-b05c-c9e73774f1b6"
+      }
+    ],
+    "uri": "rc://sk/8012057504_holec_vladimir",
+    "en": "E0000001176",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "Vladimír Holec",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000001176",
+      "edesk_status": "created",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "205603"
+    },
+    "natural_person": {
+      "type": {
+        "id": "1",
+        "name": "Občan SR s trvalým pobytom na území SR",
+        "description": null
+      },
+      "name": "Vladimír Holec",
+      "given_names": [
+        "Vladimír"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Holec"
+        }
+      ],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Holec"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": {
+        "id": "1",
+        "name": "muž",
+        "description": null
+      },
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": {
+        "id": "0",
+        "name": "703",
+        "description": null
+      },
+      "occupation": null,
+      "birth": {
+        "date": "1980-12-05",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "fe043c79-f7e4-46cd-8810-462d49b86f72"
+      }
+    ],
+    "uri": "rc://sk/8062067519_hankova_lucia",
+    "en": "E0000001244",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "Lucia Hanková",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000001244",
+      "edesk_status": "created",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "205671"
+    },
+    "natural_person": {
+      "type": {
+        "id": "1",
+        "name": "Občan SR s trvalým pobytom na území SR",
+        "description": null
+      },
+      "name": "Lucia Hanková",
+      "given_names": [
+        "Lucia"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Hanková"
+        }
+      ],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Hanková"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": {
+        "id": "2",
+        "name": "žena",
+        "description": null
+      },
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": {
+        "id": "0",
+        "name": "703",
+        "description": null
+      },
+      "occupation": null,
+      "birth": {
+        "date": "1980-12-06",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "f7df3f29-0f5a-4f3b-8baa-88a20cbd9929"
+      }
+    ],
+    "uri": "rc://sk/275803731_zlochova_helena",
+    "en": "E0000001365",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "Helena Zlochová",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000001365",
+      "edesk_status": "created",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "205792"
+    },
+    "natural_person": {
+      "type": {
+        "id": "1",
+        "name": "Občan SR s trvalým pobytom na území SR",
+        "description": null
+      },
+      "name": "Helena Zlochová",
+      "given_names": [
+        "Helena"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Čibiková"
+        }
+      ],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Zlochová"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": {
+        "id": "2",
+        "name": "žena",
+        "description": null
+      },
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": {
+        "id": "0",
+        "name": "703",
+        "description": null
+      },
+      "occupation": null,
+      "birth": {
+        "date": "2027-08-03",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "69adc4cf-9017-466e-980e-b829ef2ee1dc"
+      }
+    ],
+    "uri": "rc://sk/485724116_halasova_terezia",
+    "en": "E0000001514",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "Terézia Halasová",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000001514",
+      "edesk_status": "created",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "205941"
+    },
+    "natural_person": {
+      "type": {
+        "id": "1",
+        "name": "Občan SR s trvalým pobytom na území SR",
+        "description": null
+      },
+      "name": "Terézia Halasová",
+      "given_names": [
+        "Terézia"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Štugelová"
+        }
+      ],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Halasová"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": {
+        "id": "2",
+        "name": "žena",
+        "description": null
+      },
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": {
+        "id": "0",
+        "name": "703",
+        "description": null
+      },
+      "occupation": null,
+      "birth": {
+        "date": "2048-07-24",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "1e92d854-db75-4017-8d4e-fb947023edc9"
+      }
+    ],
+    "uri": "rc://sk/395107726_hlasicova_helena",
+    "en": "E0000001968",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "Helena Hlasicová",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000001968",
+      "edesk_status": "created",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "206395"
+    },
+    "natural_person": {
+      "type": {
+        "id": "1",
+        "name": "Občan SR s trvalým pobytom na území SR",
+        "description": null
+      },
+      "name": "Helena Hlasicová",
+      "given_names": [
+        "Helena"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Očenášová"
+        }
+      ],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Hlasicová"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": {
+        "id": "2",
+        "name": "žena",
+        "description": null
+      },
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": {
+        "id": "0",
+        "name": "703",
+        "description": null
+      },
+      "occupation": null,
+      "birth": {
+        "date": "2039-01-07",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "586f3ff6-4aca-47e4-b5d4-013baffc99cc"
+      }
+    ],
+    "uri": "rc://sk/8002107701_molnarova_hana",
+    "en": "E0000005567",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "Hana Molnarova",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000005567",
+      "edesk_status": "active",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "210009"
+    },
+    "natural_person": {
+      "type": {
+        "id": "1",
+        "name": "Občan SR s trvalým pobytom na území SR",
+        "description": null
+      },
+      "name": "Hana Molnarova",
+      "given_names": [
+        "Hana"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Molnarova"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": {
+        "id": "1",
+        "name": "muž",
+        "description": null
+      },
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": {
+        "id": "0",
+        "name": "703",
+        "description": null
+      },
+      "occupation": null,
+      "birth": {
+        "date": "1980-02-10",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0101",
+          "name": "Okres Bratislava I",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0101528595",
+          "name": "Bratislava - mestská časť Staré Mesto",
+          "description": null
+        },
+        "part": null,
+        "street": "Obchodná",
+        "building_number": null,
+        "registration_number": 75,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "82101",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [
+      {
+        "address": "mailto:dmasar@gratex.sk",
+        "dsig_key_info": null
+      }
+    ],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "9da88804-626b-4a38-b441-0b658fdacf3a"
+      }
+    ],
+    "uri": "rc://sk/6901014578_hrach_jan",
+    "en": "E0000012641",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "Ján Hrach",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000012641",
+      "edesk_status": "created",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "217116"
+    },
+    "natural_person": {
+      "type": {
+        "id": "1",
+        "name": "Občan SR s trvalým pobytom na území SR",
+        "description": null
+      },
+      "name": "Ján Hrach",
+      "given_names": [
+        "Ján"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Hrach"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": {
+        "id": "0",
+        "name": "nezistené",
+        "description": null
+      },
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": {
+        "id": "0",
+        "name": "703",
+        "description": null
+      },
+      "occupation": null,
+      "birth": {
+        "date": "1967-08-13",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": {
+        "date": "2014-08-13",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "0",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": null,
+        "municipality": {
+          "id": "0",
+          "name": "Smižany",
+          "description": null
+        },
+        "part": null,
+        "street": "Javorová",
+        "building_number": null,
+        "registration_number": 4645,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": null,
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "e6d5104c-1e35-4180-8b3d-27d626f81491"
+      }
+    ],
+    "uri": "rc://sk/6901014571_hrasko_janko",
+    "en": "E0000012642",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "Janko Hraško",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000012642",
+      "edesk_status": "created",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "217117"
+    },
+    "natural_person": {
+      "type": {
+        "id": "1",
+        "name": "Občan SR s trvalým pobytom na území SR",
+        "description": null
+      },
+      "name": "Janko Hraško",
+      "given_names": [
+        "Janko"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Hraško"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": {
+        "id": "0",
+        "name": "nezistené",
+        "description": null
+      },
+      "marital_status": "nezistené",
+      "vital_status": {
+        "id": "?",
+        "name": null,
+        "description": null
+      },
+      "nationality": {
+        "id": "0",
+        "name": "703",
+        "description": null
+      },
+      "occupation": null,
+      "birth": {
+        "date": "1967-08-13",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": {
+        "date": "2014-08-13",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "0",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": null,
+        "municipality": {
+          "id": "0",
+          "name": "Smižany",
+          "description": null
+        },
+        "part": null,
+        "street": "Javorová",
+        "building_number": null,
+        "registration_number": 4645,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": null,
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "6d9dc77b-70ed-432f-abaa-5de8753c967c"
+      }
+    ],
+    "uri": "ico://sk/42156424_10001",
+    "en": "E0000012800",
+    "type": "institution_of_public_administration",
+    "status": "activated",
+    "name": "UPVS",
+    "suffix": 10001,
+    "various_ids": [
+      {
+        "type": {
+          "id": "7",
+          "name": "IČO (Identifikačné číslo organizácie)",
+          "description": null
+        },
+        "value": "42156424",
+        "specified": true
+      }
+    ],
+    "upvs": {
+      "edesk_number": "E0000012800",
+      "edesk_status": "deliverable",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "217275"
+    },
+    "corporate_body": {
+      "cin": "42156424",
+      "tin": null,
+      "organization_id": null,
+      "organization_units": [],
+      "name": "UPVS",
+      "alternative_names": [],
+      "legal_form": {
+        "id": "321",
+        "name": "Rozpočtová organizácia",
+        "description": null
+      },
+      "legal_facts": [],
+      "activities": [],
+      "established_on": "2013-12-13",
+      "terminated_on": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0101",
+          "name": "Okres Bratislava I",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0101528595",
+          "name": "Bratislava - mestská časť Staré Mesto",
+          "description": null
+        },
+        "part": null,
+        "street": "Pribinova",
+        "building_number": null,
+        "registration_number": null,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "81272",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [
+      {
+        "address": "mailto:test@slovensko.sk",
+        "dsig_key_info": null
+      }
+    ],
+    "phones": [
+      {
+        "type": {
+          "id": "1",
+          "name": "Pevná sieť",
+          "description": null
+        },
+        "number": "+42121234111",
+        "international_country_code": null,
+        "national_number": null,
+        "area_city_code": null,
+        "subscriber_number": null,
+        "extension": null
+      }
+    ]
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "4be2e1d9-ac4c-47a7-b6e5-bb38dbac8307"
+      }
+    ],
+    "uri": "ico://sk/42156424_90000",
+    "en": "E0000013423",
+    "type": "institution_of_public_administration",
+    "status": "activated",
+    "name": "Národná agentúra pre sieťové a elektronické služby: Test",
+    "suffix": 90000,
+    "various_ids": [
+      {
+        "type": {
+          "id": "8",
+          "name": "Daňové identifikačné číslo",
+          "description": null
+        },
+        "value": "2022556677",
+        "specified": true
+      },
+      {
+        "type": {
+          "id": "7",
+          "name": "IČO (Identifikačné číslo organizácie)",
+          "description": null
+        },
+        "value": "42156424",
+        "specified": true
+      }
+    ],
+    "upvs": {
+      "edesk_number": "E0000013423",
+      "edesk_status": "deliverable",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": "email",
+      "enotify_preferred_calendar": "2",
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "cz",
+      "re_iam_identity_id": "217991"
+    },
+    "corporate_body": {
+      "cin": "42156424",
+      "tin": "2022556677",
+      "organization_id": null,
+      "organization_units": [],
+      "name": "Národná agentúra pre sieťové a elektronické služby: Test",
+      "alternative_names": [],
+      "legal_form": {
+        "id": "331",
+        "name": "Príspevková organizácia",
+        "description": null
+      },
+      "legal_facts": [],
+      "activities": [],
+      "established_on": "2014-03-18",
+      "terminated_on": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0217",
+          "name": "Okres Trnava",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0217506745",
+          "name": "Trnava",
+          "description": null
+        },
+        "part": null,
+        "street": "Kollárova",
+        "building_number": null,
+        "registration_number": null,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "91702",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      },
+      {
+        "type": "contact",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0416",
+          "name": "Okres Poprad",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0416523381",
+          "name": "Poprad",
+          "description": null
+        },
+        "part": null,
+        "street": "ulica",
+        "building_number": null,
+        "registration_number": 1,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "03601",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "1927d610-1600-4d61-a11b-2dc07c1feb3b"
+      }
+    ],
+    "uri": "ico://sk/00162035",
+    "en": "E0000013748",
+    "type": "institution_of_public_administration",
+    "status": "activated",
+    "name": "Hotelová akadémia Brezno",
+    "suffix": null,
+    "various_ids": [
+      {
+        "type": {
+          "id": "8",
+          "name": "Daňové identifikačné číslo",
+          "description": null
+        },
+        "value": "2021171152",
+        "specified": true
+      },
+      {
+        "type": {
+          "id": "7",
+          "name": "IČO (Identifikačné číslo organizácie)",
+          "description": null
+        },
+        "value": "00162035",
+        "specified": true
+      }
+    ],
+    "upvs": {
+      "edesk_number": "E0000013748",
+      "edesk_status": "deliverable",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "218319"
+    },
+    "corporate_body": {
+      "cin": "00162035",
+      "tin": "2021171152",
+      "organization_id": null,
+      "organization_units": [],
+      "name": "Hotelová akadémia Brezno",
+      "alternative_names": [],
+      "legal_form": {
+        "id": "321",
+        "name": "Rozpočtová organizácia",
+        "description": null
+      },
+      "legal_facts": [],
+      "activities": [],
+      "established_on": "2014-03-18",
+      "terminated_on": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": null,
+        "municipality": {
+          "id": "SK0323508497",
+          "name": "Brezno",
+          "description": null
+        },
+        "part": null,
+        "street": "Malinovského",
+        "building_number": null,
+        "registration_number": 1106,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "97701",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "0bc2cf9e-24d8-4a20-8dd0-2d9201c8ff49"
+      }
+    ],
+    "uri": "ico://sk/00893528",
+    "en": "E0000013749",
+    "type": "institution_of_public_administration",
+    "status": "activated",
+    "name": "Hotelová akadémia Liptovský Mikuláš",
+    "suffix": null,
+    "various_ids": [
+      {
+        "type": {
+          "id": "8",
+          "name": "Daňové identifikačné číslo",
+          "description": null
+        },
+        "value": "2020581750",
+        "specified": true
+      },
+      {
+        "type": {
+          "id": "7",
+          "name": "IČO (Identifikačné číslo organizácie)",
+          "description": null
+        },
+        "value": "00893528",
+        "specified": true
+      }
+    ],
+    "upvs": {
+      "edesk_number": "E0000013749",
+      "edesk_status": "deliverable",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "218320"
+    },
+    "corporate_body": {
+      "cin": "00893528",
+      "tin": "2020581750",
+      "organization_id": null,
+      "organization_units": [],
+      "name": "Hotelová akadémia Liptovský Mikuláš",
+      "alternative_names": [],
+      "legal_form": {
+        "id": "321",
+        "name": "Rozpočtová organizácia",
+        "description": null
+      },
+      "legal_facts": [],
+      "activities": [],
+      "established_on": "2014-03-18",
+      "terminated_on": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": null,
+        "municipality": {
+          "id": "SK0315510262",
+          "name": "Liptovský Mikuláš",
+          "description": null
+        },
+        "part": null,
+        "street": "Čs.brigády",
+        "building_number": null,
+        "registration_number": 1804,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "03101",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "acebd88d-4aad-4051-894c-155ccb276fc5"
+      }
+    ],
+    "uri": "ico://sk/00162019",
+    "en": "E0000013750",
+    "type": "institution_of_public_administration",
+    "status": "activated",
+    "name": "Hotelová akadémia Ľudovíta Wintera Piešťany",
+    "suffix": null,
+    "various_ids": [
+      {
+        "type": {
+          "id": "8",
+          "name": "Daňové identifikačné číslo",
+          "description": null
+        },
+        "value": "2020530710",
+        "specified": true
+      },
+      {
+        "type": {
+          "id": "7",
+          "name": "IČO (Identifikačné číslo organizácie)",
+          "description": null
+        },
+        "value": "00162019",
+        "specified": true
+      }
+    ],
+    "upvs": {
+      "edesk_number": "E0000013750",
+      "edesk_status": "deliverable",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "218321"
+    },
+    "corporate_body": {
+      "cin": "00162019",
+      "tin": "2020530710",
+      "organization_id": null,
+      "organization_units": [],
+      "name": "Hotelová akadémia Ľudovíta Wintera Piešťany",
+      "alternative_names": [],
+      "legal_form": {
+        "id": "321",
+        "name": "Rozpočtová organizácia",
+        "description": null
+      },
+      "legal_facts": [],
+      "activities": [],
+      "established_on": "2014-03-18",
+      "terminated_on": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": null,
+        "municipality": {
+          "id": "SK0214507440",
+          "name": "Piešťany",
+          "description": null
+        },
+        "part": null,
+        "street": "Stromová",
+        "building_number": null,
+        "registration_number": 1324,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "92101",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "d7e6ac09-f797-4d70-9eae-794292b94b1d"
+      }
+    ],
+    "uri": "rc://sk/7504251313_hrmen_laco",
+    "en": "E0000015417",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "Laco Hrmeň",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000015417",
+      "edesk_status": "deliverable",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "220027"
+    },
+    "natural_person": {
+      "type": {
+        "id": "1",
+        "name": "Občan SR s trvalým pobytom na území SR",
+        "description": null
+      },
+      "name": "Laco Hrmeň",
+      "given_names": [
+        "Laco"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Hrmeň"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": {
+        "id": "1",
+        "name": "muž",
+        "description": null
+      },
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": {
+        "id": "0",
+        "name": "703",
+        "description": null
+      },
+      "occupation": null,
+      "birth": {
+        "date": "1975-04-25",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0411",
+          "name": "Okres Bardejov",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0411519006",
+          "name": "Bardejov",
+          "description": null
+        },
+        "part": null,
+        "street": "Vietorná",
+        "building_number": null,
+        "registration_number": 58,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "085 01",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [
+      {
+        "address": "mailto:hrmen@hrmeni.sk",
+        "dsig_key_info": null
+      }
+    ],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "8da34893-b899-46ce-a591-92e19823916d"
+      }
+    ],
+    "uri": "rc://sk/9157232414_hrdina_pavol",
+    "en": "E0000015455",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "Pavol Hrdina",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000015455",
+      "edesk_status": "deliverable",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "220103"
+    },
+    "natural_person": {
+      "type": {
+        "id": "1",
+        "name": "Občan SR s trvalým pobytom na území SR",
+        "description": null
+      },
+      "name": "Pavol Hrdina",
+      "given_names": [
+        "Pavol"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Hrdina"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": {
+        "id": "1",
+        "name": "muž",
+        "description": null
+      },
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": {
+        "id": "0",
+        "name": "703",
+        "description": null
+      },
+      "occupation": null,
+      "birth": {
+        "date": "1955-05-05",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0426",
+          "name": "Okres Košice - okolie",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0426521345",
+          "name": "Družstevná pri Hornáde",
+          "description": null
+        },
+        "part": null,
+        "street": "Hlavná",
+        "building_number": null,
+        "registration_number": 283,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "04431",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [
+      {
+        "address": "mailto:es.ksktest@gmail.com",
+        "dsig_key_info": null
+      }
+    ],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "71263bd7-9fa5-4b33-b28b-f22e9cd710a1"
+      }
+    ],
+    "uri": "rc://sk/8361030062_prskavcova_hedvika",
+    "en": "E0000015518",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "Hedvika Prskavcová",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000015518",
+      "edesk_status": "deliverable",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "220170"
+    },
+    "natural_person": {
+      "type": {
+        "id": "1",
+        "name": "Občan SR s trvalým pobytom na území SR",
+        "description": null
+      },
+      "name": "Hedvika Prskavcová",
+      "given_names": [
+        "Hedvika"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Prskavcová"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": {
+        "id": "1",
+        "name": "muž",
+        "description": null
+      },
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": {
+        "id": "0",
+        "name": "703",
+        "description": null
+      },
+      "occupation": null,
+      "birth": {
+        "date": "1983-11-03",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0101",
+          "name": "Okres Bratislava I",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0101528595",
+          "name": "Bratislava - mestská časť Staré Mesto",
+          "description": null
+        },
+        "part": null,
+        "street": "Mudroňova",
+        "building_number": null,
+        "registration_number": 112,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "811 01",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "190113ce-445a-4825-9c8b-b7e05d554f9a"
+      }
+    ],
+    "uri": "rc://sk/6451300075_horackova_beata",
+    "en": "E0000015521",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "Beáta  Horáčková",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000015521",
+      "edesk_status": "deliverable",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "220173"
+    },
+    "natural_person": {
+      "type": {
+        "id": "1",
+        "name": "Občan SR s trvalým pobytom na území SR",
+        "description": null
+      },
+      "name": "Beáta  Horáčková",
+      "given_names": [
+        "Beáta"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Horáčková"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": {
+        "id": "1",
+        "name": "muž",
+        "description": null
+      },
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": {
+        "id": "0",
+        "name": "703",
+        "description": null
+      },
+      "occupation": null,
+      "birth": {
+        "date": "1964-01-30",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0101",
+          "name": "Okres Bratislava I",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0101528595",
+          "name": "Bratislava - mestská časť Staré Mesto",
+          "description": null
+        },
+        "part": null,
+        "street": "Gondova",
+        "building_number": null,
+        "registration_number": 122,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "811 02",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "9f2d5a5f-c1ef-4a8c-9b4a-a8d46d39afe1"
+      }
+    ],
+    "uri": "rc://sk/5558160124_hudeckova_jana",
+    "en": "E0000015527",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "Jana Hudečková",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000015527",
+      "edesk_status": "deliverable",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "220179"
+    },
+    "natural_person": {
+      "type": {
+        "id": "1",
+        "name": "Občan SR s trvalým pobytom na území SR",
+        "description": null
+      },
+      "name": "Jana Hudečková",
+      "given_names": [
+        "Jana"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Hudečková"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": {
+        "id": "1",
+        "name": "muž",
+        "description": null
+      },
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": {
+        "id": "0",
+        "name": "703",
+        "description": null
+      },
+      "occupation": null,
+      "birth": {
+        "date": "1955-08-16",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0233",
+          "name": "Okres Nitra",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0233500011",
+          "name": "Nitra",
+          "description": null
+        },
+        "part": null,
+        "street": "Škultétyho",
+        "building_number": null,
+        "registration_number": 346,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "949 11",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "b70d17fe-493d-48c6-b2d2-3b0f65e5b791"
+      }
+    ],
+    "uri": "rc://sk/9405095579_hasan_abdul",
+    "en": "E0000015542",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "Abdul Hasan",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000015542",
+      "edesk_status": "deliverable",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "220194"
+    },
+    "natural_person": {
+      "type": {
+        "id": "1",
+        "name": "Občan SR s trvalým pobytom na území SR",
+        "description": null
+      },
+      "name": "Abdul Hasan",
+      "given_names": [
+        "Abdul"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Hasan"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": {
+        "id": "1",
+        "name": "muž",
+        "description": null
+      },
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": {
+        "id": "0",
+        "name": "703",
+        "description": null
+      },
+      "occupation": null,
+      "birth": {
+        "date": "1994-05-09",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0103",
+          "name": "Okres Bratislava III",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0102529320",
+          "name": "Bratislava - mestská časť Ružinov",
+          "description": null
+        },
+        "part": null,
+        "street": "Jahodová",
+        "building_number": null,
+        "registration_number": 541,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "82103",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [
+      {
+        "address": "mailto:hasan@abdul.sk",
+        "dsig_key_info": null
+      }
+    ],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "d59ecc68-1d01-4516-a6f7-88ff5a89996a"
+      }
+    ],
+    "uri": "rc://sk/8904016001_hraskoa_jan",
+    "en": "E0000015584",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "Ján Hraškoa",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000015584",
+      "edesk_status": "active",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "220278"
+    },
+    "natural_person": {
+      "type": {
+        "id": "1",
+        "name": "Občan SR s trvalým pobytom na území SR",
+        "description": null
+      },
+      "name": "Ján Hraškoa",
+      "given_names": [
+        "Ján"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Hraškoa"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": {
+        "id": "1",
+        "name": "muž",
+        "description": null
+      },
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": {
+        "id": "0",
+        "name": "703",
+        "description": null
+      },
+      "occupation": null,
+      "birth": {
+        "date": "1989-04-01",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0229",
+          "name": "Okres Trenčín",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0229505960",
+          "name": "Drietoma",
+          "description": null
+        },
+        "part": null,
+        "street": null,
+        "building_number": null,
+        "registration_number": 29,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "91303",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [
+      {
+        "address": "mailto:tester@land.gov.sk",
+        "dsig_key_info": null
+      }
+    ],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "a182a121-9572-42f1-92c2-a29e41f85b89"
+      }
+    ],
+    "uri": "rc://sk/8904016002_hraskob_jan",
+    "en": "E0000015585",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "Ján Hraškob",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000015585",
+      "edesk_status": "active",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "220279"
+    },
+    "natural_person": {
+      "type": {
+        "id": "1",
+        "name": "Občan SR s trvalým pobytom na území SR",
+        "description": null
+      },
+      "name": "Ján Hraškob",
+      "given_names": [
+        "Ján"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Hraškob"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": {
+        "id": "1",
+        "name": "muž",
+        "description": null
+      },
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": {
+        "id": "0",
+        "name": "703",
+        "description": null
+      },
+      "occupation": null,
+      "birth": {
+        "date": "1989-04-02",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0229",
+          "name": "Okres Trenčín",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0229505960",
+          "name": "Drietoma",
+          "description": null
+        },
+        "part": null,
+        "street": null,
+        "building_number": null,
+        "registration_number": 30,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "91303",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [
+      {
+        "address": "mailto:tester@land.gov.sk",
+        "dsig_key_info": null
+      }
+    ],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "5f8017fc-b1d6-4699-87f1-938ecfd84c9a"
+      }
+    ],
+    "uri": "rc://sk/8904016004_hraskod_jan",
+    "en": "E0000015587",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "Ján Hraškod",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000015587",
+      "edesk_status": "active",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "220281"
+    },
+    "natural_person": {
+      "type": {
+        "id": "1",
+        "name": "Občan SR s trvalým pobytom na území SR",
+        "description": null
+      },
+      "name": "Ján Hraškod",
+      "given_names": [
+        "Ján"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Hraškod"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": {
+        "id": "1",
+        "name": "muž",
+        "description": null
+      },
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": {
+        "id": "0",
+        "name": "703",
+        "description": null
+      },
+      "occupation": null,
+      "birth": {
+        "date": "1989-04-04",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0229",
+          "name": "Okres Trenčín",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0229505960",
+          "name": "Drietoma",
+          "description": null
+        },
+        "part": null,
+        "street": null,
+        "building_number": null,
+        "registration_number": 32,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "91303",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [
+      {
+        "address": "mailto:tester@land.gov.sk",
+        "dsig_key_info": null
+      }
+    ],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "79b31426-01d1-43c9-a76b-1078f5ad7b5a"
+      }
+    ],
+    "uri": "rc://sk/8904016005_hraskoe_jan",
+    "en": "E0000015588",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "Ján Hraškoe",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000015588",
+      "edesk_status": "active",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "220282"
+    },
+    "natural_person": {
+      "type": {
+        "id": "1",
+        "name": "Občan SR s trvalým pobytom na území SR",
+        "description": null
+      },
+      "name": "Ján Hraškoe",
+      "given_names": [
+        "Ján"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Hraškoe"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": {
+        "id": "1",
+        "name": "muž",
+        "description": null
+      },
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": {
+        "id": "0",
+        "name": "703",
+        "description": null
+      },
+      "occupation": null,
+      "birth": {
+        "date": "1989-04-05",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0229",
+          "name": "Okres Trenčín",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0229505960",
+          "name": "Drietoma",
+          "description": null
+        },
+        "part": null,
+        "street": null,
+        "building_number": null,
+        "registration_number": 33,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "91303",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [
+      {
+        "address": "mailto:tester@land.gov.sk",
+        "dsig_key_info": null
+      }
+    ],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "d4e9829a-5b2e-46f7-b3cb-89705968b29c"
+      }
+    ],
+    "uri": "rc://sk/525908264_holakova_helena",
+    "en": "E0000015726",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "Helena Holáková",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000015726",
+      "edesk_status": "created",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "220599"
+    },
+    "natural_person": {
+      "type": {
+        "id": "1",
+        "name": "Občan SR s trvalým pobytom na území SR",
+        "description": null
+      },
+      "name": "Helena Holáková",
+      "given_names": [
+        "Helena"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Holáková"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": {
+        "id": "1",
+        "name": "muž",
+        "description": null
+      },
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": {
+        "id": "0",
+        "name": "703",
+        "description": null
+      },
+      "occupation": null,
+      "birth": {
+        "date": "1952-09-08",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0415",
+          "name": "Okres Medzilaborce",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0415520411",
+          "name": "Krásny Brod",
+          "description": null
+        },
+        "part": null,
+        "street": "Krásny Brod",
+        "building_number": null,
+        "registration_number": null,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "068 01",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [
+      {
+        "address": "mailto:h.holakova@rusnet.sk",
+        "dsig_key_info": null
+      }
+    ],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "2ef97370-bd3d-40cd-9d91-faae8d56a4b3"
+      }
+    ],
+    "uri": "ico://sk/42156424_10010",
+    "en": "E0000015816",
+    "type": "institution_of_public_administration",
+    "status": "activated",
+    "name": "OJ NaS 10010",
+    "suffix": 10010,
+    "various_ids": [
+      {
+        "type": {
+          "id": "7",
+          "name": "IČO (Identifikačné číslo organizácie)",
+          "description": null
+        },
+        "value": "42156424",
+        "specified": true
+      }
+    ],
+    "upvs": {
+      "edesk_number": "E0000015816",
+      "edesk_status": "nonexistent",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "220843"
+    },
+    "corporate_body": {
+      "cin": "42156424",
+      "tin": null,
+      "organization_id": null,
+      "organization_units": [],
+      "name": "OJ NaS 10010",
+      "alternative_names": [],
+      "legal_form": {
+        "id": "331",
+        "name": "Príspevková organizácia",
+        "description": null
+      },
+      "legal_facts": [],
+      "activities": [],
+      "established_on": "2014-10-23",
+      "terminated_on": null,
+      "updated_on": null
+    },
+    "addresses": [],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "0bc7ed56-c551-495d-9715-228d69a663e7"
+      }
+    ],
+    "uri": "ico://sk/00688347",
+    "en": "E0000016339",
+    "type": "legal_entity",
+    "status": "activated",
+    "name": "HK AGRO Topoľčany",
+    "suffix": null,
+    "various_ids": [
+      {
+        "type": {
+          "id": "7",
+          "name": "IČO (Identifikačné číslo organizácie)",
+          "description": null
+        },
+        "value": "00688347",
+        "specified": true
+      }
+    ],
+    "upvs": {
+      "edesk_number": "E0000016339",
+      "edesk_status": "created",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "221725"
+    },
+    "corporate_body": {
+      "cin": "00688347",
+      "tin": null,
+      "organization_id": null,
+      "organization_units": [],
+      "name": "HK AGRO Topoľčany",
+      "alternative_names": [],
+      "legal_form": {
+        "id": "995",
+        "name": "Nešpecifikovaná právna forma",
+        "description": null
+      },
+      "legal_facts": [],
+      "activities": [],
+      "established_on": "1990-07-16",
+      "terminated_on": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": null,
+        "municipality": {
+          "id": "SK0236504998",
+          "name": "Topoľčany",
+          "description": null
+        },
+        "part": null,
+        "street": "Bernolákova",
+        "building_number": null,
+        "registration_number": 0,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "95501",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [],
+    "phones": [
+      {
+        "type": {
+          "id": "1",
+          "name": "Pevná sieť",
+          "description": null
+        },
+        "number": "+421915630714",
+        "international_country_code": null,
+        "national_number": null,
+        "area_city_code": null,
+        "subscriber_number": null,
+        "extension": null
+      }
+    ]
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "8b00156b-950e-43c5-bbae-164cf32b8e8c"
+      }
+    ],
+    "uri": "ico://sk/47456019",
+    "en": "E0000016590",
+    "type": "legal_entity",
+    "status": "activated",
+    "name": "Hruška trans s. r. o.",
+    "suffix": null,
+    "various_ids": [
+      {
+        "type": {
+          "id": "7",
+          "name": "IČO (Identifikačné číslo organizácie)",
+          "description": null
+        },
+        "value": "47456019",
+        "specified": true
+      }
+    ],
+    "upvs": {
+      "edesk_number": "E0000016590",
+      "edesk_status": "deliverable",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "222077"
+    },
+    "corporate_body": {
+      "cin": "47456019",
+      "tin": null,
+      "organization_id": null,
+      "organization_units": [],
+      "name": "Hruška trans s. r. o.",
+      "alternative_names": [],
+      "legal_form": {
+        "id": "701",
+        "name": "Združenie (zväz, spolok, spoločnosť, klub ai.)",
+        "description": null
+      },
+      "legal_facts": [],
+      "activities": [],
+      "established_on": "2013-10-25",
+      "terminated_on": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": null,
+        "municipality": {
+          "id": "0",
+          "name": "-",
+          "description": null
+        },
+        "part": null,
+        "street": null,
+        "building_number": null,
+        "registration_number": null,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": null,
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "d5924802-e7af-4fa5-b3b7-707dfc6c7021"
+      }
+    ],
+    "uri": "ico://sk/00603483",
+    "en": "E0000016741",
+    "type": "institution_of_public_administration",
+    "status": "activated",
+    "name": "Hlavné mesto Bratislava",
+    "suffix": null,
+    "various_ids": [
+      {
+        "type": {
+          "id": "8",
+          "name": "Daňové identifikačné číslo",
+          "description": null
+        },
+        "value": "SK2020372596",
+        "specified": true
+      },
+      {
+        "type": {
+          "id": "7",
+          "name": "IČO (Identifikačné číslo organizácie)",
+          "description": null
+        },
+        "value": "00603483",
+        "specified": true
+      }
+    ],
+    "upvs": {
+      "edesk_number": "E0000016741",
+      "edesk_status": "deliverable",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "222371"
+    },
+    "corporate_body": {
+      "cin": "00603483",
+      "tin": "SK2020372596",
+      "organization_id": null,
+      "organization_units": [],
+      "name": "Hlavné mesto Bratislava",
+      "alternative_names": [],
+      "legal_form": {
+        "id": "321",
+        "name": "Rozpočtová organizácia",
+        "description": null
+      },
+      "legal_facts": [],
+      "activities": [],
+      "established_on": "2000-01-01",
+      "terminated_on": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0101",
+          "name": "Okres Bratislava I",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0101528595",
+          "name": "Bratislava - mestská časť Staré Mesto",
+          "description": null
+        },
+        "part": null,
+        "street": "Primaciálne námestie",
+        "building_number": null,
+        "registration_number": 1,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "814 99",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [
+      {
+        "address": "mailto:jan.riaditel@ovmtest.sk",
+        "dsig_key_info": null
+      }
+    ],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "79793a29-69f9-4333-83f7-aed0456cd5a6"
+      }
+    ],
+    "uri": "ico://sk/42156424_10002",
+    "en": "E0000016878",
+    "type": "institution_of_public_administration",
+    "status": "activated",
+    "name": "Národná agentúra pre sieťové a elektronické služby: IS PEP",
+    "suffix": 10002,
+    "various_ids": [
+      {
+        "type": {
+          "id": "7",
+          "name": "IČO (Identifikačné číslo organizácie)",
+          "description": null
+        },
+        "value": "42156424",
+        "specified": true
+      }
+    ],
+    "upvs": {
+      "edesk_number": "E0000016878",
+      "edesk_status": "deliverable",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "222677"
+    },
+    "corporate_body": {
+      "cin": "42156424",
+      "tin": null,
+      "organization_id": null,
+      "organization_units": [],
+      "name": "Národná agentúra pre sieťové a elektronické služby: IS PEP",
+      "alternative_names": [],
+      "legal_form": {
+        "id": "383",
+        "name": "Iná organizácia verejnej správy",
+        "description": null
+      },
+      "legal_facts": [],
+      "activities": [],
+      "established_on": "2015-10-14",
+      "terminated_on": null,
+      "updated_on": null
+    },
+    "addresses": [],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "82042e87-1fd1-4102-8b43-510f10440a57"
+      }
+    ],
+    "uri": "rc://sk/8361097899_makova_henrieta",
+    "en": "E0000016973",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "Henrieta Maková",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000016973",
+      "edesk_status": "deliverable",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "222905"
+    },
+    "natural_person": {
+      "type": {
+        "id": "1",
+        "name": "Občan SR s trvalým pobytom na území SR",
+        "description": null
+      },
+      "name": "Henrieta Maková",
+      "given_names": [
+        "Henrieta"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Maková"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": {
+        "id": "0",
+        "name": "nezistené",
+        "description": null
+      },
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": {
+        "id": "0",
+        "name": "703",
+        "description": null
+      },
+      "occupation": null,
+      "birth": {
+        "date": "1983-11-09",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0106",
+          "name": "Okres Malacky",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0106508063",
+          "name": "Malacky",
+          "description": null
+        },
+        "part": null,
+        "street": "Záhorácka",
+        "building_number": null,
+        "registration_number": 2356,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "90101",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [
+      {
+        "address": "mailto:henrieta.makova@sp.sk",
+        "dsig_key_info": null
+      }
+    ],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "5dda7582-f4f3-485c-8c20-785ade5783af"
+      }
+    ],
+    "uri": "rc://sk/7004026381_simonics_henrich",
+    "en": "E0000017161",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "Henrich Simonics",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000017161",
+      "edesk_status": "active",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "223407"
+    },
+    "natural_person": {
+      "type": {
+        "id": "1",
+        "name": "Občan SR s trvalým pobytom na území SR",
+        "description": null
+      },
+      "name": "Henrich Simonics",
+      "given_names": [
+        "Henrich"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Simonics"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": {
+        "id": "0",
+        "name": "nezistené",
+        "description": null
+      },
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": {
+        "id": "0",
+        "name": "703",
+        "description": null
+      },
+      "occupation": null,
+      "birth": {
+        "date": "1970-04-02",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0108",
+          "name": "Okres Senec",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0108508276",
+          "name": "Tomášov",
+          "description": null
+        },
+        "part": null,
+        "street": "Záhradnícka",
+        "building_number": null,
+        "registration_number": null,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "90044",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [
+      {
+        "address": "mailto:hsimonics@dokumenta.sk",
+        "dsig_key_info": null
+      }
+    ],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "b61e1258-fe45-4bbc-a153-0723075b2ae7"
+      }
+    ],
+    "uri": "rc://sk/7056246098_bielcikova_helena",
+    "en": "E0000017162",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "Helena  Bielčiková",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000017162",
+      "edesk_status": "active",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "223408"
+    },
+    "natural_person": {
+      "type": {
+        "id": "1",
+        "name": "Občan SR s trvalým pobytom na území SR",
+        "description": null
+      },
+      "name": "Helena  Bielčiková",
+      "given_names": [
+        "Helena"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Bielčiková"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": {
+        "id": "0",
+        "name": "nezistené",
+        "description": null
+      },
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": {
+        "id": "0",
+        "name": "703",
+        "description": null
+      },
+      "occupation": null,
+      "birth": {
+        "date": "1970-06-24",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0211",
+          "name": "Okres Dunajská Streda",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0211501905",
+          "name": "Šamorín",
+          "description": null
+        },
+        "part": null,
+        "street": "Vodárenská",
+        "building_number": null,
+        "registration_number": null,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "93101",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [
+      {
+        "address": "mailto:hbielcikova@dokumenta.sk",
+        "dsig_key_info": null
+      }
+    ],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "4d352613-747d-4ac6-b35a-669b2d0287d4"
+      }
+    ],
+    "uri": "rc://sk/8409231369_antecessor_homo",
+    "en": "E0000017422",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "Homo Antecessor",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000017422",
+      "edesk_status": "deliverable",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "223833"
+    },
+    "natural_person": {
+      "type": {
+        "id": "1",
+        "name": "Občan SR s trvalým pobytom na území SR",
+        "description": null
+      },
+      "name": "Homo Antecessor",
+      "given_names": [
+        "Homo"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Antecessor"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": {
+        "id": "0",
+        "name": "nezistené",
+        "description": null
+      },
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": {
+        "id": "0",
+        "name": "703",
+        "description": null
+      },
+      "occupation": null,
+      "birth": {
+        "date": "1984-09-23",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0318",
+          "name": "Okres Ružomberok",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0318510998",
+          "name": "Ružomberok",
+          "description": null
+        },
+        "part": null,
+        "street": "Mlynská",
+        "building_number": null,
+        "registration_number": 2,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "034 01",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "21a3fbbf-daf0-492c-8fd0-4e5d79da062c"
+      }
+    ],
+    "uri": "rc://sk/8804257132_opulentus_homo",
+    "en": "E0000017423",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "Homo Opulentus",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000017423",
+      "edesk_status": "deliverable",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "223834"
+    },
+    "natural_person": {
+      "type": {
+        "id": "1",
+        "name": "Občan SR s trvalým pobytom na území SR",
+        "description": null
+      },
+      "name": "Homo Opulentus",
+      "given_names": [
+        "Homo"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Opulentus"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": {
+        "id": "0",
+        "name": "nezistené",
+        "description": null
+      },
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": {
+        "id": "0",
+        "name": "703",
+        "description": null
+      },
+      "occupation": null,
+      "birth": {
+        "date": "1988-04-25",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0214",
+          "name": "Okres Piešťany",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0214506991",
+          "name": "Drahovce",
+          "description": null
+        },
+        "part": null,
+        "street": "Drahovce",
+        "building_number": null,
+        "registration_number": 45,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "922 41",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "d69ae7d1-0175-486c-a64b-4933ae64e1d5"
+      }
+    ],
+    "uri": "rc://sk/7556276805_ergaster_homo",
+    "en": "E0000017424",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "Homo Ergaster",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000017424",
+      "edesk_status": "deliverable",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "223835"
+    },
+    "natural_person": {
+      "type": {
+        "id": "1",
+        "name": "Občan SR s trvalým pobytom na území SR",
+        "description": null
+      },
+      "name": "Homo Ergaster",
+      "given_names": [
+        "Homo"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Ergaster"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": {
+        "id": "0",
+        "name": "nezistené",
+        "description": null
+      },
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": {
+        "id": "0",
+        "name": "703",
+        "description": null
+      },
+      "occupation": null,
+      "birth": {
+        "date": "1975-06-27",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0322",
+          "name": "Okres Banská Štiavnica",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0322516643",
+          "name": "Banská Štiavnica",
+          "description": null
+        },
+        "part": null,
+        "street": "Dolná",
+        "building_number": null,
+        "registration_number": 88,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "969 01",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "1807a0c9-c821-4057-b6ed-22ec594f9597"
+      }
+    ],
+    "uri": "ico://sk/54704841",
+    "en": "E0000023576",
+    "type": "legal_entity",
+    "status": "activated",
+    "name": "Hospodar",
+    "suffix": null,
+    "various_ids": [
+      {
+        "type": {
+          "id": "7",
+          "name": "IČO (Identifikačné číslo organizácie)",
+          "description": null
+        },
+        "value": "54704841",
+        "specified": true
+      }
+    ],
+    "upvs": {
+      "edesk_number": "E0000023576",
+      "edesk_status": "deliverable",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "230068"
+    },
+    "corporate_body": {
+      "cin": "54704841",
+      "tin": null,
+      "organization_id": null,
+      "organization_units": [],
+      "name": "Hospodar",
+      "alternative_names": [],
+      "legal_form": {
+        "id": "521",
+        "name": "Samostatná drobná prevádzkareň obecného úradu",
+        "description": null
+      },
+      "legal_facts": [],
+      "activities": [],
+      "established_on": "1999-11-25",
+      "terminated_on": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "704",
+          "name": "Vietnamská socialistická republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0104",
+          "name": "Okres Bratislava IV",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0104529397",
+          "name": "Bratislava - mestská časť Karlova Ves",
+          "description": null
+        },
+        "part": null,
+        "street": "Líščie údolie",
+        "building_number": null,
+        "registration_number": null,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "84104",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [
+      {
+        "address": "mailto:info@activeprocurement.sk",
+        "dsig_key_info": null
+      }
+    ],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "8b493417-0e79-40ab-95d9-1eff09192eb4"
+      }
+    ],
+    "uri": "ico://sk/31443982",
+    "en": "E0000029985",
+    "type": "legal_entity",
+    "status": "activated",
+    "name": "HERBARIA, S.R.O.",
+    "suffix": null,
+    "various_ids": [
+      {
+        "type": {
+          "id": "7",
+          "name": "IČO (Identifikačné číslo organizácie)",
+          "description": null
+        },
+        "value": "31443982",
+        "specified": true
+      }
+    ],
+    "upvs": {
+      "edesk_number": "E0000029985",
+      "edesk_status": "deliverable",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "236614"
+    },
+    "corporate_body": {
+      "cin": "31443982",
+      "tin": null,
+      "organization_id": null,
+      "organization_units": [],
+      "name": "HERBARIA, S.R.O.",
+      "alternative_names": [],
+      "legal_form": {
+        "id": "112",
+        "name": "Spoločnosť s ručením obmedzeným",
+        "description": null
+      },
+      "legal_facts": [],
+      "activities": [],
+      "established_on": "2010-02-24",
+      "terminated_on": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0229",
+          "name": "Okres Trenčín",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0229505820",
+          "name": "TRENČÍN",
+          "description": null
+        },
+        "part": null,
+        "street": "HVIEZDOVÁ",
+        "building_number": null,
+        "registration_number": null,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "91101",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "8914332c-587f-4303-8ef8-1e8d1460ade1"
+      }
+    ],
+    "uri": "rc://sk/7810016071_volny_henrich",
+    "en": "E0000030039",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "HENRICH Volný",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000030039",
+      "edesk_status": "deliverable",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "sk",
+      "re_iam_identity_id": "236674"
+    },
+    "natural_person": {
+      "type": {
+        "id": "1",
+        "name": "Občan SR s trvalým pobytom na území SR",
+        "description": null
+      },
+      "name": "HENRICH Volný",
+      "given_names": [
+        "HENRICH"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Volný"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": {
+        "id": "0",
+        "name": "nezistené",
+        "description": null
+      },
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": {
+        "id": "0",
+        "name": "703",
+        "description": null
+      },
+      "occupation": null,
+      "birth": {
+        "date": "1978-10-01",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0101",
+          "name": "Okres Bratislava I",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0101528595",
+          "name": "Bratislava - mestská časť Staré Mesto",
+          "description": null
+        },
+        "part": null,
+        "street": "Gorkého",
+        "building_number": null,
+        "registration_number": null,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "81101",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [
+      {
+        "address": "mailto:upvsinteg@icz.sk",
+        "dsig_key_info": null
+      }
+    ],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "bdd20750-ad13-477e-a6c7-a161a8955a49"
+      }
+    ],
+    "uri": "rc://SK/DE/SK/95520D222A14A8FD5F90649319E6581CD8963B4A32A90576D999F5BAFC039352_von_drebenbusch-dalgoen_hans-gunther",
+    "en": "E0000072793",
+    "type": "natural_person",
+    "status": "activated",
+    "name": null,
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000072793",
+      "edesk_status": "created",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": null,
+      "re_iam_identity_id": null
+    },
+    "natural_person": {
+      "type": null,
+      "name": null,
+      "given_names": [
+        "Hans-Günther"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Hans-Günther"
+        }
+      ],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "von"
+        },
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Drebenbusch-Dalgoßen"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": null,
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": null,
+      "occupation": null,
+      "birth": {
+        "date": "1946-01-25",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "0",
+          "name": "D",
+          "description": null
+        },
+        "region": null,
+        "district": null,
+        "municipality": null,
+        "part": null,
+        "street": "WEG NR.",
+        "building_number": "12 8E",
+        "registration_number": null,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "22043",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "8a433d6d-0d8c-4c91-908d-8d0b1ee732fb"
+      }
+    ],
+    "uri": "rc://DE/DE/SK/95520D222A14A8FD5F90649319E6581CD8963B4A32A90576D999F5BAFC039352-UT1_von_drebenbusch-dalgoen_hans-gunther",
+    "en": "E0000072794",
+    "type": "natural_person",
+    "status": "activated",
+    "name": null,
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000072794",
+      "edesk_status": "created",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": null,
+      "re_iam_identity_id": null
+    },
+    "natural_person": {
+      "type": null,
+      "name": null,
+      "given_names": [
+        "Hans-Günther"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "von"
+        },
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Drebenbusch-Dalgoßen"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": null,
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": null,
+      "occupation": null,
+      "birth": {
+        "date": "1946-01-25",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "0",
+          "name": "D",
+          "description": null
+        },
+        "region": null,
+        "district": null,
+        "municipality": null,
+        "part": null,
+        "street": "WEG NR.",
+        "building_number": "12 8E",
+        "registration_number": null,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "22043",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "3113fe07-730d-4bfb-91f5-87abf0f772f8"
+      }
+    ],
+    "uri": "rc://DE/95520D222A14A8FD5F90649319E6581CD8963B4A32A90576D999F5BAFC039352_vondrebenbusch-dalgoen_hans-gunther",
+    "en": "E0000072813",
+    "type": "natural_person",
+    "status": "activated",
+    "name": null,
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000072813",
+      "edesk_status": "created",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": null,
+      "re_iam_identity_id": null
+    },
+    "natural_person": {
+      "type": null,
+      "name": null,
+      "given_names": [
+        "Hans-Günther"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Hans-Günther"
+        }
+      ],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "von"
+        },
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Drebenbusch-Dalgoßen"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": null,
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": null,
+      "occupation": null,
+      "birth": {
+        "date": "1946-01-25",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": null,
+        "region": null,
+        "district": null,
+        "municipality": null,
+        "part": null,
+        "street": "WEG NR.",
+        "building_number": "12 8E",
+        "registration_number": null,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "22043",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "68514f21-cf57-4467-b134-7d9871a40eb9"
+      }
+    ],
+    "uri": "rc://DE/95520D222A14A8FD5F90649319E6581CD8963B4A32A90576D999F5BAFC039352-UT1_vondrebenbusch-dalgoen_hans-gunther",
+    "en": "E0000076933",
+    "type": "natural_person",
+    "status": "activated",
+    "name": null,
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000076933",
+      "edesk_status": "created",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": null,
+      "re_iam_identity_id": null
+    },
+    "natural_person": {
+      "type": null,
+      "name": null,
+      "given_names": [
+        "Hans-Günther"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "von"
+        },
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Drebenbusch-Dalgoßen"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": null,
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": null,
+      "occupation": null,
+      "birth": {
+        "date": "1946-01-25",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": null,
+        "region": null,
+        "district": null,
+        "municipality": null,
+        "part": null,
+        "street": "WEG NR.",
+        "building_number": "12 8E",
+        "registration_number": null,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "22043",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "2342fc7a-3b5f-438d-a866-81ab7633aec2"
+      }
+    ],
+    "uri": "rc://DE/95520D222A14A8FD5F90649319E6581CD8963B4A32A90576D999F5BAFC039352-UT2_vondrebenbuschdalgossen_hansgunther",
+    "en": "E0000077073",
+    "type": "natural_person",
+    "status": "activated",
+    "name": "Hans-Günther von Drebenbusch-Dalgoßen",
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000077073",
+      "edesk_status": "created",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": "en",
+      "re_iam_identity_id": null
+    },
+    "natural_person": {
+      "type": null,
+      "name": "Hans-Günther von Drebenbusch-Dalgoßen",
+      "given_names": [
+        "Hans-Günther"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Onases"
+        }
+      ],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "von"
+        },
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Drebenbusch-Dalgoßen"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": null,
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": null,
+      "occupation": null,
+      "birth": {
+        "date": "1946-01-25",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "276",
+          "name": "Nemecká spolková republika",
+          "description": null
+        },
+        "region": null,
+        "district": null,
+        "municipality": {
+          "id": "0",
+          "name": "HAMBURG",
+          "description": null
+        },
+        "part": null,
+        "street": "WEG NR.",
+        "building_number": "12 8E",
+        "registration_number": null,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "22043",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [
+      {
+        "address": "mailto:rtt@dddd.sk",
+        "dsig_key_info": null
+      }
+    ],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "92607dd0-0979-40ee-9b2f-cef73e432362"
+      }
+    ],
+    "uri": "rc://CA/36A436E7F2A4709237F4CC2F9AAC1C9E9E4A32C4AFFF9078F27744B0FA2B75BBDD_vondrebenbusch-dalgoben_hans-gunther",
+    "en": "E0000077134",
+    "type": "natural_person",
+    "status": "activated",
+    "name": null,
+    "suffix": null,
+    "various_ids": [],
+    "upvs": {
+      "edesk_number": "E0000077134",
+      "edesk_status": "active",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": null,
+      "re_iam_identity_id": null
+    },
+    "natural_person": {
+      "type": null,
+      "name": null,
+      "given_names": [
+        "Hans-Gunther"
+      ],
+      "preferred_given_name": null,
+      "given_family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Onases"
+        }
+      ],
+      "family_names": [
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "von"
+        },
+        {
+          "primary": null,
+          "prefix": null,
+          "value": "Drebenbusch-DalgoBen"
+        }
+      ],
+      "legal_name": null,
+      "other_name": null,
+      "prefixes": [],
+      "suffixes": [],
+      "alternative_names": [],
+      "gender": null,
+      "marital_status": "nezistené",
+      "vital_status": null,
+      "nationality": null,
+      "occupation": null,
+      "birth": {
+        "date": "1965-01-01",
+        "country": null,
+        "district": null,
+        "municipality": null,
+        "part": null
+      },
+      "death": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": null,
+        "region": null,
+        "district": null,
+        "municipality": null,
+        "part": null,
+        "street": "Arcacia Avenue",
+        "building_number": "22",
+        "registration_number": null,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "SW1A 1AA",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [],
+    "phones": []
+  },
+  {
+    "ids": [
+      {
+        "type": "sector_upvs",
+        "value": "2de09a10-2dac-45fe-a7f2-535bd4cef15b"
+      }
+    ],
+    "uri": "ico://sk/42156424_10021",
+    "en": "E0000081016",
+    "type": "institution_of_public_administration",
+    "status": "activated",
+    "name": "Národná agentúra pre sieťové a elektronické služby: MUKP",
+    "suffix": 10021,
+    "various_ids": [
+      {
+        "type": {
+          "id": "7",
+          "name": "IČO (Identifikačné číslo organizácie)",
+          "description": null
+        },
+        "value": "42156424",
+        "specified": true
+      }
+    ],
+    "upvs": {
+      "edesk_number": "E0000081016",
+      "edesk_status": "deliverable",
+      "edesk_remote_uri": null,
+      "edesk_cuet_delivery_enabled": false,
+      "edesk_delivery_limited": false,
+      "enotify_preferred_channel": null,
+      "enotify_preferred_calendar": null,
+      "enotify_emergency_allowed": null,
+      "enotify_email_allowed": null,
+      "enotify_sms_allowed": null,
+      "preferred_language": null,
+      "re_iam_identity_id": "253140"
+    },
+    "corporate_body": {
+      "cin": "42156424",
+      "tin": null,
+      "organization_id": null,
+      "organization_units": [],
+      "name": "Národná agentúra pre sieťové a elektronické služby: MUKP",
+      "alternative_names": [],
+      "legal_form": {
+        "id": "331",
+        "name": "Príspevková organizácia",
+        "description": null
+      },
+      "legal_facts": [],
+      "activities": [],
+      "established_on": null,
+      "terminated_on": null,
+      "updated_on": null
+    },
+    "addresses": [
+      {
+        "type": "resident",
+        "inline": null,
+        "country": {
+          "id": "703",
+          "name": "Slovenská republika",
+          "description": null
+        },
+        "region": null,
+        "district": {
+          "id": "SK0102",
+          "name": "Okres Bratislava II",
+          "description": null
+        },
+        "municipality": {
+          "id": "SK0102529320",
+          "name": "Bratislava - mestská časť Ružinov",
+          "description": null
+        },
+        "part": null,
+        "street": "Trnavská cesta",
+        "building_number": null,
+        "registration_number": 100,
+        "unit": null,
+        "building_index": null,
+        "delivery_address": {
+          "postal_code": "82101",
+          "post_office_box": null,
+          "recipient": null
+        },
+        "ra_entry": null,
+        "specified": true
+      }
+    ],
+    "emails": [],
+    "phones": []
+  }
+]

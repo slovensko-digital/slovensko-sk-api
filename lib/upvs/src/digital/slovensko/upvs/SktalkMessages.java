@@ -25,9 +25,19 @@ import static javax.xml.transform.OutputKeys.INDENT;
 import static javax.xml.transform.OutputKeys.OMIT_XML_DECLARATION;
 
 public final class SktalkMessages {
+  private static final JAXBContext JAXB_CONTEXT = newJaxbContext(SKTalkMessage.class);
+
   private static final String INDENT_AMOUNT = "{http://xml.apache.org/xslt}indent-amount";
 
   private SktalkMessages() {}
+
+  private static JAXBContext newJaxbContext(final Class<?> ... classes) {
+    try {
+      return JAXBContext.newInstance(classes);
+    } catch (JAXBException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
   public static SKTalkMessage copyOf(final Object message) throws JAXBException, TransformerException {
     if (message instanceof SKTalkMessage) {
@@ -48,8 +58,7 @@ public final class SktalkMessages {
   }
 
   public static SKTalkMessage fromXml(final String content) throws JAXBException {
-    JAXBContext context = JAXBContext.newInstance(SKTalkMessage.class);
-    Unmarshaller unmarshaller = context.createUnmarshaller();
+    Unmarshaller unmarshaller = JAXB_CONTEXT.createUnmarshaller();
 
     StringReader reader = new StringReader(content);
     StreamSource source = new StreamSource(reader);
@@ -61,8 +70,7 @@ public final class SktalkMessages {
   }
 
   public static String toXml(final SKTalkMessage message) throws JAXBException, TransformerException {
-    JAXBContext context = JAXBContext.newInstance(SKTalkMessage.class);
-    Marshaller marshaller = context.createMarshaller();
+    Marshaller marshaller = JAXB_CONTEXT.createMarshaller();
 
     marshaller.setProperty(JAXB_FRAGMENT, true);
     marshaller.setProperty(JAXB_FORMATTED_OUTPUT, true);

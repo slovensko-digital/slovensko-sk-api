@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ns1:GetIdentityFault xmlns:ns1="http://schemas.gov.sk/identity/service/1.7">
+  <faultCode>00074421</faultCode>
+  <faultMessage>Nastala chyba: IDENTITY_ID_FAULT</faultMessage>
+</ns1:GetIdentityFault>

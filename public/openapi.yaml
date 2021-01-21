@@ -1,31 +1,41 @@
+# TODO split this large file into separate files: main (this) + defs per scope (cuet, edesk, ...)
+# TODO change extension to yml (since we use yml everywhere)
+
 openapi: 3.0.0
 
 info:
   title: slovensko.sk API
-  version: 1.0.0
+  version: 6.2.2
 
   description: |
-    slovensko.sk API je proxy API komponent vystavujúci cez REST API služby www.slovensko.sk (Ústredný portál verejnej správy - ÚPVS), pomocou ktorých je možné:
+    slovensko.sk API je proxy REST API komponent k službám www.slovensko.sk (Ústredný portál verejnej správy – ÚPVS), pomocou ktorých je možné:
 
+    **Komunitná verzia** (EUPL 1.2 licencia)
     - uskutočniť prihlásenie pomocou ÚPVS (pomocou elektronického občianskeho preukazu) a získať údaje o prihlásenom subjekte,
     - podávať podania v mene subjektu, ktorý sa prihlásil cez ÚPVS alebo pomocou technického účtu,
-    - validovať či je určitá správa vo formáte SKTalk validná voči aktuálnej definícii formuláru (podporná funkcia).
+    - skontrolovať či je daná správa vo formáte SKTalk validná voči aktuálnej definícii formuláru (podporná funkcia).
+
+    **Prémium verzia** (komerčná licencia)
+    - manipulovať s obsahom el. schránky a preberať poštu do vlastných rúk,
+    - ukladať záznamy do dlhodobého úložiska registratúrnych záznamov,
+    - zverejnovať dokumenty na centrálnej úradnej tabuli (dostupné len pre OVM),
+    - podpisovať správy pomocou kvalifikovanej pečate uloženej v úložisku na slovensko.sk,
+    - informatívne overovať podpisy na elektronicky podpísaných dokumentoch,
+    - vyhľadávať subjekty (právnické a fyzické osoby) za účelom zasielania správ (dostupné len pre OVM).
 
   contact:
-    name: Slovensko.Digital
-    url: https://slovensko.digital
+    name: Služby Slovensko.Digital, s.r.o.
+    url: https://ekosystem.slovensko.digital
     email: ekosystem@slovensko.digital
 
-  license:
-    name: European Union Public License 1.2
-    url: https://opensource.org/licenses/EUPL-1.2
-
 servers:
-- description: Server v ÚPVS PROD prostredí
-  url: https://slovensko-sk-api.ekosystem.slovensko.digital
+  - description: Server v ÚPVS FIX prostredí
+    url: https://fix.slovensko-sk-api.staging.slovensko.digital
+  - description: Server v ÚPVS DEV prostredí
+    url: https://dev.slovensko-sk-api.staging.slovensko.digital
 
-- description: Server v ÚPVS DEV prostredí
-  url: https://slovensko-sk-api.ekosystem.staging.slovensko.digital
+# TODO check if response codes specified here match response codes in API controllers
+# TODO consider using 201 when creating stuff, for example return 201 when successfully sending sktalk message: receive_result == 0 (a resource -- message is created) but return 202 when unsuccessfully sending sktalk message: receive_result != 0
 
 paths:
   /login:
@@ -42,10 +52,10 @@ paths:
         - name: callback
           in: query
           required: true
-          description: Callback URL, na ktorú bude používateľ presmerovaný po úspešnom prihlásení. Callback URL musí byť prefixom jednej zo zaregistrovaných adries na úrovni API komponentu, musí mať rovnakú doménu a schému.
+          description: Callback URL, na ktorú bude používateľ presmerovaný po úspešnom prihlásení. Callback URL musí byť rovnaká ako niektorá z adries nastavených na úrovni API komponentu alebo musí byť rozšírením niektorej z týchto adries.
           schema:
             type: string
-            format: URL
+            format: url
       responses:
         302:
           description: Úspešné presmerovanie na prihlasovaciu stránku ÚPVS a následne na callback URL tretej strany.
@@ -75,7 +85,7 @@ paths:
                         }
                   schema:
                     type: string
-                    format: JWT
+                    format: jwt
               responses:
                 200:
                   description: Úspešné prihlásenie.
@@ -92,10 +102,10 @@ paths:
         - name: callback
           in: query
           required: true
-          description: Callback URL, na ktorú bude používateľ presmerovaný po úspešnom odhlásení. Callback URL musí byť prefixom jednej zo zaregistrovaných adries na úrovni API komponentu, musí mať rovnakú doménu a schému.
+          description: Callback URL, na ktorú bude používateľ presmerovaný po úspešnom odhlásení. Callback URL musí byť rovnaká ako niektorá z adries nastavených na úrovni API komponentu alebo musí byť rozšírením niektorej z týchto adries.
           schema:
             type: string
-            format: URL
+            format: url
       responses:
         302:
           description: Úspešné presmerovanie na callback URL tretej strany.
@@ -109,6 +119,36 @@ paths:
       security:
         - 'API + OBO Token': []
 
+  /api/upvs/sso/assertion:
+    get:
+      tags: [Informácie o prihlásenom používateľovi]
+      summary: Vráti informácie o prihlásenom používateľovi
+      description: |
+        Vráti informácie o prihlásenom používateľovi.
+      parameters:
+        - name: Accept
+          in: header
+          required: true
+          schema:
+            type: string
+            format: mime
+            example: application/samlassertion+xml
+      responses:
+        200:
+          description: Úspešne vrátené informácie o prihlásenom používateľovi.
+          content:
+            application/samlassertion+xml:
+              schema:
+                type: string
+                format: saml
+                xml:
+                  prefix: saml
+                  name: Assertion
+                  namespace: urn:oasis:names:tc:SAML:2.0:assertion
+                example: ...
+      security:
+        - 'API + OBO Token': []
+
   /api/sktalk/receive:
     post:
       tags: [Zasielanie podaní]
@@ -118,8 +158,9 @@ paths:
 
         Za normálnych okolností je potrebné odoslanú správu následne uložiť medzi odoslané správy v schránke. Využite endpoint `api/sktalk/save_to_outbox` alebo `api/sktalk/receive_and_save_to_outbox`.
       requestBody:
+        required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
               type: object
               properties:
@@ -127,7 +168,7 @@ paths:
                   description: SKTalk správa vo formáte XML.
                   type: string
                   format: xml
-                  example: <SKTalkMessage> ...
+                  example: <SKTalkMessage ...
               required:
                 - message
       responses:
@@ -137,6 +178,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SktalkReceiveResult'
+              examples:
+                'Úspešné odoslanie':
+                  value:
+                    receive_result: 0
+                'Neúspešné odoslanie':
+                  value:
+                    receive_result: 3100101
       security:
         - 'API Token': []
         - 'API + OBO Token': []
@@ -152,8 +200,9 @@ paths:
 
         *Volanie neuloží správu medzi odoslané ak výsledok odoslania nemá hodnotu `0` alebo ak prišlo k vypršaniu času požiadavky na ÚPVS.*
       requestBody:
+        required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
               type: object
               properties:
@@ -161,7 +210,7 @@ paths:
                   description: SKTalk správa vo formáte XML.
                   type: string
                   format: xml
-                  example: <SKTalkMessage> ...
+                  example: <SKTalkMessage ...
               required:
                 - message
       responses:
@@ -173,23 +222,11 @@ paths:
                 $ref: '#/components/schemas/SktalkReceiveAndSaveToOutboxResult'
               examples:
                 'Úspešné odoslanie a úspešné uloženie':
-                  value:
-                    receive_result: 0
-                    receive_timeout: false
-                    save_to_outbox_result: 0
-                    save_to_outbox_timeout: false
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutbox'
                 'Úspešné odoslanie a neúspešné uloženie':
-                  value:
-                    receive_result: 0
-                    receive_timeout: false
-                    save_to_outbox_result: 3100101
-                    save_to_outbox_timeout: false
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithNonZeroSave'
                 'Neúspešné odoslanie':
-                  value:
-                    receive_result: 3100101
-                    receive_timeout: false
-                    save_to_outbox_result: null
-                    save_to_outbox_timeout: null
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithNonZeroReceive'
         408:
           description: Neúspešné odoslanie SKTalk správy alebo uloženie medzi odoslané správy v schránke ak prišlo k vypršaniu času požiadavky na ÚPVS.
           content:
@@ -197,18 +234,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/SktalkReceiveAndSaveToOutboxResult'
               examples:
-                'Neúspešné odoslanie':
-                  value:
-                    receive_result: null
-                    receive_timeout: true
-                    save_to_outbox_result: null
-                    save_to_outbox_timeout: null
                 'Úspešné odoslanie a neúspešné uloženie':
-                  value:
-                    receive_result: 0
-                    receive_timeout: false
-                    save_to_outbox_result: null
-                    save_to_outbox_timeout: true
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithSaveTimeout'
+                'Neúspešné odoslanie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithReceiveTimeout'
       security:
         - 'API Token': []
         - 'API + OBO Token': []
@@ -222,8 +251,9 @@ paths:
 
         Za normálnych okolností je potrebné uloženú správu predtým odoslať. Využite endpoint `api/sktalk/receive` alebo `api/sktalk/receive_and_save_to_outbox`.
       requestBody:
+        required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
               type: object
               properties:
@@ -231,7 +261,7 @@ paths:
                   description: SKTalk správa vo formáte XML.
                   type: string
                   format: xml
-                  example: <SKTalkMessage> ...
+                  example: <SKTalkMessage ...
               required:
                 - message
       responses:
@@ -241,6 +271,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SktalkSaveToOutboxResult'
+              examples:
+                'Úspešné uloženie':
+                  value:
+                    save_to_outbox_result: 0
+                'Neúspešné uloženie':
+                  value:
+                    save_to_outbox_result: 3100101
       security:
         - 'API Token': []
         - 'API + OBO Token': []
@@ -251,32 +288,38 @@ paths:
       summary: Zvaliduje dáta voči definícii formuláru
       description: |
         Zvaliduje dáta voči definícii formuláru.
+      parameters:
+        - name: identifier
+          in: query
+          required: true
+          description: Identifikátor formuláru.
+          schema:
+            type: string
+            example: App.GeneralAgenda
+        - name: version
+          in: query
+          required: true
+          description: Verzia formuláru.
+          schema:
+            type: string
+            example: 1.9
       requestBody:
+        required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
               type: object
               properties:
-                identifier:
-                  description: Identifikátor formuláru.
-                  type: string
-                  example: App.GeneralAgenda
-                version:
-                  description: Verzia formuláru.
-                  type: string
-                  example: 1.9
                 form:
-                  description: Dáta formuláru.
+                  description: Dáta formuláru vo formáte XML.
                   type: string
                   format: xml
-                  example: <GeneralAgenda> ...
+                  example: <GeneralAgenda ...
               required:
-                - identifier
-                - version
                 - form
       responses:
         200:
-          description: Úspešné validovanie dát voči definícii formuláru.
+          description: Úspešne zvalidované dáta voči definícii formuláru.
           content:
             application/json:
               schema:
@@ -333,15 +376,1214 @@ paths:
       security:
         - 'API Token': []
 
-  /api/upvs/user/info:
+  /api/edesk/folders:
     get:
-      tags: [Informácie o prihlásenom používateľovi]
-      summary: Vráti informácie o prihlásenom používateľovi
+      tags: [Manipulácia so schránkou]
+      summary: Vráti zoznam priečinkov v schránke
       description: |
-        Vráti informácie o prihlásenom používateľovi ako ÚPVS profil identity.
+        Vráti zoznam priečinkov v schránke.
       responses:
         200:
-          description: Úspešne vrátený profil identity.
+          description: Úspešne vrátený zoznam priečinkov v schránke.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EdeskFolder'
+      security:
+        - 'API Token': []
+
+  /api/edesk/folders/{id}/messages:
+    get:
+      tags: [Manipulácia so schránkou]
+      summary: Vráti zoznam správ v priečinku schránky
+      description: |
+        Vráti zoznam správ v priečinku schránky.
+      parameters:
+        - $ref: '#/components/parameters/EdeskFolderId'
+        - name: page
+          in: query
+          required: false
+          description: Číslo stránky zoznamu správ.
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+            example: 1
+        - name: per_page
+          in: query
+          required: false
+          description: Počet správ na stránke zoznamu.
+          schema:
+            type: integer
+            minimum: 10
+            maximum: 5000
+            default: 50
+            example: 50
+      responses:
+        200:
+          description: Úspešne vrátený zoznam správ v priečinku schránky.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EdeskHeader'
+      security:
+        - 'API Token': []
+
+  /api/edesk/messages/{id}:
+    get:
+      tags: [Manipulácia so schránkou]
+      summary: Vráti správu zo schránky
+      description: |
+        Vráti správu zo schránky.
+      parameters:
+        - $ref: '#/components/parameters/EdeskMessageId'
+      responses:
+        200:
+          description: Úspešne vrátená správa zo schránky.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EdeskMessage'
+              examples:
+                EGOV_DOCUMENT:
+                  value:
+                    id: 4898662475
+                    class: EGOV_DOCUMENT
+                    message_id: 7acc32dd-1586-4103-8634-ba0707820e2e
+                    correlation_id: 8a6a31c1-0d54-46c8-aac1-12465162b913
+                    reference_id: 00000000-0000-0000-0000-000000000000
+                    posp_id: Doc.GeneralAgendaFiction
+                    posp_version: 1.5
+                    sender_uri: ico://sk/42156424_90000
+                    recipient_uri: ico://sk/83110656
+                    type: Doc.GeneralAgendaFiction
+                    subject: Všeobecná agenda - rozhodnutie do vlastných rúk s fikciou doručenia
+                    sender_business_reference: null
+                    recipient_business_reference: null
+                    objects:
+                      - id: a8529890-258c-4be8-8a71-28a66e523730
+                        name: Všeobecná agenda - Všeobecná agenda - rozhodnutie do vlastných rúk s fikciou doručenia
+                        description: null
+                        class: FORM
+                        signed: false
+                        mime_type: application/x-eform-xml
+                        encoding: XML
+                        content: <GeneralAgenda ...
+                    original_html: <!DOCTYPE html ...
+                    original_xml: <SKTalkMessage ...
+                    delivered_at: '2017-03-22T11:49:43.357+01:00'
+                    parse_error: false
+                ED_DELIVERY_NOTIFICATION:
+                  value:
+                    id: 4898663168
+                    class: ED_DELIVERY_NOTIFICATION
+                    message_id: 765439ee-d757-4917-9ff3-5e77a169345a
+                    correlation_id: 3f7e5397-d823-4715-a138-a0127832b184
+                    reference_id: ec8c3281-b038-4637-bf8a-b8ebed8cca05
+                    posp_id: null
+                    posp_version: null
+                    sender_uri: ico://sk/42156424_90000
+                    recipient_uri: ico://sk/83110656
+                    type: ED.DeliveryReportNotification
+                    subject: Doručenka
+                    sender_business_reference: ec8c3281-b038-4637-bf8a-b8ebed8cca05
+                    recipient_business_reference: null
+                    objects:
+                      - id: 03114956-3301-4b5e-b280-4fddf38ee3b4
+                        name: Doručenka
+                        description: null
+                        class: FORM
+                        signed: false
+                        mime_type: application/x-eform-xml
+                        encoding: XML
+                        content: <DeliveryReportNotification ...
+                    original_html: <!DOCTYPE html ...
+                    original_xml: <SKTalkMessage ...
+                    delivered_at: '2017-03-23T09:31:09.580+01:00'
+                    delivery_notification:
+                      authorize_url: 'https://dev.slovensko-sk-api.staging.slovensko.digital/api/edesk/messages/4898663168/authorize'
+                      consignment:
+                        message_id: ec8c3281-b038-4637-bf8a-b8ebed8cca05
+                        message_type: Doc.GeneralAgendaReport
+                        message_subject: Všeobecná agenda - rozhodnutie do vlastných rúk
+                        attachments:
+                          - id: d69d59d6-7d57-4995-8423-f8de5ca3e9f6
+                            name: Všeobecná agenda - rozhodnutie do vlastných rúk
+                        note: Po uplynutí dátumu doručenia sa doručovaná správa považuje za nedoručenú.
+                      delivery_period: 15
+                      delivery_period_end_at: '2017-04-08T00:00:00+02:00'
+                      received_at: '2017-03-23T09:31:06.7209861+01:00'
+                    parse_error: false
+      security:
+        - 'API Token': []
+
+    patch:
+      tags: [Manipulácia so schránkou]
+      summary: Presunie správu do iného priečinka v schránke
+      description: |
+        Presunie správu do iného priečinka v schránke.
+
+        *Volanie vráti neúspešnú odpoveď v prípade keď správa alebo priečinok neexistuje.*
+      parameters:
+        - $ref: '#/components/parameters/EdeskMessageId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                folder_id:
+                  description: Identifikátor cieľového priečinka v schránke.
+                  type: integer
+              required:
+                - folder_id
+      responses:
+        204:
+          description: Úspešne presunutá správa do iného priečinka v schránke.
+      security:
+        - 'API Token': []
+
+    delete:
+      tags: [Manipulácia so schránkou]
+      summary: Vymaže správu zo schránky
+      description: |
+        Vymaže správu zo schránky.
+
+        *Volanie vráti úspešnú odpoveď aj v prípade keď správa už bola vymazaná alebo neexistuje.*
+      parameters:
+        - $ref: '#/components/parameters/EdeskMessageId'
+      responses:
+        204:
+          description: Úspešne vymazaná správa zo schránky.
+      security:
+        - 'API Token': []
+
+  /api/edesk/messages/{id}/authorize:
+    post:
+      tags: [Manipulácia so schránkou]
+      summary: Autorizuje doručenku v schránke
+      description: |
+        Autorizuje doručenku v schránke.
+      parameters:
+        - $ref: '#/components/parameters/EdeskMessageId'
+      responses:
+        200:
+          description: Úspešne autorizovaná doručenka v schránke.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SktalkReceiveResult'
+      security:
+        - 'API Token': []
+
+  /api/cep/sign:
+    post:
+      tags: [Podpisovanie]
+      summary: Podpíše súbor elektronickou pečaťou
+      description: |
+        Podpíše súbor elektronickou pečaťou.
+
+        Umožňuje aj pridanie podpisu k už podpísanému dokumentu.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                request_id:
+                  description: Identifikátor požiadavky.
+                  type: string
+                  format: uuid
+                signature_version:
+                  description: Verzia profilu XAdES-ZEP 1.0, 1.1 alebo 2.0 podpisu.
+                  type: string
+                  enum: [1.0, 1.1, 2.0]
+                objects:
+                  type: array
+                  items:
+                    allOf:
+                      - $ref: '#/components/schemas/CepSigningObject'
+                      - type: object
+                        properties:
+                          certificate_type:
+                            description: |
+                              Typ výberu podpisového certifikátu:
+                                - `Issuer` znamená výber certifikátu podľa vydavateľa a sériového čísla, ktoré sú uvedené v atribúte `certificate_issuer`,
+                                - `Subject` znamená výber certifikátu podľa subjektu v certifikáte, ktorý je uvedený v atribúte `certificate_subject`,
+                                - `UPVS` znamená výber certifikátu podateľne,
+                                - `URI` znamená výber certifikátu podľa URI evidovaného na strane ÚPVS, ktorý je uvedený v atribúte `certificate_uri`.
+                            type: string
+                            enum: [Issuer, Subject, UPVS, URI]
+                            example: Subject
+                          certificate_issuer:
+                            description: Vydavateľ podpisového certifikátu, iba pre typ `Issuer`.
+                            type: string
+                            format: base64
+                          certificate_serial_number:
+                            description: Sériové číslo podpisového certifikátu, iba pre typ `Issuer`.
+                            type: string
+                            format: base64
+                          certificate_subject:
+                            description: Subjekt podpisového certifikátu, iba pre typ `Subject`.
+                            type: string
+                            example: C=SK,CN= ...
+                          certificate_uri:
+                            description: URI podpisového certifikátu, iba pre typ `URI`.
+                            type: string
+                            format: uri
+                            example: ico://sk/83369509
+                          signature_type:
+                            description: Typ podpisu.
+                            type: string
+                            enum: [ASiC-E CAdES, ASiC-E XAdES, CAdES, PAdES, XAdES]
+                            example: ASiC-E CAdES
+                        required:
+                          - certificate_type
+                          - signature_type
+                        example:
+                          certificate_type: Subject
+                          certificate_subject: C=SK,CN= ...
+                          signature_type: XAdES
+                visualization_type:
+                  description: Typ podpisovej vizualizácie. Poznámka, v prípade hodnoty `XML` sa použije `TXT` vizualizácia.
+                  type: string
+                  enum: [HTML, XHTML, XML]
+                visualization_uri:
+                  description: Identifikátor podpisovej vizualizácie.
+                  type: string
+                  format: uri
+                  example: http://data.gov.sk/doc/eform/App.GeneralAgenda/1.9/Content/form.185.sb.xslt
+                pdf_verification:
+                  description: Indikátor overenia obsahu objektu podľa štandardu PDF/A-1a.
+                  type: boolean
+              required:
+                - objects
+      responses:
+        200:
+          description: Úspešne podpísaný súbor elektronickou pečaťou.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  request_id:
+                    description: Identifikátor požiadavky.
+                    type: string
+                    format: uuid
+                  sign_result:
+                    description: Kód výsledku podpísania.
+                    type: integer
+                    example: 0
+                  sign_description:
+                    description: Popis výsledku podpísania.
+                    type: string
+                    example: OK
+                  signed_objects:
+                    description: Podpísané objekty.
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CepSignedObject'
+                required:
+                  - sign_result
+                  - sign_description
+      security:
+        - 'API Token': []
+
+  /api/cep/verify:
+    post:
+      tags: [Podpisovanie]
+      summary: Informatívne overí podpisy na súbore
+      description: |
+        Informatívne overí podpisy na súbore. Informácie o overení ZEP vracia na základe údajov, ktoré má k dispozícii v čase volania.
+
+        Pre formáty podpisov bez časovej pečiatky nezabezpečuje ich rozšírenie o časovú pečiatku.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  description: Obsah objektu zakódovaný podľa Base64. Môže ísť o objekt ASiC-E CAdES, ASiC-E XAdES, CAdES, PAdES, XAdES alebo MessageContainer.
+                  type: string
+                  format: base64
+                  example: UEsDBBQAAAgAANS0XU+K ...
+              required:
+                - content
+      responses:
+        200:
+          description: Úspešne informatívne overené podpisy na súbore.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  verify_result:
+                    description: Kód výsledku overenia.
+                    type: integer
+                    example: 0
+                  verify_description:
+                    description: Popis výsledku overenia.
+                    type: string
+                    example: OK
+                  verified_objects:
+                    description: Overené objekty.
+                    type: array
+                    items:
+                      oneOf:
+                        - $ref: '#/components/schemas/CepVerifiedAsicCadesObject'
+                        - $ref: '#/components/schemas/CepVerifiedAsicXadesObject'
+                        - $ref: '#/components/schemas/CepVerifiedCadesObject'
+                        - $ref: '#/components/schemas/CepVerifiedPadesObject'
+                        - $ref: '#/components/schemas/CepVerifiedXadesObject'
+                required:
+                  - verify_result
+                  - verify_description
+      security:
+        - 'API Token': []
+
+  /api/mdurz/records:
+    post:
+      tags: [Dlhodobé úložisko]
+      summary: Vloží nový záznam do úložiska
+      description: |
+        Odošle požiadavku na vloženie nového záznamu do úložiska. Do schránky príde odpoveď s SKTalk triedou `MDURZ_INGEST_REPLY_04`. Voči zaslanej požiadavke je možné párovanie cez poskytnutý `request_id`.
+
+        *Volanie automaticky validuje, či je interne používaná správna verzia formulára. Nie je potrebné kontrolovať validitu formulára externe.*
+      parameters:
+        - name: request_id
+          in: query
+          required: true
+          description: Identifikátor požiadavky.
+          schema:
+            type: string
+            format: uuid
+        - name: custom_id
+          in: query
+          required: true
+          description: Značka záznamu.
+          schema:
+            type: string
+        - name: title
+          in: query
+          required: true
+          description: Názov záznamu.
+          schema:
+            type: string
+        - name: description
+          in: query
+          required: true
+          description: Popis záznamu.
+          schema:
+            type: string
+        - name: access
+          in: query
+          required: true
+          description: |
+            Indikátor dostupnosti záznamu:
+              - `PUBLIC` verejný,
+              - `PRIVATE` súkromný.
+          schema:
+            type: string
+            enum: [PUBLIC, PRIVATE]
+        - name: retention_period
+          in: query
+          required: true
+          description: |
+            Dĺžka uchovania záznamu:
+              - `R1` uchovanie na 1 rok,
+              - `R2` uchovanie na 2 roky,
+              - `R5` uchovanie na 5 rokov.
+          schema:
+            type: string
+            enum: [R1, R3, R5]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message_id:
+                  type: string
+                  format: uuid
+                correlation_id:
+                  type: string
+                  format: uuid
+                sender_uri:
+                  type: string
+                  format: uri
+                recipient_uri:
+                  type: string
+                  format: uri
+                objects:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/EdeskMessageObject'
+              required:
+                - message_id
+                - correlation_id
+                - sender_uri
+                - recipient_uri
+                - objects
+      responses:
+        200:
+          description: Úspešné odoslanie požiadavky na vloženie nového záznamu do úložiska.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SktalkReceiveAndSaveToOutboxResult'
+              examples:
+                'Úspešné odoslanie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithNoSave'
+                'Úspešné odoslanie a úspešné uloženie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutbox'
+                'Úspešné odoslanie a neúspešné uloženie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithNonZeroSave'
+                'Neúspešné odoslanie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithNonZeroReceive'
+        408:
+          description: Neúspešné odoslanie požiadavky na vloženie nového záznamu do úložiska ak prišlo k vypršaniu času požiadavky na ÚPVS.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SktalkReceiveAndSaveToOutboxResult'
+              examples:
+                'Úspešné odoslanie a neúspešné uloženie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithSaveTimeout'
+                'Neúspešné odoslanie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithReceiveTimeout'
+      security:
+        - 'API Token': []
+
+  /api/mdurz/records/{id}:
+    patch:
+      tags: [Dlhodobé úložisko]
+      summary: Zmení popisné údaje záznamu v úložisku
+      description: |
+        Odošle požiadavku na zmenu popisných údajov záznamu v úložisku. Do schránky príde odpoveď s SKTalk triedou `MDURZ_SET_METADATA_REPLY_04`. Voči zaslanej požiadavke je možné párovanie cez poskytnutý `request_id`.
+
+        *Volanie automaticky validuje, či je interne používaná správna verzia formulára. Nie je potrebné kontrolovať validitu formulára externe.*
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Identifikátor záznamu v úložisku.
+          schema:
+            type: string
+            format: uuid
+        - name: request_id
+          in: query
+          required: true
+          description: Identifikátor požiadavky.
+          schema:
+            type: string
+            format: uuid
+        - name: custom_id
+          in: query
+          required: true
+          description: Nová značka záznamu.
+          schema:
+            type: string
+        - name: title
+          in: query
+          required: true
+          description: Nový názov záznamu.
+          schema:
+            type: string
+        - name: description
+          in: query
+          required: true
+          description: Nový popis záznamu.
+          schema:
+            type: string
+        - name: access
+          in: query
+          required: true
+          description: |
+            Nový indikátor dostupnosti záznamu:
+              - `PUBLIC` verejný,
+              - `PRIVATE` súkromný.
+          schema:
+            type: string
+            enum: [PUBLIC, PRIVATE]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message_id:
+                  type: string
+                  format: uuid
+                correlation_id:
+                  type: string
+                  format: uuid
+                sender_uri:
+                  type: string
+                  format: uri
+                recipient_uri:
+                  type: string
+                  format: uri
+              required:
+                - message_id
+                - correlation_id
+                - sender_uri
+                - recipient_uri
+      responses:
+        200:
+          description: Úspešné odoslanie požiadavky na zmenu popisných údajov záznamu v úložisku.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SktalkReceiveAndSaveToOutboxResult'
+              examples:
+                'Úspešné odoslanie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithNoSave'
+                'Úspešné odoslanie a úspešné uloženie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutbox'
+                'Úspešné odoslanie a neúspešné uloženie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithNonZeroSave'
+                'Neúspešné odoslanie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithNonZeroReceive'
+        408:
+          description: Neúspešné odoslanie požiadavky na zmenu popisných údajov záznamu v úložisku ak prišlo k vypršaniu času požiadavky na ÚPVS.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SktalkReceiveAndSaveToOutboxResult'
+              examples:
+                'Úspešné odoslanie a neúspešné uloženie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithSaveTimeout'
+                'Neúspešné odoslanie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithReceiveTimeout'
+      security:
+        - 'API Token': []
+
+    delete:
+      tags: [Dlhodobé úložisko]
+      summary: Vyradí záznam z úložiska
+      description: |
+        Odošle požiadavku na vyradenie záznamu z úložiska. Do schránky príde odpoveď s SKTalk triedou `MDURZ_CANCEL_PRESERVATION_REPLY_04` obsahujúca uložený záznam. Voči zaslanej požiadavke je možné párovanie cez poskytnutý `request_id`.
+
+        *Volanie automaticky validuje, či je interne používaná správna verzia formulára. Nie je potrebné kontrolovať validitu formulára externe.*
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Identifikátor záznamu v úložisku.
+          schema:
+            type: string
+            format: uuid
+        - name: request_id
+          in: query
+          required: true
+          description: Identifikátor požiadavky.
+          schema:
+            type: string
+            format: uuid
+        - name: destination
+          in: query
+          required: true
+          description: Cieľ poskytnutia záznamu.
+          schema:
+            type: string
+            enum: [EDESK, NONE]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message_id:
+                  type: string
+                  format: uuid
+                correlation_id:
+                  type: string
+                  format: uuid
+                sender_uri:
+                  type: string
+                  format: uri
+                recipient_uri:
+                  type: string
+                  format: uri
+              required:
+                - message_id
+                - correlation_id
+                - sender_uri
+                - recipient_uri
+      responses:
+        200:
+          description: Úspešné odoslanie požiadavky na vyradenie záznamu z úložiska.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SktalkReceiveAndSaveToOutboxResult'
+              examples:
+                'Úspešné odoslanie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithNoSave'
+                'Úspešné odoslanie a úspešné uloženie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutbox'
+                'Úspešné odoslanie a neúspešné uloženie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithNonZeroSave'
+                'Neúspešné odoslanie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithNonZeroReceive'
+        408:
+          description: Neúspešné odoslanie požiadavky na vyradenie záznamu z úložiska ak prišlo k vypršaniu času požiadavky na ÚPVS.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SktalkReceiveAndSaveToOutboxResult'
+              examples:
+                'Úspešné odoslanie a neúspešné uloženie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithSaveTimeout'
+                'Neúspešné odoslanie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithReceiveTimeout'
+      security:
+        - 'API Token': []
+
+  /api/mdurz/records/{id}/extend:
+    patch:
+      tags: [Dlhodobé úložisko]
+      summary: Predĺži dobu uchovania záznamu v úložisku
+      description: |
+        Odošle požiadavku na predĺženie doby uchovania záznamu v úložisku. Do schránky príde odpoveď s SKTalk triedou `MDURZ_EXTEND_PRESERVATION_REPLY_04` obsahujúca uložený záznam. Voči zaslanej požiadavke je možné párovanie cez poskytnutý `request_id`.
+
+        MDURZ zasiela notifikačné správy o blížiacej sa končicej lehote s SKTalk triedou `MDURZ_EXPIRATION_WARNING_04` a notifikačné správy o expirovanom zázname s SKTalk triedou `MDURZ_EXPIRATION_NOTIFICATION_04`.
+
+        *Volanie automaticky validuje, či je interne používaná správna verzia formulára. Nie je potrebné kontrolovať validitu formulára externe.*
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Identifikátor záznamu v úložisku.
+          schema:
+            type: string
+            format: uuid
+        - name: request_id
+          in: query
+          required: true
+          description: Identifikátor požiadavky.
+          schema:
+            type: string
+            format: uuid
+        - name: retention_period
+          in: query
+          required: true
+          description: |
+            Dĺžka uchovania záznamu:
+              - `R1` predĺženie o 1 rok,
+              - `R2` predĺženie o 2 roky,
+              - `R5` predĺženie o 5 rokov.
+          schema:
+            type: string
+            enum: [R1, R3, R5]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message_id:
+                  type: string
+                  format: uuid
+                correlation_id:
+                  type: string
+                  format: uuid
+                sender_uri:
+                  type: string
+                  format: uri
+                recipient_uri:
+                  type: string
+                  format: uri
+              required:
+                - message_id
+                - correlation_id
+                - sender_uri
+                - recipient_uri
+      responses:
+        200:
+          description: Úspešné odoslanie požiadavky na predĺženie doby uchovania záznamu v úložisku.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SktalkReceiveAndSaveToOutboxResult'
+              examples:
+                'Úspešné odoslanie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithNoSave'
+                'Úspešné odoslanie a úspešné uloženie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutbox'
+                'Úspešné odoslanie a neúspešné uloženie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithNonZeroSave'
+                'Neúspešné odoslanie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithNonZeroReceive'
+        408:
+          description: Neúspešné odoslanie požiadavky na predĺženie doby uchovania záznamu v úložisku ak prišlo k vypršaniu času požiadavky na ÚPVS.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SktalkReceiveAndSaveToOutboxResult'
+              examples:
+                'Úspešné odoslanie a neúspešné uloženie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithSaveTimeout'
+                'Neúspešné odoslanie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithReceiveTimeout'
+      security:
+        - 'API Token': []
+
+  /api/mdurz/records/{id}/disseminate:
+    post:
+      tags: [Dlhodobé úložisko]
+      summary: Získa záznam z úložiska
+      description: |
+        Odošle požiadavku na získanie záznamu z úložiska. Do schránky príde odpoveď s SKTalk triedou `MDURZ_DISSEMINATE_REPLY_04` obsahujúca uložený záznam. Voči zaslanej požiadavke je možné párovanie cez poskytnutý `request_id`.
+
+        *Volanie automaticky validuje, či je interne používaná správna verzia formulára. Nie je potrebné kontrolovať validitu formulára externe.*
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Identifikátor záznamu v úložisku.
+          schema:
+            type: string
+            format: uuid
+        - name: request_id
+          in: query
+          required: true
+          description: Identifikátor požiadavky.
+          schema:
+            type: string
+            format: uuid
+        - name: destination
+          in: query
+          required: true
+          description: Cieľ poskytnutia záznamu.
+          schema:
+            type: string
+            enum: [EDESK, NONE]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message_id:
+                  type: string
+                  format: uuid
+                correlation_id:
+                  type: string
+                  format: uuid
+                sender_uri:
+                  type: string
+                  format: uri
+                recipient_uri:
+                  type: string
+                  format: uri
+              required:
+                - message_id
+                - correlation_id
+                - sender_uri
+                - recipient_uri
+      responses:
+        200:
+          description: Úspešné odoslanie požiadavky na získanie záznamu z úložiska.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SktalkReceiveAndSaveToOutboxResult'
+              examples:
+                'Úspešné odoslanie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithNoSave'
+                'Úspešné odoslanie a úspešné uloženie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutbox'
+                'Úspešné odoslanie a neúspešné uloženie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithNonZeroSave'
+                'Neúspešné odoslanie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithNonZeroReceive'
+        408:
+          description: Neúspešné odoslanie požiadavky na získanie záznamu z úložiska ak prišlo k vypršaniu času požiadavky na ÚPVS.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SktalkReceiveAndSaveToOutboxResult'
+              examples:
+                'Úspešné odoslanie a neúspešné uloženie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithSaveTimeout'
+                'Neúspešné odoslanie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithReceiveTimeout'
+      security:
+        - 'API Token': []
+
+  /api/cuet/documents/publish_document:
+    post:
+      tags: [Centrálna úradná tabuľa (len OVM)]
+      summary: Zverejnení dokument
+      description: |
+        Odošle požiadavku na zverejnenie dokumentu. Do schránky príde odpoveď s SKTalk triedou `CUET_NOTIFY_ENTERING`. Voči zaslanej požiadavke je možné párovanie cez poskytnutý `request_id`.
+
+        *Volanie automaticky validuje, či je interne používaná správna verzia formulára. Nie je potrebné kontrolovať validitu formulára externe.*
+      parameters:
+        - name: request_id
+          in: query
+          required: true
+          description: Identifikátor požiadavky.
+          schema:
+            type: string
+            format: uuid
+        - name: publisher_uri
+          in: query
+          required: true
+          description: Identifikátor inštitúcie, ktorá je zverejňovateľom dokumentu.
+          schema:
+            type: string
+            format: uri
+        - name: author_uri
+          in: query
+          required: true
+          description: Identifikátor identity, ktorá je autorom dokumentu.
+          schema:
+            type: string
+            format: uri
+        - name: original_id
+          in: query
+          description: Identifikátor dokumentu, ktorý je pridelený autorom.
+          schema:
+            type: string
+            format: uuid
+        - name: name
+          in: query
+          description: Názov dokumentu.
+          required: true
+          schema:
+            type: string
+        - name: abstract
+          in: query
+          description: Abstrakt dokumentu.
+          schema:
+            type: string
+        - name: registry_mark
+          in: query
+          description: Registratúrna značka dokumentu.
+          schema:
+            type: string
+        - name: registry_number
+          in: query
+          description: Číslo registratúrneho záznamu dokumentu.
+          schema:
+            type: string
+        - name: published_from
+          in: query
+          description: Začiatok zverejnenia dokumentu.
+          schema:
+            type: string
+        - name: published_days
+          in: query
+          description: Počet dní počas ktorých má byť dokument zverejnený.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message_id:
+                  type: string
+                  format: uuid
+                correlation_id:
+                  type: string
+                  format: uuid
+                sender_uri:
+                  type: string
+                  format: uri
+                recipient_uri:
+                  type: string
+                  format: uri
+                objects:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/EdeskMessageObject'
+              required:
+                - message_id
+                - correlation_id
+                - sender_uri
+                - recipient_uri
+                - objects
+      responses:
+        200:
+          description: Úspešné odoslanie požiadavky na zverejnenie dokumentu.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SktalkReceiveAndSaveToOutboxResult'
+              examples:
+                'Úspešné odoslanie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithNoSave'
+                'Úspešné odoslanie a úspešné uloženie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutbox'
+                'Úspešné odoslanie a neúspešné uloženie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithNonZeroSave'
+                'Neúspešné odoslanie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithNonZeroReceive'
+        408:
+          description: Neúspešné odoslanie požiadavky na zverejnenie dokumentu ak prišlo k vypršaniu času požiadavky na ÚPVS.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SktalkReceiveAndSaveToOutboxResult'
+              examples:
+                'Úspešné odoslanie a neúspešné uloženie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithSaveTimeout'
+                'Neúspešné odoslanie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithReceiveTimeout'
+      security:
+        - 'API Token': []
+
+  /api/cuet/documents/deliver_by_publishing:
+    post:
+      tags: [Centrálna úradná tabuľa (len OVM)]
+      summary: Doručí dokument zverejnením
+      description: |
+        Odošle požiadavku na doručenie dokumentu zverejnením. Do schránky príde odpoveď s SKTalk triedou `CUET_NOTIFY_DELIVERY`. Voči zaslanej požiadavke je možné párovanie cez poskytnutý `request_id`.
+
+        *Volanie automaticky validuje, či je interne používaná správna verzia formulára. Nie je potrebné kontrolovať validitu formulára externe.*
+      parameters:
+        - name: request_id
+          in: query
+          required: true
+          description: Identifikátor požiadavky.
+          schema:
+            type: string
+            format: uuid
+        - name: publisher_uri
+          in: query
+          required: true
+          description: Identifikátor inštitúcie, ktorá je zverejňovateľom dokumentu.
+          schema:
+            type: string
+            format: uri
+        - name: author_uri
+          in: query
+          required: true
+          description: Identifikátor identity, ktorá je autorom dokumentu.
+          schema:
+            type: string
+            format: uri
+        - name: original_id
+          in: query
+          description: Identifikátor dokumentu, ktorý je pridelený autorom.
+          schema:
+            type: string
+            format: uuid
+        - name: name
+          in: query
+          required: true
+          description: Názov dokumentu.
+          schema:
+            type: string
+        - name: abstract
+          in: query
+          description: Abstrakt dokumentu.
+          schema:
+            type: string
+        - name: registry_mark
+          in: query
+          description: Registratúrna značka dokumentu.
+          schema:
+            type: string
+        - name: registry_number
+          in: query
+          description: Číslo registratúrneho záznamu dokumentu.
+          schema:
+            type: string
+        - name: published_from
+          in: query
+          description: Začiatok zverejnenia dokumentu.
+          schema:
+            type: string
+        - name: published_days
+          in: query
+          description: Počet dní počas ktorých má byť dokument zverejnený.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message_id:
+                  type: string
+                  format: uuid
+                correlation_id:
+                  type: string
+                  format: uuid
+                sender_uri:
+                  type: string
+                  format: uri
+                recipient_uri:
+                  type: string
+                  format: uri
+                objects:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/EdeskMessageObject'
+              required:
+                - message_id
+                - correlation_id
+                - sender_uri
+                - recipient_uri
+                - objects
+      responses:
+        200:
+          description: Úspešné odoslanie požiadavky na doručenie dokumentu zverejnením.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SktalkReceiveAndSaveToOutboxResult'
+              examples:
+                'Úspešné odoslanie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithNoSave'
+                'Úspešné odoslanie a úspešné uloženie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutbox'
+                'Úspešné odoslanie a neúspešné uloženie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithNonZeroSave'
+                'Neúspešné odoslanie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithNonZeroReceive'
+        408:
+          description: Neúspešné odoslanie požiadavky na doručenie dokumentu zverejnením ak prišlo k vypršaniu času požiadavky na ÚPVS.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SktalkReceiveAndSaveToOutboxResult'
+              examples:
+                'Úspešné odoslanie a neúspešné uloženie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithSaveTimeout'
+                'Neúspešné odoslanie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithReceiveTimeout'
+      security:
+        - 'API Token': []
+
+  /api/cuet/documents/{id}:
+    patch:
+      tags: [Centrálna úradná tabuľa (len OVM)]
+      summary: Zmení dobu zverejnenia dokumentu
+      description: |
+        Odošle požiadavku na zmenu doby zverejnenia dokumentu. Do schránky príde odpoveď s SKTalk triedou `CUET_NOTIFY_REVOCATION`. Voči zaslanej požiadavke je možné párovanie cez poskytnutý `request_id`.
+
+        *Volanie automaticky validuje, či je interne používaná správna verzia formulára. Nie je potrebné kontrolovať validitu formulára externe.*
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Identifikátor dokumentu.
+          schema:
+            type: string
+        - name: request_id
+          in: query
+          required: true
+          description: Identifikátor požiadavky.
+          schema:
+            type: string
+            format: uuid
+        - name: revocation_reason
+          in: query
+          required: true
+          description: Dôvod odvolania zverejňovania.
+          schema:
+            type: string
+        - name: revoked_on
+          in: query
+          required: true
+          description: Dátum ukončenia zverejňovania.
+          schema:
+            type: string
+            format: date
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message_id:
+                  type: string
+                  format: uuid
+                correlation_id:
+                  type: string
+                  format: uuid
+                sender_uri:
+                  type: string
+                  format: uri
+                recipient_uri:
+                  type: string
+                  format: uri
+              required:
+                - message_id
+                - correlation_id
+                - sender_uri
+                - recipient_uri
+      responses:
+        200:
+          description: Úspešné odoslanie požiadavky na zmenu doby zverejnenia dokumentu.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SktalkReceiveAndSaveToOutboxResult'
+              examples:
+                'Úspešné odoslanie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithNoSave'
+                'Úspešné odoslanie a úspešné uloženie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutbox'
+                'Úspešné odoslanie a neúspešné uloženie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithNonZeroSave'
+                'Neúspešné odoslanie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithNonZeroReceive'
+        408:
+          description: Neúspešné odoslanie požiadavky na zmenu doby zverejnenia dokumentu zverejnením ak prišlo k vypršaniu času požiadavky na ÚPVS.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SktalkReceiveAndSaveToOutboxResult'
+              examples:
+                'Úspešné odoslanie a neúspešné uloženie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithSaveTimeout'
+                'Neúspešné odoslanie':
+                  $ref: '#/components/examples/SktalkReceiveAndSaveToOutboxWithReceiveTimeout'
+      security:
+        - 'API Token': []
+
+  /api/iam/identities/{id}:
+    get:
+      tags: [Vyhľadávanie identít (len OVM)]
+      summary: Vráti identitu
+      description: |
+        Vráti identitu.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID identity.
+          schema:
+            type: string
+            format: uuid
+            example: 6d9dc77b-70ed-432f-abaa-5de8753c967c
+      responses:
+        200:
+          description: Úspešne vrátená identita.
           content:
             application/json:
               schema:
@@ -356,37 +1598,1522 @@ paths:
                   value:
                     $ref: '#/components/schemas/UpvsNaturalPerson/example'
       security:
+        - 'API Token': []
         - 'API + OBO Token': []
 
-  /api/upvs/user/info.saml:
-    get:
-      tags: [Informácie o prihlásenom používateľovi]
-      summary: Vráti informácie o prihlásenom používateľovi
+  /api/iam/identities/search:
+    post:
+      tags: [Vyhľadávanie identít (len OVM)]
+      summary: Vyhľadá identity podľa kritérií
       description: |
-        Vráti informácie o prihlásenom používateľovi ako ÚPVS SAML assertion v pôvodnom formáte.
+        Vyhľadá identity podľa kritérií.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ids:
+                  description: ID identít.
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                    example: 6d9dc77b-70ed-432f-abaa-5de8753c967c
+                uris:
+                  description: URI identít.
+                  type: array
+                  items:
+                    type: string
+                    format: uri
+                    example: ico://sk/42156424
+                en:
+                  description: Identifikátor schránky.
+                  type: string
+                  example: E0000012800
+                type:
+                  description: |
+                    Typ identity:
+                      - `natural_person` fyzická osoba,
+                      - `corporate_body` právnická osoba,
+                      - `technical_account` technický účet,
+                      - `employee_of_public_administration` zamestnanec verejnej správy,
+                      - `institution_of_public_administration` orgán verejnej moci.
+                  type: string
+                  enum: [natural_person, corporate_body, technical_account, employee_of_public_administration, institution_of_public_administration]
+                email:
+                  type: string
+                  format: email
+                phone:
+                  type: string
+                  format: phone
+                address:
+                  description: Adresa trvalého pobytu alebo kontaktná adresa.
+                  type: object
+                  properties:
+                    type:
+                      description: |
+                        Typ adresy:
+                          - `contact` kontaktná adresa,
+                          - `resident` adresa trvalého pobytu.
+                      type: string
+                      enum: [contact, resident]
+                    country:
+                      description: Krajina podľa číselníka ŠÚSR 0086
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                    district:
+                      description: Okres podľa číselníka ŠÚSR 0024.
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                    municipality:
+                      description: Obec podľa číselníka ŠÚSR 0025.
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                    street:
+                      description: Ulica.
+                      type: string
+                    building_number:
+                      description: Orientačné číslo budovy.
+                      type: string
+                    registration_number:
+                      description: Súpisné číslo budovy.
+                      type: integer
+                corporate_body:
+                  description: Právnická osoba.
+                  type: object
+                  properties:
+                    cin:
+                      description: IČO.
+                      type: integer
+                    tin:
+                      description: DIČ.
+                      type: integer
+                    name:
+                      description: Názov.
+                      type: string
+# TODO
+#                    legal_form:
+#                      description: Právna forma podľa číselníka ŠÚSR 0056.
+#                      type: integer
+#                      example:
+                natural_person:
+                  description: Fyzická osoba.
+                  type: object
+                  properties:
+# TODO
+#                    type:
+#                      description: |
+#                        Typ fyzickej osoby:
+#                          - `` ,
+#                          - `` .
+#                      type: string
+#                      enum: []
+                    given_name:
+                      description: Meno. Pozri `match`.
+                      type: string
+                    family_name:
+                      description: Priezvisko. Pozri `match`.
+                      type: string
+                    date_of_birth:
+                      description: Dátum narodenia.
+                      type: string
+                      format: date
+                    place_of_birth:
+                      description: Miesto narodenia.
+                      type: string
+                match:
+                  description: Spôsob vyhľadávania atribútov `corporate_body.name`, `natural_person.given_name` a `natural_person.family_name`.
+                  type: string
+                  enum: [exact, prefix, infix]
+                  default: exact
+                page:
+                  description: Číslo stránky zoznamu identít.
+                  type: integer
+                  minimum: 1
+                  default: 1
+                  example: 1
+                per_page:
+                  description: Počet identít na stránke zoznamu.
+                  type: integer
+                  minimum: 10
+                  maximum: 100
+                  default: 10
+                  example: 10
+            examples:
+              'Identity by ID':
+                value:
+                  ids:
+                    - 6d9dc77b-70ed-432f-abaa-5de8753c967c
+              'Identity by URI':
+                value:
+                  uris:
+                    - ico://sk/42156424
+              'Corporate body by CIN':
+                value:
+                  corporate_body:
+                    cin: 42156424
+              'Corporate body by name prefix':
+                value:
+                  corporate_body:
+                    name: Národná agentúra
+                  match: prefix
+              'Natural person by given name':
+                value:
+                  natural_person:
+                    given_name: Ján
+              'Natural person by family name prefix':
+                value:
+                  natural_person:
+                    family_name: H
+                  match: prefix
       responses:
         200:
-          description: Úspešné vrátenie ÚPVS SAML assertion v pôvodnom formáte.
+          description: Úspešne vyhľadané identity podľa kritérií.
           content:
-            application/samlassertion+xml:
+            application/json:
               schema:
-                type: string
-                format: saml
-                xml:
-                  name: saml:Assertion
-                example:
-                  ...
+                type: array
+                items:
+                  oneOf:
+                    - $ref: '#/components/schemas/UpvsCorporateBody'
+                    - $ref: '#/components/schemas/UpvsNaturalPerson'
       security:
+        - 'API Token': []
         - 'API + OBO Token': []
 
+  /api/usr:
+    post:
+      tags: [Univerzálne synchrónne rozhranie služieb ÚPVS]
+      summary: Vráti odpoveď synchrónnej služby ÚPVS
+      description: |
+        Vráti odpoveď synchrónnej služby ÚPVS.
+      parameters:
+        - name: Accept
+          in: header
+          required: true
+          schema:
+            type: string
+            format: mime
+            example: application/xml
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                service:
+                  description: Názov služby.
+                  type: string
+                  example: DITEC_CEP_PODPISANIE_DOKUMENTOV2_ASSERTIONS
+                request:
+                  description: Požiadavka služby vo formáte XML.
+                  type: string
+                  format: xml
+                  example: <PodpisanieDokumentov2Req ...
+              required:
+                - service
+                - request
+      responses:
+        200:
+          description: Úspešne vrátená odpoveď synchrónnej služby ÚPVS.
+          content:
+            application/xml:
+              schema:
+                type: string
+                format: xml
+                xml:
+                  name: PodpisanieDokumentov2Res
+                  namespace: http://schemas.gov.sk/ServiceBusServiceProvider/Ditec/CepProvider/1.0
+                example: ...
+      security:
+        - 'API Token': []
+
+  /administration/certificates:
+    post:
+      tags: [Manažment autentifikačných certifikátov (Administrácia)]
+      summary: Vygeneruje nový certifikát
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  description: Identifikátor certifikátu.
+                  type: string
+                  example: iscep_00956852_10236
+                project:
+                  description: Identifikátor projektu priradený v rámci integračného procesu.
+                  type: string
+                  example: iscep
+                cin:
+                  description: Identifikačné číslo organizácie.
+                  type: string
+                  example: 00956852_10236
+                domain:
+                  description: Externá doména organizácie.
+                  type: string
+                  example: finsprava.sk
+              required:
+                - id
+                - project
+                - cin
+                - domain
+      responses:
+        201:
+          description: Certifikát bol úspešne vygenerovaný.
+      security:
+        - 'Administration Token': []
+
+  /administration/certificates/{id}:
+    get:
+      tags: [Manažment autentifikačných certifikátov (Administrácia)]
+      summary: Vráti informácie o certifikáte
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Identifikátor certifikátu.
+          schema:
+            type: string
+            example: iscep_00956852_10236
+      responses:
+        200:
+          description: Informácie o certifikáte boli úspešne vrátené.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  certificate:
+                    type: string
+                    format: pem
+                    example: ... BEGIN CERTIFICATE ...
+                  fingerprint:
+                    type: string
+                    format: sha1
+                    example: afe60265f5cecf4b44168cebe2ff954e9871ad94
+                  not_after:
+                    type: string
+                    format: time
+                    example: '2022-01-05T20:07:30+01:00'
+                  subject:
+                    type: string
+                    example: tech.iscep.00956852_10236.upvsdev.ext.finsprava.sk
+                required:
+                  - certificate
+                  - fingerprint
+                  - not_after
+                  - subject
+      security:
+        - 'Administration Token': []
+
+    delete:
+      tags: [Manažment autentifikačných certifikátov (Administrácia)]
+      summary: Zmaže certifikát
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Identifikátor certifikátu.
+          schema:
+            type: string
+            example: iscep_00956852_10236
+      responses:
+        204:
+          description: Certifikát bol úspešne zmazaný.
+      security:
+        - 'Administration Token': []
+
+  /administration/eform/synchronize:
+    get:
+      tags: [Zasielanie podaní (Administrácia)]
+      summary: Spustí synchronizáciu formulárov
+      description: Spustí manuálnu aktualizáciu lokálneho úložiska všetkých formulárov. Za normálnych okolností sa spúšťa automaticky a nie je ho potrebné spúštať manuálne.
+      responses:
+        204:
+          description: Synchronizácia formulárov bola úspešne spustená.
+      security:
+        - 'Administration Token': []
+
+  /health:
+    get:
+      tags: [Stav komponentu (Monitoring)]
+      summary: Vráti stav komponentu
+      responses:
+        200:
+          description: Stav komponentu bol úspešne vrátený.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+              examples:
+                'Stav komponentu je v poriadku':
+                  value:
+                    description: slovensko.sk API
+                    version: 6.2.2
+                    status: pass
+                    checks:
+                      environment:variables:
+                        - status: pass
+                      postgresql:connection:
+                        - status: pass
+                      redis:connection:
+                        - status: pass
+                      authenticator:api:
+                        - status: pass
+                      sts:certificate:
+                        - status: pass
+                          observed_value: '2022-03-18T08:42:51+01:00'
+                          observed_unit: time
+                      sts:creation_time:
+                        - status: pass
+                          observed_value: 0.37
+                          observed_unit: ms
+                      sts:response_time:
+                        - status: pass
+                          observed_value: 0.14
+                          observed_unit: ms
+                    links: ...
+                'Stav komponentu je v poriadku ale s varovaním':
+                  value:
+                    description: slovensko.sk API
+                    version: 6.2.2
+                    status: warn
+                    checks:
+                      environment:variables:
+                        - status: pass
+                      postgresql:connection:
+                        - status: pass
+                      redis:connection:
+                        - status: pass
+                      authenticator:api:
+                        - status: pass
+                      sts:certificate:
+                        - status: warn
+                          observed_value: '2020-03-20T08:47:01+01:00'
+                          observed_unit: time
+                          output: STS health certificate expires in less than 2 months
+                      sts:creation_time:
+                        - status: pass
+                          observed_value: 0.37
+                          observed_unit: ms
+                      sts:response_time:
+                        - status: pass
+                          observed_value: 0.14
+                          observed_unit: ms
+                    links: ...
+        503:
+          description: Stav komponentu bol úspešne vrátený.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+              examples:
+                'Stav komponentu nie je v poriadku':
+                  value:
+                    description: slovensko.sk API
+                    version: 6.2.2
+                    status: fail
+                    checks:
+                      environment:variables:
+                        - status: pass
+                      postgresql:connection:
+                        - status: pass
+                      redis:connection:
+                        - status: pass
+                      authenticator:api:
+                        - status: pass
+                      sts:certificate:
+                        - status: fail
+                          observed_value: '2020-03-20T08:47:01+01:00'
+                          observed_unit: time
+                          output: STS health certificate has expired
+                      sts:creation_time:
+                        - status: pass
+                          observed_value: 0.37
+                          observed_unit: ms
+                      sts:response_time:
+                        - status: pass
+                          observed_value: 0.14
+                          observed_unit: ms
+                    links: ...
+
 components:
+  parameters:
+    EdeskFolderId:
+      description: eDesk identifikátor priečinka.
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 20378640
+
+    EdeskMessageId:
+      description: eDesk identifikátor správy.
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 53089851
+
   schemas:
+    Health:
+      description: Zdravie komponentu.
+      properties:
+        description:
+          description: Názov komponentu.
+          type: string
+        version:
+          description: Verzia komponentu.
+          type: string
+        status:
+          description: Stav komponentu.
+          type: string
+          enum: [pass, warn, fail]
+        checks:
+          description: Kontroly komponentu.
+          type: object
+          properties:
+            environment:variables:
+              description: Kontrola premenných prostredia.
+            postgresql:connection:
+              description: Kontrola spojenia s PostgreSQL databázou.
+            redis:connection:
+              description: Kontrola spojenia s Redis úložiskom.
+            authenticator:api:
+              description: Kontrola autentifikátora API tokenov.
+            authenticator:obo:
+              description: Kontrola autentifikátora OBO tokenov. Vykoná sa iba ak je podpora ÚPVS SSO zapnutá.
+            eform:sync_certificate:
+              description: Kontrola expirácie STS certifikátu pre synchronizáciu formulárov. Vykoná sa iba ak je nastavená premenná `EFORM_SYNC_SUBJECT`.
+            eform:sync_task:
+              description: Kontrola vykonávania synchronizácie formulárov. Vykoná sa iba ak je nastavená premenná `EFORM_SYNC_SUBJECT`.
+            sso:sp_certificate:
+              description: Kontrola expirácie SSO SP certifikátu. Vykoná sa iba ak je podpora ÚPVS SSO zapnutá.
+            sso:proxy_certificate:
+              description: Kontrola expirácie SSO STS certifikátu pre OBO prístup. Vykoná sa iba ak je podpora ÚPVS SSO zapnutá.
+            sts:certificate:
+              description: Kontrola expirácie STS certifikátu pre kontrolu spojenia s ÚPVS. Vykoná sa iba ak je nastavená premenná `STS_HEALTH_SUBJECT`.
+            sts:creation_time:
+              description: Kontrola času prvotného vytvorenia objektu pre komunikáciu s ÚPVS. Vykoná sa iba ak je nastavená premenná `STS_HEALTH_SUBJECT`.
+            sts:response_time:
+              description: Kontrola času STS autentifikácie v rámci požiadavky na zistenie stavu formulára. Vykoná sa iba ak je nastavená premenná `STS_HEALTH_SUBJECT`.
+        links:
+          description: Odkazy súvisiace s komponentom.
+          type: object
+          properties:
+            installation:
+              description: Odkaz na inštalačnú príručku komponentu.
+              type: string
+              format: url
+            documentation:
+              description: Odkaz na špecifikáciu API komponentu.
+              type: string
+              format: url
+
+    Error:
+      description: Chyba.
+      properties:
+        message:
+          description: Správa.
+          type: string
+          example: Invalid query
+        fault:
+          description: Porucha ÚPVS integrácie.
+          type: object
+          properties:
+            code:
+              description: Kód poruchy ÚPVS integrácie.
+              type: string
+              nullable: true
+              example: 01000999
+            reason:
+              description: Dôvod poruchy ÚPVS integrácie.
+              type: string
+              nullable: true
+              example: 'Nastala chyba: Vstupné dáta potrebné na vyhľadanie používateľov nie sú vyplnené!'
+      required:
+        - message
+
+    CepSigningObject:
+      description: Podpisovaný objekt v rámci modulu CEP. Napríklad PDF príloha alebo XML formulár.
+      properties:
+        id:
+          description: Identifikátor objektu.
+          type: string
+          format: uuid
+          example: db2c9ac9-8881-4a6a-8ddc-bbbc38ed9650
+        name:
+          description: Názov objektu.
+          type: string
+          nullable: true
+          example: null
+        description:
+          description: Popis objektu.
+          type: string
+          nullable: true
+          example: null
+        class:
+          description: Typ objektu v súlade s [Dokumentáciou funkčnosti Centrálnej elektronickej podateľne](https://www.slovensko.sk/_img/CMS4/Dokumentacia_funkcnosti_CEP.pdf).
+          type: string
+          example: http://schemas.gov.sk/form/App.GeneralAgenda/1.9/form.xsd
+        signed:
+          description: Indikátor či je obsah objektu podpísaný.
+          type: boolean
+          nullable: true
+          example: null
+        mime_type:
+          description: Typ internetového média v súlade s typom a obsahom objektu.
+          type: string
+          example: application/xml
+        encoding:
+          description: Kódovanie obsahu objektu v súlade s hodnotou v atribúte `content`.
+          type: string
+          enum: [Base64, XML]
+          example: XML
+        content:
+          description: Obsah objektu zakódovaný podľa hodnoty v atribúte `encoding`.
+          type: string
+          format: base64|xml
+          example: <GeneralAgenda ...
+      required:
+        - class
+        - mime_type
+        - encoding
+        - content
+      example:
+        id: db2c9ac9-8881-4a6a-8ddc-bbbc38ed9650
+        class: http://schemas.gov.sk/form/App.GeneralAgenda/1.9/form.xsd
+        mime_type: application/xml
+        encoding: XML
+        content: <GeneralAgenda ...
+
+    CepSignedObject:
+      description: Podpísaný objekt v rámci modulu CEP. Napríklad ASiC-E kontajner.
+      allOf:
+        - $ref: '#/components/schemas/CepSigningObject'
+      properties:
+        timestamp_certificate:
+          description: Certifikát časovej pečiatky podpisu objektu.
+          type: string
+          format: base64
+          example: MIIFvzCCBKegAwIBAgIC ...
+      required:
+        - id
+        - timestamp_certificate
+      example:
+        id: db2c9ac9-8881-4a6a-8ddc-bbbc38ed9650
+        description: null
+        class: http://schemas.gov.sk/form/App.GeneralAgenda/1.9/form.xsd
+        signed: true
+        mime_type: application/vnd.etsi.asic-e+zip
+        encoding: Base64
+        content: UEsDBBQAAAgAANS0XU+K ...
+        timestamp_certificate: MIIFvzCCBKegAwIBAgIC ...
+
+    CepVerifiedObject:
+      description: Overený objekt v rámci modulu CEP.
+      properties:
+        id:
+          description: Identifikátor objektu v rámci MessageContainer.
+          type: string
+          format: uuid
+          nullable: true
+        authorizations:
+          description: Autorizácie objektu.
+          type: array
+          items:
+            type: object
+            properties:
+              signature:
+                description: Podpis objektu.
+                type: object
+                properties:
+                  type:
+                    description: Typ podpisu. Pozri [Dokumentáciou funkčnosti Centrálnej elektronickej podateľne](https://www.slovensko.sk/_img/CMS4/Dokumentacia_funkcnosti_CEP.pdf).
+                    type: string
+                    example: ASiC XAdES
+                  format:
+                    description: Formát podpisu. Pozri [Dokumentáciou funkčnosti Centrálnej elektronickej podateľne](https://www.slovensko.sk/_img/CMS4/Dokumentacia_funkcnosti_CEP.pdf).
+                    type: string
+                    example: XadesBPLevelT
+                  certificate:
+                    description: Podpisový certifikát.
+                    type: object
+                    properties:
+                      serial_number:
+                        description: Sériové číslo podpisového certifikátu.
+                        type: string
+                        example: 82821870998437666752053
+                      issuer:
+                        description: Vydavateľ podpisového certifikátu.
+                        type: string
+                        example: C=SK,ST=Slovak Republic,L=Bratislava,O=DITEC A.S.,OU=Software Division,OU=DTC Certification Authority,CN=DTC CA
+                      subject:
+                        description: Subjekt podpisového certifikátu.
+                        type: string
+                        example: C=SK,CN= ...
+                      mandate:
+                        description: Informácie o mandáte podpisového certifikátu.
+                        type: string
+                        format: base64
+                        example: PD94bWwgdmVyc2lvbj0i ...
+                  timestamped:
+                    description: Indikátor či podpis obsahuje časovú pečiatku.
+                    type: boolean
+                    example: true
+                  signed_at:
+                    description: Čas vytvorenia podpisu.
+                    type: string
+                    format: time
+                    example: '2020-02-12T12:59:39.000+00:00'
+              timestamp:
+                description: Časová pečiatka podpisu objektu.
+                type: object
+                properties:
+                  certificate:
+                    description: Certifikát časovej pečiatky.
+                    type: object
+                    properties:
+                      serial_number:
+                        description: Sériové číslo certifikátu časovej pečiatky.
+                        type: string
+                        example: 31039
+                      issuer:
+                        description: Vydavateľ certifikátu časovej pečiatky.
+                        type: string
+                        example: C=SK,L=Bratislava,O=Narodny bezpecnostny urad,OU=SIBEP,CN=SNCA2
+                      subject:
+                        description: Subjekt certifikátu časovej pečiatky.
+                        type: string
+                        example: C=SK,L=Bratislava,O=Viasec s.r.o.,OU=TSA,OU=Thales TSS ESN:16A2-F6ED-DDC9,SERIALNUMBER=NTRSK-35848618,CN=PSCA TSA2 2018
+                  timestamped_at:
+                    description: Čas vytvorenia časovej pečiatky.
+                    type: string
+                    format: time
+                    example: '2020-02-12T12:59:39.501+00:00'
+              verification:
+                description: Overenie objektu.
+                type: object
+                properties:
+                  result:
+                    description: |
+                      Kód výsledku overenia:
+                        - `1` platná,
+                        - `2` neplatná,
+                        - `3` predbežne platná,
+                        - `4` pravdepodobne platná,
+                        - `5` neoverená.
+                    type: integer
+                    minimum: 1
+                    maximum: 5
+                    example: 1
+                  description:
+                    description: Popis výsledku overenia.
+                    type: string
+                    enum: [Platná, Neplatná, Predbežne platná, Pravdepodobne platná, Neoverená]
+                    example: Platná
+                  verifier:
+                    description: Výstup z overovača.
+                    type: object
+                    properties:
+                      result:
+                        description: Kód výsledku z overovača na základe ktorého bol stanovený výsledok overenia.
+                        type: integer
+                        example: 0
+                      description:
+                        description: Popis výsledku z overovača na základe ktorého bol stanovený výsledok overenia.
+                        type: string
+                        example: VALID
+                  verified_at:
+                    description: Čas overenia podpisu.
+                    type: string
+                    format: time
+                    example: '2020-02-20T07:16:08.420+00:00'
+              objects:
+                description: Podpísané objekty.
+                type: array
+                items:
+                  type: object
+      example:
+        id: 00000000-0000-0000-0000-000000000000
+        authorizations:
+          - signature:
+              type: ASiC XAdES
+              format: XadesBPLevelT
+              certificate:
+                serial_number: 82821870998437666752053
+                issuer: C=SK,ST=Slovak Republic,L=Bratislava,O=DITEC A.S.,OU=Software Division,OU=DTC Certification Authority,CN=DTC CA
+                subject: C=SK,CN= ...
+                mandate: PD94bWwgdmVyc2lvbj0i ...
+              timestamped: true
+              signed_at: '2020-02-12T12:59:39.000+00:00'
+            timestamp:
+              certificate:
+                serial_number: 31039
+                issuer: C=SK,L=Bratislava,O=Narodny bezpecnostny urad,OU=SIBEP,CN=SNCA2
+                subject: C=SK,L=Bratislava,O=Viasec s.r.o.,OU=TSA,OU=Thales TSS ESN:16A2-F6ED-DDC9,SERIALNUMBER=NTRSK-35848618,CN=PSCA TSA2 2018
+              timestamped_at: '2020-02-12T12:59:39.501+00:00'
+            verification:
+              result: 1
+              description: Platná
+              verifier:
+                result: 0
+                description: VALID
+              verified_at: '2020-02-20T07:16:08.420+00:00'
+            objects: []
+
+    CepVerifiedAsicCadesObject:
+      description: Overený ASiC CAdES objekt v rámci modulu CEP.
+      allOf:
+        - $ref: '#/components/schemas/CepVerifiedObject'
+      properties:
+        authorizations:
+          description: Autorizácie objektu.
+          type: array
+          items:
+            type: object
+            properties:
+              objects:
+                description: Podpísané objekty.
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      description: Názov objektu.
+                      type: string
+                      example: 66617f57-6839-4fe3-8211-8910de2c0033.pdf
+                    mime_type:
+                      description: Typ internetového média v súlade s typom a obsahom objektu.
+                      type: string
+                      example: application/pdf
+                    encoding:
+                      description: Kódovanie obsahu objektu v súlade s hodnotou v atribúte `content`.
+                      type: string
+                      enum: [Base64, XML]
+                      example: Base64
+                    content:
+                      description: Obsah objektu zakódovaný podľa hodnoty v atribúte `encoding`.
+                      type: string
+                      format: base64|xml
+                      example: JVBERi0xLjQKJeLjz9MK ...
+                    digest:
+                      description: Digitálny odtlačok objektu.
+                      type: string
+                      example: 5AED0iZBKIU9iiQZ3xmm ...
+      example:
+        id: 00000000-0000-0000-0000-000000000000
+        authorizations:
+          - signature:
+              type: ASiC CAdES
+              format: CAdES_T
+              certificate:
+                serial_number: 82821870998437666752053
+                issuer: C=SK,ST=Slovak Republic,L=Bratislava,O=DITEC A.S.,OU=Software Division,OU=DTC Certification Authority,CN=DTC CA
+                subject: C=SK,CN= ...
+                mandate: PD94bWwgdmVyc2lvbj0i ...
+              timestamped: true
+              signed_at: '2020-02-12T12:58:25.000+00:00'
+            timestamp:
+              certificate:
+                serial_number: 31039
+                issuer: C=SK,L=Bratislava,O=Narodny bezpecnostny urad,OU=SIBEP,CN=SNCA2
+                subject: C=SK,L=Bratislava,O=Viasec s.r.o.,OU=TSA,OU=Thales TSS ESN:16A2-F6ED-DDC9,SERIALNUMBER=NTRSK-35848618,CN=PSCA TSA2 2018
+              timestamped_at: '2020-02-12T12:58:25.934+00:00'
+            verification:
+              result: 1
+              description: Platná
+              verifier:
+                result: 0
+                description: Operácia bola vykonaná úspešne.
+              verified_at: '2020-02-20T07:16:10.293+00:00'
+            objects:
+              - name: 66617f57-6839-4fe3-8211-8910de2c0033.pdf
+                mime_type: application/pdf
+                encoding: Base64
+                content: JVBERi0xLjQKJeLjz9MK ...
+                digest: 5AED0iZBKIU9iiQZ3xmm ...
+
+    CepVerifiedAsicXadesObject:
+      description: Overený ASiC XAdES objekt v rámci modulu CEP.
+      allOf:
+        - $ref: '#/components/schemas/CepVerifiedObject'
+      properties:
+        authorizations:
+          description: Autorizácie objektu.
+          type: array
+          items:
+            type: object
+            properties:
+              objects:
+                description: Podpísané objekty.
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      description: Referenčný identifikátor objektu.
+                      type: string
+                      example: Reference_2eadeeaa-00ee-4547-befe-9184f498b3c0
+                    uri:
+                      description: URI objektu.
+                      type: string
+                      example: Object20200212125939333.xml
+                    schema:
+                      description: Schéma objektu.
+                      type: string
+                      example: http://data.gov.sk/doc/eform/App.GeneralAgenda/1.9/form.xsd
+                    description:
+                      description: Popis objektu.
+                      type: string
+                      example: Všeobecná agenda
+                    mime_type:
+                      description: Typ internetového média v súlade s typom a obsahom objektu.
+                      type: string
+                      example: application/vnd.gov.sk.xmldatacontainer+xml; charset=UTF-8
+                    encoding:
+                      description: Kódovanie obsahu objektu v súlade s hodnotou v atribúte `content`.
+                      type: string
+                      enum: [Base64, XML]
+                      example: Base64
+                    content:
+                      description: Obsah objektu zakódovaný podľa hodnoty v atribúte `encoding`.
+                      type: string
+                      format: base64|xml
+                      example: PHhkYzpYTUxEYXRhQ29u ...
+                    digest:
+                      description: Digitálny odtlačok objektu.
+                      type: string
+                      example: hpxSGhPb75NSDK9wK//6 ...
+      example:
+        id: 00000000-0000-0000-0000-000000000000
+        authorizations:
+          - signature:
+              type: ASiC XAdES
+              format: XadesBPLevelT
+              certificate:
+                serial_number: 82821870998437666752053
+                issuer: C=SK,ST=Slovak Republic,L=Bratislava,O=DITEC A.S.,OU=Software Division,OU=DTC Certification Authority,CN=DTC CA
+                subject: C=SK,CN= ...
+                mandate: PD94bWwgdmVyc2lvbj0i ...
+              timestamped: true
+              signed_at: '2020-02-12T12:59:39.000+00:00'
+            timestamp:
+              certificate:
+                serial_number: 31039
+                issuer: C=SK,L=Bratislava,O=Narodny bezpecnostny urad,OU=SIBEP,CN=SNCA2
+                subject: C=SK,L=Bratislava,O=Viasec s.r.o.,OU=TSA,OU=Thales TSS ESN:16A2-F6ED-DDC9,SERIALNUMBER=NTRSK-35848618,CN=PSCA TSA2 2018
+              timestamped_at: '2020-02-12T12:59:39.501+00:00'
+            verification:
+              result: 1
+              description: Platná
+              verifier:
+                result: 0
+                description: VALID
+              verified_at: '2020-02-20T07:16:08.420+00:00'
+            objects:
+              - id: Reference_2eadeeaa-00ee-4547-befe-9184f498b3c0
+                uri: Object20200212125939333.xml
+                schema: http://data.gov.sk/doc/eform/App.GeneralAgenda/1.9/form.xsd
+                description: Všeobecná agenda
+                mime_type: application/vnd.gov.sk.xmldatacontainer+xml; charset=UTF-8
+                encoding: Base64
+                content: PHhkYzpYTUxEYXRhQ29u ...
+                digest: hpxSGhPb75NSDK9wK//6 ...
+
+    CepVerifiedCadesObject:
+      description: Overený CAdES objekt v rámci modulu CEP.
+      allOf:
+        - $ref: '#/components/schemas/CepVerifiedObject'
+      properties:
+        authorizations:
+          description: Autorizácie objektu.
+          type: array
+          items:
+            type: object
+            properties:
+              objects:
+                description: Podpísané objekty.
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      description: Názov objektu.
+                      type: string
+                      example: 0c93a273-bd62-4ffa-a796-1d0d13711c5f
+                    mime_type:
+                      description: Typ internetového média v súlade s typom a obsahom objektu.
+                      type: string
+                      example: application/pdf
+                    encoding:
+                      description: Kódovanie obsahu objektu v súlade s hodnotou v atribúte `content`.
+                      type: string
+                      enum: [Base64, XML]
+                      example: Base64
+                    content:
+                      description: Obsah objektu zakódovaný podľa hodnoty v atribúte `encoding`.
+                      type: string
+                      example: JVBERi0xLjQNJeLjz9MN ...
+                    digest:
+                      description: Digitálny odtlačok objektu.
+                      type: string
+                      example: 3onaoTDIfZvdfnrlX7sV ...
+      example:
+        id: 00000000-0000-0000-0000-000000000000
+        authorizations:
+          - signature:
+              type: CAdES
+              format: CAdES_T
+              certificate:
+                serial_number: 88839892131854365492753
+                issuer: C=SK,ST=Slovak Republic,L=Bratislava,O=DITEC A.S.,OU=Software Division,OU=DTC Certification Authority,CN=DTC CA
+                subject: C=SK,CN=TEST - KSC - COFFICE1
+                mandate: PD94bWwgdmVyc2lvbj0i ...
+              timestamped: true
+              signed_at: '2020-02-28T06:48:38.000+00:00'
+            timestamp:
+              certificate:
+                serial_number: 30830
+                issuer: C=SK,L=Bratislava,O=Narodny bezpecnostny urad,OU=SIBEP,CN=SNCA2
+                subject: C=SK,L=Bratislava,O=Viasec s.r.o.,OU=TSA,OU=nCipher DSE ESN:7EF6-30D8-C3D7,SERIALNUMBER=NTRSK-35848618,CN=PSCA TSA 2017
+              timestamped_at: '2020-02-28T06:48:39.032+00:00'
+            verification:
+              result: 1
+              description: Platná
+              verifier:
+                result: 0
+                description: OK
+              verified_at: '2020-02-28T06:55:28.230+00:00'
+            objects:
+              - name: 0c93a273-bd62-4ffa-a796-1d0d13711c5f
+                mime_type: application/pdf
+                encoding: Base64
+                content: JVBERi0xLjQNJeLjz9MN ...
+                digest: 3onaoTDIfZvdfnrlX7sV ...
+
+    CepVerifiedPadesObject:
+      description: Overený PAdES objekt v rámci modulu CEP.
+      allOf:
+        - $ref: '#/components/schemas/CepVerifiedObject'
+      properties:
+        authorizations:
+          description: Autorizácie objektu.
+          type: array
+          items:
+            type: object
+            properties:
+              objects:
+                description: Podpísané objekty.
+                type: array
+                items:
+                  type: object
+                  properties:
+                    mime_type:
+                      description: Typ internetového média v súlade s typom a obsahom objektu.
+                      type: string
+                      example: application/pdf
+                    encoding:
+                      description: Kódovanie obsahu objektu v tomto prípade vždy `Base64`.
+                      type: string
+                      example: Base64
+                    digest:
+                      description: Digitálny odtlačok objektu.
+                      type: string
+                      example: MDyseT5Ugy9R+UwajUZg ...
+      example:
+        id: 00000000-0000-0000-0000-000000000000
+        authorizations:
+          - signature:
+              type: PAdES
+              format: PADES_T
+              certificate:
+                serial_number: 82821870998437666752053
+                issuer: C=SK,ST=Slovak Republic,L=Bratislava,O=DITEC A.S.,OU=Software Division,OU=DTC Certification Authority,CN=DTC CA
+                subject: C=SK,CN= ...
+                mandate: PD94bWwgdmVyc2lvbj0i ...
+              timestamped: true
+              signed_at: '2020-02-12T13:01:23.000+00:00'
+            timestamp:
+              certificate:
+                serial_number: 30830
+                issuer: C=SK,L=Bratislava,O=Narodny bezpecnostny urad,OU=SIBEP,CN=SNCA2
+                subject: C=SK,L=Bratislava,O=Viasec s.r.o.,OU=TSA,OU=nCipher DSE ESN:7EF6-30D8-C3D7,SERIALNUMBER=NTRSK-35848618,CN=PSCA TSA 2017
+              timestamped_at: '2020-02-12T13:01:23.792+00:00'
+            verification:
+              result: 1
+              description: Platná
+              verifier:
+                result: 0
+                description: OK
+              verified_at: '2020-02-20T07:16:10.479+00:00'
+            objects:
+              - mime_type: application/pdf
+                encoding: Base64
+                digest: MDyseT5Ugy9R+UwajUZg ...
+
+    CepVerifiedXadesObject:
+      description: Overený XAdES objekt v rámci modulu CEP.
+      allOf:
+        - $ref: '#/components/schemas/CepVerifiedObject'
+      properties:
+        authorizations:
+          description: Autorizácie objektu.
+          type: array
+          items:
+            type: object
+            properties:
+              objects:
+                description: Podpísané objekty.
+                type: array
+                items:
+                  type: object
+                  properties:
+                    uri:
+                      description: URI objektu.
+                      type: string
+                      example: Object20200212130218723.xml
+                    schema:
+                      description: Schéma objektu.
+                      type: string
+                      example: http://schemas.gov.sk/form/App.GeneralAgenda/1.9/form.xsd
+                    description:
+                      description: Popis objektu.
+                      type: string
+                      example: Všeobecná agenda
+                    mime_type:
+                      description: Typ internetového média v súlade s typom a obsahom objektu.
+                      type: string
+                      example: application/xml
+                    encoding:
+                      description: Kódovanie obsahu objektu v súlade s hodnotou v atribúte `content`.
+                      type: string
+                      enum: [Base64, XML]
+                      example: XML
+                    content:
+                      description: Obsah objektu zakódovaný podľa hodnoty v atribúte `encoding`.
+                      type: string
+                      example: <GeneralAgenda ...
+                    digest:
+                      description: Digitálny odtlačok objektu.
+                      type: string
+                      example: xRID18zFnEovNsHhQIjs ...
+                    verification:
+                      description: Verifikačné dáta v podpise objektu.
+                      type: object
+                      properties:
+                        parameters:
+                          description: Parametre verifikačných dát v podpise.
+                          type: object
+                          properties:
+                            key:
+                              type: string
+                              example: SchemaReferenceURI
+                            value:
+                              type: string
+                              example: http://schemas.gov.sk/form/App.GeneralAgenda/1.9/form.xsd
+                        version:
+                          description: Verzia verifikačných dát v podpise.
+                          type: string
+                          example: http://www.ditec.sk/ep/signature_formats/xades_zep_xml/v2.0
+      example:
+        id: 00000000-0000-0000-0000-000000000000
+        authorizations:
+          - signature:
+              type: XAdES
+              format: XadesZepT
+              certificate:
+                serial_number: 82821870998437666752053
+                issuer: C=SK,ST=Slovak Republic,L=Bratislava,O=DITEC A.S.,OU=Software Division,OU=DTC Certification Authority,CN=DTC CA
+                subject: C=SK,CN= ...
+                mandate: PD94bWwgdmVyc2lvbj0i ...
+              timestamped: true
+              signed_at: '2020-02-12T13:02:18.000+00:00'
+            timestamp:
+              certificate:
+                serial_number: 30830
+                issuer: C=SK,L=Bratislava,O=Narodny bezpecnostny urad,OU=SIBEP,CN=SNCA2
+                subject: C=SK,L=Bratislava,O=Viasec s.r.o.,OU=TSA,OU=nCipher DSE ESN:7EF6-30D8-C3D7,SERIALNUMBER=NTRSK-35848618,CN=PSCA TSA 2017
+              timestamped_at: '2020-02-12T13:02:18.945+00:00'
+            verification:
+              result: 1
+              description: Platná
+              verifier:
+                result: 0
+                description: Operácia bola vykonaná úspešne.
+              verified_at: '2020-02-20T07:16:08.701+00:00'
+            objects:
+              - uri: Object20200212130218723.xml
+                schema: http://schemas.gov.sk/form/App.GeneralAgenda/1.9/form.xsd
+                description: Všeobecná agenda
+                mime_type: application/xml
+                encoding: XML
+                content: <GeneralAgenda ...
+                digest: xRID18zFnEovNsHhQIjs ...
+                verification:
+                  parameters:
+                    - key: SchemaReferenceURI
+                      value: http://schemas.gov.sk/form/App.GeneralAgenda/1.9/form.xsd
+                    - key: SchemaReferenceDigestMethod
+                      value: http://www.w3.org/2001/04/xmlenc#sha256
+                    - key: SchemaReferenceDigestValue
+                      value: /Ctn0B9D7HKn6URFR8iPUKfyGe4mBYpK+25dc1iYWuE=
+                    - key: VisualTransformReferenceURI
+                      value: http://schemas.gov.sk/form/App.GeneralAgenda/1.9/form.xslt
+                    - key: VisualTransformReferenceDigestMethod
+                      value: http://www.w3.org/2001/04/xmlenc#sha256
+                    - key: VisualTransformReferenceDigestValue
+                      value: Qo1jYX1JWydvM/OL/rnirphk1rM1z41fPRXBEgp/qbg=
+                    - key: VisualTransformType
+                      value: TXT
+                  version: http://www.ditec.sk/ep/signature_formats/xades_zep_xml/v2.0
+
+    EdeskFolder:
+      description: Priečinok v schránke.
+      properties:
+        id:
+          description: eDesk identifikátor priečinka.
+          type: integer
+          example: 53089851
+        parent_id:
+          description: eDesk identifikátor rodičovského priečinka.
+          type: integer
+          nullable: true
+          example: null
+        name:
+          description: Názov priečinka.
+          type: string
+          example: Inbox
+        system:
+          description: Indikátor či ide o systémový priečinok alebo priečinok vytvorený používateľom.
+          type: boolean
+          example: true
+      required:
+        - id
+        - name
+        - system
+      example:
+        id: 53089851
+        parent_id: null
+        name: Inbox
+        system: true
+
+    EdeskHeader:
+      description: Správa v schránke bez obsahu a extrahovaných príloh.
+      properties:
+        id:
+          description: eDesk identifikátor správy.
+          type: integer
+          example: 4898662475
+        class:
+          description: SKTalk trieda správy.
+          type: string
+          example: EGOV_DOCUMENT
+        message_id:
+          description: SKTalk identifikátor správy. Správa odoslaná viacerým adresátom má rovnaké `message_id`, no rôzne eDesk `id` u každého adresáta.
+          type: string
+          format: uuid
+          example: 7acc32dd-1586-4103-8634-ba0707820e2e
+        correlation_id:
+          description: SKTalk identifikátor vlákna správ.
+          type: string
+          format: uuid
+          example: 8a6a31c1-0d54-46c8-aac1-12465162b913
+        subject:
+          description: Predmet správy.
+          type: string
+          example: Všeobecná agenda - rozhodnutie do vlastných rúk s fikciou doručenia
+        delivered_at:
+          description: Čas doručenia správy.
+          type: string
+          format: time
+          example: '2017-03-22T11:49:43.357+01:00'
+      required:
+        - id
+        - class
+        - message_id
+        - correlation_id
+        - subject
+        - delivered_at
+      example:
+        id: 4898662475
+        class: EGOV_DOCUMENT
+        message_id: 7acc32dd-1586-4103-8634-ba0707820e2e
+        correlation_id: 8a6a31c1-0d54-46c8-aac1-12465162b913
+        subject: Všeobecná agenda - rozhodnutie do vlastných rúk s fikciou doručenia
+        delivered_at: '2017-03-22T11:49:43.357+01:00'
+
+    EdeskMessage:
+      description: Správa v schránke s obsahom a extrahovanými prílohami.
+      allOf:
+        - $ref: '#/components/schemas/EdeskHeader'
+      properties:
+        reference_id:
+          description: SKTalk identifikátor referenčnej správy.
+          type: string
+          format: uuid
+          nullable: true
+          example: 00000000-0000-0000-0000-000000000000
+        posp_id:
+          description: Identifikátor obsiahnutého formulára správy.
+          type: string
+          nullable: true
+          example: Doc.GeneralAgendaFiction
+        posp_version:
+          description: Verzia obsiahnutého formulára správy.
+          type: string
+          nullable: true
+          example: 1.5
+        sender_uri:
+          description: Identifikátor odosielateľa správy.
+          type: string
+          format: uri
+          nullable: true
+          example: ico://sk/42156424_90000
+        recipient_uri:
+          description: Identifikátor prijímateľa správy.
+          type: string
+          format: uri
+          nullable: true
+          example: ico://sk/83110656
+        type:
+          description: Typ správy.
+          type: string
+          nullable: true
+          example: Doc.GeneralAgendaFiction
+        sender_business_reference:
+          type: string
+          nullable: true
+          example: null
+        recipient_business_reference:
+          type: string
+          nullable: true
+          example: null
+        delivery_notification:
+          $ref: '#/components/schemas/EdeskDeliveryNotification'
+        objects:
+          description: Extrahované prílohy správy.
+          type: array
+          items:
+            $ref: '#/components/schemas/EdeskMessageObject'
+        original_html:
+          description: HTML vizualizácia správy.
+          type: string
+          format: html
+          example: <!DOCTYPE html ...
+        original_xml:
+          description: Pôvodný obsah správy.
+          type: string
+          format: xml
+          example: <SKTalkMessage ...
+        parse_error:
+          description: Indikátor či došlo k chybe pri spracovaní správy na strane komponentu.
+          type: boolean
+          example: false
+      required:
+        - objects
+        - original_html
+        - original_xml
+        - parse_error
+      example:
+        id: 4898662475
+        class: EGOV_DOCUMENT
+        message_id: 7acc32dd-1586-4103-8634-ba0707820e2e
+        correlation_id: 8a6a31c1-0d54-46c8-aac1-12465162b913
+        reference_id: 00000000-0000-0000-0000-000000000000
+        posp_id: Doc.GeneralAgendaFiction
+        posp_version: 1.5
+        sender_uri: ico://sk/42156424_90000
+        recipient_uri: ico://sk/83110656
+        type: Doc.GeneralAgendaFiction
+        subject: Všeobecná agenda - rozhodnutie do vlastných rúk s fikciou doručenia
+        sender_business_reference: null
+        recipient_business_reference: null
+        objects:
+          - id: a8529890-258c-4be8-8a71-28a66e523730
+            name: Všeobecná agenda - Všeobecná agenda - rozhodnutie do vlastných rúk s fikciou doručenia
+            description: null
+            class: FORM
+            signed: false
+            mime_type: application/x-eform-xml
+            encoding: XML
+            content: <GeneralAgenda ...
+        original_html: <!DOCTYPE html ...
+        original_xml: <SKTalkMessage ...
+        delivered_at: '2017-03-22T11:49:43.357+01:00'
+        parse_error: false
+
+    EdeskMessageObject:
+      description: Objekt v správe. Napríklad PDF príloha, podpísaný kontajner (ASiC, ZEP) alebo XML formulár.
+      properties:
+        id:
+          description: Identifikátor objektu.
+          type: string
+          format: uuid
+          example: a8529890-258c-4be8-8a71-28a66e523730
+        name:
+          description: Názov objektu.
+          type: string
+          nullable: true
+          example: Všeobecná agenda - Všeobecná agenda - rozhodnutie do vlastných rúk s fikciou doručenia
+        description:
+          description: Popis objektu.
+          type: string
+          nullable: true
+          example: null
+        class:
+          description: Typ objektu.
+          type: string
+          enum: [FORM, ATTACHMENT]
+          example: FORM
+        signed:
+          description: Indikátor či je obsah objektu podpísaný.
+          type: boolean
+          nullable: true
+          example: false
+        mime_type:
+          description: Typ internetového média v súlade s typom a obsahom objektu.
+          type: string
+          example: application/x-eform-xml
+        encoding:
+          description: Kódovanie obsahu objektu v súlade s hodnotou v atribúte `content`.
+          type: string
+          enum: [Base64, XML]
+          example: XML
+        content:
+          description: Obsah objektu zakódovaný podľa hodnoty v atribúte `encoding`.
+          type: string
+          format: base64|xml
+          example: <GeneralAgenda ...
+      required:
+        - id
+        - class
+        - mime_type
+        - encoding
+        - content
+      example:
+        id: a8529890-258c-4be8-8a71-28a66e523730
+        name: Všeobecná agenda - Všeobecná agenda - rozhodnutie do vlastných rúk s fikciou doručenia
+        description: null
+        class: FORM
+        signed: false
+        mime_type: application/x-eform-xml
+        encoding: XML
+        content: <GeneralAgenda ...
+
+    EdeskDeliveryNotification:
+      description: Doručenka na prevzatie správy.
+      properties:
+        authorize_url:
+          description: URL na autorizáciu doručenky.
+          type: string
+          format: url
+          example: 'https://dev.slovensko-sk-api.staging.slovensko.digital/api/edesk/messages/4898663168/authorize'
+        delivery_period:
+          description: Lehota na prevzatie správy v dňoch.
+          type: integer
+          nullable: true
+          example: 15
+        delivery_period_end_at:
+          description: Čas vypršania lehoty na prevzatie správy.
+          type: string
+          format: time
+          nullable: true
+          example: '2017-04-08T00:00:00+02:00'
+        received_at:
+          description: Čas doručenia doručenky.
+          type: string
+          format: time
+          nullable: true
+          example: '2017-03-23T09:31:06.7209861+01:00'
+        consignment:
+          description: Informácie o správe na prevzatie.
+          type: object
+          properties:
+            message_id:
+              description: SKTalk identifikátor správy na prevzatie.
+              type: string
+              format: uuid
+              example: ec8c3281-b038-4637-bf8a-b8ebed8cca05
+            message_type:
+              description: Typ správy na prevzatie.
+              type: string
+              example: Doc.GeneralAgendaReport
+            message_subject:
+              description: Predmet správy na prevzatie.
+              type: string
+              example: Všeobecná agenda - rozhodnutie do vlastných rúk
+            attachments:
+              description: Prílohy správy na prevzatie.
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    description: Identifikátor prílohy v správe na prevzatie.
+                    type: string
+                    format: uuid
+                    example: d69d59d6-7d57-4995-8423-f8de5ca3e9f6
+                  name:
+                    description: Názov prílohy v správe na prevzatie.
+                    type: string
+                    example: Všeobecná agenda - rozhodnutie do vlastných rúk
+                required:
+                  - id
+                  - name
+            note:
+              description: Poznámka k doručenke. Obsahuje napríklad informáciu, či sa uplatňuje fikcia doručenia.
+              type: string
+              nullable: true
+          required:
+            - message_id
+            - message_type
+            - message_subject
+            - attachments
+      required:
+        - authorize_url
+        - consignment
+      example:
+        authorize_url: 'https://dev.slovensko-sk-api.staging.slovensko.digital/api/edesk/messages/4898663168/authorize'
+        delivery_period: 15
+        delivery_period_end_at: '2017-04-08T00:00:00+02:00'
+        received_at: '2017-03-23T09:31:06.7209861+01:00'
+        consignment:
+          message_id: ec8c3281-b038-4637-bf8a-b8ebed8cca05
+          message_type: Doc.GeneralAgendaReport
+          message_subject: Všeobecná agenda - rozhodnutie do vlastných rúk
+          attachments:
+            - id: d69d59d6-7d57-4995-8423-f8de5ca3e9f6
+              name: Všeobecná agenda - rozhodnutie do vlastných rúk
+          note: Po uplynutí dátumu doručenia sa doručovaná správa považuje za nedoručenú.
+
     SktalkReceiveResult:
       description: Výsledok odoslania SKTalk správy.
       properties:
         receive_result:
           description: Výsledok odoslania správy, hodnota `0` znamená úspešné prijatie správy na odoslanie.
           type: integer
+          example: 0
       required:
         - receive_result
       example:
@@ -399,18 +3126,22 @@ components:
           description: Výsledok odoslania správy, hodnota `0` znamená úspešné prijatie správy na odoslanie.
           type: integer
           nullable: true
+          example: 0
         receive_timeout:
           description: Indikátor či pri odoslaní správy prišlo k vypršaniu času požiadavky na ÚPVS.
           type: boolean
           nullable: false
+          example: null
         save_to_outbox_result:
           description: Výsledok uloženia správy medzi odoslané správy, hodnota `0` znamená úspešné prijatie správy na uloženie medzi odoslané správy.
           type: integer
           nullable: true
+          example: 0
         save_to_outbox_timeout:
           description: Indikátor či pri uložení správy medzi odoslané správy prišlo k vypršaniu času požiadavky na ÚPVS.
           type: boolean
           nullable: true
+          example: null
       required:
         - receive_result
         - receive_timeout
@@ -428,6 +3159,7 @@ components:
         save_to_outbox_result:
           description: Výsledok uloženia správy medzi odoslané správy, hodnota `0` znamená úspešné prijatie správy na uloženie medzi odoslané správy.
           type: integer
+          example: 0
       required:
         - save_to_outbox_result
       example:
@@ -682,6 +3414,7 @@ components:
                             description: Meno.
                             type: string
                             example: null
+                          # TODO document missing properties
                         example: null
                       note:
                         description: Poznámka.
@@ -1224,27 +3957,65 @@ components:
           description: Popis hodnoty.
           type: string
 
+  examples:
+    SktalkReceiveAndSaveToOutbox:
+      value:
+        receive_result: 0
+        receive_timeout: false
+        save_to_outbox_result: 0
+        save_to_outbox_timeout: false
+    SktalkReceiveAndSaveToOutboxWithNonZeroReceive:
+      value:
+        receive_result: 3100101
+        receive_timeout: false
+        save_to_outbox_result: null
+        save_to_outbox_timeout: null
+    SktalkReceiveAndSaveToOutboxWithNonZeroSave:
+      value:
+        receive_result: 0
+        receive_timeout: false
+        save_to_outbox_result: 3100101
+        save_to_outbox_timeout: false
+    SktalkReceiveAndSaveToOutboxWithReceiveTimeout:
+      value:
+        receive_result: null
+        receive_timeout: true
+        save_to_outbox_result: null
+        save_to_outbox_timeout: null
+    SktalkReceiveAndSaveToOutboxWithSaveTimeout:
+      value:
+        receive_result: 0
+        receive_timeout: false
+        save_to_outbox_result: null
+        save_to_outbox_timeout: true
+    SktalkReceiveAndSaveToOutboxWithNoSave:
+      value:
+        receive_result: 0
+        receive_timeout: false
+        save_to_outbox_result: null
+        save_to_outbox_timeout: null
+
   securitySchemes:
-    'API Token':
+    'Administration Token':
       description: |
         Požaduje API token vytvorený treťou stranou, ktorý:
 
         - je zakodovaný algoritmom RS256,
         - je podpísaný privátnym kľúčom tretej strany,
-        - má nastavený `exp` claim na max. 120 minút,
+        - má nastavený `exp` claim na čas expirácie, ktorý vyprší o max. 120 minút od vytvorenia tokenu,
         - má nastavený `jti` claim na identifikátor, ktorý je unikátny počas 120 minút.
 
         Príklad `header` segmentu:
 
               {
-                "alg": "RS256",
+                "alg": "RS256"
               }
 
         Príklad `payload` segmentu:
 
               {
                 "exp": 1543437976,
-                "jti": "4dee8618-abbe-4dc3-83ba-e984d1396f9f",
+                "jti": "4dee8618-abbe-4dc3-83ba-e984d1396f9f"
               }
 
         API token musí byť prítomný buď:
@@ -1256,6 +4027,51 @@ components:
 
         - hodnota `jti` sa kontroluje podľa regulárneho výrazu `/\A[0-9a-z\-_]{32,256}\z/i`,
         - rovnaké `jti` sa nesmie použiť v viac ako jedenkrát počas 120 minút.
+
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+    'API Token':
+      description: |
+        Požaduje API token vytvorený treťou stranou, ktorý:
+
+        - je zakodovaný algoritmom RS256,
+        - je podpísaný privátnym kľúčom tretej strany,
+        - má nastavený `sub` claim na identifikátor certifikátu, ktorý reprezentuje ÚPVS identitu,
+        - má nastavený `exp` claim na čas expirácie, ktorý vyprší o max. 120 minút od vytvorenia tokenu,
+        - má nastavený `jti` claim na identifikátor, ktorý je unikátny počas 120 minút.
+
+        Pre riešenia, ktoré jedným certifikátom zastupujú viacero subjektov je požadovaný API token, ktorý navyše:
+
+        - má nastavený `obo` claim na UUID identifikátor zastupovanej ÚPVS identity.
+
+        Príklad `header` segmentu:
+
+              {
+                "alg": "RS256"
+              }
+
+        Príklad `payload` segmentu:
+
+              {
+                "sub": "iscep_00956852_10236",
+                "exp": 1543437976,
+                "jti": "4dee8618-abbe-4dc3-83ba-e984d1396f9f"
+              }
+
+        API token musí byť prítomný buď:
+
+        - v hlavičke požiadavky ako `Authorization: Bearer <api-token>`,
+        - alebo v URL parametri požiadavky ako `?token=<api-token>`.
+
+        Poznámky:
+
+        - identifikátor `sub` reprezentuje ÚPVS identitu, pre ktorú existuje zaregistrovaný certifikát s týmto identifikátorom,
+        - hodnota `jti` sa kontroluje podľa regulárneho výrazu `/\A[0-9a-z\-_]{32,256}\z/i`,
+        - rovnaké `jti` sa nesmie použiť v viac ako jedenkrát počas 120 minút,
+        - identifikátor `obo` reprezentuje zastupovanú ÚPVS identitu a nastavuje sa iba pre riešenia, ktoré jedným certifikátom zastupujú viacero subjektov (OnBehalfOfID).
+
       type: http
       scheme: bearer
       bearerFormat: JWT
@@ -1283,7 +4099,7 @@ components:
               {
                 "exp": 1543437976,
                 "jti": "4dee8618-abbe-4dc3-83ba-e984d1396f9f",
-                "obo": "eyJhbGciOiJIUzI1NiJ9..."
+                "obo": "eyJhbGciOiJIUzI1NiJ9 ..."
               }
 
         API token musí byť prítomný buď:
@@ -1295,6 +4111,7 @@ components:
 
         - hodnota `jti` sa kontroluje podľa regulárneho výrazu `/\A[0-9a-z\-_]{32,256}\z/i`,
         - rovnaké `jti` sa nesmie použiť viac ako jedenkrát počas 120 minút.
+
       type: http
       scheme: bearer
       bearerFormat: JWT

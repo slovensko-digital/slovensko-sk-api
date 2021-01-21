@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
-<!-- TODO remove this file in favor of Java code  -->
+<!-- TODO remove this file in favor of Java code -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:jaxws="http://cxf.apache.org/jaxws"
@@ -19,39 +19,39 @@
       <util:properties>
         <prop key="org.apache.wss4j.crypto.merlin.keystore.type">JKS</prop>
         <prop key="org.apache.wss4j.crypto.merlin.keystore.file">${upvs.sts.keystore.file}</prop>
-        <prop key="org.apache.wss4j.crypto.merlin.keystore.alias">${upvs.sts.keystore.alias}</prop>
-        <prop key="org.apache.wss4j.crypto.merlin.keystore.password">${upvs.sts.keystore.private.password}</prop>
+        <prop key="org.apache.wss4j.crypto.merlin.keystore.password">${upvs.sts.keystore.pass}</prop>
+        <prop key="org.apache.wss4j.crypto.merlin.keystore.alias">${upvs.sts.keystore.private.alias}</prop>
       </util:properties>
     </constructor-arg>
     <constructor-arg index="1">
-      <null />
+      <null/>
     </constructor-arg>
     <constructor-arg index="2">
-      <null />
+      <null/>
     </constructor-arg>
   </bean>
 
-  <bean id="upvsCallbackHandler" class="digital.slovensko.upvs.security.PasswordCallbackHandler">
-    <constructor-arg index="0" value="${upvs.sts.keystore.alias}" />
-    <constructor-arg index="1" value="${upvs.sts.keystore.private.password}" />
+  <bean id="upvsCallbackHandler" class="digital.slovensko.upvs.internals.PasswordCallbackHandler">
+    <constructor-arg index="0" value="${upvs.sts.keystore.private.alias}"/>
+    <constructor-arg index="1" value="${upvs.sts.keystore.private.pass}"/>
   </bean>
 
   <http:conduit name="{http://xmlns.oracle.com/sts/schema/sts-11g.xsd}wss11x509-port.http-conduit">
-    <http:client ConnectionTimeout="${upvs.timeout.connection}" ReceiveTimeout="${upvs.timeout.receive}" />
+    <http:client ConnectionTimeout="${upvs.timeout.connection}" ReceiveTimeout="${upvs.timeout.receive}"/>
     <http:tlsClientParameters>
       <sec:trustManagers>
-        <sec:keyStore type="JKS" resource="${upvs.tls.truststore.file}" password="${upvs.tls.truststore.password}" />
+        <sec:keyStore type="JKS" resource="${upvs.tls.truststore.file}" password="${upvs.tls.truststore.pass}"/>
       </sec:trustManagers>
     </http:tlsClientParameters>
   </http:conduit>
 
-  <bean id="stsClient-ieksService" parent="stsClient" />
+  <bean id="stsClient-ieksService" parent="stsClient"/>
 
   <http:conduit name="{http://schemas.gov.sk/edesk/eksService/1}CustomBinding_IEKSService.http-conduit">
-    <http:client ConnectionTimeout="${upvs.timeout.connection}" ReceiveTimeout="${upvs.timeout.receive}" />
+    <http:client ConnectionTimeout="${upvs.timeout.connection}" ReceiveTimeout="${upvs.timeout.receive}"/>
     <http:tlsClientParameters>
       <sec:trustManagers>
-        <sec:keyStore type="JKS" resource="${upvs.tls.truststore.file}" password="${upvs.tls.truststore.password}" />
+        <sec:keyStore type="JKS" resource="${upvs.tls.truststore.file}" password="${upvs.tls.truststore.pass}"/>
       </sec:trustManagers>
     </http:tlsClientParameters>
   </http:conduit>
@@ -63,20 +63,19 @@
                 endpointName="n:CustomBinding_IEKSService"
                 serviceName="n:EKSService"
                 xmlns:n="http://schemas.gov.sk/edesk/eksService/1">
-
     <jaxws:properties>
-      <entry key="org.apache.cxf.message.Message.ENDPOINT_ADDRESS" value="${upvs.eks.address}" />
-      <entry key="security.sts.client" value-ref="stsClient-ieksService" />
+      <entry key="org.apache.cxf.message.Message.ENDPOINT_ADDRESS" value="${upvs.eks.address}"/>
+      <entry key="security.sts.client" value-ref="stsClient-ieksService"/>
     </jaxws:properties>
   </jaxws:client>
 
-  <bean id="stsClient-iServiceBus" parent="stsClient" />
+  <bean id="stsClient-iServiceBus" parent="stsClient"/>
 
-  <http:conduit name="{http://schemas.gov.sk/ServiceBus/service/1.0}CustomBinding_IServiceBus.http-conduit">
-    <http:client ConnectionTimeout="${upvs.timeout.connection}" ReceiveTimeout="${upvs.timeout.receive}" />
+  <http:conduit name="{http://schemas.gov.sk/ServiceBus/service/1.0}CustomBindingToken_IServiceBus.http-conduit">
+    <http:client ConnectionTimeout="${upvs.timeout.connection}" ReceiveTimeout="${upvs.timeout.receive}"/>
     <http:tlsClientParameters>
       <sec:trustManagers>
-        <sec:keyStore type="JKS" resource="${upvs.tls.truststore.file}" password="${upvs.tls.truststore.password}" />
+        <sec:keyStore type="JKS" resource="${upvs.tls.truststore.file}" password="${upvs.tls.truststore.pass}"/>
       </sec:trustManagers>
     </http:tlsClientParameters>
   </http:conduit>
@@ -84,24 +83,23 @@
   <jaxws:client id="iServiceBus"
                 address="${upvs.ez.address}"
                 serviceClass="sk.gov.schemas.servicebus.service._1_0.IServiceBus"
-                wsdlLocation="ez/ServiceBusToken_eFormProvider.wsdl"
-                endpointName="n:CustomBinding_IServiceBus"
-                serviceName="n:service"
+                wsdlLocation="ez/ServiceBusToken.wsdl"
+                endpointName="n:CustomBindingToken_IServiceBus"
+                serviceName="n:ServiceBusToken"
                 xmlns:n="http://schemas.gov.sk/ServiceBus/service/1.0">
-
     <jaxws:properties>
-      <entry key="org.apache.cxf.message.Message.ENDPOINT_ADDRESS" value="${upvs.ez.address}" />
-      <entry key="security.sts.client" value-ref="stsClient-iServiceBus" />
+      <entry key="org.apache.cxf.message.Message.ENDPOINT_ADDRESS" value="${upvs.ez.address}"/>
+      <entry key="security.sts.client" value-ref="stsClient-iServiceBus"/>
     </jaxws:properties>
   </jaxws:client>
 
-  <bean id="stsClient-identityService" parent="stsClient" />
+  <bean id="stsClient-identityService" parent="stsClient"/>
 
   <http:conduit name="{http://schemas.gov.sk/identity/service/1.7}iamwsport.http-conduit">
-    <http:client ConnectionTimeout="${upvs.timeout.connection}" ReceiveTimeout="${upvs.timeout.receive}" />
+    <http:client ConnectionTimeout="${upvs.timeout.connection}" ReceiveTimeout="${upvs.timeout.receive}"/>
     <http:tlsClientParameters>
       <sec:trustManagers>
-        <sec:keyStore type="JKS" resource="${upvs.tls.truststore.file}" password="${upvs.tls.truststore.password}" />
+        <sec:keyStore type="JKS" resource="${upvs.tls.truststore.file}" password="${upvs.tls.truststore.pass}"/>
       </sec:trustManagers>
     </http:tlsClientParameters>
   </http:conduit>
@@ -113,20 +111,19 @@
                 endpointName="n:iamwsport"
                 serviceName="n:IdentityServicesExt"
                 xmlns:n="http://schemas.gov.sk/identity/service/1.7">
-
     <jaxws:properties>
-      <entry key="org.apache.cxf.message.Message.ENDPOINT_ADDRESS" value="${upvs.iam.address}" />
-      <entry key="security.sts.client" value-ref="stsClient-identityService" />
+      <entry key="org.apache.cxf.message.Message.ENDPOINT_ADDRESS" value="${upvs.iam.address}"/>
+      <entry key="security.sts.client" value-ref="stsClient-identityService"/>
     </jaxws:properties>
   </jaxws:client>
 
-  <bean id="stsClient-skTalkService" parent="stsClient" />
+  <bean id="stsClient-skTalkService" parent="stsClient"/>
 
   <http:conduit name="{http://gov.sk/eGov/IService}ServiceSkTalk3Token_IService.http-conduit">
-    <http:client ConnectionTimeout="${upvs.timeout.connection}" ReceiveTimeout="${upvs.timeout.receive}" />
+    <http:client ConnectionTimeout="${upvs.timeout.connection}" ReceiveTimeout="${upvs.timeout.receive}"/>
     <http:tlsClientParameters>
       <sec:trustManagers>
-        <sec:keyStore type="JKS" resource="${upvs.tls.truststore.file}" password="${upvs.tls.truststore.password}" />
+        <sec:keyStore type="JKS" resource="${upvs.tls.truststore.file}" password="${upvs.tls.truststore.pass}"/>
       </sec:trustManagers>
     </http:tlsClientParameters>
   </http:conduit>
@@ -138,10 +135,9 @@
                 endpointName="n:ServiceSkTalk3Token_IService"
                 serviceName="n:BizTalkServiceInstance"
                 xmlns:n="http://gov.sk/eGov/IService">
-
     <jaxws:properties>
-      <entry key="org.apache.cxf.message.Message.ENDPOINT_ADDRESS" value="${upvs.sktalk.address}" />
-      <entry key="security.sts.client" value-ref="stsClient-skTalkService" />
+      <entry key="org.apache.cxf.message.Message.ENDPOINT_ADDRESS" value="${upvs.sktalk.address}"/>
+      <entry key="security.sts.client" value-ref="stsClient-skTalkService"/>
     </jaxws:properties>
   </jaxws:client>
 </beans>

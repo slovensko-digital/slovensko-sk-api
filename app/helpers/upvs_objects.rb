@@ -1,23 +1,25 @@
-# TODO consider to remove this helpers if it remains unused
-
 module UpvsObjects
   extend self
+
+  mattr_reader :datatype_factory, default: javax.xml.datatype.DatatypeFactory.new_instance
+
+  delegate :from_xml, :to_xml, to: digital.slovensko.upvs.UpvsObjects
 
   def to_structure(object)
     to_ruby_object(digital.slovensko.upvs.UpvsObjects.to_structure(object))
   end
 
+  alias_method :to_struct, :to_structure
+
   private
 
   def to_ruby_object(object)
     return object.to_a.map { |e| to_ruby_object(e) } if object.is_a?(java.util.Collection)
-    return object.to_h.map { |k, v| [to_ruby_key(k), to_ruby_object(v)]}.to_h if object.is_a?(java.util.Map)
+    return object.to_h.map { |k, v| [to_ruby_key(k), to_ruby_object(v)] }.to_h if object.is_a?(java.util.Map)
     object
   end
 
   def to_ruby_key(key)
-    return to_ruby_object(key) unless key.is_a?(String)
-    fix = { 'clazz' => 'class', 'e_desk' => 'edesk', 'sk_talk' => 'sktalk' }
-    fix.inject(key.underscore) { |k, (p, r)| k.sub(/(\A|_)#{p}(_|\z)/i, r) }
+    key.is_a?(String) ? key.underscore : to_ruby_object(key)
   end
 end

@@ -3,9 +3,10 @@
 class OboTokenAuthenticator
   MAX_EXP_IN = UpvsEnvironment::PROXY_MAX_EXP_IN
 
-  def initialize(assertion_store:, key_pair:)
+  def initialize(assertion_store:, key_pair:, proxy_subject:)
     @assertion_store = assertion_store
     @key_pair = key_pair
+    @proxy_subject = proxy_subject
   end
 
   def generate_token(response, scopes: [])
@@ -14,7 +15,7 @@ class OboTokenAuthenticator
     sub = response.attributes['SubjectID'].to_s
     exp = response.not_on_or_after.to_i
     nbf = response.not_before.to_i
-    iat = Time.parse(assertion.attributes['IssueInstant']).to_f
+    iat = Time.parse(assertion.attributes['IssueInstant']).to_i
 
     name = response.attributes['Subject.FormattedName'].to_s
     scopes = scopes.to_a
@@ -42,7 +43,7 @@ class OboTokenAuthenticator
   end
 
   def invalidate_token(token)
-    verify_token(token) do |payload, _, _|
+    verify_token(token) do |payload, _|
       result = @assertion_store.delete(payload['jti'])
       result && result.to_s != '0'
     end
@@ -67,15 +68,15 @@ class OboTokenAuthenticator
 
     scopes = payload['scopes'].to_a
 
-    raise JWT::VerificationError if scope && scopes.exclude?(scope)
+    raise JWT::InvalidPayload if scope && scopes.exclude?(scope)
 
     ass = @assertion_store.read(jti)
 
     raise JWT::InvalidJtiError unless ass
 
-    return yield payload, header, ass if block_given?
+    return yield payload, header if block_given?
 
-    ass
+    [@proxy_subject, ass]
   end
 
   private

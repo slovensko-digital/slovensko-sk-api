@@ -1,0 +1,113 @@
+{
+  "ids": [
+    {
+      "type": "sector_upvs",
+      "value": "6d9dc77b-70ed-432f-abaa-5de8753c967c"
+    }
+  ],
+  "uri": "ico://sk/42156424_10001",
+  "en": "E0000012800",
+  "type": "institution_of_public_administration",
+  "status": "activated",
+  "name": "UPVS",
+  "suffix": 10001,
+  "various_ids": [
+    {
+      "type": {
+        "id": "7",
+        "name": "IČO (Identifikačné číslo organizácie)",
+        "description": null
+      },
+      "value": "42156424",
+      "specified": true
+    }
+  ],
+  "upvs": {
+    "edesk_number": "E0000012800",
+    "edesk_status": "deliverable",
+    "edesk_remote_uri": null,
+    "edesk_cuet_delivery_enabled": false,
+    "edesk_delivery_limited": false,
+    "enotify_preferred_channel": null,
+    "enotify_preferred_calendar": null,
+    "enotify_emergency_allowed": null,
+    "enotify_email_allowed": null,
+    "enotify_sms_allowed": null,
+    "preferred_language": "sk",
+    "re_iam_identity_id": "217275"
+  },
+  "corporate_body": {
+    "cin": "42156424",
+    "tin": null,
+    "organization_id": null,
+    "organization_units": [],
+    "name": "UPVS",
+    "alternative_names": [],
+    "legal_form": {
+      "id": "321",
+      "name": "Rozpočtová organizácia",
+      "description": null
+    },
+    "legal_facts": [],
+    "activities": [],
+    "established_on": "2013-12-13",
+    "terminated_on": null,
+    "updated_on": null
+  },
+  "addresses": [
+    {
+      "type": "resident",
+      "inline": null,
+      "country": {
+        "id": "703",
+        "name": "Slovenská republika",
+        "description": null
+      },
+      "region": null,
+      "district": {
+        "id": "SK0101",
+        "name": "Okres Bratislava I",
+        "description": null
+      },
+      "municipality": {
+        "id": "SK0101528595",
+        "name": "Bratislava - mestská časť Staré Mesto",
+        "description": null
+      },
+      "part": null,
+      "street": "Pribinova",
+      "building_number": null,
+      "registration_number": null,
+      "unit": null,
+      "building_index": null,
+      "delivery_address": {
+        "postal_code": "81272",
+        "post_office_box": null,
+        "recipient": null
+      },
+      "ra_entry": null,
+      "specified": true
+    }
+  ],
+  "emails": [
+    {
+      "address": "mailto:test@slovensko.sk",
+      "dsig_key_info": null
+    }
+  ],
+  "phones": [
+    {
+      "type": {
+        "id": "1",
+        "name": "Pevná sieť",
+        "description": null
+      },
+      "number": "+42121234111",
+      "international_country_code": null,
+      "national_number": null,
+      "area_city_code": null,
+      "subscriber_number": null,
+      "extension": null
+    }
+  ]
+}

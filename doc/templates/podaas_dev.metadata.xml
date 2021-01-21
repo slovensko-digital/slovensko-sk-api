@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<EntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" entityID="<!-- INSERT Entity ID, example: http://podaas.ekosystem.staging.slovensko.digital -->">
+  <SPSSODescriptor AuthnRequestsSigned="true" WantAssertionsSigned="true" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+    <KeyDescriptor use="signing">
+      <KeyInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
+        <X509Data>
+          <X509Certificate><!-- INSERT SP public key in PEM format, example: MIIDETCCAfmgAwIBAgIEIa... --></X509Certificate>
+        </X509Data>
+      </KeyInfo>
+    </KeyDescriptor>
+    <KeyDescriptor use="encryption">
+      <KeyInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
+        <X509Data>
+          <X509Certificate><!-- INSERT SP public key in PEM format, example:  MIIDETCCAfmgAwIBAgIEIa... --></X509Certificate>
+        </X509Data>
+      </KeyInfo>
+    </KeyDescriptor>
+
+    <!-- UPDATE locations of SSO bindings below -->
+
+    <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://podaas.ekosystem.staging.slovensko.digital/logout" ResponseLocation="https://podaas.ekosystem.staging.slovensko.digital/auth/saml/logout"/>
+    <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://podaas.ekosystem.staging.slovensko.digital/logout" ResponseLocation="https://podaas.ekosystem.staging.slovensko.digital/auth/saml/logout"/>
+    <AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://podaas.ekosystem.staging.slovensko.digital/auth/saml/callback" index="0" isDefault="true"/>
+    <AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact" Location="https://podaas.ekosystem.staging.slovensko.digital/auth/saml/callback" index="1"/>
+    <AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://podaas.ekosystem.staging.slovensko.digital/auth/saml/callback" index="2"/>
+  </SPSSODescriptor>
+</EntityDescriptor>

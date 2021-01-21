@@ -16,7 +16,7 @@ import sk.gov.schemas.edesk.eksservice._1.IEKSService;
 import sk.gov.schemas.identity.service._1_7.IdentityServices;
 import sk.gov.schemas.servicebus.service._1_0.IServiceBus;
 
-import digital.slovensko.upvs.log.PropertyResolver;
+import digital.slovensko.upvs.internals.LoggerPropertyDefiner;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -34,10 +34,10 @@ public final class UpvsProxy {
   public UpvsProxy(final Map<String, Object> properties) {
     Map<String, Object> copy = new LinkedHashMap<>(properties);
 
-    PropertyResolver.load(copy);
+    LoggerPropertyDefiner.load(copy);
 
     List<String> configurations = newArrayList("context.xml", "ws.xml");
-    configurations.add(copy.containsKey("upvs.sts.saml.assertion") ? "ws-onbehalf.xml" : "ws-techcert.xml");
+    configurations.add(copy.containsKey("upvs.sts.obo") ? "ws-onbehalf.xml" : "ws-techcert.xml");
 
     this.context = new Context(configurations, new MapPropertySource("args", copy));
 
