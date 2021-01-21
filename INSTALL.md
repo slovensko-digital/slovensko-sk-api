@@ -74,7 +74,7 @@ V prípade potreby je možné vyskúšať komponet prevádzkovaný na strane Slo
 
   pozri aktuálny [stav komponentu](https://fix.slovensko-sk-api.staging.slovensko.digital/health) a [špecifikáciu API](https://generator.swagger.io/index.html?url=https://fix.slovensko-sk-api.staging.slovensko.digital/openapi.yaml) nasadenej verzie.
 
-- komponenty v **DEV a FIX prostredí** majú rovnaký privátny kľúč pre generovanie API tokenov a rovnaký verejný kľúč pre verifikáciu OBO tokenov, ale majú rôzne PO a OVM identity, [kontaktujte nás](ekosystem@slovensko.digital).
+- komponenty v **DEV a FIX prostredí** majú rovnaký privátny kľúč pre generovanie API tokenov a rovnaký verejný kľúč pre verifikáciu OBO tokenov, ale majú rôzne PO a OVM identity, [kontaktujte nás](mailto:ekosystem@slovensko.digital).
 
 ## Konfigurácia API komponentu
 
