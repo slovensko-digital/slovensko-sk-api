@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <!-- TODO remove this file in favor of Java code, see https://cwiki.apache.org/confluence/display/CXF20DOC/WS-Trust -->
 
@@ -9,19 +9,19 @@
                            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
   <bean id="stsClient" abstract="true" class="org.apache.cxf.ws.security.trust.STSClient">
-    <constructor-arg ref="cxf" />
-    <property name="location" value="${upvs.sts.address}" />
-    <property name="wsdlLocation" value="sts/wss11x509.wsdl" />
-    <property name="serviceName" value="{http://xmlns.oracle.com/sts/schema/sts-11g.xsd}wss11x509-serviceSoap12" />
-    <property name="endpointName" value="{http://xmlns.oracle.com/sts/schema/sts-11g.xsd}wss11x509-port" />
-    <property name="allowRenewing" value="false" />
-    <property name="sendRenewing" value="false" />
-    <property name="onBehalfOf" value="${upvs.sts.saml.assertion}" />
+    <constructor-arg ref="cxf"/>
+    <property name="location" value="${upvs.sts.address}"/>
+    <property name="wsdlLocation" value="sts/wss11x509.wsdl"/>
+    <property name="serviceName" value="{http://xmlns.oracle.com/sts/schema/sts-11g.xsd}wss11x509-serviceSoap12"/>
+    <property name="endpointName" value="{http://xmlns.oracle.com/sts/schema/sts-11g.xsd}wss11x509-port"/>
+    <property name="allowRenewing" value="false"/>
+    <property name="sendRenewing" value="false"/>
+    <property name="onBehalfOf" value="${upvs.sts.obo}"/>
     <property name="properties">
       <map>
-        <entry key="org.apache.cxf.message.Message.ENDPOINT_ADDRESS" value="${upvs.sts.address}" />
-        <entry key="security.signature.crypto" value-ref="upvsSignatureCrypto" />
-        <entry key="security.callback-handler" value-ref="upvsCallbackHandler" />
+        <entry key="org.apache.cxf.message.Message.ENDPOINT_ADDRESS" value="${upvs.sts.address}"/>
+        <entry key="security.signature.crypto" value-ref="upvsSignatureCrypto"/>
+        <entry key="security.callback-handler" value-ref="upvsCallbackHandler"/>
       </map>
     </property>
   </bean>

@@ -37,12 +37,12 @@ module SlovenskoSkApi
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore
 
-    # Set local timezone
+    # Set local time zone
     config.active_record.default_timezone = :utc
-    config.time_zone = 'Europe/Bratislava'
+    config.time_zone = ENV['TIME_ZONE'] || 'Europe/Bratislava'
 
     # Set default locale
-    config.i18n.default_locale = :sk
+    config.i18n.default_locale = :en
 
     # Set job worker
     config.active_job.queue_adapter = :delayed_job
@@ -60,12 +60,11 @@ end
 # Require Java
 require 'java'
 
-# Define shortcuts to known Java packages
-%w(com digital java javax org sk).each do |package|
-  accessor = Module.const_get("Java::#{package.camelize}")
-  Kernel.define_method(package) { accessor }
-end
+Kernel.define_method(:digital) { Java::Digital }
+Kernel.define_method(:sk) { Java::Sk }
 
 # Require libraries
 require 'keystore'
+require 'open3'
+require 'parameters'
 require 'upvs'

@@ -4,21 +4,22 @@ class ApiTokenAuthenticator
   MAX_EXP_IN = UpvsEnvironment::PROXY_MAX_EXP_IN
   JTI_PATTERN = /\A[0-9a-z\-_]{32,256}\z/i
 
-  def initialize(identifier_store:, public_key:, obo_token_authenticator:)
+  def initialize(identifier_store:, public_key:, subject_verifier:, obo_token_authenticator:)
     @identifier_store = identifier_store
     @public_key = public_key
+    @subject_verifier = subject_verifier
     @obo_token_authenticator = obo_token_authenticator
   end
 
-  def invalidate_token(token, allow_ta: false, allow_obo: false)
-    verify_token(token, allow_ta: allow_ta, allow_obo: allow_obo) do |payload, _, _|
-      @obo_token_authenticator.invalidate_token(payload['obo']) if payload['obo']
+  def invalidate_token(token, allow_plain: false, allow_sub: false, allow_obo_token: false)
+    verify_token(token, allow_plain: allow_plain, allow_sub: allow_sub, allow_obo_token: allow_obo_token) do |payload, header|
+      @obo_token_authenticator.invalidate_token(payload['obo']) if header['cty'] && payload['obo']
     end
   end
 
-  def verify_token(token, allow_ta: false, allow_obo: false, require_obo_scope: nil)
-    raise ArgumentError if !allow_ta && !allow_obo
-    raise ArgumentError if !allow_obo && require_obo_scope
+  def verify_token(token, allow_plain: false, allow_sub: false, allow_obo_token: false, require_obo_token_scope: nil)
+    raise ArgumentError if !allow_plain && !allow_sub && !allow_obo_token
+    raise ArgumentError if !allow_obo_token && require_obo_token_scope
 
     options = {
       algorithm: 'RS256',
@@ -26,35 +27,46 @@ class ApiTokenAuthenticator
     }
 
     payload, header = JWT.decode(token, @public_key, true, options)
+    cty, sub, obo = header['cty'], payload['sub'], payload['obo']
 
-    cty, obo = header['cty'], payload['obo']
-
-    if obo
+    if cty && obo
       raise JWT::DecodeError unless obo_token_support?
-      raise JWT::InvalidPayload unless allow_obo
+      raise JWT::InvalidPayload unless allow_obo_token
       raise JWT::InvalidPayload if cty != 'JWT'
+      raise JWT::InvalidPayload if sub
 
-      # TODO scope JTIs per OBO SUB or not? (currently not scoped)
+      begin
+        sub, obo = @obo_token_authenticator.verify_token(obo, scope: require_obo_token_scope)
+      rescue JWT::DecodeError
+        raise JWT::InvalidPayload
+      end
 
-      sub, ass = nil, @obo_token_authenticator.verify_token(obo, scope: require_obo_scope)
-    else
-      raise JWT::InvalidPayload unless allow_ta
+      raise JWT::InvalidSubError unless sub
+    # elsif sub && obo
+    #   raise JWT::InvalidPayload unless allow_obo_id
+    #   raise JWT::InvalidPayload if cty
+    #
+    #   # TODO verify OBO id here
+    elsif sub
+      raise JWT::InvalidPayload unless allow_sub
       raise JWT::InvalidPayload if cty
-
-      # TODO set SUB here according to underlying TA
-
-      sub, ass = nil
+      raise JWT::InvalidPayload if obo
+    else
+      raise allow_sub ? JWT::InvalidSubError : JWT::InvalidPayload unless allow_plain
+      raise JWT::InvalidPayload if cty
+      raise JWT::InvalidPayload if obo
     end
 
     exp, jti = payload['exp'], payload['jti']
 
+    raise JWT::InvalidSubError if sub && !@subject_verifier.call(sub)
     raise JWT::ExpiredSignature unless exp.is_a?(Integer)
     raise JWT::InvalidPayload if exp > (Time.now + MAX_EXP_IN).to_i
     raise JWT::InvalidJtiError unless @identifier_store.write([sub, jti], true, expires_in: MAX_EXP_IN, unless_exist: true)
 
-    return yield payload, header, ass if block_given?
+    return yield payload, header if block_given?
 
-    ass
+    [sub, obo]
   end
 
   private

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SKTalkMessage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://gov.sk/SKTalkMessage">
+  <EnvelopeVersion>3.0</EnvelopeVersion>
+  <Header>
+    <MessageInfo>
+      <Class>ED_DELIVERY_NOTIFICATION</Class>
+      <MessageID>6d65268e-495e-45f4-a3cb-3e8fca85b40a</MessageID>
+      <CorrelationID>ac64292e-e06a-4147-8b8c-d56275a9f625</CorrelationID>
+      <ReferenceID>e411c801-8290-47c2-8250-801f3cf56e58</ReferenceID>
+      <ChannelInfo/>
+      <ChannelInfoReply/>
+    </MessageInfo>
+    <SenderInfo/>
+  </Header>
+  <Body>
+    <MessageContainer xmlns="http://schemas.gov.sk/core/MessageContainer/1.0">
+      <MessageId>6d65268e-495e-45f4-a3cb-3e8fca85b40a</MessageId>
+      <SenderId>ico://sk/42156424_90000</SenderId>
+      <RecipientId>ico://sk/6501012225</RecipientId>
+      <MessageType>ED.DeliveryReportNotification</MessageType>
+      <MessageSubject>Doručenka</MessageSubject>
+      <SenderBusinessReference>e411c801-8290-47c2-8250-801f3cf56e58</SenderBusinessReference>
+      <Object Id="5a9df16b-41c4-4aee-ae17-b6d254aec66b" Name="Doručenka" Description="" Class="FORM" IsSigned="false" MimeType="application/x-eform-xml" Encoding="XML">
+        <DeliveryReportNotification xmlns="http://schemas.gov.sk/form/ED.DeliveryReportNotification/1.6">
+          <Persons>
+            <SenderID>ico://sk/42156424_90000</SenderID>
+            <RecipientID>ico://sk/6501012225</RecipientID>
+          </Persons>
+          <DeliveryInformation>
+            <Received>2016-10-18T15:51:23.7860774+02:00</Received>
+            <DeliveryPeriod>15</DeliveryPeriod>
+            <DeliveryPeriodEnd>2016-11-03T00:00:00+01:00</DeliveryPeriodEnd>
+          </DeliveryInformation>
+          <Consignment>
+            <MessageID>e411c801-8290-47c2-8250-801f3cf56e58</MessageID>
+            <MessageSubject>Všeobecná agenda - rozhodnutie do vlastných rúk</MessageSubject>
+            <MessageType>Doc.GeneralAgendaReport</MessageType>
+            <Note>Po uplynutí dátumu doručenia sa doručovaná správa považuje za nedoručenú.</Note>
+            <Attachments>
+              <Attachment>
+                <AttachmentId>9db2f9cb-639b-45d9-8f03-24195e5615af</AttachmentId>
+                <AttachmentName>Všeobecná agenda - rozhodnutie do vlastných rúk</AttachmentName>
+              </Attachment>
+            </Attachments>
+          </Consignment>
+        </DeliveryReportNotification>
+      </Object>
+    </MessageContainer>
+  </Body>
+</SKTalkMessage>

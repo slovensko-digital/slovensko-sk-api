@@ -1,16 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <xsd:schema attributeFormDefault="unqualified" blockDefault="#all" elementFormDefault="qualified" targetNamespace="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" version="0.2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
-  <xsd:import namespace="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" schemaLocation="wss11x509_1_2.xsd" />
-  <xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="wss11x509_1_2_3.xsd" />
-  <xsd:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="wss11x509_1_2_3_4.xsd" />
+  <xsd:import namespace="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" schemaLocation="wss11x509_1_2.xsd"/>
+  <xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="wss11x509_1_2_3.xsd"/>
+  <xsd:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="wss11x509_1_2_3_4.xsd"/>
   <xsd:complexType name="AttributedString">
     <xsd:annotation>
       <xsd:documentation>This type represents an element with arbitrary attributes.</xsd:documentation>
     </xsd:annotation>
     <xsd:simpleContent>
       <xsd:extension base="xsd:string">
-        <xsd:attribute ref="wsu:Id" />
-        <xsd:anyAttribute namespace="##other" processContents="lax" />
+        <xsd:attribute ref="wsu:Id"/>
+        <xsd:anyAttribute namespace="##other" processContents="lax"/>
       </xsd:extension>
     </xsd:simpleContent>
   </xsd:complexType>
@@ -20,7 +20,7 @@
     </xsd:annotation>
     <xsd:simpleContent>
       <xsd:extension base="wsse:AttributedString">
-        <xsd:attribute name="Type" type="xsd:anyURI" />
+        <xsd:attribute name="Type" type="xsd:anyURI"/>
       </xsd:extension>
     </xsd:simpleContent>
   </xsd:complexType>
@@ -30,7 +30,7 @@
     </xsd:annotation>
     <xsd:simpleContent>
       <xsd:extension base="wsse:AttributedString">
-        <xsd:attribute name="EncodingType" type="xsd:anyURI" />
+        <xsd:attribute name="EncodingType" type="xsd:anyURI"/>
       </xsd:extension>
     </xsd:simpleContent>
   </xsd:complexType>
@@ -39,11 +39,11 @@
       <xsd:documentation>This type represents a username token per Section 4.1</xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
-      <xsd:element name="Username" type="wsse:AttributedString" />
-      <xsd:any maxOccurs="unbounded" minOccurs="0" processContents="lax" />
+      <xsd:element name="Username" type="wsse:AttributedString"/>
+      <xsd:any maxOccurs="unbounded" minOccurs="0" processContents="lax"/>
     </xsd:sequence>
-    <xsd:attribute ref="wsu:Id" />
-    <xsd:anyAttribute namespace="##other" processContents="lax" />
+    <xsd:attribute ref="wsu:Id"/>
+    <xsd:anyAttribute namespace="##other" processContents="lax"/>
   </xsd:complexType>
   <xsd:complexType name="BinarySecurityTokenType">
     <xsd:annotation>
@@ -51,7 +51,7 @@
     </xsd:annotation>
     <xsd:simpleContent>
       <xsd:extension base="wsse:EncodedString">
-        <xsd:attribute name="ValueType" type="xsd:anyURI" />
+        <xsd:attribute name="ValueType" type="xsd:anyURI"/>
       </xsd:extension>
     </xsd:simpleContent>
   </xsd:complexType>
@@ -61,7 +61,7 @@
     </xsd:annotation>
     <xsd:simpleContent>
       <xsd:extension base="wsse:EncodedString">
-        <xsd:attribute name="ValueType" type="xsd:anyURI" />
+        <xsd:attribute name="ValueType" type="xsd:anyURI"/>
       </xsd:extension>
     </xsd:simpleContent>
   </xsd:complexType>
@@ -69,7 +69,7 @@
     <xsd:annotation>
       <xsd:documentation>Typedef to allow a list of usages (as URIs).</xsd:documentation>
     </xsd:annotation>
-    <xsd:list itemType="xsd:anyURI" />
+    <xsd:list itemType="xsd:anyURI"/>
   </xsd:simpleType>
   <xsd:attribute name="Usage" type="tUsage">
     <xsd:annotation>
@@ -80,30 +80,30 @@
     <xsd:annotation>
       <xsd:documentation>This type represents a reference to an external security token.</xsd:documentation>
     </xsd:annotation>
-    <xsd:attribute name="URI" type="xsd:anyURI" />
-    <xsd:attribute name="ValueType" type="xsd:anyURI" />
-    <xsd:anyAttribute namespace="##other" processContents="lax" />
+    <xsd:attribute name="URI" type="xsd:anyURI"/>
+    <xsd:attribute name="ValueType" type="xsd:anyURI"/>
+    <xsd:anyAttribute namespace="##other" processContents="lax"/>
   </xsd:complexType>
   <xsd:complexType name="EmbeddedType">
     <xsd:annotation>
       <xsd:documentation>This type represents a reference to an embedded security token.</xsd:documentation>
     </xsd:annotation>
     <xsd:choice maxOccurs="unbounded" minOccurs="0">
-      <xsd:any processContents="lax" />
+      <xsd:any processContents="lax"/>
     </xsd:choice>
-    <xsd:attribute name="ValueType" type="xsd:anyURI" />
-    <xsd:anyAttribute namespace="##other" processContents="lax" />
+    <xsd:attribute name="ValueType" type="xsd:anyURI"/>
+    <xsd:anyAttribute namespace="##other" processContents="lax"/>
   </xsd:complexType>
   <xsd:complexType name="SecurityTokenReferenceType">
     <xsd:annotation>
       <xsd:documentation>This type is used reference a security token.</xsd:documentation>
     </xsd:annotation>
     <xsd:choice maxOccurs="unbounded" minOccurs="0">
-      <xsd:any processContents="lax" />
+      <xsd:any processContents="lax"/>
     </xsd:choice>
-    <xsd:attribute ref="wsu:Id" />
-    <xsd:attribute ref="wsse:Usage" />
-    <xsd:anyAttribute namespace="##other" processContents="lax" />
+    <xsd:attribute ref="wsu:Id"/>
+    <xsd:attribute ref="wsse:Usage"/>
+    <xsd:anyAttribute namespace="##other" processContents="lax"/>
   </xsd:complexType>
   <xsd:complexType name="SecurityHeaderType">
     <xsd:annotation>
@@ -116,7 +116,7 @@
         </xsd:annotation>
       </xsd:any>
     </xsd:sequence>
-    <xsd:anyAttribute namespace="##other" processContents="lax" />
+    <xsd:anyAttribute namespace="##other" processContents="lax"/>
   </xsd:complexType>
   <xsd:complexType name="TransformationParametersType">
     <xsd:annotation>
@@ -129,7 +129,7 @@
         </xsd:annotation>
       </xsd:any>
     </xsd:sequence>
-    <xsd:anyAttribute namespace="##other" processContents="lax" />
+    <xsd:anyAttribute namespace="##other" processContents="lax"/>
   </xsd:complexType>
   <xsd:element name="UsernameToken" type="wsse:UsernameTokenType">
     <xsd:annotation>
@@ -171,17 +171,17 @@
       <xsd:documentation>This element contains properties for transformations from any namespace, including DSIG.</xsd:documentation>
     </xsd:annotation>
   </xsd:element>
-  <xsd:element name="Password" type="wsse:PasswordString" />
-  <xsd:element name="Nonce" type="wsse:EncodedString" />
+  <xsd:element name="Password" type="wsse:PasswordString"/>
+  <xsd:element name="Nonce" type="wsse:EncodedString"/>
   <xsd:simpleType name="FaultcodeEnum">
     <xsd:restriction base="xsd:QName">
-      <xsd:enumeration value="wsse:UnsupportedSecurityToken" />
-      <xsd:enumeration value="wsse:UnsupportedAlgorithm" />
-      <xsd:enumeration value="wsse:InvalidSecurity" />
-      <xsd:enumeration value="wsse:InvalidSecurityToken" />
-      <xsd:enumeration value="wsse:FailedAuthentication" />
-      <xsd:enumeration value="wsse:FailedCheck" />
-      <xsd:enumeration value="wsse:SecurityTokenUnavailable" />
+      <xsd:enumeration value="wsse:UnsupportedSecurityToken"/>
+      <xsd:enumeration value="wsse:UnsupportedAlgorithm"/>
+      <xsd:enumeration value="wsse:InvalidSecurity"/>
+      <xsd:enumeration value="wsse:InvalidSecurityToken"/>
+      <xsd:enumeration value="wsse:FailedAuthentication"/>
+      <xsd:enumeration value="wsse:FailedCheck"/>
+      <xsd:enumeration value="wsse:SecurityTokenUnavailable"/>
     </xsd:restriction>
   </xsd:simpleType>
 </xsd:schema>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CallServiceResponse xmlns="http://schemas.gov.sk/ServiceBus/service/1.0">
+  <CallServiceResult xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns:a="http://schemas.gov.sk/ServiceBusServiceProvider/Ness/eFormProvider/1.0" i:type="a:GetRelatedDocumentByTypeRes">
+    <a:FormTemplate i:nil="true"/>
+    <a:RelatedDocument>
+      <a:Data>PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48eHM6c2NoZW1hIGVsZW1lbnRGb3JtRGVmYXVsdD0icXVhbGlmaWVkIiBhdHRyaWJ1dGVGb3JtRGVmYXVsdD0idW5xdWFsaWZpZWQiIHhtbG5zOnhzPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYSIgdGFyZ2V0TmFtZXNwYWNlPSJodHRwOi8vc2NoZW1hcy5nb3Yuc2svZm9ybS9BcHAuR2VuZXJhbEFnZW5kYS8xLjkiIHhtbG5zPSJodHRwOi8vc2NoZW1hcy5nb3Yuc2svZm9ybS9BcHAuR2VuZXJhbEFnZW5kYS8xLjkiPg0KPHhzOnNpbXBsZVR5cGUgbmFtZT0idGV4dEFyZWEiPg0KPHhzOnJlc3RyaWN0aW9uIGJhc2U9InhzOnN0cmluZyI+DQo8L3hzOnJlc3RyaWN0aW9uPg0KPC94czpzaW1wbGVUeXBlPg0KPHhzOnNpbXBsZVR5cGUgbmFtZT0ibWVubyI+DQo8eHM6cmVzdHJpY3Rpb24gYmFzZT0ieHM6c3RyaW5nIj4NCjwveHM6cmVzdHJpY3Rpb24+DQo8L3hzOnNpbXBsZVR5cGU+DQoNCg0KPHhzOmVsZW1lbnQgbmFtZT0iR2VuZXJhbEFnZW5kYSI+DQo8eHM6Y29tcGxleFR5cGU+DQo8eHM6c2VxdWVuY2U+DQo8eHM6ZWxlbWVudCBuYW1lPSJzdWJqZWN0IiB0eXBlPSJtZW5vIiBtaW5PY2N1cnM9IjAiIG5pbGxhYmxlPSJ0cnVlIiAvPg0KPHhzOmVsZW1lbnQgbmFtZT0idGV4dCIgdHlwZT0idGV4dEFyZWEiIG1pbk9jY3Vycz0iMCIgbmlsbGFibGU9InRydWUiIC8+DQo8L3hzOnNlcXVlbmNlPg0KPC94czpjb21wbGV4VHlwZT4NCjwveHM6ZWxlbWVudD4NCjwveHM6c2NoZW1hPg0KDQo=</a:Data>
+      <a:MetaData>
+        <a:Description>Xsd výsledného eDoc (elektronický dokument)  xml</a:Description>
+        <a:Identifier>schema.xsd</a:Identifier>
+        <a:Language>sk</a:Language>
+        <a:Type>CLS_F_XSD_EDOC</a:Type>
+      </a:MetaData>
+    </a:RelatedDocument>
+  </CallServiceResult>
+</CallServiceResponse>

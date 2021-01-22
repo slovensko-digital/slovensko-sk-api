@@ -3,4 +3,5 @@ class FormTemplateRelatedDocument < ApplicationRecord
   belongs_to :form_template
 
   # TODO rename document_type to type
+  # TODO rename data to content
 end

@@ -1,46 +1,34 @@
 class EformController < ApiController
-  before_action { authenticate(allow_ta: true) }
+  before_action { authenticate(allow_sub: true) }
 
-  before_action { render_bad_request(:no_form_identifier) if params[:identifier].blank? }
-  before_action { render_bad_request(:no_form_version) if params[:version].blank? }
+  rescue_from(ActiveRecord::RecordNotFound) { render_not_found(:template) }
+  rescue_from(Nokogiri::XML::SyntaxError) { render_bad_request(:invalid, :form) }
 
-  before_action(only: :validate) { render_bad_request(:no_form_data) if params[:data].blank? }
-
-  rescue_from(ActiveRecord::RecordNotFound) { render_not_found(:form_template, identifier: params[:identifier], version: params[:version]) }
-  rescue_from(Nokogiri::XML::SyntaxError) { render_bad_request(:malformed_form_data) }
-
-  # TODO consider some sort of rescue-from-soap-fault helper, the goal is not ot override soap fault rescue handler here but reuse the definition in api controller
-  rescue_from javax.xml.ws.soap.SOAPFaultException do |error|
-    logger.debug { error.full_message }
-
-    if soap_timeout?(error)
-      render_request_timeout
-    elsif error.message == '06000798'
-      render_not_found(:form_template, identifier: params[:identifier], version: params[:version])
-    else
-      render_internal_server_error
-    end
-  end
+  rescue_from_soap_fault { |code| render_not_found(:template) if code == '06000798' }
 
   def status
-    status = UpvsEnvironment.eform_service.fetch_form_template_status(params[:identifier], params[:version])
+    identifier, version = params.require(:identifier), params.require(:version)
 
-    render json: { status: status }
+    render json: { status: eform_service(upvs_identity).fetch_form_template_status(identifier, version) }
   end
 
   def validate
-    identifier, version_major, version_minor = params[:identifier], *params[:version].split('.', 2)
-    form_template = FormTemplate.find_by!(identifier: identifier, version_major: version_major, version_minor: version_minor)
+    identifier, version, form = params.require(:identifier), params.require(:version), params.require(:form)
 
-    if form_template.xsd_schema.present?
-      xsd_schema = Nokogiri::XML::Schema(form_template.xsd_schema)
-      form_data = Nokogiri::XML(params[:data]) { |config| config.strict }
+    # TODO remove -> see notes in FormTemplate model
+    version_major, version_minor = *version.split('.', 2)
 
-      errors = xsd_schema.validate(form_data)
+    template = FormTemplate.find_by!(identifier: identifier, version_major: version_major, version_minor: version_minor)
+
+    if template.xsd_schema.present?
+      schema = Nokogiri::XML::Schema(template.xsd_schema)
+      document = Nokogiri::XML(form) { |config| config.strict }
+
+      errors = schema.validate(document)
 
       render json: { valid: errors.none?, errors: errors.map(&:message).presence }.compact
     else
-      render_not_found(:form_schema, identifier: params[:identifier], version: params[:version])
+      render_not_found(:schema)
     end
   end
 end

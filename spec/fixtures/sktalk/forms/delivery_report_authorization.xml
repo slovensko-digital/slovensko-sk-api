@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DeliveryReportAuthorization xmlns="http://schemas.gov.sk/form/ED.DeliveryReportAuthorization/1.3">
+  <MessageID>e411c801-8290-47c2-8250-801f3cf56e58</MessageID>
+  <ActorID>ico://sk/6501012225</ActorID>
+  <SubjectID>ico://sk/6501012225</SubjectID>
+  <Authorized>2016-10-18T16:35:44+02:00</Authorized>
+</DeliveryReportAuthorization>

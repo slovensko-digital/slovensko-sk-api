@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
-  scope defaults: { format: :json }, constraints: { format: :json } do
-    namespace :admin do
-      get :eform_sync, path: 'eform/sync'
+  scope format: false do
+    namespace :administration do
+      namespace :eform do
+        get :synchronize
+      end
     end
 
     get :health, to: 'health#index'
@@ -24,6 +26,14 @@ Rails.application.routes.draw do
         post :validate
       end
 
+      namespace :iam do
+        resources :identities, only: [:show] do
+          collection do
+            post :search
+          end
+        end
+      end
+
       namespace :sktalk do
         post :receive
         post :receive_and_save_to_outbox
@@ -32,7 +42,7 @@ Rails.application.routes.draw do
 
       if UpvsEnvironment.sso_support?
         namespace :upvs do
-          get :profile, constraints: { format: :saml }, path: 'user/info'
+          get :assertion, path: 'sso/assertion'
         end
       end
     end

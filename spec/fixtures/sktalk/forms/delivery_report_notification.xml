@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DeliveryReportNotification xmlns="http://schemas.gov.sk/form/ED.DeliveryReportNotification/1.6">
+  <Persons>
+    <SenderID>ico://sk/42156424_90000</SenderID>
+    <RecipientID>ico://sk/6501012225</RecipientID>
+  </Persons>
+  <DeliveryInformation>
+    <Received>2016-10-18T15:51:23.7860774+02:00</Received>
+    <DeliveryPeriod>15</DeliveryPeriod>
+    <DeliveryPeriodEnd>2016-11-03T00:00:00+01:00</DeliveryPeriodEnd>
+  </DeliveryInformation>
+  <Consignment>
+    <MessageID>e411c801-8290-47c2-8250-801f3cf56e58</MessageID>
+    <MessageSubject>Všeobecná agenda - rozhodnutie do vlastných rúk</MessageSubject>
+    <MessageType>Doc.GeneralAgendaReport</MessageType>
+    <Note>Po uplynutí dátumu doručenia sa doručovaná správa považuje za nedoručenú.</Note>
+    <Attachments>
+      <Attachment>
+        <AttachmentId>9db2f9cb-639b-45d9-8f03-24195e5615af</AttachmentId>
+        <AttachmentName>Všeobecná agenda - rozhodnutie do vlastných rúk</AttachmentName>
+      </Attachment>
+    </Attachments>
+  </Consignment>
+</DeliveryReportNotification>

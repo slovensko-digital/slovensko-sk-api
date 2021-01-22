@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CallService xmlns="http://schemas.gov.sk/ServiceBus/service/1.0" xmlns:ns2="http://schemas.gov.sk/ServiceBusServiceProvider/Ditec/CepProvider/1.0" xmlns:ns3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:ns4="http://schemas.gov.sk/ServiceBusServiceProvider/Ness/eFormProvider/1.0" xmlns:ns5="http://schemas.microsoft.com/2003/10/Serialization/">
+  <serviceClass>EFORM_GETRELATEDDOCUMENTBYTYPE_SOAP_V_1_0</serviceClass>
+  <serviceParameter xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns4:GetRelatedDocumentByTypeReq">
+    <ns4:FormTemplate>
+      <ns4:Identifier>App.GeneralAgenda</ns4:Identifier>
+      <ns4:Version>
+        <ns4:Major>1</ns4:Major>
+        <ns4:Minor>9</ns4:Minor>
+      </ns4:Version>
+    </ns4:FormTemplate>
+    <ns4:RelatedDocumentLanguage>sk</ns4:RelatedDocumentLanguage>
+    <ns4:RelatedDocumentType>CLS_F_XSD_EDOC</ns4:RelatedDocumentType>
+  </serviceParameter>
+</CallService>

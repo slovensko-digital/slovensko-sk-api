@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
-<!-- TODO remove this file in favor of Java code  -->
+<!-- TODO remove this file in favor of Java code -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:context="http://www.springframework.org/schema/context"
@@ -13,33 +13,33 @@
                            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-  <context:component-scan base-package="digital.slovensko.upvs" />
-  <context:property-placeholder />
-  <context:annotation-config />
+  <context:component-scan base-package="digital.slovensko.upvs"/>
+  <context:property-placeholder/>
+  <context:annotation-config/>
 
   <bean id="logger" abstract="true">
-    <property name="limit" value="-1" />
-    <property name="prettyLogging" value="true" />
+    <property name="limit" value="-1"/>
+    <property name="prettyLogging" value="true"/>
   </bean>
 
-  <bean id="inLogger" class="org.apache.cxf.interceptor.LoggingInInterceptor" parent="logger" />
-  <bean id="outLogger" class="org.apache.cxf.interceptor.LoggingOutInterceptor" parent="logger" />
+  <bean id="inLogger" class="org.apache.cxf.interceptor.LoggingInInterceptor" parent="logger"/>
+  <bean id="outLogger" class="org.apache.cxf.interceptor.LoggingOutInterceptor" parent="logger"/>
 
   <cxf:bus>
     <cxf:features>
-      <wsa:addressing allowDuplicates="false" />
+      <wsa:addressing allowDuplicates="false"/>
     </cxf:features>
     <cxf:inInterceptors>
-      <ref bean="inLogger" />
+      <ref bean="inLogger"/>
     </cxf:inInterceptors>
     <cxf:inFaultInterceptors>
-      <ref bean="inLogger" />
+      <ref bean="inLogger"/>
     </cxf:inFaultInterceptors>
     <cxf:outInterceptors>
-      <ref bean="outLogger" />
+      <ref bean="outLogger"/>
     </cxf:outInterceptors>
     <cxf:outFaultInterceptors>
-      <ref bean="outLogger" />
+      <ref bean="outLogger"/>
     </cxf:outFaultInterceptors>
   </cxf:bus>
 </beans>

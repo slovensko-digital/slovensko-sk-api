@@ -13,7 +13,7 @@ class SktalkReceiver
     @upvs.sktalk.receive(object)
   end
 
-  def receive_and_save_to_outbox!(message)
+  def receive!(message, save_to_outbox: false)
     object = parse(message)
     results = ReceiveAndSaveToOutboxResults.new
 
@@ -27,7 +27,7 @@ class SktalkReceiver
 
     # reparse message object to prevent potential modification by previous receive invocation
 
-    if results.receive_result&.zero?
+    if save_to_outbox && results.receive_result&.zero?
       object = parse(message)
       object.header.message_info.clazz = SAVE_TO_OUTBOX_CLASS
 
@@ -41,6 +41,10 @@ class SktalkReceiver
     end
 
     results
+  end
+
+  def receive_and_save_to_outbox!(message)
+    receive!(message, save_to_outbox: true)
   end
 
   def save_to_outbox(message)
@@ -66,5 +70,5 @@ class SktalkReceiver
     com.google.common.base.Throwables.get_causal_chain(error).any? { |e| e.message =~ /timed out/i }
   end
 
-  private_constant :SAVE_TO_OUTBOX_CLASS
+  private_constant :SAVE_TO_DRAFTS_CLASS, :SAVE_TO_OUTBOX_CLASS
 end

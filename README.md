@@ -1,23 +1,23 @@
 # slovensko.sk API od Slovensko.Digital
 
-Tento projekt slúži ako komponent, ktorý vystavuje RESTové proxy API k službám www.slovensko.sk (ÚPVS). Distribuovaný je ako Docker kontajner. Pomocou neho momentálne viete urobiť prihlasovanie cez eID, získať informácie o prihlásenej osobe, zasielať podania v mene prihlásenej osoby alebo v mene právnickej osoby, ktorá si zriadi technický účet u prevádzkovateľa (NASES).
+![Slovensko.Digital CI](https://github.com/slovensko-digital/slovensko-sk-api/workflows/Slovensko.Digital%20CI/badge.svg)
 
-[![Build](https://circleci.com/gh/slovensko-digital/slovensko-sk-api.svg?style=shield&circle-token=8a63391c6d3b22e8d90c7ff1d2efa51304f657bd)](https://circleci.com/gh/slovensko-digital/slovensko-sk-api)
+slovensko.sk API je proxy REST API komponent k službám www.slovensko.sk (Ústredný portál verejnej správy – ÚPVS). Distribuovaný je ako Docker [kontajner](https://ghcr.io/slovensko-digital/slovensko-sk-api). Pomocou neho viete urobiť prihlasovanie cez eID, získať informácie o prihlásenej osobe, zasielať podania v mene prihlásenej osoby alebo v mene právnickej osoby, ktorá si zriadi technický účet u prevádzkovateľa (NASES). Taktiež je možné pracovať s el. schránkou (eDesk), modulom dlhodobého uchovávania registratúrnych záznamov (MDURZ), centrálnou úradnou tabuľou (CUET), využívať služby el. pečatenia a informatívneho overovania el. podpisov (CEP).
 
 ## Dokumentácia
 
 - [Inštalačná príručka](INSTALL.md)
-- [Špecifikácia API](https://generator.swagger.io/?url=https://raw.githubusercontent.com/slovensko-digital/slovensko-sk-api/master/public/openapi.yaml)
+- [Špecifikácia API](https://generator.swagger.io/index.html?url=https://slovensko-sk-api.ekosystem.slovensko.digital/openapi.yaml)
 
 ## Ďalšie služby
 
 - [Komerčná podpora, platený vývoj a konzultačné služby](https://ekosystem.slovensko.digital/sluzby/slovensko-sk-api)
-- [Ostatné služby a produkty Slovensko.Digital](https://ekosystem.slovensko.digital/)
+- [Ostatné služby a produkty Slovensko.Digital](https://ekosystem.slovensko.digital)
 
 ## Licencia
 
-[European Union Public License verzia 1.2](LICENSE)
+[European Union Public License v. 1.2](LICENSE)
 
 ## Autori projektu
 
-**Občianske združenie Slovensko.Digital** v spolupráci s CRYSTAL CONSULTING, s.r.o.
+**Občianske združenie Slovensko.Digital** v spolupráci s CRYSTAL CONSULTING, s.r.o. a WEBY GROUP, s.r.o.

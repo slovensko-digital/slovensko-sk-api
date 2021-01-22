@@ -1,5 +1,8 @@
 class UpvsController < ApiController
-  include ActionController::MimeResponds
+  skip_before_action(:verify_request_body, except: :assertion)
+  skip_before_action(:verify_format)
+
+  before_action(only: :assertion) { respond_to(:saml) }
 
   def login
     session[:login_callback_url] = fetch_callback_url(Environment.login_callback_urls)
@@ -9,19 +12,15 @@ class UpvsController < ApiController
 
   def callback
     response = request.env['omniauth.auth']['extra']['response_object']
-    scopes = ['sktalk/receive', 'sktalk/receive_and_save_to_outbox', 'sktalk/save_to_outbox']
-    token = Environment.obo_token_authenticator.generate_token(response, scopes: scopes)
+    token = Environment.obo_token_authenticator.generate_token(response, scopes: Environment.obo_token_scopes)
 
     redirect_to callback_url_with_token(session[:login_callback_url], token)
   end
 
-  def profile
-    assertion = Environment.api_token_authenticator.verify_token(authenticity_token, allow_obo: true)
+  def assertion
+    _, assertion = Environment.api_token_authenticator.verify_token(authenticity_token, allow_obo_token: true)
 
-    respond_to do |format|
-      format.json { render partial: 'iam/identities/identity', locals: { identity: fetch_profile(assertion) }}
-      format.saml { render plain: assertion }
-    end
+    render content_type: Mime[:saml], plain: assertion
   end
 
   def logout
@@ -30,7 +29,7 @@ class UpvsController < ApiController
     elsif params[:SAMLResponse]
       redirect_to "/auth/saml/slo?#{slo_response_params(session[:logout_callback_url]).to_query}"
     else
-      Environment.api_token_authenticator.invalidate_token(authenticity_token, allow_obo: true)
+      Environment.api_token_authenticator.invalidate_token(authenticity_token, allow_obo_token: true)
       session[:logout_callback_url] = fetch_callback_url(Environment.logout_callback_urls)
 
       redirect_to '/auth/saml/spslo'
@@ -41,22 +40,16 @@ class UpvsController < ApiController
 
   CallbackError = Class.new(StandardError)
 
-  rescue_from(CallbackError) { |error| render_bad_request(error.message) }
+  rescue_from(CallbackError) { |error| render_bad_request(error.message, :callback) }
 
   private
 
   def fetch_callback_url(registered_urls)
-    raise CallbackError, :no_callback if params[:callback].blank?
-    raise CallbackError, :unregistered_callback if registered_urls.none? { |url| callback_match?(url, params[:callback]) }
+    raise CallbackError, :missing if params[:callback].blank?
+    raise CallbackError, :invalid if registered_urls.none? { |url| callback_match?(url, params[:callback]) }
     params[:callback]
   rescue URI::Error
-    raise CallbackError, :malformed_callback
-  end
-
-  def fetch_profile(assertion)
-    # TODO maybe move this to some SAML assertions helper module (also extract assertion related helpers from OBO token authenticator)
-    id = Nokogiri::XML(assertion).at_xpath('//saml:Attribute[@Name="SubjectID"]/saml:AttributeValue').content
-    UpvsEnvironment.iam_repository(assertion: assertion).identity(id)
+    raise CallbackError, :invalid
   end
 
   def callback_url_with_token(callback_url, token)

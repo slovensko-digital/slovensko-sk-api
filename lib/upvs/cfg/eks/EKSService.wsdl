@@ -1,173 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
 <wsdl:definitions name="EKSService" targetNamespace="http://schemas.gov.sk/edesk/eksService/1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:i0="http://tempuri.org/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.gov.sk/edesk/eksService/1" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
-  <wsdl:import namespace="http://tempuri.org/" location="EKSService_0.wsdl" />
+  <wsdl:import namespace="http://tempuri.org/" location="EKSService_0.wsdl"/>
   <wsdl:types>
     <xsd:schema targetNamespace="http://schemas.gov.sk/edesk/eksService/1/Imports">
-      <xsd:import schemaLocation="EKSService.xsd" namespace="http://schemas.gov.sk/edesk/eksService/1" />
-      <xsd:import schemaLocation="EKSService_3.xsd" namespace="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII" />
-      <xsd:import schemaLocation="EKSService_1.xsd" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import schemaLocation="EKSService_2.xsd" namespace="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII.Model" />
+      <xsd:import schemaLocation="EKSService.xsd" namespace="http://schemas.gov.sk/edesk/eksService/1"/>
+      <xsd:import schemaLocation="EKSService_3.xsd" namespace="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII"/>
+      <xsd:import schemaLocation="EKSService_1.xsd" namespace="http://schemas.microsoft.com/2003/10/Serialization/"/>
+      <xsd:import schemaLocation="EKSService_2.xsd" namespace="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII.Model"/>
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IEKSService_GetMessage_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetMessage" />
+    <wsdl:part name="parameters" element="tns:GetMessage"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_GetMessage_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetMessageResponse" />
+    <wsdl:part name="parameters" element="tns:GetMessageResponse"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_GetMessage_EDeskFaultFault_FaultMessage">
-    <wsdl:part name="detail" element="q1:EDeskFault" xmlns:q1="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII" />
+    <wsdl:part name="detail" element="q1:EDeskFault" xmlns:q1="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_GetMessageByMessageId_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetMessageByMessageId" />
+    <wsdl:part name="parameters" element="tns:GetMessageByMessageId"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_GetMessageByMessageId_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetMessageByMessageIdResponse" />
+    <wsdl:part name="parameters" element="tns:GetMessageByMessageIdResponse"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_GetMessageByMessageId_EDeskFaultFault_FaultMessage">
-    <wsdl:part name="detail" element="q2:EDeskFault" xmlns:q2="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII" />
+    <wsdl:part name="detail" element="q2:EDeskFault" xmlns:q2="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_GetNewMessage_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetNewMessage" />
+    <wsdl:part name="parameters" element="tns:GetNewMessage"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_GetNewMessage_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetNewMessageResponse" />
+    <wsdl:part name="parameters" element="tns:GetNewMessageResponse"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_GetNewMessage_EDeskFaultFault_FaultMessage">
-    <wsdl:part name="detail" element="q3:EDeskFault" xmlns:q3="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII" />
+    <wsdl:part name="detail" element="q3:EDeskFault" xmlns:q3="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_GetNewMessageCount_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetNewMessageCount" />
+    <wsdl:part name="parameters" element="tns:GetNewMessageCount"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_GetNewMessageCount_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetNewMessageCountResponse" />
+    <wsdl:part name="parameters" element="tns:GetNewMessageCountResponse"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_GetNewMessageCount_EDeskFaultFault_FaultMessage">
-    <wsdl:part name="detail" element="q4:EDeskFault" xmlns:q4="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII" />
+    <wsdl:part name="detail" element="q4:EDeskFault" xmlns:q4="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_GetMessages_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetMessages" />
+    <wsdl:part name="parameters" element="tns:GetMessages"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_GetMessages_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetMessagesResponse" />
+    <wsdl:part name="parameters" element="tns:GetMessagesResponse"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_GetMessages_EDeskFaultFault_FaultMessage">
-    <wsdl:part name="detail" element="q5:EDeskFault" xmlns:q5="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII" />
+    <wsdl:part name="detail" element="q5:EDeskFault" xmlns:q5="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_GetMessagesByFilter_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetMessagesByFilter" />
+    <wsdl:part name="parameters" element="tns:GetMessagesByFilter"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_GetMessagesByFilter_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetMessagesByFilterResponse" />
+    <wsdl:part name="parameters" element="tns:GetMessagesByFilterResponse"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_GetMessagesByFilter_EDeskFaultFault_FaultMessage">
-    <wsdl:part name="detail" element="q6:EDeskFault" xmlns:q6="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII" />
+    <wsdl:part name="detail" element="q6:EDeskFault" xmlns:q6="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_GetMessagePart_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetMessagePart" />
+    <wsdl:part name="parameters" element="tns:GetMessagePart"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_GetMessagePart_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetMessagePartResponse" />
+    <wsdl:part name="parameters" element="tns:GetMessagePartResponse"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_GetMessagePart_EDeskFaultFault_FaultMessage">
-    <wsdl:part name="detail" element="q7:EDeskFault" xmlns:q7="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII" />
+    <wsdl:part name="detail" element="q7:EDeskFault" xmlns:q7="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_DeleteMessage_InputMessage">
-    <wsdl:part name="parameters" element="tns:DeleteMessage" />
+    <wsdl:part name="parameters" element="tns:DeleteMessage"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_DeleteMessage_OutputMessage">
-    <wsdl:part name="parameters" element="tns:DeleteMessageResponse" />
+    <wsdl:part name="parameters" element="tns:DeleteMessageResponse"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_DeleteMessage_EDeskFaultFault_FaultMessage">
-    <wsdl:part name="detail" element="q8:EDeskFault" xmlns:q8="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII" />
+    <wsdl:part name="detail" element="q8:EDeskFault" xmlns:q8="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_MoveMessage_InputMessage">
-    <wsdl:part name="parameters" element="tns:MoveMessage" />
+    <wsdl:part name="parameters" element="tns:MoveMessage"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_MoveMessage_OutputMessage">
-    <wsdl:part name="parameters" element="tns:MoveMessageResponse" />
+    <wsdl:part name="parameters" element="tns:MoveMessageResponse"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_MoveMessage_EDeskFaultFault_FaultMessage">
-    <wsdl:part name="detail" element="q9:EDeskFault" xmlns:q9="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII" />
+    <wsdl:part name="detail" element="q9:EDeskFault" xmlns:q9="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_GetFolders_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetFolders" />
+    <wsdl:part name="parameters" element="tns:GetFolders"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_GetFolders_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetFoldersResponse" />
+    <wsdl:part name="parameters" element="tns:GetFoldersResponse"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_GetFolders_EDeskFaultFault_FaultMessage">
-    <wsdl:part name="detail" element="q10:EDeskFault" xmlns:q10="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII" />
+    <wsdl:part name="detail" element="q10:EDeskFault" xmlns:q10="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_CreateFolder_InputMessage">
-    <wsdl:part name="parameters" element="tns:CreateFolder" />
+    <wsdl:part name="parameters" element="tns:CreateFolder"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_CreateFolder_OutputMessage">
-    <wsdl:part name="parameters" element="tns:CreateFolderResponse" />
+    <wsdl:part name="parameters" element="tns:CreateFolderResponse"/>
   </wsdl:message>
   <wsdl:message name="IEKSService_CreateFolder_EDeskFaultFault_FaultMessage">
-    <wsdl:part name="detail" element="q11:EDeskFault" xmlns:q11="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII" />
+    <wsdl:part name="detail" element="q11:EDeskFault" xmlns:q11="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII"/>
   </wsdl:message>
   <wsdl:portType name="IEKSService">
     <wsdl:operation name="GetMessage">
-      <wsdl:input wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessage" message="tns:IEKSService_GetMessage_InputMessage" />
-      <wsdl:output wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessageResponse" message="tns:IEKSService_GetMessage_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessageEDeskFaultFault" name="EDeskFaultFault" message="tns:IEKSService_GetMessage_EDeskFaultFault_FaultMessage" />
+      <wsdl:input wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessage" message="tns:IEKSService_GetMessage_InputMessage"/>
+      <wsdl:output wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessageResponse" message="tns:IEKSService_GetMessage_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessageEDeskFaultFault" name="EDeskFaultFault" message="tns:IEKSService_GetMessage_EDeskFaultFault_FaultMessage"/>
     </wsdl:operation>
     <wsdl:operation name="GetMessageByMessageId">
-      <wsdl:input wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessageByMessageId" message="tns:IEKSService_GetMessageByMessageId_InputMessage" />
-      <wsdl:output wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessageByMessageIdResponse" message="tns:IEKSService_GetMessageByMessageId_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessageByMessageIdEDeskFaultFault" name="EDeskFaultFault" message="tns:IEKSService_GetMessageByMessageId_EDeskFaultFault_FaultMessage" />
+      <wsdl:input wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessageByMessageId" message="tns:IEKSService_GetMessageByMessageId_InputMessage"/>
+      <wsdl:output wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessageByMessageIdResponse" message="tns:IEKSService_GetMessageByMessageId_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessageByMessageIdEDeskFaultFault" name="EDeskFaultFault" message="tns:IEKSService_GetMessageByMessageId_EDeskFaultFault_FaultMessage"/>
     </wsdl:operation>
     <wsdl:operation name="GetNewMessage">
-      <wsdl:input wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetNewMessage" message="tns:IEKSService_GetNewMessage_InputMessage" />
-      <wsdl:output wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetNewMessageResponse" message="tns:IEKSService_GetNewMessage_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetNewMessageEDeskFaultFault" name="EDeskFaultFault" message="tns:IEKSService_GetNewMessage_EDeskFaultFault_FaultMessage" />
+      <wsdl:input wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetNewMessage" message="tns:IEKSService_GetNewMessage_InputMessage"/>
+      <wsdl:output wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetNewMessageResponse" message="tns:IEKSService_GetNewMessage_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetNewMessageEDeskFaultFault" name="EDeskFaultFault" message="tns:IEKSService_GetNewMessage_EDeskFaultFault_FaultMessage"/>
     </wsdl:operation>
     <wsdl:operation name="GetNewMessageCount">
-      <wsdl:input wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetNewMessageCount" message="tns:IEKSService_GetNewMessageCount_InputMessage" />
-      <wsdl:output wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetNewMessageCountResponse" message="tns:IEKSService_GetNewMessageCount_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetNewMessageCountEDeskFaultFault" name="EDeskFaultFault" message="tns:IEKSService_GetNewMessageCount_EDeskFaultFault_FaultMessage" />
+      <wsdl:input wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetNewMessageCount" message="tns:IEKSService_GetNewMessageCount_InputMessage"/>
+      <wsdl:output wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetNewMessageCountResponse" message="tns:IEKSService_GetNewMessageCount_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetNewMessageCountEDeskFaultFault" name="EDeskFaultFault" message="tns:IEKSService_GetNewMessageCount_EDeskFaultFault_FaultMessage"/>
     </wsdl:operation>
     <wsdl:operation name="GetMessages">
-      <wsdl:input wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessages" message="tns:IEKSService_GetMessages_InputMessage" />
-      <wsdl:output wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessagesResponse" message="tns:IEKSService_GetMessages_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessagesEDeskFaultFault" name="EDeskFaultFault" message="tns:IEKSService_GetMessages_EDeskFaultFault_FaultMessage" />
+      <wsdl:input wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessages" message="tns:IEKSService_GetMessages_InputMessage"/>
+      <wsdl:output wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessagesResponse" message="tns:IEKSService_GetMessages_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessagesEDeskFaultFault" name="EDeskFaultFault" message="tns:IEKSService_GetMessages_EDeskFaultFault_FaultMessage"/>
     </wsdl:operation>
     <wsdl:operation name="GetMessagesByFilter">
-      <wsdl:input wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessagesByFilter" message="tns:IEKSService_GetMessagesByFilter_InputMessage" />
-      <wsdl:output wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessagesByFilterResponse" message="tns:IEKSService_GetMessagesByFilter_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessagesByFilterEDeskFaultFault" name="EDeskFaultFault" message="tns:IEKSService_GetMessagesByFilter_EDeskFaultFault_FaultMessage" />
+      <wsdl:input wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessagesByFilter" message="tns:IEKSService_GetMessagesByFilter_InputMessage"/>
+      <wsdl:output wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessagesByFilterResponse" message="tns:IEKSService_GetMessagesByFilter_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessagesByFilterEDeskFaultFault" name="EDeskFaultFault" message="tns:IEKSService_GetMessagesByFilter_EDeskFaultFault_FaultMessage"/>
     </wsdl:operation>
     <wsdl:operation name="GetMessagePart">
-      <wsdl:input wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessagePart" message="tns:IEKSService_GetMessagePart_InputMessage" />
-      <wsdl:output wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessagePartResponse" message="tns:IEKSService_GetMessagePart_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessagePartEDeskFaultFault" name="EDeskFaultFault" message="tns:IEKSService_GetMessagePart_EDeskFaultFault_FaultMessage" />
+      <wsdl:input wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessagePart" message="tns:IEKSService_GetMessagePart_InputMessage"/>
+      <wsdl:output wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessagePartResponse" message="tns:IEKSService_GetMessagePart_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessagePartEDeskFaultFault" name="EDeskFaultFault" message="tns:IEKSService_GetMessagePart_EDeskFaultFault_FaultMessage"/>
     </wsdl:operation>
     <wsdl:operation name="DeleteMessage">
-      <wsdl:input wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/DeleteMessage" message="tns:IEKSService_DeleteMessage_InputMessage" />
-      <wsdl:output wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/DeleteMessageResponse" message="tns:IEKSService_DeleteMessage_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/DeleteMessageEDeskFaultFault" name="EDeskFaultFault" message="tns:IEKSService_DeleteMessage_EDeskFaultFault_FaultMessage" />
+      <wsdl:input wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/DeleteMessage" message="tns:IEKSService_DeleteMessage_InputMessage"/>
+      <wsdl:output wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/DeleteMessageResponse" message="tns:IEKSService_DeleteMessage_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/DeleteMessageEDeskFaultFault" name="EDeskFaultFault" message="tns:IEKSService_DeleteMessage_EDeskFaultFault_FaultMessage"/>
     </wsdl:operation>
     <wsdl:operation name="MoveMessage">
-      <wsdl:input wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/MoveMessage" message="tns:IEKSService_MoveMessage_InputMessage" />
-      <wsdl:output wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/MoveMessageResponse" message="tns:IEKSService_MoveMessage_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/MoveMessageEDeskFaultFault" name="EDeskFaultFault" message="tns:IEKSService_MoveMessage_EDeskFaultFault_FaultMessage" />
+      <wsdl:input wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/MoveMessage" message="tns:IEKSService_MoveMessage_InputMessage"/>
+      <wsdl:output wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/MoveMessageResponse" message="tns:IEKSService_MoveMessage_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/MoveMessageEDeskFaultFault" name="EDeskFaultFault" message="tns:IEKSService_MoveMessage_EDeskFaultFault_FaultMessage"/>
     </wsdl:operation>
     <wsdl:operation name="GetFolders">
-      <wsdl:input wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetFolders" message="tns:IEKSService_GetFolders_InputMessage" />
-      <wsdl:output wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetFoldersResponse" message="tns:IEKSService_GetFolders_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetFoldersEDeskFaultFault" name="EDeskFaultFault" message="tns:IEKSService_GetFolders_EDeskFaultFault_FaultMessage" />
+      <wsdl:input wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetFolders" message="tns:IEKSService_GetFolders_InputMessage"/>
+      <wsdl:output wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetFoldersResponse" message="tns:IEKSService_GetFolders_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetFoldersEDeskFaultFault" name="EDeskFaultFault" message="tns:IEKSService_GetFolders_EDeskFaultFault_FaultMessage"/>
     </wsdl:operation>
     <wsdl:operation name="CreateFolder">
-      <wsdl:input wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/CreateFolder" message="tns:IEKSService_CreateFolder_InputMessage" />
-      <wsdl:output wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/CreateFolderResponse" message="tns:IEKSService_CreateFolder_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/CreateFolderEDeskFaultFault" name="EDeskFaultFault" message="tns:IEKSService_CreateFolder_EDeskFaultFault_FaultMessage" />
+      <wsdl:input wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/CreateFolder" message="tns:IEKSService_CreateFolder_InputMessage"/>
+      <wsdl:output wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/CreateFolderResponse" message="tns:IEKSService_CreateFolder_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/CreateFolderEDeskFaultFault" name="EDeskFaultFault" message="tns:IEKSService_CreateFolder_EDeskFaultFault_FaultMessage"/>
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:service name="EKSService">
     <wsdl:port name="CustomBinding_IEKSService" binding="i0:CustomBinding_IEKSService">
-      <soap12:address location="https://edeskii.vyvoj.upvs.globaltel.sk/EKSService.svc" />
+      <soap12:address location="https://edeskii.vyvoj.upvs.globaltel.sk/EKSService.svc"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" version="0.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
   <xsd:simpleType name="tTimestampFault">
     <xsd:annotation>
       <xsd:documentation>This type defines the fault code value for Timestamp message expiration.</xsd:documentation>
     </xsd:annotation>
     <xsd:restriction base="xsd:QName">
-      <xsd:enumeration value="wsu:MessageExpired" />
+      <xsd:enumeration value="wsu:MessageExpired"/>
     </xsd:restriction>
   </xsd:simpleType>
   <xsd:attribute name="Id" type="xsd:ID">
@@ -17,8 +17,8 @@
     <xsd:annotation>
       <xsd:documentation>Convenience attribute group used to simplify this schema.</xsd:documentation>
     </xsd:annotation>
-    <xsd:attribute ref="wsu:Id" use="optional" />
-    <xsd:anyAttribute namespace="##other" processContents="lax" />
+    <xsd:attribute ref="wsu:Id" use="optional"/>
+    <xsd:anyAttribute namespace="##other" processContents="lax"/>
   </xsd:attributeGroup>
   <xsd:complexType name="AttributedDateTime">
     <xsd:annotation>
@@ -26,7 +26,7 @@
     </xsd:annotation>
     <xsd:simpleContent>
       <xsd:extension base="xsd:string">
-        <xsd:attributeGroup ref="wsu:commonAtts" />
+        <xsd:attributeGroup ref="wsu:commonAtts"/>
       </xsd:extension>
     </xsd:simpleContent>
   </xsd:complexType>
@@ -36,7 +36,7 @@
     </xsd:annotation>
     <xsd:simpleContent>
       <xsd:extension base="xsd:anyURI">
-        <xsd:attributeGroup ref="wsu:commonAtts" />
+        <xsd:attributeGroup ref="wsu:commonAtts"/>
       </xsd:extension>
     </xsd:simpleContent>
   </xsd:complexType>
@@ -45,13 +45,13 @@
       <xsd:documentation>This complex type ties together the timestamp related elements into a composite type.</xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
-      <xsd:element minOccurs="0" ref="wsu:Created" />
-      <xsd:element minOccurs="0" ref="wsu:Expires" />
+      <xsd:element minOccurs="0" ref="wsu:Created"/>
+      <xsd:element minOccurs="0" ref="wsu:Expires"/>
       <xsd:choice maxOccurs="unbounded" minOccurs="0">
-        <xsd:any namespace="##other" processContents="lax" />
+        <xsd:any namespace="##other" processContents="lax"/>
       </xsd:choice>
     </xsd:sequence>
-    <xsd:attributeGroup ref="wsu:commonAtts" />
+    <xsd:attributeGroup ref="wsu:commonAtts"/>
   </xsd:complexType>
   <xsd:element name="Timestamp" type="wsu:TimestampType">
     <xsd:annotation>
