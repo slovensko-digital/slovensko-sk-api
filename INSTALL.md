@@ -1,3 +1,5 @@
+**Inštalačná príručka popisuje komponent verzie** [2.0.0](https://github.com/slovensko-digital/slovensko-sk-api/releases/tag/v2.0.0), uistite sa, že čítate príručku [verzie komponentu](https://github.com/slovensko-digital/slovensko-sk-api/releases), ktorý používate.
+
 # slovensko.sk API - inštalačná príručka
 
 Máme dobrú a zlú správu. Tá zlá správa je, že na zfunkčnenie tohto komponentu (alebo akejkoľvek inej integrácie na slovensko.sk) je nutné prejsť pomerne náročný proces s NASES a vypracovať množstvo dokumentácie. Tá dobrá správa je, že sme to skoro celé spravili za Vás a tento návod by mal úplne stačiť na to, aby ste komponent dostali do produkčnej prevádzky. Ak sa Vám to zdá zložité, ozvite sa nám emailom na ekosystem@slovensko.digital a radi pomôžeme.
