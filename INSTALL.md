@@ -115,7 +115,7 @@ Premenná | Popis | Hodnota
 
 Súbor | Popis | Podpora ÚPVS SSO vypnutá
 --- | --- | ---
-`security/api_token_{RAILS_ENV}.pem` | Verejný kľúč pre verifikáciu API tokenov<sup>1</sup> |
+`security/api_token_{RAILS_ENV}.public.pem` | Verejný kľúč pre verifikáciu API tokenov<sup>1</sup> |
 `security/obo_token_{RAILS_ENV}.private.pem` | Privátny a verejný kľúč pre generovanie a verifikáciu OBO tokenov<sup>2</sup> | Nepotrebný
 `security/sso/upvs_{UPVS_ENV}.metadata.xml` | Metadáta IDP<sup>3</sup> | Nepotrebný
 `security/sso/{SSO_SP_SUBJECT}_{UPVS_ENV}.metadata.xml` | Metadáta SP<sup>3</sup> | Nepotrebný
