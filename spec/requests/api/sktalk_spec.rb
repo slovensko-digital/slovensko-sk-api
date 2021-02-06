@@ -39,8 +39,8 @@ RSpec.describe 'SKTalk API' do
       expect(response.object).to eq(receive_result: 3100119)
     end
 
-    include_examples 'API request media types', post: '/api/sktalk/receive', allow_sub: true, allow_obo_token: true, accept: 'application/json'
-    include_examples 'API request authentication', post: '/api/sktalk/receive', allow_sub: true, allow_obo_token: true, require_obo_token_scope: 'sktalk/receive'
+    include_examples 'API request media types', post: '/api/sktalk/receive', accept: 'application/json'
+    include_examples 'API request authentication', post: '/api/sktalk/receive', allow_sub: true, allow_obo_token: true
 
     it 'responds with 400 if request does not contain message' do
       post '/api/sktalk/receive', headers: headers, params: params.except(:message), as: :json
@@ -83,7 +83,7 @@ RSpec.describe 'SKTalk API' do
     pending 'responds with 429 if request rate limit exceeds'
 
     include_examples 'URP request failure', post: '/api/sktalk/receive', receive: true
-    include_examples 'UPVS proxy initialization', post: '/api/sktalk/receive', allow_sub: true, allow_obo_token: true, require_obo_token_scope: 'sktalk/receive'
+    include_examples 'UPVS proxy initialization', post: '/api/sktalk/receive', allow_sub: true, allow_obo_token: true
   end
 
   describe 'POST /api/sktalk/receive_and_save_to_outbox' do
@@ -129,8 +129,8 @@ RSpec.describe 'SKTalk API' do
       expect(response.object).to eq(receive_result: 0, receive_timeout: false, save_to_outbox_result: 3100119, save_to_outbox_timeout: false)
     end
 
-    include_examples 'API request media types', post: '/api/sktalk/receive_and_save_to_outbox', allow_sub: true, allow_obo_token: true, accept: 'application/json'
-    include_examples 'API request authentication', post: '/api/sktalk/receive_and_save_to_outbox', allow_sub: true, allow_obo_token: true, require_obo_token_scope: 'sktalk/receive_and_save_to_outbox'
+    include_examples 'API request media types', post: '/api/sktalk/receive_and_save_to_outbox', accept: 'application/json'
+    include_examples 'API request authentication', post: '/api/sktalk/receive_and_save_to_outbox', allow_sub: true, allow_obo_token: true
 
     it 'responds with 400 if request does not contain message' do
       post '/api/sktalk/receive_and_save_to_outbox', headers: headers, params: params.except(:message), as: :json
@@ -173,7 +173,7 @@ RSpec.describe 'SKTalk API' do
     pending 'responds with 429 if request rate limit exceeds'
 
     include_examples 'URP request failure', post: '/api/sktalk/receive_and_save_to_outbox', receive: true, save_to_outbox: true
-    include_examples 'UPVS proxy initialization', post: '/api/sktalk/receive_and_save_to_outbox', allow_sub: true, allow_obo_token: true, require_obo_token_scope: 'sktalk/receive_and_save_to_outbox'
+    include_examples 'UPVS proxy initialization', post: '/api/sktalk/receive_and_save_to_outbox', allow_sub: true, allow_obo_token: true
   end
 
   describe 'POST /api/sktalk/save_to_outbox' do
@@ -207,8 +207,8 @@ RSpec.describe 'SKTalk API' do
       expect(response.object).to eq(save_to_outbox_result: 3100119)
     end
 
-    include_examples 'API request media types', post: '/api/sktalk/save_to_outbox', allow_sub: true, allow_obo_token: true, accept: 'application/json'
-    include_examples 'API request authentication', post: '/api/sktalk/save_to_outbox', allow_sub: true, allow_obo_token: true, require_obo_token_scope: 'sktalk/save_to_outbox'
+    include_examples 'API request media types', post: '/api/sktalk/save_to_outbox', accept: 'application/json'
+    include_examples 'API request authentication', post: '/api/sktalk/save_to_outbox', allow_sub: true, allow_obo_token: true
 
     it 'responds with 400 if request does not contain message' do
       post '/api/sktalk/save_to_outbox', headers: headers, params: params.except(:message), as: :json
@@ -251,6 +251,6 @@ RSpec.describe 'SKTalk API' do
     pending 'responds with 429 if request rate limit exceeds'
 
     include_examples 'URP request failure', post: '/api/sktalk/save_to_outbox', save_to_outbox: true
-    include_examples 'UPVS proxy initialization', post: '/api/sktalk/save_to_outbox', allow_sub: true, allow_obo_token: true, require_obo_token_scope: 'sktalk/save_to_outbox'
+    include_examples 'UPVS proxy initialization', post: '/api/sktalk/save_to_outbox', allow_sub: true, allow_obo_token: true
   end
 end

@@ -38,6 +38,10 @@ module AuthenticityTokens
     response = OneLogin::RubySaml::Response.new(response) unless response.is_a?(OneLogin::RubySaml::Response)
     Environment.obo_token_authenticator.generate_token(response, scopes: scopes)
   end
+
+  def obo_token_scope(method, path)
+    Rails.application.routes.recognize_path(path, method: method).slice(:controller, :action).values.join('/')
+  end
 end
 
 RSpec.configure do |config|

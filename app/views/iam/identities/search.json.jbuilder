@@ -1,1 +1,1 @@
-json.array! @identities, partial: 'identity', as: :identity
+json.array! @identities, partial: 'iam/identity', as: :identity

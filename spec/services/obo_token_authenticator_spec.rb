@@ -150,7 +150,7 @@ RSpec.describe OboTokenAuthenticator do
     let(:token) { subject.generate_token(response) }
 
     it 'returns true' do
-      expect(subject.invalidate_token(token)).to be true
+      expect(subject.invalidate_token(token)).to eq(true)
     end
 
     it 'verifies token' do

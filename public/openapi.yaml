@@ -119,12 +119,12 @@ paths:
       security:
         - 'API + OBO Token': []
 
-  /api/upvs/sso/assertion:
+  /api/upvs/assertion:
     get:
       tags: [Informácie o prihlásenom používateľovi]
-      summary: Vráti informácie o prihlásenom používateľovi
+      summary: Vráti bezpečnostné informácie prihláseného používateľa
       description: |
-        Vráti informácie o prihlásenom používateľovi.
+        Vráti bezpečnostné informácie prihláseného používateľa.
       parameters:
         - name: Accept
           in: header
@@ -135,7 +135,7 @@ paths:
             example: application/samlassertion+xml
       responses:
         200:
-          description: Úspešne vrátené informácie o prihlásenom používateľovi.
+          description: Úspešne vrátené bezpečnostné informácie prihláseného používateľa.
           content:
             application/samlassertion+xml:
               schema:
@@ -146,6 +146,24 @@ paths:
                   name: Assertion
                   namespace: urn:oasis:names:tc:SAML:2.0:assertion
                 example: ...
+      security:
+        - 'API + OBO Token': []
+
+  /api/upvs/identity:
+    get:
+      tags: [Informácie o prihlásenom používateľovi]
+      summary: Vráti identitu prihláseného používateľa
+      description: |
+        Vráti identitu prihláseného používateľa.
+
+        Pozor, volanie je dostupné len pre OVM.
+      responses:
+        200:
+          description: Úspešne vrátená identita prihláseného používateľa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpvsNaturalPerson'
       security:
         - 'API + OBO Token': []
 
@@ -198,7 +216,7 @@ paths:
 
         Nakoľko ide o dve operácie, ktoré nie je možné transakčne spojiť, možu nastať prípady keď odoslanie prebehne úspešne ale uloženie zlyhá.
 
-        *Volanie neuloží správu medzi odoslané ak výsledok odoslania nemá hodnotu `0` alebo ak prišlo k vypršaniu času požiadavky na ÚPVS.*
+        Volanie neuloží správu medzi odoslané ak výsledok odoslania nemá hodnotu `0` alebo ak prišlo k vypršaniu času požiadavky na ÚPVS
       requestBody:
         required: true
         content:
@@ -527,7 +545,7 @@ paths:
       description: |
         Presunie správu do iného priečinka v schránke.
 
-        *Volanie vráti neúspešnú odpoveď v prípade keď správa alebo priečinok neexistuje.*
+        Volanie vráti neúspešnú odpoveď v prípade keď správa alebo priečinok neexistuje.
       parameters:
         - $ref: '#/components/parameters/EdeskMessageId'
       requestBody:
@@ -554,7 +572,7 @@ paths:
       description: |
         Vymaže správu zo schránky.
 
-        *Volanie vráti úspešnú odpoveď aj v prípade keď správa už bola vymazaná alebo neexistuje.*
+        Volanie vráti úspešnú odpoveď aj v prípade keď správa už bola vymazaná alebo neexistuje.
       parameters:
         - $ref: '#/components/parameters/EdeskMessageId'
       responses:
@@ -756,7 +774,7 @@ paths:
       description: |
         Odošle požiadavku na vloženie nového záznamu do úložiska. Do schránky príde odpoveď s SKTalk triedou `MDURZ_INGEST_REPLY_04`. Voči zaslanej požiadavke je možné párovanie cez poskytnutý `request_id`.
 
-        *Volanie automaticky validuje, či je interne používaná správna verzia formulára. Nie je potrebné kontrolovať validitu formulára externe.*
+        Volanie automaticky validuje, či je interne používaná správna verzia formulára. Nie je potrebné kontrolovať validitu formulára externe.
       parameters:
         - name: request_id
           in: query
@@ -870,7 +888,7 @@ paths:
       description: |
         Odošle požiadavku na zmenu popisných údajov záznamu v úložisku. Do schránky príde odpoveď s SKTalk triedou `MDURZ_SET_METADATA_REPLY_04`. Voči zaslanej požiadavke je možné párovanie cez poskytnutý `request_id`.
 
-        *Volanie automaticky validuje, či je interne používaná správna verzia formulára. Nie je potrebné kontrolovať validitu formulára externe.*
+        Volanie automaticky validuje, či je interne používaná správna verzia formulára. Nie je potrebné kontrolovať validitu formulára externe.
       parameters:
         - name: id
           in: path
@@ -974,7 +992,7 @@ paths:
       description: |
         Odošle požiadavku na vyradenie záznamu z úložiska. Do schránky príde odpoveď s SKTalk triedou `MDURZ_CANCEL_PRESERVATION_REPLY_04` obsahujúca uložený záznam. Voči zaslanej požiadavke je možné párovanie cez poskytnutý `request_id`.
 
-        *Volanie automaticky validuje, či je interne používaná správna verzia formulára. Nie je potrebné kontrolovať validitu formulára externe.*
+        Volanie automaticky validuje, či je interne používaná správna verzia formulára. Nie je potrebné kontrolovať validitu formulára externe.
       parameters:
         - name: id
           in: path
@@ -1060,7 +1078,7 @@ paths:
 
         MDURZ zasiela notifikačné správy o blížiacej sa končicej lehote s SKTalk triedou `MDURZ_EXPIRATION_WARNING_04` a notifikačné správy o expirovanom zázname s SKTalk triedou `MDURZ_EXPIRATION_NOTIFICATION_04`.
 
-        *Volanie automaticky validuje, či je interne používaná správna verzia formulára. Nie je potrebné kontrolovať validitu formulára externe.*
+        Volanie automaticky validuje, či je interne používaná správna verzia formulára. Nie je potrebné kontrolovať validitu formulára externe.
       parameters:
         - name: id
           in: path
@@ -1148,7 +1166,7 @@ paths:
       description: |
         Odošle požiadavku na získanie záznamu z úložiska. Do schránky príde odpoveď s SKTalk triedou `MDURZ_DISSEMINATE_REPLY_04` obsahujúca uložený záznam. Voči zaslanej požiadavke je možné párovanie cez poskytnutý `request_id`.
 
-        *Volanie automaticky validuje, či je interne používaná správna verzia formulára. Nie je potrebné kontrolovať validitu formulára externe.*
+        Volanie automaticky validuje, či je interne používaná správna verzia formulára. Nie je potrebné kontrolovať validitu formulára externe.
       parameters:
         - name: id
           in: path
@@ -1227,12 +1245,14 @@ paths:
 
   /api/cuet/documents/publish_document:
     post:
-      tags: [Centrálna úradná tabuľa (len OVM)]
+      tags: [Centrálna úradná tabuľa (dostupné len pre OVM)]
       summary: Zverejnení dokument
       description: |
         Odošle požiadavku na zverejnenie dokumentu. Do schránky príde odpoveď s SKTalk triedou `CUET_NOTIFY_ENTERING`. Voči zaslanej požiadavke je možné párovanie cez poskytnutý `request_id`.
 
-        *Volanie automaticky validuje, či je interne používaná správna verzia formulára. Nie je potrebné kontrolovať validitu formulára externe.*
+        Volanie automaticky validuje, či je interne používaná správna verzia formulára. Nie je potrebné kontrolovať validitu formulára externe.
+
+        Pozor, volanie je dostupné len pre OVM.
       parameters:
         - name: request_id
           in: query
@@ -1353,12 +1373,14 @@ paths:
 
   /api/cuet/documents/deliver_by_publishing:
     post:
-      tags: [Centrálna úradná tabuľa (len OVM)]
+      tags: [Centrálna úradná tabuľa (dostupné len pre OVM)]
       summary: Doručí dokument zverejnením
       description: |
         Odošle požiadavku na doručenie dokumentu zverejnením. Do schránky príde odpoveď s SKTalk triedou `CUET_NOTIFY_DELIVERY`. Voči zaslanej požiadavke je možné párovanie cez poskytnutý `request_id`.
 
-        *Volanie automaticky validuje, či je interne používaná správna verzia formulára. Nie je potrebné kontrolovať validitu formulára externe.*
+        Volanie automaticky validuje, či je interne používaná správna verzia formulára. Nie je potrebné kontrolovať validitu formulára externe.
+
+        Pozor, volanie je dostupné len pre OVM.
       parameters:
         - name: request_id
           in: query
@@ -1479,12 +1501,14 @@ paths:
 
   /api/cuet/documents/{id}:
     patch:
-      tags: [Centrálna úradná tabuľa (len OVM)]
+      tags: [Centrálna úradná tabuľa (dostupné len pre OVM)]
       summary: Zmení dobu zverejnenia dokumentu
       description: |
         Odošle požiadavku na zmenu doby zverejnenia dokumentu. Do schránky príde odpoveď s SKTalk triedou `CUET_NOTIFY_REVOCATION`. Voči zaslanej požiadavke je možné párovanie cez poskytnutý `request_id`.
 
-        *Volanie automaticky validuje, či je interne používaná správna verzia formulára. Nie je potrebné kontrolovať validitu formulára externe.*
+        Volanie automaticky validuje, či je interne používaná správna verzia formulára. Nie je potrebné kontrolovať validitu formulára externe.
+
+        Pozor, volanie je dostupné len pre OVM.
       parameters:
         - name: id
           in: path
@@ -1568,10 +1592,12 @@ paths:
 
   /api/iam/identities/{id}:
     get:
-      tags: [Vyhľadávanie identít (len OVM)]
+      tags: [Vyhľadávanie identít (dostupné len pre OVM)]
       summary: Vráti identitu
       description: |
         Vráti identitu.
+
+        Pozor, volanie je dostupné len pre OVM.
       parameters:
         - name: id
           in: path
@@ -1599,14 +1625,15 @@ paths:
                     $ref: '#/components/schemas/UpvsNaturalPerson/example'
       security:
         - 'API Token': []
-        - 'API + OBO Token': []
 
   /api/iam/identities/search:
     post:
-      tags: [Vyhľadávanie identít (len OVM)]
+      tags: [Vyhľadávanie identít (dostupné len pre OVM)]
       summary: Vyhľadá identity podľa kritérií
       description: |
         Vyhľadá identity podľa kritérií.
+
+        Pozor, volanie je dostupné len pre OVM.
       requestBody:
         required: true
         content:
@@ -1793,7 +1820,6 @@ paths:
                     - $ref: '#/components/schemas/UpvsNaturalPerson'
       security:
         - 'API Token': []
-        - 'API + OBO Token': []
 
   /api/usr:
     post:
