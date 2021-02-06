@@ -1,4 +1,4 @@
-**Inštalačná príručka popisuje komponent verzie [2.1.0-alpha](https://github.com/slovensko-digital/slovensko-sk-api/releases/tag/v2.1.0-alpha), uistite sa, že čítate príručku [verzie komponentu](https://github.com/slovensko-digital/slovensko-sk-api/releases), ktorý používate.**
+**Inštalačná príručka popisuje komponent verzie [2.1.0](https://github.com/slovensko-digital/slovensko-sk-api/releases/tag/v2.1.0), uistite sa, že čítate príručku [verzie komponentu](https://github.com/slovensko-digital/slovensko-sk-api/releases), ktorý používate.**
 
 # slovensko.sk API - inštalačná príručka
 
