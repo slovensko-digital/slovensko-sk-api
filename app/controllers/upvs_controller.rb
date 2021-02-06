@@ -1,8 +1,9 @@
 class UpvsController < ApiController
-  skip_before_action(:verify_request_body, except: :assertion)
-  skip_before_action(:verify_format)
+  skip_before_action(:verify_request_body, except: [:assertion, :identity])
+  skip_before_action(:verify_format, except: :identity)
 
   before_action(only: :assertion) { respond_to(:saml) }
+  before_action(only: [:assertion, :identity]) { authenticate(allow_obo_token: true, require_obo_token_scope: action_scope) }
 
   def login
     session[:login_callback_url] = fetch_callback_url(Environment.login_callback_urls)
@@ -15,12 +16,6 @@ class UpvsController < ApiController
     token = Environment.obo_token_authenticator.generate_token(response, scopes: Environment.obo_token_scopes)
 
     redirect_to callback_url_with_token(session[:login_callback_url], token)
-  end
-
-  def assertion
-    _, assertion = Environment.api_token_authenticator.verify_token(authenticity_token, allow_obo_token: true)
-
-    render content_type: Mime[:saml], plain: assertion
   end
 
   def logout
@@ -36,11 +31,21 @@ class UpvsController < ApiController
     end
   end
 
+  def assertion
+    render content_type: Mime[:saml], plain: upvs_identity[:obo]
+  end
+
+  def identity
+    render partial: 'iam/identity', locals: { identity: iam_repository(upvs_identity).identity(obo_subject_id(upvs_identity[:obo])) }
+  end
+
   include CallbackHelper
 
   CallbackError = Class.new(StandardError)
 
   rescue_from(CallbackError) { |error| render_bad_request(error.message, :callback) }
+
+  rescue_from(sk.gov.schemas.identity.service._1_7.GetIdentityFault) { |error| render_bad_request(:invalid, :identity_id, upvs_fault(error)) }
 
   private
 
@@ -62,5 +67,9 @@ class UpvsController < ApiController
 
   def slo_response_params(redirect_url)
     params.permit(:SAMLResponse, :SigAlg, :Signature).merge(RelayState: redirect_url)
+  end
+
+  def obo_subject_id(assertion)
+    Nokogiri::XML(assertion).at_xpath('//saml:Attribute[@Name="SubjectID"]/saml:AttributeValue').content
   end
 end

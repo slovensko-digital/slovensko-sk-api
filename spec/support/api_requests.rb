@@ -1,10 +1,12 @@
 module ApiRequests
   def setup_api_requests(method_to_path)
+    raise ArgumentError if method_to_path.size != 1
+
     # TODO consider forcing definitions of method + path -> repeating it in examples is prone to typos
     # remove **method_to_path from shared examples below, then add:
     # raise 'No method' unless method_defined?(:method)
     # raise 'No path' unless method_defined?(:path)
-    # TODO consider a definition for allow_plain, allow_sub, allow_obo_token and require_obo_token_scope -> repeating it in examples is prone to typos
+    # TODO consider a definition for allow_plain, allow_sub, allow_obo_token -> repeating it in examples is prone to typos
     # raise 'No authenticator options' unless method_defined?(:authenticator_options)
     # TODO then consider using #send_request in each example to eliminate method/path -> repeating it in examples is prone to typos
     # def send_request(*args, **options)
@@ -157,7 +159,7 @@ shared_examples 'API request media types' do |accept:, require_request_body: nil
   end if expect_response_body
 end
 
-shared_examples 'API request authentication' do |allow_plain: false, allow_sub: false, allow_obo_token: false, require_obo_token_scope: nil, **method_to_path|
+shared_examples 'API request authentication' do |allow_plain: false, allow_sub: false, allow_obo_token: false, **method_to_path|
   raise ArgumentError unless allow_plain || allow_sub || allow_obo_token
 
   method, path = setup_api_requests(method_to_path)
@@ -205,7 +207,7 @@ shared_examples 'API request authentication' do |allow_plain: false, allow_sub: 
   it 'allows authentication via tokens with CTY header + OBO token', if: sso_support? do
     set_upvs_expectations
 
-    send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [require_obo_token_scope])), params: params, as: format
+    send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [obo_token_scope(method, path)])), params: params, as: format
 
     expect(response).to be_successful
   end if allow_obo_token
@@ -263,7 +265,7 @@ shared_examples 'API request authentication' do |allow_plain: false, allow_sub: 
   end if allow_sub
 
   it 'responds with 401 if authenticating via token with CTY header + OBO token', if: sso_support? do
-    send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [require_obo_token_scope])), params: params, as: format
+    send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [obo_token_scope(method, path)])), params: params, as: format
 
     expect(response.status).to eq(401)
     expect(response.object).to eq(message: 'Bad credentials')
@@ -274,7 +276,7 @@ shared_examples 'API request authentication' do |allow_plain: false, allow_sub: 
 
     expect(response.status).to eq(401)
     expect(response.object).to eq(message: 'Bad credentials')
-  end if allow_obo_token && require_obo_token_scope
+  end if allow_obo_token
 
   it 'responds with 401 if authenticating via token with CTY header + OBO token', unless: sso_support? do
     # OBO tokens can not be generated nor verified therefore authentication will never succeed
@@ -282,7 +284,7 @@ shared_examples 'API request authentication' do |allow_plain: false, allow_sub: 
   end
 end
 
-shared_examples 'UPVS proxy initialization' do |allow_plain: false, allow_sub: false, allow_obo_token: false, require_obo_token_scope: nil, **method_to_path|
+shared_examples 'UPVS proxy initialization' do |allow_plain: false, allow_sub: false, allow_obo_token: false, **method_to_path|
   raise ArgumentError unless allow_plain || allow_sub || allow_obo_token
 
   method, path = setup_api_requests(method_to_path)
@@ -338,7 +340,7 @@ shared_examples 'UPVS proxy initialization' do |allow_plain: false, allow_sub: f
       2.times do
         set_upvs_expectations
 
-        send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [require_obo_token_scope])), params: params, as: format
+        send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [obo_token_scope(method, path)])), params: params, as: format
 
         expect(response).to be_successful
       end
@@ -349,7 +351,7 @@ shared_examples 'UPVS proxy initialization' do |allow_plain: false, allow_sub: f
       expect(UpvsProxy).not_to receive(:new)
 
       2.times do
-        send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [require_obo_token_scope])), params: params, as: format
+        send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [obo_token_scope(method, path)])), params: params, as: format
 
         expect(response).not_to be_successful
       end

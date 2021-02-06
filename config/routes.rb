@@ -42,7 +42,8 @@ Rails.application.routes.draw do
 
       if UpvsEnvironment.sso_support?
         namespace :upvs do
-          get :assertion, path: 'sso/assertion'
+          get :assertion
+          get :identity
         end
       end
     end

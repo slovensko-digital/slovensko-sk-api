@@ -229,7 +229,7 @@ RSpec.describe 'UPVS SSO' do
         end
 
         it 'responds with 400 if request does not contain callback URL' do
-          get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }
+          get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }, params: {}
 
           expect(response.status).to eq(400)
           expect(response.object).to eq(message: 'No callback')

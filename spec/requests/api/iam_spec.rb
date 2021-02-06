@@ -16,7 +16,7 @@ RSpec.describe 'IAM API' do
     it 'returns identity' do
       set_upvs_expectations
 
-      get '/api/iam/identities/6d9dc77b-70ed-432f-abaa-5de8753c967c', headers: { 'Authorization' => 'Bearer ' + token }
+      get '/api/iam/identities/6d9dc77b-70ed-432f-abaa-5de8753c967c', headers: headers
 
       expect(response.status).to eq(200)
       expect(response.object).to eq(JSON.parse(file_fixture('api/iam/identity.json').read, symbolize_names: true))

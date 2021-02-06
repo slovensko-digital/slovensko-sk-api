@@ -1,7 +1,7 @@
 class Iam::IdentitiesController < ApiController
   include Pagination
 
-  before_action { authenticate(allow_sub: true, allow_obo_token: true, require_obo_token_scope: action_scope) }
+  before_action { authenticate(allow_sub: true) }
 
   before_action(only: :search) { set_page }
   before_action(only: :search) { set_per_page(default: 10, range: 10..100) }
