@@ -1,6 +1,6 @@
 **Inštalačná príručka popisuje komponent verzie [2.1.0](https://github.com/slovensko-digital/slovensko-sk-api/releases/tag/v2.1.0), uistite sa, že čítate príručku [verzie komponentu](https://github.com/slovensko-digital/slovensko-sk-api/releases), ktorý používate.**
 
-# slovensko.sk API - inštalačná príručka
+# slovensko.sk API - Inštalačná príručka
 
 Máme dobrú a zlú správu. Tá zlá správa je, že na zfunkčnenie tohto komponentu (alebo akejkoľvek inej integrácie na slovensko.sk) je nutné prejsť pomerne náročný proces s NASES a vypracovať množstvo dokumentácie. Tá dobrá správa je, že sme to skoro celé spravili za Vás a tento návod by mal úplne stačiť na to, aby ste komponent dostali do produkčnej prevádzky. Ak sa Vám to zdá zložité, ozvite sa nám emailom na ekosystem@slovensko.digital a radi pomôžeme.
 
@@ -21,11 +21,7 @@ Pričom:
 
 Pozri časť [Konfigurácia API komponentu](#konfigurácia-api-komponentu).
 
-Najskôr je potrebné prihlásiť sa do [GitHub Container Registry](https://docs.github.com/en/packages/guides/pushing-and-pulling-docker-images#authenticating-to-github-container-registry) pomocou vlastného [PAT](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token) s povoleným `read:packages` rozsahom:
-
-    docker login ghcr.io
-
-Ďalej je potrebné inicializovať databázu cez:
+Najskôr je potrebné inicializovať databázu cez:
 
     docker-compose run web bundle exec rails db:create db:migrate
 
