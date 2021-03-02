@@ -65,7 +65,7 @@ RSpec.describe 'Health Check' do
       expect(response.status).to eq(200)
       expect(response.object.with_indifferent_access).to match(
         description: 'slovensko.sk API',
-        version: '2.1.0',
+        version: '2.1.1',
         status: 'pass',
         checks: hash_including(*checks),
         links: {

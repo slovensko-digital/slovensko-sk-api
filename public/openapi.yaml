@@ -1,11 +1,8 @@
-# TODO split this large file into separate files: main (this) + defs per scope (cuet, edesk, ...)
-# TODO change extension to yml (since we use yml everywhere)
-
 openapi: 3.0.0
 
 info:
   title: slovensko.sk API
-  version: 2.1.0
+  version: 2.1.1 (Komunitná verzia) 6.3.1 (Prémium verzia)
 
   description: |
     slovensko.sk API je proxy REST API komponent k službám www.slovensko.sk (Ústredný portál verejnej správy – ÚPVS), pomocou ktorých je možné:
@@ -29,10 +26,14 @@ info:
     email: ekosystem@slovensko.digital
 
 servers:
-  - description: Server v ÚPVS FIX prostredí
-    url: https://fix.slovensko-sk-api.staging.slovensko.digital
-  - description: Server v ÚPVS DEV prostredí
+  - description: Komunitná verzia v prostredí ÚPVS DEV
     url: https://dev.slovensko-sk-api.staging.slovensko.digital
+  - description: Komunitná verzia v prostredí ÚPVS FIX
+    url: https://fix.slovensko-sk-api.staging.slovensko.digital
+  - description: Prémium verzia v prostredí ÚPVS DEV
+    url: https://dev.premium-slovensko-sk-api.staging.slovensko.digital
+  - description: Prémium verzia v prostredí ÚPVS FIX
+    url: https://fix.premium-slovensko-sk-api.staging.slovensko.digital
 
 # TODO check if response codes specified here match response codes in API controllers
 # TODO consider using 201 when creating stuff, for example return 201 when successfully sending sktalk message: receive_result == 0 (a resource -- message is created) but return 202 when unsuccessfully sending sktalk message: receive_result != 0
@@ -216,7 +217,7 @@ paths:
 
         Nakoľko ide o dve operácie, ktoré nie je možné transakčne spojiť, možu nastať prípady keď odoslanie prebehne úspešne ale uloženie zlyhá.
 
-        Volanie neuloží správu medzi odoslané ak výsledok odoslania nemá hodnotu `0` alebo ak prišlo k vypršaniu času požiadavky na ÚPVS
+        Volanie neuloží správu medzi odoslané ak výsledok odoslania nemá hodnotu `0` alebo ak prišlo k vypršaniu času požiadavky na ÚPVS.
       requestBody:
         required: true
         content:
@@ -1993,7 +1994,7 @@ paths:
                 'Stav komponentu je v poriadku':
                   value:
                     description: slovensko.sk API
-                    version: 2.1.0
+                    version: 1.0.0
                     status: pass
                     checks:
                       environment:variables:
@@ -2020,7 +2021,7 @@ paths:
                 'Stav komponentu je v poriadku ale s varovaním':
                   value:
                     description: slovensko.sk API
-                    version: 2.1.0
+                    version: 1.0.0
                     status: warn
                     checks:
                       environment:variables:
@@ -2055,7 +2056,7 @@ paths:
                 'Stav komponentu nie je v poriadku':
                   value:
                     description: slovensko.sk API
-                    version: 2.1.0
+                    version: 1.0.0
                     status: fail
                     checks:
                       environment:variables:
