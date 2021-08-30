@@ -22,15 +22,14 @@ module AuthenticityTokens
     api_token_with_subject(nil)
   end
 
-  def api_token_with_subject(subject = 'CIN-11190868', expires_in: 20.minutes.from_now)
+  def api_token_with_subject(subject = 'CIN-11190868', expires_in: 1.minute.from_now)
     payload = { sub: subject, exp: expires_in.to_i, jti: SecureRandom.uuid }
     JWT.encode(payload, api_token_key_pair, 'RS256')
   end
 
-  def api_token_with_obo_token(response = file_fixture(sso_response_file).read, scopes: [])
+  def api_token_with_obo_token(response = file_fixture(sso_response_file).read, scopes: [], expires_in: 1.minute.from_now)
     response = OneLogin::RubySaml::Response.new(response) unless response.is_a?(OneLogin::RubySaml::Response)
-    obo = obo_token_from_response(response, scopes: scopes)
-    payload = { exp: response.not_on_or_after.to_i, jti: SecureRandom.uuid, obo: obo }
+    payload = { exp: expires_in.to_i, jti: SecureRandom.uuid, obo: obo_token_from_response(response, scopes: scopes) }
     JWT.encode(payload, api_token_key_pair, 'RS256', { cty: 'JWT' })
   end
 

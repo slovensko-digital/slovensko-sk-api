@@ -37,7 +37,13 @@ public final class UpvsProxy {
     LoggerPropertyDefiner.load(copy);
 
     List<String> configurations = newArrayList("context.xml", "ws.xml");
-    configurations.add(copy.containsKey("upvs.sts.obo") ? "ws-onbehalf.xml" : "ws-techcert.xml");
+
+    if (copy.containsKey("upvs.sts.obo")) {
+      boolean isSamlAssertion = copy.get("upvs.sts.obo").toString().stripLeading().startsWith("<");
+      configurations.add(isSamlAssertion ? "ws-onbehalf.xml" : "ws-onbehalf-id.xml");
+    } else {
+      configurations.add("ws-techcert.xml");
+    }
 
     this.context = new Context(configurations, new MapPropertySource("args", copy));
 

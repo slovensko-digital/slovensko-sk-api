@@ -221,25 +221,13 @@ Požiadajte o vytvorenie identít emailom:
 > 
 > Ďakujem.
 
-Pre vytvorené identity vygenerujte STS certifikáty. Reťazec `{sub}` v názvoch súborov a aliasoch nahraďte vhodnou skratkou Vašej integrácie, podobne upravte hodnotu CN certifikátov.  
+Pre vytvorené identity vygenerujte STS certifikáty. Reťazec `{sub}` v názvoch súborov a aliasoch nahraďte vhodnou skratkou Vašej integrácie, podobne upravte hodnotu CN certifikátov, kde `{cin}` je IČO a `{suffix}` je identifikačné číslo organizácie v prípade ak ide o organizačnú zložku.  
 
-    keytool -genkeypair -alias {sub} -keyalg RSA -keysize 2048 -sigalg sha512WithRSA -dname "CN=tech.{project}.{cin}.upvsfix.ext.{domain}" -validity 730 -keypass password -keystore {sub}_fix.keystore -storepass password
+    keytool -genkeypair -alias {sub} -keyalg RSA -keysize 2048 -sigalg sha512WithRSA -dname "CN=ico-{cin}_{suffix}" -validity 730 -keypass password -keystore {sub}_fix.keystore -storepass password
     keytool -export -alias {sub} -keystore {sub}_fix.keystore -storepass password > {sub}_fix.crt
     keytool -export -alias {sub} -keystore {sub}_fix.keystore -storepass password -rfc > {sub}_fix.pem
 
-Vygenerované súbory zašlite emailom:
-
-> Adresát: integracie@globaltel.sk, integracie@nases.gov.sk
->
-> Predmet: **{project}** - FIX - IAM - Žiadosť - Registrácia TU a STS
-> 
-> Dobrý deň,
->
-> týmto žiadam o zaregistrovanie TU pre PO s IČO {cin}.
-> 
-> Ďakujem.
-
-Ako prílohu priložte do jedného súboru zozipované všetky vygenerované `*.crt` súbory. Emailový server na strane dodávateľa to inak odmietne!
+Vygenerované certifikáty je následne potrebné zaregistrovať vyplnením formuláru *Zriadenie technického účtu a registrácia certifikátu* v časti [*Môj profil – Technické účty a certifikáty*](https://portal.upvsfixnew.gov.sk/sk/moj-profil/technicke-ucty-a-certifikaty), ktorý je dostupný po prihlásení testovacej identity (FO) na [ÚPVS portál](https://portal.upvsfixnew.gov.sk) v zastúpení testovacej identity (PO alebo OVM), pre ktorú bude registrácia príslušného certifikátu vykonávaná, pozri [Návod na využívanie služieb centrálneho registra autentifikačných certifikátov](https://www.slovensko.sk/_img/CMS4/Navody/navod_autentifikacne_certifikaty.pdf).
 
 #### CEP
 
@@ -257,23 +245,9 @@ Ak potrebujete podporu pre podpisovanie podaní, požiadajte o pridelenie testov
 
 #### ÚPVS SSO
 
-Ak potrebujete podporu pre autentifikáciu cez ÚPVS SSO, podobne vygenerujte SP certifikát kde `{sub}` bude hodnota `SSO_SP_SUBJECT` premennej prostredia a názov bude v tvare `CN=sp.{sub}.upvsfix.ext.{domain}`. Následne vytvorte `{sub}_fix.metadata.xml` podľa súboru [podaas_dev.metadata.xml](doc/templates/podaas_dev.metadata.xml), pričom treba nahradiť `entityID`, dva verejné klúče (skopírovaním z PEM súboru) a endpointy, kde bude **testovacia** verzia bežať. Metadáta podpíšte pomocou [xmlsectool](http://shibboleth.net/downloads/tools/xmlsectool/latest).
+Ak potrebujete podporu pre autentifikáciu cez ÚPVS SSO, podobne vygenerujte SP certifikáty pre šifrovanie a podpisovanie, certifikát určený pre šifrovanie sa musí odlišovať od certifikátu určeného pre podpisovanie. Následne vytvorte `{sub}_fix.metadata.xml` podľa súboru [podaas_dev.metadata.xml](doc/templates/podaas_dev.metadata.xml), kde `{sub}` bude hodnota `SSO_SP_SUBJECT`, pričom treba nahradiť `entityID`, verejné klúče pre šifrovanie a podpisovanie (skopírovaním z PEM súborov) a endpointy, kde bude **testovacia** verzia bežať.
 
-    xmlsectool --sign --inFile {sub}_fix.metadata.xml --outFile {sub}_fix.signed.metadata.xml --keystore {sub}_fix.keystore --keystorePassword password --key {sub} --keyPassword password
-
-Vygenerovaný súbor zašlite emailom:
-
-> Adresát: integracie@globaltel.sk, integracie@nases.gov.sk
->
-> Predmet: **{project}** - FIX - IAM - Žiadosť - Registrácia metadát SP
-> 
-> Dobrý deň,
->
-> týmto žiadam o zaregistrovanie metadát SP.
-> 
-> Ďakujem.
-
-Ako prílohu priložte do jedného súboru zozipovaný `*.signed.metadata.xml` súbor. Emailový server na strane dodávateľa to inak odmietne!
+Vygenerované metadáta je následne potrebné zaregistrovať vyplnením formuláru *Registrácia poskytovateľa služieb* v časti [*Môj profil – Technické účty a certifikáty*](https://portal.upvsfixnew.gov.sk/sk/moj-profil/technicke-ucty-a-certifikaty), ktorý je dostupný po prihlásení testovacej identity (FO) na [ÚPVS portál](https://portal.upvsfixnew.gov.sk) v zastúpení testovacej identity (PO alebo OVM), pre ktorú bude registrácia príslušných metadát vykonávaná, pozri [Návod na využívanie služieb centrálneho registra SP metadát](https://www.slovensko.sk/_img/CMS4/Navody/navod_poskytovatelia_sluzieb.pdf).
 
 ### 7. Vykonanie akceptačného testovania (UAT) vo FIX prostredí
 

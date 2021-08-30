@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '2.5.7', engine: 'jruby', engine_version: '9.2.14.0'
+ruby '2.5.8', engine: 'jruby', engine_version: '9.2.17.0'
 
-gem 'rails', '~> 5.2.4.4'
+gem 'rails', '~> 5.2.6'
 gem 'tzinfo-data', platforms: [:jruby]
 gem 'puma'
 

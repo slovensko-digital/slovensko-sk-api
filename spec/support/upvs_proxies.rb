@@ -48,7 +48,7 @@ end
 shared_examples 'UPVS proxy internals' do |action, exclude_timeout_examples: false|
   context 'UPVS proxy' do
     context 'with incorrect keystore file' do
-      let(:properties) { super.merge('upvs.sts.keystore.file' => 'INVALID') }
+      let(:properties) { super().merge('upvs.sts.keystore.file' => 'INVALID') }
 
       it 'raises error' do
         expect { instance_exec(&action) }.to raise_bean_creation_exception_with_cause(java.nio.file.NoSuchFileException, 'INVALID')
@@ -56,7 +56,7 @@ shared_examples 'UPVS proxy internals' do |action, exclude_timeout_examples: fal
     end
 
     context 'with incorrect keystore pass' do
-      let(:properties) { super.merge('upvs.sts.keystore.pass' => 'INVALID') }
+      let(:properties) { super().merge('upvs.sts.keystore.pass' => 'INVALID') }
 
       it 'raises error' do
         expect { instance_exec(&action) }.to raise_bean_creation_exception_with_cause(java.security.UnrecoverableKeyException, 'Password verification failed')
@@ -64,7 +64,7 @@ shared_examples 'UPVS proxy internals' do |action, exclude_timeout_examples: fal
     end
 
     context 'with incorrect keystore private key alias' do
-      let(:properties) { super.merge('upvs.sts.keystore.private.alias' => 'INVALID') }
+      let(:properties) { super().merge('upvs.sts.keystore.private.alias' => 'INVALID') }
 
       it 'raises error' do
         expect { instance_exec(&action) }.to raise_soap_fault_exception_with_cause(org.apache.cxf.ws.policy.PolicyException, 'No certificates for user "INVALID" were found for signature')
@@ -72,7 +72,7 @@ shared_examples 'UPVS proxy internals' do |action, exclude_timeout_examples: fal
     end
 
     context 'with incorrect keystore private key pass' do
-      let(:properties) { super.merge('upvs.sts.keystore.private.pass' => 'INVALID') }
+      let(:properties) { super().merge('upvs.sts.keystore.private.pass' => 'INVALID') }
 
       it 'raises error' do
         expect { instance_exec(&action) }.to raise_soap_fault_exception_with_cause(org.apache.wss4j.common.ext.WSSecurityException, 'The private key for the supplied alias does not exist in the keystore')
@@ -86,7 +86,7 @@ shared_examples 'UPVS proxy internals' do |action, exclude_timeout_examples: fal
     end
 
     context 'with incorrect truststore file' do
-      let(:properties) { super.merge('upvs.tls.truststore.file' => 'INVALID') }
+      let(:properties) { super().merge('upvs.tls.truststore.file' => 'INVALID') }
 
       it 'raises error' do
         expect { instance_exec(&action) }.to raise_soap_fault_exception_with_cause(java.io.IOException, 'Could not load keystore resource INVALID')
@@ -94,7 +94,7 @@ shared_examples 'UPVS proxy internals' do |action, exclude_timeout_examples: fal
     end
 
     context 'with incorrect truststore pass' do
-      let(:properties) { super.merge('upvs.tls.truststore.pass' => 'INVALID') }
+      let(:properties) { super().merge('upvs.tls.truststore.pass' => 'INVALID') }
 
       it 'raises error' do
         expect { instance_exec(&action) }.to raise_soap_fault_exception_with_cause(java.security.UnrecoverableKeyException, 'Password verification failed')
@@ -114,7 +114,7 @@ shared_examples 'UPVS proxy internals' do |action, exclude_timeout_examples: fal
     end
 
     context 'with connection timeout', unless: exclude_timeout_examples do
-      let(:properties) { super.merge('upvs.timeout.connection' => 2) }
+      let(:properties) { super().merge('upvs.timeout.connection' => 2) }
 
       it 'raises error' do
         expect { instance_exec(&action) }.to raise_soap_fault_exception('Problem writing SAAJ model to stream: connect timed out')
@@ -122,7 +122,7 @@ shared_examples 'UPVS proxy internals' do |action, exclude_timeout_examples: fal
     end
 
     context 'with receive timeout', unless: exclude_timeout_examples do
-      let(:properties) { super.merge('upvs.timeout.receive' => 2) }
+      let(:properties) { super().merge('upvs.timeout.receive' => 2) }
 
       it 'raises error' do
         expect { instance_exec(&action) }.to raise_soap_fault_exception('Problem writing SAAJ model to stream: Read timed out')
