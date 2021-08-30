@@ -1,7 +1,7 @@
 # See https://tools.ietf.org/html/rfc7519
 
 class ApiTokenAuthenticator
-  MAX_EXP_IN = UpvsEnvironment::PROXY_MAX_EXP_IN
+  MAX_EXP_IN = 5.minutes
   JTI_PATTERN = /\A[0-9a-z\-_]{32,256}\z/i
 
   def initialize(identifier_store:, public_key:, subject_verifier:, obo_token_authenticator:)
@@ -23,6 +23,8 @@ class ApiTokenAuthenticator
 
     options = {
       algorithm: 'RS256',
+      verify_expiration: false,
+      verify_not_before: false,
       verify_jti: -> (jti) { jti =~ JTI_PATTERN },
     }
 
@@ -38,10 +40,10 @@ class ApiTokenAuthenticator
       begin
         sub, obo = @obo_token_authenticator.verify_token(obo, scope: require_obo_token_scope)
       rescue JWT::DecodeError
-        raise JWT::InvalidPayload
+        raise JWT::InvalidPayload, :obo
       end
 
-      raise JWT::InvalidSubError unless sub
+      raise JWT::InvalidSubError, :obo unless sub
     # elsif sub && obo
     #   raise JWT::InvalidPayload unless allow_obo_id
     #   raise JWT::InvalidPayload if cty
@@ -59,9 +61,13 @@ class ApiTokenAuthenticator
 
     exp, jti = payload['exp'], payload['jti']
 
-    raise JWT::InvalidSubError if sub && !@subject_verifier.call(sub)
-    raise JWT::ExpiredSignature unless exp.is_a?(Integer)
-    raise JWT::InvalidPayload if exp > (Time.now + MAX_EXP_IN).to_i
+    raise JWT::InvalidSubError, (obo ? :obo : nil) if sub && !@subject_verifier.call(sub)
+    raise JWT::InvalidPayload, :exp unless exp.is_a?(Integer)
+
+    now = Time.now.to_f
+
+    raise JWT::ExpiredSignature, :exp if exp <= now
+    raise JWT::InvalidPayload, :exp if exp > (now + MAX_EXP_IN)
     raise JWT::InvalidJtiError unless @identifier_store.write([sub, jti], true, expires_in: MAX_EXP_IN, unless_exist: true)
 
     return yield payload, header if block_given?

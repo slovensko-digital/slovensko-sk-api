@@ -228,7 +228,7 @@ shared_examples 'API request authentication' do |allow_plain: false, allow_sub: 
 
   it 'responds with 401 if authenticating via expired token' do
     # OBO tokens must be generated before any time travels, see authenticity tokens support
-    token and travel_to 20.minutes.from_now
+    token and travel_to 5.minutes.from_now
 
     send method, path, headers: headers, params: params, as: format
 

@@ -1,8 +1,6 @@
 # See https://tools.ietf.org/html/rfc7519
 
 class OboTokenAuthenticator
-  MAX_EXP_IN = UpvsEnvironment::PROXY_MAX_EXP_IN
-
   def initialize(assertion_store:, key_pair:, proxy_subject:)
     @assertion_store = assertion_store
     @key_pair = key_pair
@@ -15,12 +13,16 @@ class OboTokenAuthenticator
     sub = response.attributes['SubjectID'].to_s
     exp = response.not_on_or_after.to_i
     nbf = response.not_before.to_i
-    iat = Time.parse(assertion.attributes['IssueInstant']).to_i
+    iat = assertion.attributes['IssueInstant'].to_time.to_i
 
     name = response.attributes['Subject.FormattedName'].to_s
     scopes = scopes.to_a
 
-    raise ArgumentError if exp > iat + MAX_EXP_IN || exp <= iat || nbf != iat
+    now = Time.now.to_f
+
+    raise ArgumentError, :exp if exp <= now
+    raise ArgumentError, :nbf if nbf > now
+    raise ArgumentError, :iat if iat > nbf
 
     ass = assertion_to_s(assertion)
 
@@ -30,7 +32,7 @@ class OboTokenAuthenticator
       payload = { sub: sub, exp: exp, nbf: nbf, iat: iat, jti: jti, name: name, scopes: scopes }
       exp_in = exp - Time.now.to_f
 
-      raise ArgumentError if exp_in <= 0
+      raise ArgumentError, :exp if exp_in <= 0
 
       next unless @assertion_store.write(jti, ass, expires_in: exp_in, unless_exist: true)
 
@@ -52,23 +54,28 @@ class OboTokenAuthenticator
   def verify_token(token, scope: nil)
     options = {
       algorithm: 'RS256',
-      verify_iat: true,
+      verify_expiration: false,
+      verify_not_before: false,
+      verify_iat: false,
       verify_jti: true,
     }
 
     payload, header = JWT.decode(token, @key_pair.public_key, true, options)
     exp, nbf, iat, jti = payload['exp'], payload['nbf'], payload['iat'], payload['jti']
 
-    raise JWT::ExpiredSignature unless exp.is_a?(Integer)
-    raise JWT::ImmatureSignature unless nbf.is_a?(Integer)
-    raise JWT::InvalidIatError unless iat.is_a?(Numeric)
+    raise JWT::InvalidPayload, :exp unless exp.is_a?(Integer)
+    raise JWT::InvalidPayload, :nbf unless nbf.is_a?(Integer)
+    raise JWT::InvalidPayload, :iat unless iat.is_a?(Integer)
 
-    raise JWT::InvalidPayload if exp > iat + MAX_EXP_IN || exp <= iat
-    raise JWT::InvalidPayload if nbf != iat
+    now = Time.now.to_f
+
+    raise JWT::ExpiredSignature, :exp if exp <= now
+    raise JWT::ImmatureSignature, :nbf if nbf > now
+    raise JWT::InvalidIatError, :iat if iat > nbf
 
     scopes = payload['scopes'].to_a
 
-    raise JWT::InvalidPayload if scope && scopes.exclude?(scope)
+    raise JWT::InvalidPayload, :scope if scope && scopes.exclude?(scope)
 
     ass = @assertion_store.read(jti)
 

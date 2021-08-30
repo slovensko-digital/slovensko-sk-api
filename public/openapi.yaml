@@ -2,7 +2,7 @@ openapi: 3.0.0
 
 info:
   title: slovensko.sk API
-  version: 2.1.1 (Komunitná verzia) 6.3.1 (Prémium verzia)
+  version: 2.2.0 (Komunitná verzia) 6.5.0 (Prémium verzia)
 
   description: |
     slovensko.sk API je proxy REST API komponent k službám www.slovensko.sk (Ústredný portál verejnej správy – ÚPVS), pomocou ktorých je možné:
@@ -2320,6 +2320,7 @@ components:
                   certificate:
                     description: Certifikát časovej pečiatky.
                     type: object
+                    nullable: true
                     properties:
                       serial_number:
                         description: Sériové číslo certifikátu časovej pečiatky.
@@ -2337,6 +2338,7 @@ components:
                     description: Čas vytvorenia časovej pečiatky.
                     type: string
                     format: time
+                    nullable: true
                     example: '2020-02-12T12:59:39.501+00:00'
               verification:
                 description: Overenie objektu.
@@ -4029,8 +4031,8 @@ components:
 
         - je zakodovaný algoritmom RS256,
         - je podpísaný privátnym kľúčom tretej strany,
-        - má nastavený `exp` claim na čas expirácie, ktorý vyprší o max. 120 minút od vytvorenia tokenu,
-        - má nastavený `jti` claim na identifikátor, ktorý je unikátny počas 120 minút.
+        - má nastavený `exp` claim na čas expirácie, ktorý vyprší o 5 minút alebo skôr od vytvorenia tokenu,
+        - má nastavený `jti` claim na identifikátor, ktorý je unikátny počas 5 minút.
 
         Príklad `header` segmentu:
 
@@ -4052,8 +4054,10 @@ components:
 
         Poznámky:
 
+        - hodnota `exp` sa odporúča nastaviť na čo najkratší možný čas od vytvorenia tokenu,
+        - hodnota `exp` sa kontroluje ako počet sekúnd od 1970-01-01T00:00:00 UTC,
         - hodnota `jti` sa kontroluje podľa regulárneho výrazu `/\A[0-9a-z\-_]{32,256}\z/i`,
-        - rovnaké `jti` sa nesmie použiť v viac ako jedenkrát počas 120 minút.
+        - rovnaké `jti` sa nesmie použiť v viac ako jedenkrát počas 5 minút.
 
       type: http
       scheme: bearer
@@ -4066,8 +4070,8 @@ components:
         - je zakodovaný algoritmom RS256,
         - je podpísaný privátnym kľúčom tretej strany,
         - má nastavený `sub` claim na identifikátor certifikátu, ktorý reprezentuje ÚPVS identitu,
-        - má nastavený `exp` claim na čas expirácie, ktorý vyprší o max. 120 minút od vytvorenia tokenu,
-        - má nastavený `jti` claim na identifikátor, ktorý je unikátny počas 120 minút.
+        - má nastavený `exp` claim na čas expirácie, ktorý vyprší o 5 minút alebo skôr od vytvorenia tokenu,
+        - má nastavený `jti` claim na identifikátor, ktorý je unikátny počas 5 minút.
 
         Pre riešenia, ktoré jedným certifikátom zastupujú viacero subjektov je požadovaný API token, ktorý navyše:
 
@@ -4095,9 +4099,11 @@ components:
         Poznámky:
 
         - identifikátor `sub` reprezentuje ÚPVS identitu, pre ktorú existuje zaregistrovaný certifikát s týmto identifikátorom,
+        - hodnota `exp` sa odporúča nastaviť na čo najkratší možný čas od vytvorenia tokenu,
+        - hodnota `exp` sa kontroluje ako počet sekúnd od 1970-01-01T00:00:00 UTC,
         - hodnota `jti` sa kontroluje podľa regulárneho výrazu `/\A[0-9a-z\-_]{32,256}\z/i`,
-        - rovnaké `jti` sa nesmie použiť v viac ako jedenkrát počas 120 minút,
-        - identifikátor `obo` reprezentuje zastupovanú ÚPVS identitu a nastavuje sa iba pre riešenia, ktoré jedným certifikátom zastupujú viacero subjektov (OnBehalfOfID).
+        - rovnaké `jti` sa nesmie použiť viac ako jedenkrát počas 120 minút,
+        - identifikátor `obo` reprezentuje zastupovanú ÚPVS identitu a nastavuje sa iba pre riešenia, ktoré jedným certifikátom zastupujú viacero subjektov pomocou `OnBehalfOfID`.
 
       type: http
       scheme: bearer
@@ -4110,8 +4116,8 @@ components:
         - je zakodovaný algoritmom RS256,
         - je podpísaný privátnym kľúčom tretej strany,
         - má nastavenú `cty` header na hodnotu `JWT`,
-        - má nastavený `exp` claim na `exp` atribút OBO tokenu,
-        - má nastavený `jti` claim na identifikátor, ktorý je unikátny počas 120 minút,
+        - má nastavený `exp` claim na čas expirácie, ktorý vyprší o 5 minút alebo skôr od vytvorenia tokenu,
+        - má nastavený `jti` claim na identifikátor, ktorý je unikátny počas 5 minút,
         - má nastavený `obo` claim na hodnotu OBO tokenu, ktorý je získaný po úspešnom prihlásení.
 
         Príklad `header` segmentu:
@@ -4136,8 +4142,10 @@ components:
 
         Poznámky:
 
+        - hodnota `exp` sa odporúča nastaviť na čo najkratší možný čas od vytvorenia tokenu,
+        - hodnota `exp` sa kontroluje ako počet sekúnd od 1970-01-01T00:00:00 UTC,
         - hodnota `jti` sa kontroluje podľa regulárneho výrazu `/\A[0-9a-z\-_]{32,256}\z/i`,
-        - rovnaké `jti` sa nesmie použiť viac ako jedenkrát počas 120 minút.
+        - rovnaké `jti` sa nesmie použiť viac ako jedenkrát počas 5 minút.
 
       type: http
       scheme: bearer

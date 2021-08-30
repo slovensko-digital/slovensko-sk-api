@@ -122,7 +122,7 @@ RSpec.describe 'Health Check' do
     end
 
     context 'without environment variables' do
-      let(:environment) { super.slice('SSO_SP_SUBJECT') }
+      let(:environment) { super().slice('SSO_SP_SUBJECT') }
 
       before(:example) { allow(Upvs).to receive_message_chain(:env, :prod?).and_return(true) }
 
@@ -486,7 +486,7 @@ RSpec.describe 'Health Check' do
     end
 
     context 'with eForm synchronization subject' do
-      let(:environment) { super.merge('EFORM_SYNC_SUBJECT' => eform_sync_subject) }
+      let(:environment) { super().merge('EFORM_SYNC_SUBJECT' => eform_sync_subject) }
 
       let(:eform_sync_subject) { SecureRandom.hex }
       let(:eform_sync_certificate_expires_at) { 2.years.from_now }
@@ -698,7 +698,7 @@ RSpec.describe 'Health Check' do
     end
 
     context 'with STS health subject' do
-      let(:environment) { super.merge('STS_HEALTH_SUBJECT' => sts_health_subject) }
+      let(:environment) { super().merge('STS_HEALTH_SUBJECT' => sts_health_subject) }
 
       let(:sts_health_subject) { SecureRandom.hex }
       let(:sts_health_certificate_expires_at) { 2.years.from_now }

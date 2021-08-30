@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe OboTokenAuthenticator do
-  EXP_DELTA = described_class::MAX_EXP_IN - 20.minutes
+  # time epsilon is set to 1 second by time helpers to prevent rounding errors with external services
 
   let(:assertion_store) { redis_cache_store_in_ruby_memory }
   let(:key_pair) { obo_token_key_pair }
@@ -17,6 +17,8 @@ RSpec.describe OboTokenAuthenticator do
   before(:example) { assertion_store.clear }
 
   before(:example) { travel_to '2018-11-28T20:26:16Z' }
+
+  delegate :now, to: Time
 
   describe '#generate_token' do
     it 'returns token' do
@@ -54,13 +56,8 @@ RSpec.describe OboTokenAuthenticator do
     it 'writes assertion to store' do
       jti = nil
 
-      expect(assertion_store).to receive(:write).with(any_args).and_wrap_original do |m, j, a, o|
-        expect(j).to be_a(String)
-        expect(a).to eq(assertion)
-        expect(o).to eq(expires_in: 20.minutes, unless_exist: true)
-
-        m.call(jti = j, a, o)
-      end
+      options = { expires_in: response.not_on_or_after - response.not_before, unless_exist: true }
+      expect(assertion_store).to receive(:write).with(satisfy { |s| jti = s }, assertion, options).and_call_original
 
       token = subject.generate_token(response)
 
@@ -72,47 +69,73 @@ RSpec.describe OboTokenAuthenticator do
       expect(assertion_store.read(jti)).to eq(assertion)
     end
 
-    context 'assertion extraction failure' do
+    context 'response that was issued after being usable' do
+      before(:example) { expect(response).to receive(:not_before).and_return(1.second.ago) }
+
+      it 'raises argument error' do
+        expect { subject.generate_token(response) }.to raise_error(ArgumentError, 'iat')
+      end
+
+      it 'does not write anything to assertion store' do
+        suppress(ArgumentError) { subject.generate_token(response) }
+        expect(assertion_store.keys.size).to eq(0)
+      end
+    end
+
+    context 'response that is not usable yet' do
+      before(:example) { expect(response).to receive(:not_before).and_return(1.second.from_now) }
+
+      it 'raises argument error' do
+        expect { subject.generate_token(response) }.to raise_error(ArgumentError, 'nbf')
+      end
+
+      it 'does not write anything to assertion store' do
+        suppress(ArgumentError) { subject.generate_token(response) }
+        expect(assertion_store.keys.size).to eq(0)
+      end
+    end
+
+    context 'response that expired in the past' do
+      before(:example) { expect(response).to receive(:not_on_or_after).and_return(1.second.ago) }
+
+      it 'raises argument error' do
+        expect { subject.generate_token(response) }.to raise_error(ArgumentError, 'exp')
+      end
+
+      it 'does not write anything to assertion store' do
+        suppress(ArgumentError) { subject.generate_token(response) }
+        expect(assertion_store.keys.size).to eq(0)
+      end
+    end
+
+    context 'response that expired just now' do
+      before(:example) { expect(response).to receive(:not_on_or_after).and_return(now) }
+
+      it 'raises argument error' do
+        expect { subject.generate_token(response) }.to raise_error(ArgumentError, 'exp')
+      end
+
+      it 'does not write anything to assertion store' do
+        suppress(ArgumentError) { subject.generate_token(response) }
+        expect(assertion_store.keys.size).to eq(0)
+      end
+    end
+
+    context 'response that is expiring just about now' do
+      before(:example) { expect(assertion_store).to receive(:write).and_wrap_original { travel_to(response.not_on_or_after) and false }}
+
+      it 'raises argument error' do
+        expect { subject.generate_token(response) }.to raise_error(ArgumentError, 'exp')
+      end
+
+      it 'does not write anything to assertion store' do
+        suppress(ArgumentError) { subject.generate_token(response) }
+        expect(assertion_store.keys.size).to eq(0)
+      end
+    end
+
+    context 'assertion parser failure' do
       let(:response) { OneLogin::RubySaml::Response.new(file_fixture('oam/sso_response_no_authn_context.xml').read) }
-
-      it 'raises argument error' do
-        expect { subject.generate_token(response) }.to raise_error(ArgumentError)
-      end
-
-      it 'does not write anything to assertion store' do
-        suppress(ArgumentError) { subject.generate_token(response) }
-        expect(assertion_store.keys.size).to eq(0)
-      end
-    end
-
-    context 'response creation to expiration relation check failure' do
-      before(:example) { expect(response).to receive(:not_on_or_after).and_wrap_original { |m| m.call + EXP_DELTA + 1.second }}
-
-      it 'raises argument error' do
-        expect { subject.generate_token(response) }.to raise_error(ArgumentError)
-      end
-
-      it 'does not write anything to assertion store' do
-        suppress(ArgumentError) { subject.generate_token(response) }
-        expect(assertion_store.keys.size).to eq(0)
-      end
-    end
-
-    context 'response creation to usage relation check failure' do
-      before(:example) { expect(response).to receive(:not_before).and_wrap_original { |m| m.call - 1.second }}
-
-      it 'raises argument error' do
-        expect { subject.generate_token(response) }.to raise_error(ArgumentError)
-      end
-
-      it 'does not write anything to assertion store' do
-        suppress(ArgumentError) { subject.generate_token(response) }
-        expect(assertion_store.keys.size).to eq(0)
-      end
-    end
-
-    context 'response expiration check failure' do
-      before(:example) { travel_to 20.minutes.from_now }
 
       it 'raises argument error' do
         expect { subject.generate_token(response) }.to raise_error(ArgumentError)
@@ -204,7 +227,7 @@ RSpec.describe OboTokenAuthenticator do
 
     it 'verifies format' do
       expect { subject.verify_token(nil) }.to raise_error(JWT::DecodeError)
-      expect { subject.verify_token('!') }.to raise_error(JWT::DecodeError)
+      expect { subject.verify_token('?') }.to raise_error(JWT::DecodeError)
     end
 
     it 'verifies algorithm' do
@@ -219,59 +242,82 @@ RSpec.describe OboTokenAuthenticator do
 
     it 'verifies EXP claim presence' do
       token = generate_token(exp: nil)
-      expect { subject.verify_token(token) }.to raise_error(JWT::ExpiredSignature)
+      expect { subject.verify_token(token) }.to raise_error(JWT::InvalidPayload, 'exp')
     end
 
     it 'verifies EXP claim format' do
-      token = generate_token(exp: '!')
-      expect { subject.verify_token(token) }.to raise_error(JWT::ExpiredSignature)
+      token = generate_token(exp: '?')
+      expect { subject.verify_token(token) }.to raise_error(JWT::InvalidPayload, 'exp')
     end
 
-    it 'verifies EXP claim value' do
-      token = generate_token
-      travel_to 20.minutes.from_now
-      expect { subject.verify_token(token) }.to raise_error(JWT::ExpiredSignature)
+    it 'verifies EXP claim value (expired in the past)' do
+      token = generate_token(exp: 1.second.ago.to_i)
+      expect { subject.verify_token(token) }.to raise_error(JWT::ExpiredSignature, 'exp')
     end
 
-    it 'verifies EXP to IAT claim relation' do
-      token = generate_token(exp: (response.not_on_or_after + EXP_DELTA + 1.second).to_i)
-      expect { subject.verify_token(token) }.to raise_error(JWT::InvalidPayload)
+    it 'verifies EXP claim value (expired now)' do
+      token = generate_token(exp: now.to_i)
+      expect { subject.verify_token(token) }.to raise_error(JWT::ExpiredSignature, 'exp')
+    end
+
+    it 'verifies EXP claim value (expired in the future)' do
+      token = generate_token(exp: 1.second.from_now.to_i)
+      subject.verify_token(token)
     end
 
     it 'verifies NBF claim presence' do
       token = generate_token(nbf: nil)
-      expect { subject.verify_token(token) }.to raise_error(JWT::ImmatureSignature)
+      expect { subject.verify_token(token) }.to raise_error(JWT::InvalidPayload, 'nbf')
     end
 
     it 'verifies NBF claim format' do
-      token = generate_token(nbf: '!')
-      expect { subject.verify_token(token) }.to raise_error(JWT::ImmatureSignature)
+      token = generate_token(nbf: '?')
+      expect { subject.verify_token(token) }.to raise_error(JWT::InvalidPayload, 'nbf')
     end
 
-    it 'verifies NBF claim value' do
-      token = generate_token
-      travel_to 0.1.seconds.ago
-      expect { subject.verify_token(token) }.to raise_error(JWT::ImmatureSignature)
+    it 'verifies NBF claim value (usable in the past) and IAT claim value (usable in the past)' do
+      token = generate_token(iat: 1.second.ago.to_i, nbf: 1.second.ago.to_i)
+      subject.verify_token(token)
     end
 
-    it 'verifies NBF to IAT claim relation' do
-      token = generate_token(nbf: (response.not_before - 1.second).to_i)
-      expect { subject.verify_token(token) }.to raise_error(JWT::InvalidPayload)
+    it 'verifies NBF claim value (usable in the past) and IAT claim value (issued now)' do
+      token = generate_token(nbf: 1.second.ago.to_i, iat: now.to_i)
+      expect { subject.verify_token(token) }.to raise_error(JWT::InvalidIatError, 'iat')
+    end
+
+    it 'verifies NBF claim value (usable now)' do
+      token = generate_token(nbf: now.to_i)
+      subject.verify_token(token)
+    end
+
+    it 'verifies NBF claim value (usable in the future)' do
+      token = generate_token(nbf: 1.second.from_now.to_i)
+      expect { subject.verify_token(token) }.to raise_error(JWT::ImmatureSignature, 'nbf')
     end
 
     it 'verifies IAT claim presence' do
       token = generate_token(iat: nil)
-      expect { subject.verify_token(token) }.to raise_error(JWT::InvalidIatError)
+      expect { subject.verify_token(token) }.to raise_error(JWT::InvalidPayload, 'iat')
     end
 
     it 'verifies IAT claim format' do
-      token = generate_token(iat: '!')
-      expect { subject.verify_token(token) }.to raise_error(JWT::InvalidIatError)
+      token = generate_token(iat: '?')
+      expect { subject.verify_token(token) }.to raise_error(JWT::InvalidPayload, 'iat')
     end
 
-    it 'verifies IAT claim value' do
+    it 'verifies IAT claim value (issued before)' do
+      token = generate_token(iat: 1.second.ago.to_i)
+      subject.verify_token(token)
+    end
+
+    it 'verifies IAT claim value (issued now)' do
+      token = generate_token(iat: now.to_i)
+      subject.verify_token(token)
+    end
+
+    it 'verifies IAT claim value (issued in the future)' do
       token = generate_token(iat: 1.second.from_now.to_i)
-      expect { subject.verify_token(token) }.to raise_error(JWT::InvalidIatError)
+      expect { subject.verify_token(token) }.to raise_error(JWT::InvalidIatError, 'iat')
     end
 
     it 'verifies JTI claim presence' do
@@ -288,12 +334,12 @@ RSpec.describe OboTokenAuthenticator do
 
     it 'verifies SCOPES claim presence' do
       token = generate_token(scopes: [])
-      expect { subject.verify_token(token, scope: 'sktalk/receive') }.to raise_error(JWT::InvalidPayload)
+      expect { subject.verify_token(token, scope: 'sktalk/receive') }.to raise_error(JWT::InvalidPayload, 'scope')
     end
 
     it 'verifies SCOPES claim value' do
       token = generate_token(scopes: ['edesk/authorize'])
-      expect { subject.verify_token(token, scope: 'sktalk/receive') }.to raise_error(JWT::InvalidPayload)
+      expect { subject.verify_token(token, scope: 'sktalk/receive') }.to raise_error(JWT::InvalidPayload, 'scope')
     end
 
     context 'token decoder failure' do

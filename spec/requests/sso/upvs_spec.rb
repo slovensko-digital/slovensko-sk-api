@@ -271,7 +271,7 @@ RSpec.describe 'UPVS SSO' do
 
         it 'responds with 401 if authenticating via expired token' do
           # OBO tokens must be generated before any time travels, see authenticity tokens support
-          token and travel_to 20.minutes.from_now
+          token and travel_to 5.minutes.from_now
 
           get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }, params: { callback: callback }
 

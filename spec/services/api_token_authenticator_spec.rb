@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe ApiTokenAuthenticator do
-  REPLAY_EPSILON = 15.minutes
-  REPLAY_DELTA = described_class::MAX_EXP_IN - REPLAY_EPSILON
+  # time epsilon is set to 1 second by time helpers to prevent rounding errors with external services
+
+  MAX_EXP_IN = described_class::MAX_EXP_IN
 
   let(:identifier_store) { redis_cache_store_in_ruby_memory }
   let(:public_key) { api_token_key_pair.public_key }
@@ -24,7 +25,7 @@ RSpec.describe ApiTokenAuthenticator do
 
   delegate :now, to: Time
 
-  def generate_token(sub: nil, exp: 1543437976, jti: SecureRandom.uuid, obo: nil, header: {}, **payload)
+  def generate_token(sub: nil, exp: 1543437076, jti: SecureRandom.uuid, obo: nil, header: {}, **payload)
     payload.merge!(sub: sub, exp: exp, jti: jti, obo: obo)
     JWT.encode(payload.compact, api_token_key_pair, 'RS256', header)
   end
@@ -199,7 +200,7 @@ RSpec.describe ApiTokenAuthenticator do
 
       it 'verifies format' do
         expect { subject.verify_token(nil, allow_plain: true) }.to raise_error(JWT::DecodeError)
-        expect { subject.verify_token('!', allow_plain: true) }.to raise_error(JWT::DecodeError)
+        expect { subject.verify_token('?', allow_plain: true) }.to raise_error(JWT::DecodeError)
       end
 
       it 'verifies algorithm' do
@@ -224,18 +225,32 @@ RSpec.describe ApiTokenAuthenticator do
 
       it 'verifies EXP claim presence' do
         token = generate_token(exp: nil)
-        expect { subject.verify_token(token, allow_plain: true) }.to raise_error(JWT::ExpiredSignature)
+        expect { subject.verify_token(token, allow_plain: true) }.to raise_error(JWT::InvalidPayload, 'exp')
       end
 
       it 'verifies EXP claim format' do
-        token = generate_token(exp: '!')
-        expect { subject.verify_token(token, allow_plain: true) }.to raise_error(JWT::ExpiredSignature)
+        token = generate_token(exp: '?')
+        expect { subject.verify_token(token, allow_plain: true) }.to raise_error(JWT::InvalidPayload, 'exp')
       end
 
-      it 'verifies EXP claim value' do
-        token = generate_token
-        travel_to 20.minutes.from_now
-        expect { subject.verify_token(token, allow_plain: true) }.to raise_error(JWT::ExpiredSignature)
+      it 'verifies EXP claim value (expired in the past)' do
+        token = generate_token(exp: 1.second.ago.to_i)
+        expect { subject.verify_token(token, allow_plain: true) }.to raise_error(JWT::ExpiredSignature, 'exp')
+      end
+
+      it 'verifies EXP claim value (expired now)' do
+        token = generate_token(exp: now.to_i)
+        expect { subject.verify_token(token, allow_plain: true) }.to raise_error(JWT::ExpiredSignature, 'exp')
+      end
+
+      it 'verifies EXP claim value (expired in the future)' do
+        token = generate_token(exp: 1.second.from_now.to_i)
+        subject.verify_token(token, allow_plain: true)
+      end
+
+      it 'verifies EXP claim value (expired in the far future)' do
+        token = generate_token(exp: (MAX_EXP_IN + 1.second).from_now.to_i)
+        expect { subject.verify_token(token, allow_plain: true) }.to raise_error(JWT::InvalidPayload, 'exp')
       end
 
       it 'verifies JTI claim presence' do
@@ -244,7 +259,7 @@ RSpec.describe ApiTokenAuthenticator do
       end
 
       it 'verifies JTI claim format' do
-        token = generate_token(jti: '!')
+        token = generate_token(jti: '?')
         expect { subject.verify_token(token, allow_plain: true) }.to raise_error(JWT::InvalidJtiError)
       end
 
@@ -260,45 +275,34 @@ RSpec.describe ApiTokenAuthenticator do
       end
 
       context 'token replay attacks' do
-        it 'can not verify the same token twice in the first 120 minutes' do
-          t1 = generate_token(exp: 20.minutes.from_now.to_i)
-
+        it 'can not verify the same token twice in the first 5 minutes' do
+          t1 = generate_token(exp: MAX_EXP_IN.from_now.to_i)
           subject.verify_token(t1, allow_plain: true)
 
-          travel_to REPLAY_EPSILON.from_now - 0.1.seconds
+          travel_to MAX_EXP_IN.from_now - 1.second
 
           expect { subject.verify_token(t1, allow_plain: true) }.to raise_error(JWT::InvalidJtiError)
         end
 
-        it 'can not verify another token with the same JTI in the first 120 minutes' do
+        it 'can not verify another token with the same JTI in the first 5 minutes' do
           jti = SecureRandom.uuid
-
-          t1 = generate_token(exp: 20.minutes.from_now.to_i, jti: jti)
-
+          t1 = generate_token(exp: MAX_EXP_IN.from_now.to_i, jti: jti)
           subject.verify_token(t1, allow_plain: true)
 
-          travel_to REPLAY_DELTA.from_now
+          travel_to MAX_EXP_IN.from_now - 1.second
 
-          t2 = generate_token(exp: 20.minutes.from_now.to_i, jti: jti)
-
-          travel_to REPLAY_EPSILON.from_now - 0.1.seconds
-
+          t2 = generate_token(exp: MAX_EXP_IN.from_now.to_i, jti: jti)
           expect { subject.verify_token(t2, allow_plain: true) }.to raise_error(JWT::InvalidJtiError)
         end
 
-        it 'can verify another token with the same JTI on or after 120 minutes' do
+        it 'can verify another token with the same JTI on or after 5 minutes' do
           jti = SecureRandom.uuid
-
-          t1 = generate_token(exp: 20.minutes.from_now.to_i, jti: jti)
-
+          t1 = generate_token(exp: MAX_EXP_IN.from_now.to_i, jti: jti)
           subject.verify_token(t1, allow_plain: true)
 
-          travel_to REPLAY_DELTA.from_now
+          travel_to MAX_EXP_IN.from_now
 
-          t2 = generate_token(exp: 20.minutes.from_now.to_i, jti: jti)
-
-          travel_to REPLAY_EPSILON.from_now
-
+          t2 = generate_token(exp: MAX_EXP_IN.from_now.to_i, jti: jti)
           expect { subject.verify_token(t2, allow_plain: true) }.not_to raise_error
         end
       end
@@ -336,7 +340,7 @@ RSpec.describe ApiTokenAuthenticator do
 
       it 'verifies format' do
         expect { subject.verify_token(nil, allow_sub: true) }.to raise_error(JWT::DecodeError)
-        expect { subject.verify_token('!', allow_sub: true) }.to raise_error(JWT::DecodeError)
+        expect { subject.verify_token('?', allow_sub: true) }.to raise_error(JWT::DecodeError)
       end
 
       it 'verifies algorithm' do
@@ -366,18 +370,32 @@ RSpec.describe ApiTokenAuthenticator do
 
       it 'verifies EXP claim presence' do
         token = generate_token(exp: nil)
-        expect { subject.verify_token(token, allow_sub: true) }.to raise_error(JWT::ExpiredSignature)
+        expect { subject.verify_token(token, allow_sub: true) }.to raise_error(JWT::InvalidPayload, 'exp')
       end
 
       it 'verifies EXP claim format' do
-        token = generate_token(exp: '!')
-        expect { subject.verify_token(token, allow_sub: true) }.to raise_error(JWT::ExpiredSignature)
+        token = generate_token(exp: '?')
+        expect { subject.verify_token(token, allow_sub: true) }.to raise_error(JWT::InvalidPayload, 'exp')
       end
 
-      it 'verifies EXP claim value' do
-        token = generate_token
-        travel_to 20.minutes.from_now
-        expect { subject.verify_token(token, allow_sub: true) }.to raise_error(JWT::ExpiredSignature)
+      it 'verifies EXP claim value (expired in the past)' do
+        token = generate_token(exp: 1.second.ago.to_i)
+        expect { subject.verify_token(token, allow_sub: true) }.to raise_error(JWT::ExpiredSignature, 'exp')
+      end
+
+      it 'verifies EXP claim value (expired now)' do
+        token = generate_token(exp: now.to_i)
+        expect { subject.verify_token(token, allow_sub: true) }.to raise_error(JWT::ExpiredSignature, 'exp')
+      end
+
+      it 'verifies EXP claim value (expired in the future)' do
+        token = generate_token(exp: 1.second.from_now.to_i)
+        subject.verify_token(token, allow_sub: true)
+      end
+
+      it 'verifies EXP claim value (expired in the far future)' do
+        token = generate_token(exp: (MAX_EXP_IN + 1.second).from_now.to_i)
+        expect { subject.verify_token(token, allow_sub: true) }.to raise_error(JWT::InvalidPayload, 'exp')
       end
 
       it 'verifies JTI claim presence' do
@@ -386,7 +404,7 @@ RSpec.describe ApiTokenAuthenticator do
       end
 
       it 'verifies JTI claim format' do
-        token = generate_token(jti: '!')
+        token = generate_token(jti: '?')
         expect { subject.verify_token(token, allow_sub: true) }.to raise_error(JWT::InvalidJtiError)
       end
 
@@ -402,77 +420,56 @@ RSpec.describe ApiTokenAuthenticator do
       end
 
       context 'token replay attacks' do
-        it 'can not verify the same token twice in the first 120 minutes' do
-          t1 = generate_token(exp: 20.minutes.from_now.to_i)
-
+        it 'can not verify the same token twice in the first 5 minutes' do
+          t1 = generate_token(exp: MAX_EXP_IN.from_now.to_i)
           subject.verify_token(t1, allow_sub: true)
 
-          travel_to REPLAY_EPSILON.from_now - 0.1.seconds
+          travel_to MAX_EXP_IN.from_now - 1.second
 
           expect { subject.verify_token(t1, allow_sub: true) }.to raise_error(JWT::InvalidJtiError)
         end
 
-        it 'can not verify another token with the same JTI and SUB claims in the first 120 minutes' do
+        it 'can not verify another token with the same JTI and SUB claims in the first 5 minutes' do
           jti = SecureRandom.uuid
-
-          t1 = generate_token(sub: 'CIN-11190868', exp: 20.minutes.from_now.to_i, jti: jti)
-
+          t1 = generate_token(sub: 'CIN-11190868', exp: MAX_EXP_IN.from_now.to_i, jti: jti)
           subject.verify_token(t1, allow_sub: true)
 
-          travel_to REPLAY_DELTA.from_now
+          travel_to MAX_EXP_IN.from_now - 1.second
 
-          t2 = generate_token(sub: 'CIN-11190868', exp: 20.minutes.from_now.to_i, jti: jti)
-
-          travel_to REPLAY_EPSILON.from_now - 0.1.seconds
-
+          t2 = generate_token(sub: 'CIN-11190868', exp: MAX_EXP_IN.from_now.to_i, jti: jti)
           expect { subject.verify_token(t2, allow_sub: true) }.to raise_error(JWT::InvalidJtiError)
         end
 
-        it 'can verify another token with the same JTI and SUB claims on or after 120 minutes' do
+        it 'can verify another token with the same JTI and SUB claims on or after 5 minutes' do
           jti = SecureRandom.uuid
-
-          t1 = generate_token(sub: 'CIN-11190868', exp: 20.minutes.from_now.to_i, jti: jti)
-
+          t1 = generate_token(sub: 'CIN-11190868', exp: MAX_EXP_IN.from_now.to_i, jti: jti)
           subject.verify_token(t1, allow_sub: true)
 
-          travel_to REPLAY_DELTA.from_now
+          travel_to MAX_EXP_IN.from_now
 
-          t2 = generate_token(sub: 'CIN-11190868', exp: 20.minutes.from_now.to_i, jti: jti)
-
-          travel_to REPLAY_EPSILON.from_now
-
+          t2 = generate_token(sub: 'CIN-11190868', exp: MAX_EXP_IN.from_now.to_i, jti: jti)
           expect { subject.verify_token(t2, allow_sub: true) }.not_to raise_error
         end
 
-        it 'can verify another token with the same JTI claim but different SUB claim in the first 120 minutes' do
+        it 'can verify another token with the same JTI claim but different SUB claim in the first 5 minutes' do
           jti = SecureRandom.uuid
-
-          t1 = generate_token(sub: 'CIN-11190868', exp: 20.minutes.from_now.to_i, jti: jti)
-
+          t1 = generate_token(sub: 'CIN-11190868', exp: MAX_EXP_IN.from_now.to_i, jti: jti)
           subject.verify_token(t1, allow_sub: true)
 
-          travel_to REPLAY_DELTA.from_now
+          travel_to MAX_EXP_IN.from_now - 1.second
 
-          t2 = generate_token(sub: 'CIN-83130022', exp: 20.minutes.from_now.to_i, jti: jti)
-
-          travel_to REPLAY_EPSILON.from_now - 0.1.seconds
-
+          t2 = generate_token(sub: 'CIN-83130022', exp: MAX_EXP_IN.from_now.to_i, jti: jti)
           expect { subject.verify_token(t2, allow_sub: true) }.not_to raise_error
         end
 
-        it 'can verify another token with the same JTI claim but different SUB claim on or after 120 minutes' do
+        it 'can verify another token with the same JTI claim but different SUB claim on or after 5 minutes' do
           jti = SecureRandom.uuid
-
-          t1 = generate_token(sub: 'CIN-11190868', exp: 20.minutes.from_now.to_i, jti: jti)
-
+          t1 = generate_token(sub: 'CIN-11190868', exp: MAX_EXP_IN.from_now.to_i, jti: jti)
           subject.verify_token(t1, allow_sub: true)
 
-          travel_to REPLAY_DELTA.from_now
+          travel_to MAX_EXP_IN.from_now
 
-          t2 = generate_token(sub: 'CIN-83130022', exp: 20.minutes.from_now.to_i, jti: jti)
-
-          travel_to REPLAY_EPSILON.from_now
-
+          t2 = generate_token(sub: 'CIN-83130022', exp: MAX_EXP_IN.from_now.to_i, jti: jti)
           expect { subject.verify_token(t2, allow_sub: true) }.not_to raise_error
         end
       end
@@ -546,7 +543,7 @@ RSpec.describe ApiTokenAuthenticator do
 
       it 'verifies format' do
         expect { subject.verify_token(nil, allow_obo_token: true) }.to raise_error(JWT::DecodeError)
-        expect { subject.verify_token('!', allow_obo_token: true) }.to raise_error(JWT::DecodeError)
+        expect { subject.verify_token('?', allow_obo_token: true) }.to raise_error(JWT::DecodeError)
       end
 
       it 'verifies algorithm' do
@@ -565,7 +562,7 @@ RSpec.describe ApiTokenAuthenticator do
       end
 
       it 'verifies CTY header value' do
-        token = generate_token(header: { cty: '!' })
+        token = generate_token(header: { cty: '?' })
         expect { subject.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::InvalidPayload)
       end
 
@@ -576,18 +573,32 @@ RSpec.describe ApiTokenAuthenticator do
 
       it 'verifies EXP claim presence' do
         token = generate_token(exp: nil)
-        expect { subject.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::ExpiredSignature)
+        expect { subject.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::InvalidPayload, 'exp')
       end
 
       it 'verifies EXP claim format' do
-        token = generate_token(exp: '!')
-        expect { subject.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::ExpiredSignature)
+        token = generate_token(exp: '?')
+        expect { subject.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::InvalidPayload, 'exp')
       end
 
-      it 'verifies EXP claim value' do
-        token = generate_token
-        travel_to 20.minutes.from_now
-        expect { subject.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::ExpiredSignature)
+      it 'verifies EXP claim value (expired in the past)' do
+        token = generate_token(exp: 1.second.ago.to_i)
+        expect { subject.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::ExpiredSignature, 'exp')
+      end
+
+      it 'verifies EXP claim value (expired now)' do
+        token = generate_token(exp: now.to_i)
+        expect { subject.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::ExpiredSignature, 'exp')
+      end
+
+      it 'verifies EXP claim value (expired in the future)' do
+        token = generate_token(exp: 1.second.from_now.to_i)
+        subject.verify_token(token, allow_obo_token: true)
+      end
+
+      it 'verifies EXP claim value (expired in the far future)' do
+        token = generate_token(exp: (MAX_EXP_IN + 1.second).from_now.to_i)
+        expect { subject.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::InvalidPayload, 'exp')
       end
 
       it 'verifies JTI claim presence' do
@@ -596,7 +607,7 @@ RSpec.describe ApiTokenAuthenticator do
       end
 
       it 'verifies JTI claim format' do
-        token = generate_token(jti: '!')
+        token = generate_token(jti: '?')
         expect { subject.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::InvalidJtiError)
       end
 
@@ -612,102 +623,83 @@ RSpec.describe ApiTokenAuthenticator do
       end
 
       it 'verifies OBO claim format' do
-        token = generate_token(obo: '!')
-        expect { subject.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::InvalidPayload)
+        token = generate_token(obo: '?')
+        expect { subject.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::InvalidPayload, 'obo')
       end
 
       it 'verifies OBO claim value' do
-        token = generate_token(obo: generate_obo_token(exp: 120.minutes.ago.to_i))
-        expect { subject.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::InvalidPayload)
-      end
-
-      context 'SUB proxy' do
-        it 'verifies SUB proxy presence' do
-          expect(obo_token_authenticator).to receive(:verify_token).and_return([nil, obo_token_assertion])
-
-          token = generate_token
-          expect { subject.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::InvalidSubError)
-        end
-
-        it 'verifies SUB proxy value' do
-          expect(obo_token_authenticator).to receive(:verify_token).and_return(['CIN-00000000', obo_token_assertion])
-
-          token = generate_token
-          expect { subject.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::InvalidSubError)
-        end
+        token = generate_token(obo: generate_obo_token(exp: 1.second.ago.to_i))
+        expect { subject.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::InvalidPayload, 'obo')
       end
 
       context 'OBO token' do
         it 'verifies OBO token' do
-          obo_token = generate_obo_token
-          expect(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: nil).and_call_original
-
+          obo_token = generate_obo_token(exp: 1.second.ago.to_i)
           token = generate_token(obo: obo_token)
-          subject.verify_token(token, allow_obo_token: true)
+          expect(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: nil).and_call_original
+          expect { subject.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::InvalidPayload, 'obo') do |error|
+            expect { raise error.cause }.to raise_error(JWT::ExpiredSignature, 'exp')
+          end
         end
 
-        it 'verifies OBO token scope' do
+        it 'verifies OBO token scope if given' do
           obo_token = generate_obo_token(scopes: ['edesk/authorize'])
-          expect(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: 'sktalk/receive').and_call_original
-
           token = generate_token(obo: obo_token)
-          expect { subject.verify_token(token, allow_obo_token: true, require_obo_token_scope: 'sktalk/receive') }.to raise_error(JWT::InvalidPayload)
+          expect(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: 'sktalk/receive').and_call_original
+          expect { subject.verify_token(token, allow_obo_token: true, require_obo_token_scope: 'sktalk/receive') }.to raise_error(JWT::InvalidPayload, 'obo') do |error|
+            expect { raise error.cause }.to raise_error(JWT::InvalidPayload, 'scope')
+          end
+        end
+      end
+
+      context 'SUB proxy' do
+        it 'verifies SUB proxy presence' do
+          token = generate_token
+          expect(obo_token_authenticator).to receive(:verify_token).and_return([nil, obo_token_assertion])
+          expect { subject.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::InvalidSubError, 'obo')
         end
 
-        it 'verifies OBO token EXP claim in relation to token EXP claim' do
-          obo_token = generate_obo_token(exp: 120.minutes.ago.to_i)
-          expect(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: nil).and_call_original
-
-          token = generate_token(obo: obo_token)
-          expect { subject.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::InvalidPayload)
+        it 'verifies SUB proxy value' do
+          token = generate_token
+          expect(obo_token_authenticator).to receive(:verify_token).and_return(['CIN-00000000', obo_token_assertion])
+          expect { subject.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::InvalidSubError, 'obo')
         end
       end
 
       context 'token replay attacks' do
-        it 'can not verify the same token twice in the first 120 minutes' do
-          o1 = generate_obo_token(exp: 20.minutes.from_now.to_i, nbf: now.to_i)
-          t1 = generate_token(exp: 20.minutes.from_now.to_i, obo: o1)
-
+        it 'can not verify the same token twice in the first 5 minutes' do
+          o1 = generate_obo_token(exp: MAX_EXP_IN.from_now.to_i, nbf: now.to_i)
+          t1 = generate_token(exp: MAX_EXP_IN.from_now.to_i, obo: o1)
           subject.verify_token(t1, allow_obo_token: true)
 
-          travel_to REPLAY_EPSILON.from_now - 0.1.seconds
+          travel_to MAX_EXP_IN.from_now - 1.second
 
           expect { subject.verify_token(t1, allow_obo_token: true) }.to raise_error(JWT::InvalidJtiError)
         end
 
-        it 'can not verify another token with the same JTI claim in the first 120 minutes' do
+        it 'can not verify another token with the same JTI claim in the first 5 minutes' do
           jti = SecureRandom.uuid
-
-          o1 = generate_obo_token(exp: 20.minutes.from_now.to_i, nbf: now.to_i, iat: now.to_i)
-          t1 = generate_token(exp: 20.minutes.from_now.to_i, jti: jti, obo: o1)
-
+          o1 = generate_obo_token(exp: MAX_EXP_IN.from_now.to_i, nbf: now.to_i, iat: now.to_i)
+          t1 = generate_token(exp: MAX_EXP_IN.from_now.to_i, jti: jti, obo: o1)
           subject.verify_token(t1, allow_obo_token: true)
 
-          travel_to REPLAY_DELTA.from_now
+          travel_to MAX_EXP_IN.from_now - 1.second
 
-          o2 = generate_obo_token(exp: 20.minutes.from_now.to_i, nbf: now.to_i, iat: now.to_i)
-          t2 = generate_token(exp: 20.minutes.from_now.to_i, jti: jti, obo: o2)
-
-          travel_to REPLAY_EPSILON.from_now - 0.1.seconds
-
+          o2 = generate_obo_token(exp: MAX_EXP_IN.from_now.to_i, nbf: now.to_i, iat: now.to_i)
+          t2 = generate_token(exp: MAX_EXP_IN.from_now.to_i, jti: jti, obo: o2)
           expect { subject.verify_token(t2, allow_obo_token: true) }.to raise_error(JWT::InvalidJtiError)
         end
 
-        it 'can verify another token with the same JTI claim on or after 120 minutes' do
+        it 'can verify another token with the same JTI claim on or after 5 minutes' do
           jti = SecureRandom.uuid
-
           o1 = generate_obo_token(exp: 20.minutes.from_now.to_i, nbf: now.to_i, iat: now.to_i)
-          t1 = generate_token(exp: 20.minutes.from_now.to_i, jti: jti, obo: o1)
-
+          t1 = generate_token(exp: MAX_EXP_IN.from_now.to_i, jti: jti, obo: o1)
           subject.verify_token(t1, allow_obo_token: true)
 
-          travel_to REPLAY_DELTA.from_now
+          travel_to MAX_EXP_IN.from_now
 
           o2 = generate_obo_token(exp: 20.minutes.from_now.to_i, nbf: now.to_i, iat: now.to_i)
-          t2 = generate_token(exp: 20.minutes.from_now.to_i, jti: jti, obo: o2)
-
-          travel_to REPLAY_EPSILON.from_now
-
+          t2 = generate_token(exp: MAX_EXP_IN.from_now.to_i, jti: jti, obo: o2)
           expect { subject.verify_token(t2, allow_obo_token: true) }.not_to raise_error
         end
       end

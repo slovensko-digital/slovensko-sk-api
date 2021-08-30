@@ -1,4 +1,4 @@
-FROM jruby:9.2.14.0-jdk11
+FROM jruby:9.2.17.0-jdk11
 
 # Install packages
 RUN apt-get update
