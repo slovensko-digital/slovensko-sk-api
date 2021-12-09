@@ -19,6 +19,7 @@ en:
   too_many_requests: 'Request rate limit exceeded'
   unauthorized: 'Bad credentials'
   unprocessable_entity:
-    missing_delivery_notification: 'Message should contain a delivery notification'
+    notification_report_already_confirmed: 'The notification report has already been confirmed'
+    authorize_non_notification_report: 'Cannot authorize non-notification report message'
     received_as_being_saved_to_folder: 'Message should not be received as being saved to folder'
   unsupported_media_type: 'Invalid Content-Type'

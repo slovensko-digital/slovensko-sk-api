@@ -29,6 +29,10 @@ module UpvsDataBindings
     ekr_error_from_xml(file, sk.gov.schemas.edesk.eksservice._1.IEKSServiceDeleteMessageEDeskFaultFaultFaultMessage)
   end
 
+  def eks_authorize_message_fault(file)
+    ekr_error_from_xml(file, sk.gov.schemas.edesk.eksservice._1.IEKSServiceConfirmNotificationReportEDeskFaultFaultFaultMessage)
+  end
+
   alias iam_request upvs_object_from_xml
   alias iam_response upvs_object_from_xml
 

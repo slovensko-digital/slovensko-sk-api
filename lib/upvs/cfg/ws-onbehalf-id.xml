@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- TODO remove this file in favor of Java code, see https://cwiki.apache.org/confluence/display/CXF20DOC/WS-Trust -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:http="http://cxf.apache.org/transports/http/configuration"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
+                           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+    <property name="converters">
+      <set>
+        <bean class="digital.slovensko.upvs.internals.StringToElementConverter"/>
+      </set>
+    </property>
+  </bean>
+
+  <bean id="stsClient" abstract="true" class="org.apache.cxf.ws.security.trust.STSClient">
+    <constructor-arg ref="cxf"/>
+    <property name="location" value="${upvs.sts.address}"/>
+    <property name="wsdlLocation" value="sts/wss11x509.wsdl"/>
+    <property name="serviceName" value="{http://xmlns.oracle.com/sts/schema/sts-11g.xsd}wss11x509-serviceSoap12"/>
+    <property name="endpointName" value="{http://xmlns.oracle.com/sts/schema/sts-11g.xsd}wss11x509-port"/>
+    <property name="allowRenewing" value="false"/>
+    <property name="sendRenewing" value="false"/>
+    <property name="customContent" value="&lt;wst:OnBehalfOfID xmlns:wst='http://docs.oasis-open.org/ws-sx/ws-trust/200512'&gt;${upvs.sts.obo}&lt;/wst:OnBehalfOfID&gt;"/>
+    <property name="properties">
+      <map>
+        <entry key="org.apache.cxf.message.Message.ENDPOINT_ADDRESS" value="${upvs.sts.address}"/>
+        <entry key="security.signature.crypto" value-ref="upvsSignatureCrypto"/>
+        <entry key="security.callback-handler" value-ref="upvsCallbackHandler"/>
+      </map>
+    </property>
+  </bean>
+</beans>

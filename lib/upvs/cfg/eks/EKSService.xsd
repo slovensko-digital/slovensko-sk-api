@@ -154,4 +154,18 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="ConfirmNotificationReport">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="idMessage" type="xs:long"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConfirmNotificationReportResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ConfirmNotificationReportResult" type="xs:long"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

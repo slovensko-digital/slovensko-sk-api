@@ -192,5 +192,17 @@
         <soap12:fault name="EDeskFaultFault" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="ConfirmNotificationReport">
+      <soap12:operation soapAction="http://schemas.gov.sk/edesk/eksService/1/IEKSService/ConfirmNotificationReport" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="EDeskFaultFault">
+        <soap12:fault use="literal" name="EDeskFaultFault" namespace=""/>
+      </wsdl:fault>
+    </wsdl:operation>
   </wsdl:binding>
 </wsdl:definitions>

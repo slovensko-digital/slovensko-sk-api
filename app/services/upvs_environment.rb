@@ -32,7 +32,7 @@ module UpvsEnvironment
     UsrService.new(upvs_proxy(**args))
   end
 
-  def create_subject(sub, project:, cin:, domain:)
+  def create_subject(sub, cin:)
     # TODO it may be possible to use PKCS instead of JKS -> then drop keytool (Java Keystore) dependency form entire project including UPVS library -> replace it with PKCS in pure OpenSSL Ruby library
 
     safe_capture %W(
@@ -42,7 +42,7 @@ module UpvsEnvironment
       -keyalg RSA
       -keysize 2048
       -sigalg sha512WithRSA
-      -dname CN=tech.#{project}.#{cin}.upvs#{Upvs.env}.ext.#{domain}
+      -dname CN=ico-#{cin}
       -validity 730
       -keystore #{sts_keystore_file(sub)}.pkcs12
       -storepass #{generate_pass(:ks, sub)}
@@ -211,6 +211,8 @@ module UpvsEnvironment
       issuer: sp_metadata['entityID'],
       assertion_consumer_service_url: sp_metadata['SPSSODescriptor']['AssertionConsumerService'].first['Location'],
       single_logout_service_url: sp_metadata['SPSSODescriptor']['SingleLogoutService'].first['Location'],
+      idp_sso_target_url: idp_metadata[:idp_sso_service_url],
+      idp_slo_target_url: idp_metadata[:idp_slo_service_url],
       name_identifier_format: 'urn:oasis:names:tc:SAML:2.0:nameid-format:transient',
       protocol_binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
       sp_name_qualifier: sp_metadata['entityID'],
