@@ -83,6 +83,7 @@ jobs:
     strategy:
       matrix:
         upvs_env: [dev, fix]
+      fail-fast: false
 
     steps:
       - uses: actions/checkout@v2

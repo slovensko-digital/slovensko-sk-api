@@ -2,7 +2,7 @@ openapi: 3.0.0
 
 info:
   title: slovensko.sk API
-  version: 2.2.0 (Komunitná verzia) 6.5.0 (Prémium verzia)
+  version: 2.2.1 (Komunitná verzia) 7.0.1 (Prémium verzia)
 
   description: |
     slovensko.sk API je proxy REST API komponent k službám www.slovensko.sk (Ústredný portál verejnej správy – ÚPVS), pomocou ktorých je možné:
@@ -596,7 +596,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SktalkReceiveResult'
+                type: object
+                properties:
+                  authorized_message_id:
+                    description: Identifikátor prevzatej správy.
+                    type: long
+                required:
+                  - authorized_message_id
+                example:
+                  authorized_message_id: 4903713857
       security:
         - 'API Token': []
 
@@ -1885,23 +1893,13 @@ paths:
                   description: Identifikátor certifikátu.
                   type: string
                   example: iscep_00956852_10236
-                project:
-                  description: Identifikátor projektu priradený v rámci integračného procesu.
-                  type: string
-                  example: iscep
                 cin:
                   description: Identifikačné číslo organizácie.
                   type: string
                   example: 00956852_10236
-                domain:
-                  description: Externá doména organizácie.
-                  type: string
-                  example: finsprava.sk
               required:
                 - id
-                - project
                 - cin
-                - domain
       responses:
         201:
           description: Certifikát bol úspešne vygenerovaný.

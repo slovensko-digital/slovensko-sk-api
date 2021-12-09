@@ -108,6 +108,15 @@
   <wsdl:message name="IEKSService_CreateFolder_EDeskFaultFault_FaultMessage">
     <wsdl:part name="detail" element="q11:EDeskFault" xmlns:q11="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII"/>
   </wsdl:message>
+  <wsdl:message name="IEKSService_ConfirmNotificationReport_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmNotificationReport"/>
+  </wsdl:message>
+  <wsdl:message name="IEKSService_ConfirmNotificationReport_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmNotificationReportResponse"/>
+  </wsdl:message>
+  <wsdl:message name="IEKSService_ConfirmNotificationReport_EDeskFaultFault_FaultMessage">
+    <wsdl:part xmlns:q12="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII" name="detail" element="q12:EDeskFault"/>
+  </wsdl:message>
   <wsdl:portType name="IEKSService">
     <wsdl:operation name="GetMessage">
       <wsdl:input wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/GetMessage" message="tns:IEKSService_GetMessage_InputMessage"/>
@@ -163,6 +172,11 @@
       <wsdl:input wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/CreateFolder" message="tns:IEKSService_CreateFolder_InputMessage"/>
       <wsdl:output wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/CreateFolderResponse" message="tns:IEKSService_CreateFolder_OutputMessage"/>
       <wsdl:fault wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/CreateFolderEDeskFaultFault" name="EDeskFaultFault" message="tns:IEKSService_CreateFolder_EDeskFaultFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmNotificationReport">
+      <wsdl:input wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/ConfirmNotificationReport" message="tns:IEKSService_ConfirmNotificationReport_InputMessage"/>
+      <wsdl:output wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/ConfirmNotificationReportResponse" message="tns:IEKSService_ConfirmNotificationReport_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://schemas.gov.sk/edesk/eksService/1/IEKSService/ConfirmNotificationReportEDeskFaultFault" name="EDeskFaultFault" message="tns:IEKSService_ConfirmNotificationReport_EDeskFaultFault_FaultMessage"/>
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:service name="EKSService">
