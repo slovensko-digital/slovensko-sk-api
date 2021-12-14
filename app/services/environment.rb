@@ -2,13 +2,13 @@ module Environment
   extend self
 
   # TODO move to UpvsEnvironment and rename to #sso_callback_urls, also rename env var to SSO_CALLBACK_URLS as this is only UPVS SSO related configuration
-  def login_callback_urls
-    @login_callback_urls ||= ENV.fetch('LOGIN_CALLBACK_URLS').split(',')
+  def login_callback_url
+    @login_callback_url ||= ENV.fetch('LOGIN_CALLBACK_URL')
   end
 
   # TODO move to UpvsEnvironment and rename to #slo_callback_urls, also rename env var to SLO_CALLBACK_URLS as this is only UPVS SSO related configuration
-  def logout_callback_urls
-    @logout_callback_urls ||= ENV.fetch('LOGOUT_CALLBACK_URLS').split(',')
+  def logout_callback_url
+    @logout_callback_url ||= ENV.fetch('LOGOUT_CALLBACK_URL')
   end
 
   def api_token_authenticator

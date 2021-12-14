@@ -2,7 +2,7 @@ openapi: 3.0.0
 
 info:
   title: slovensko.sk API
-  version: 2.2.1 (Komunitná verzia) 7.0.1 (Prémium verzia)
+  version: 3.0.0 (Komunitná verzia) 8.0.0 (Prémium verzia)
 
   description: |
     slovensko.sk API je proxy REST API komponent k službám www.slovensko.sk (Ústredný portál verejnej správy – ÚPVS), pomocou ktorých je možné:
@@ -46,23 +46,15 @@ paths:
       description: |
         Prihlási používateľa pomocou slovensko.sk (ÚPVS).
 
-        Po úspešnom prihlásení nasleduje presmerovanie späť na callback URL tretej strany.
+        Po úspešnom prihlásení nasleduje presmerovanie späť na callback URL tretej strany nastavený v premenných prostredia API (LOGIN_CALLBACK_URL).
 
         V parametri `token` bude zaslaný OBO (On-Behalf-Of) token použiteľný na získanie údajov o prihlásenom používateľovi alebo na volanie ďaľších rozhraní v mene prihláseného používateľa.
-      parameters:
-        - name: callback
-          in: query
-          required: true
-          description: Callback URL, na ktorú bude používateľ presmerovaný po úspešnom prihlásení. Callback URL musí byť rovnaká ako niektorá z adries nastavených na úrovni API komponentu alebo musí byť rozšírením niektorej z týchto adries.
-          schema:
-            type: string
-            format: url
       responses:
         302:
           description: Úspešné presmerovanie na prihlasovaciu stránku ÚPVS a následne na callback URL tretej strany.
       callbacks:
-        login:
-          '{$request.query.callback}':
+        login_callback:
+          '{$LOGIN_CALLBACK_URL}':
             get:
               parameters:
                 - name: token
@@ -98,21 +90,15 @@ paths:
       description: |
         Odhlási používateľa pomocou slovensko.sk (ÚPVS).
 
-        Po úspešnom odhlásení nasleduje presmerovanie späť na callback URL tretej strany.
-      parameters:
-        - name: callback
-          in: query
-          required: true
-          description: Callback URL, na ktorú bude používateľ presmerovaný po úspešnom odhlásení. Callback URL musí byť rovnaká ako niektorá z adries nastavených na úrovni API komponentu alebo musí byť rozšírením niektorej z týchto adries.
-          schema:
-            type: string
-            format: url
+        Po úspešnom odhlásení nasleduje presmerovanie späť na callback URL tretej strany nastavený v premenných prostredia API (LOGOUT_CALLBACK_URL).
+
+        Ak URL obsahuje callback (pri odhlásení iniciovanom zo strany ÚPVS), je potrebné spraviť redirect na callback.
       responses:
         302:
           description: Úspešné presmerovanie na callback URL tretej strany.
       callbacks:
-        logout:
-          '{$request.query.callback}':
+        logout_callback:
+          '{$LOGOUT_CALLBACK_URL}':
             get:
               responses:
                 200:
