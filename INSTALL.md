@@ -1,4 +1,4 @@
-**Inštalačná príručka popisuje komponent verzie [2.2.1](https://github.com/slovensko-digital/slovensko-sk-api/releases/tag/v2.2.1), uistite sa, že čítate príručku [verzie komponentu](https://github.com/slovensko-digital/slovensko-sk-api/releases), ktorý používate.**
+**Inštalačná príručka popisuje komponent verzie [3.0.0](https://github.com/slovensko-digital/slovensko-sk-api/releases/tag/v3.0.0), uistite sa, že čítate príručku [verzie komponentu](https://github.com/slovensko-digital/slovensko-sk-api/releases), ktorý používate.**
 
 # slovensko.sk API - Inštalačná príručka
 
@@ -94,8 +94,8 @@ Premenná | Popis | Hodnota
 `EFORM_SYNC_SUBJECT` | Subjekt ukazujúci na STS certifikát pre automatickú synchronizáciu eForm formulárov<sup>7</sup> | `{sub}` (potrebná iba pre eForm Sync)
 `SSO_SP_SUBJECT` | Subjekt ukazujúci na SP certifikát pre podpisovanie pri autentifikácii cez ÚPVS SSO<sup>8</sup> | `{sub}` (potrebná iba pre ÚPVS SSO)
 `SSO_PROXY_SUBJECT` | Subjekt ukazujúci na STS certifikát pre OBO prístup pri autentifikácii cez ÚPVS SSO | `{sub}` (potrebná iba pre ÚPVS SSO)
-`LOGIN_CALLBACK_URLS` | Základné URL oddelené čiarkou, na ktoré može byť používateľ presmerovaný po úspešnom prihlásení | bezpečná URL (potrebná iba pre ÚPVS SSO)
-`LOGOUT_CALLBACK_URLS` | Základné URL oddelené čiarkou, na ktoré može byť používateľ presmerovaný po úspešnom odhlásení | bezpečná URL (potrebná iba pre ÚPVS SSO)
+`LOGIN_CALLBACK_URL` | Základná URL, na ktorú može byť používateľ presmerovaný po úspešnom prihlásení | bezpečná URL (potrebná iba pre ÚPVS SSO)
+`LOGOUT_CALLBACK_URL` | Základná URL, na ktorú može byť používateľ presmerovaný po úspešnom odhlásení | bezpečná URL (potrebná iba pre ÚPVS SSO)
 `STS_HEALTH_SUBJECT` | Subjekt ukazujúci na STS certifikát pre kontrolu spojenia s ÚPVS STS | `{sub}` (potrebná iba pre STS Health)
 
 <sup>1</sup> [Rails Environment Settings](https://guides.rubyonrails.org/configuring.html#rails-environment-settings)  
