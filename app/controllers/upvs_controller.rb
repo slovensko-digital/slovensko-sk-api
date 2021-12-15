@@ -18,7 +18,7 @@ class UpvsController < ApiController
 
   def logout
     if params[:SAMLRequest]
-      redirect_to callback_url_with_sp_callback(Environment.logout_callback_url, slo_callback)
+      redirect_to callback_url_with_sp_callback(Environment.logout_callback_url)
     elsif params[:SAMLResponse]
       redirect_to "/auth/saml/slo?#{slo_response_params(Environment.logout_callback_url).to_query}"
     else
@@ -44,8 +44,11 @@ class UpvsController < ApiController
     URI(callback_url).tap { |url| url.query = [url.query, "token=#{token}"].compact.join('&') }.to_s
   end
 
-  def callback_url_with_sp_callback(callback_url, callback)
-    URI(callback_url).tap { |url| url.query = [url.query, "callback=#{callback}"].compact.join('&') }.to_s
+  def callback_url_with_sp_callback(callback_url)
+    uri = URI.parse(callback_url)
+    params = URI.decode_www_form(uri.query || '') + {'callback': slo_callback}.to_a
+    uri.query = URI.encode_www_form(params)
+    uri.to_s
   end
 
   def slo_request_params
