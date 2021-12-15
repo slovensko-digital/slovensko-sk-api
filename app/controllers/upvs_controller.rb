@@ -57,7 +57,7 @@ class UpvsController < ApiController
   end
 
   def slo_callback
-    "#{request.host_with_port}/auth/saml/slo?#{slo_request_params.to_query}"
+    "#{request.protocol + request.host_with_port}/auth/saml/slo?#{slo_request_params.to_query}"
   end
 
   def obo_subject_id(assertion)

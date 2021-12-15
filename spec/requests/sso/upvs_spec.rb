@@ -124,14 +124,15 @@ RSpec.describe 'UPVS SSO' do
       context 'IDP initiation' do
         let(:idp_request_query) { file_fixture('oam/slo_request.query').read.strip }
 
-        before(:each) { allow_any_instance_of(ActionDispatch::Request).to receive(:host_with_port) { 'http://slovensko-sk-api.slovensko.digital' } }
+        before(:each) { allow_any_instance_of(ActionDispatch::Request).to receive(:protocol) { 'https://' } }
+        before(:each) { allow_any_instance_of(ActionDispatch::Request).to receive(:host_with_port) { 'slovensko-sk-api.slovensko.digital' } }
 
         it 'redirects to IDP with response' do
 
           get '/auth/saml/logout' + idp_request_query
 
           expect(response.status).to eq(302)
-          expect(response.location).to eq("#{logout_callback_url}?callback=http://slovensko-sk-api.slovensko.digital/auth/saml/slo#{idp_request_query}")
+          expect(response.location).to eq("#{logout_callback_url}?callback=https://slovensko-sk-api.slovensko.digital/auth/saml/slo#{idp_request_query}")
         end
 
         pending 'invalidates OBO token'
