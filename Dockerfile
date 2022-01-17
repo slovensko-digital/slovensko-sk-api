@@ -1,4 +1,4 @@
-FROM jruby:9.2.19.0-jdk11
+FROM jruby:9.3.2.0-jdk17
 
 # Install packages
 RUN apt-get update
@@ -10,8 +10,6 @@ WORKDIR /app
 
 # Bundle and cache Ruby gems
 COPY Gemfile* ./
-RUN gem update --system
-RUN gem install bundler
 RUN bundle config set deployment true
 RUN bundle config set without development:test
 RUN bundle install

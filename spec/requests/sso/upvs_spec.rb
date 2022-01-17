@@ -124,14 +124,15 @@ RSpec.describe 'UPVS SSO' do
       context 'IDP initiation' do
         let(:idp_request_query) { file_fixture('oam/slo_request.query').read.strip }
 
-        before(:each) { allow_any_instance_of(ActionDispatch::Request).to receive(:host_with_port) { 'http://slovensko-sk-api.slovensko.digital' } }
+        before(:each) { allow_any_instance_of(ActionDispatch::Request).to receive(:protocol) { 'https://' } }
+        before(:each) { allow_any_instance_of(ActionDispatch::Request).to receive(:host_with_port) { 'slovensko-sk-api.slovensko.digital' } }
 
         it 'redirects to IDP with response' do
 
           get '/auth/saml/logout' + idp_request_query
 
           expect(response.status).to eq(302)
-          expect(response.location).to eq("#{logout_callback_url}?callback=http://slovensko-sk-api.slovensko.digital/auth/saml/slo#{idp_request_query}")
+          expect(response.location).to eq("#{logout_callback_url}?callback=https%3A%2F%2Fslovensko-sk-api.slovensko.digital%2Fauth%2Fsaml%2Fslo%3FSAMLRequest%3DnVNdc5pAFP0rzPYZWEDTsBPNaKwTWjSJmGjztsoiW5ddy11Q8%252Bu7GM2kmSad9vVyvu497MXlrhBWzUrgSnaQ52BkMblUKZerDrqfDu1zZIGmMqVCSdZBewbosnsBtBAbEquVqvSE%252FawYaMsoSSApcMPMtd4Q191ut842cFS5cn2MsYtD16AayCd0xBu3d%252BCei1sN3CBe0I1vB1WlJIoCByJpwYDoJUl6o5j4DiYUgJXabPOasvmYsymVVkslTpRdG%252BO%252FMjIuzJBqXfJFpRmZG9KLAPB3l5qP4mSZs4LaXDaXXTJkjZW%252BkTdlL9Os7CAfe%252Be259teOPUC0m6RdviIrGjQQTy1%252BSC9pv1RK%252B5NZlH8OLrrDezsW92fLvwkSq7DL9k9y%252Fz5GlkPp1b9ptUIoGLRwVG%252FtQiOFgNTI5dUH1jH%252BEItqcgVaBI0DYpD5ej5DyAH0dIaqrKg%252BuOLNRMTPztATeua6z3qNiZgXGilc6fe1%252BqHU21qcFZCLajQTDiwdhUt3IylF%252B4rz2OAsVGNBv8RQJdUAjcxzPHNh7uKCp7x5vr%252FEglZye0f6IadstrZqJRScEComklYKyflK66pQF2To23vP8to96D4KlzzUTzLcZ7tx5NJPg6erpmsz%252FtZImbecevnRU8PL2HQVBvJlO0aMUhYFpwld9%252FzAF8VObbbT4tg%252FBh%252BjbP5WWsWDsPp1a1nx89ib%252Fin4W%252BvufsL%26SigAlg%3Dhttp%253A%252F%252Fwww.w3.org%252F2000%252F09%252Fxmldsig%2523rsa-sha1%26Signature%3DkpAvTYt1Ba8jdIxYaAebStvYKqcudFQmuMedALrF8M6PiD7GLPvm02OBF28Oww8Pf1SxqZD7D8Dyu%252FPjg7J%252BqnpDuYPYBaZfKBqOONgowUOtaJnME%252Bb4o%252BR8GcPn%252BdhPZ1nePK%252BU5Yj40GU3S4JzWSqdxtjJQGzZ4rgRELCCJVM%253D")
         end
 
         pending 'invalidates OBO token'
