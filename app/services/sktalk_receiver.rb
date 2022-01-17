@@ -67,7 +67,7 @@ class SktalkReceiver
   end
 
   def timeout?(error)
-    com.google.common.base.Throwables.get_causal_chain(error).any? { |e| e.message =~ /timed out/i }
+    com.google.common.base.Throwables.get_causal_chain(error).to_enum.any? { |e| e.message =~ /timed out/i }
   end
 
   private_constant :SAVE_TO_DRAFTS_CLASS, :SAVE_TO_OUTBOX_CLASS
