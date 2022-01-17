@@ -83,7 +83,7 @@ jobs:
 
     strategy:
       matrix:
-        upvs_env: fix
+        upvs_env: [fix]
       fail-fast: false
 
     steps:
