@@ -84,7 +84,10 @@ public final class UpvsObjects {
     } else if (object instanceof XMLGregorianCalendar) {
       return ((XMLGregorianCalendar) object).toGregorianCalendar().toZonedDateTime().toString();
     } else if (object.getClass().isAnnotationPresent(XmlType.class)) {
-      return toStructure(BeanMap.create(object));
+      BeanMap.Generator gen = new BeanMap.Generator();
+      gen.setBean(object);
+      gen.setContextClass(object.getClass());
+      return toStructure(gen.create());
     } else {
       return object;
     }

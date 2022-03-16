@@ -6,10 +6,14 @@ default: &default
 development:
   <<: *default
   database: podaas_development
+  username: postgres
+  password: password
 
 test:
   <<: *default
   database: podaas_test
+  username: postgres
+  password: password
 
 staging:
   url: <%= ENV['DATABASE_URL'] %>
