@@ -45,7 +45,7 @@ module Environment
   end
 
   def obo_token_scopes
-    @obo_token_scopes ||= ['sktalk/receive', 'sktalk/receive_and_save_to_outbox', 'sktalk/save_to_outbox', 'upvs/assertion', 'upvs/identity']
+    @obo_token_scopes ||= ['sktalk/receive', 'sktalk/receive_and_save_to_outbox', 'sktalk/save_to_outbox', 'sktalk/prepare_for_later_receive', 'upvs/assertion', 'upvs/identity']
   end
 
   # RedisCacheStore ignores standard errors

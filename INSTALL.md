@@ -1,4 +1,4 @@
-**Inštalačná príručka popisuje komponent verzie [3.0.1](https://github.com/slovensko-digital/slovensko-sk-api/releases/tag/v3.0.1), uistite sa, že čítate príručku [verzie komponentu](https://github.com/slovensko-digital/slovensko-sk-api/releases), ktorý používate.**
+**Inštalačná príručka popisuje komponent verzie [3.0.2](https://github.com/slovensko-digital/slovensko-sk-api/releases/tag/v3.0.2), uistite sa, že čítate príručku [verzie komponentu](https://github.com/slovensko-digital/slovensko-sk-api/releases), ktorý používate.**
 
 # slovensko.sk API - Inštalačná príručka
 
@@ -33,7 +33,7 @@ Komponent by mal bežať na porte 3000, stav je možné skontrolovať pomocou:
 
     curl localhost:3000/health
 
-Možnosti komponentu popisuje [Špecifikácia API](https://generator.swagger.io/index.html?url=https://slovensko-sk-api.ekosystem.slovensko.digital/openapi.yaml).
+Možnosti komponentu popisuje [Špecifikácia API](https://generator3.swagger.io/index.html?url=https://slovensko-sk-api.ekosystem.slovensko.digital/openapi.yaml).
 
 Log komponentu ide na štandardný výstup.
 
@@ -56,7 +56,7 @@ Ukážka odoslania SKTalk správy a uloženia medzi odoslané správy v schránk
 
     curl -H 'Authorization: Bearer API-TOKEN' -H 'Content-Type: application/json' -d '{ "message": SKTALK-MESSAGE }' localhost:3000/api/sktalk/receive_and_save_to_outbox
 
-kde `API-TOKEN` je [JWT](https://jwt.io) vytvorený podľa [Špecifikácie API](https://generator.swagger.io/index.html?url=https://slovensko-sk-api.ekosystem.slovensko.digital/openapi.yaml) a `SKTALK-MESSAGE` je valídna SKTalk správa s unikátnym `MessageID` (prípadne aj `CorrelationID`) a správne nastaveným `SenderId` a `RecipientId`.
+kde `API-TOKEN` je [JWT](https://jwt.io) vytvorený podľa [Špecifikácie API](https://generator3.swagger.io/index.html?url=https://slovensko-sk-api.ekosystem.slovensko.digital/openapi.yaml) a `SKTALK-MESSAGE` je valídna SKTalk správa s unikátnym `MessageID` (prípadne aj `CorrelationID`) a správne nastaveným `SenderId` a `RecipientId`.
 
 V prípade potreby je možné vyskúšať komponet prevádzkovaný na strane Slovensko.Digital v DEV a FIX prostrediach: 
 
@@ -64,13 +64,13 @@ V prípade potreby je možné vyskúšať komponet prevádzkovaný na strane Slo
 
       https://dev.slovensko-sk-api.staging.slovensko.digital
 
-  pozri aktuálny [stav komponentu](https://dev.slovensko-sk-api.staging.slovensko.digital/health) a [špecifikáciu API](https://generator.swagger.io/index.html?url=https://dev.slovensko-sk-api.staging.slovensko.digital/openapi.yaml) nasadenej verzie. 
+  pozri aktuálny [stav komponentu](https://dev.slovensko-sk-api.staging.slovensko.digital/health) a [špecifikáciu API](https://generator3.swagger.io/index.html?url=https://dev.slovensko-sk-api.staging.slovensko.digital/openapi.yaml) nasadenej verzie. 
 
 - komponent vo **FIX prostredí** je dostupný na URL
 
       https://fix.slovensko-sk-api.staging.slovensko.digital
 
-  pozri aktuálny [stav komponentu](https://fix.slovensko-sk-api.staging.slovensko.digital/health) a [špecifikáciu API](https://generator.swagger.io/index.html?url=https://fix.slovensko-sk-api.staging.slovensko.digital/openapi.yaml) nasadenej verzie.
+  pozri aktuálny [stav komponentu](https://fix.slovensko-sk-api.staging.slovensko.digital/health) a [špecifikáciu API](https://generator3.swagger.io/index.html?url=https://fix.slovensko-sk-api.staging.slovensko.digital/openapi.yaml) nasadenej verzie.
 
 - komponenty v **DEV a FIX prostredí** majú rovnaký privátny kľúč pre generovanie API tokenov a rovnaký verejný kľúč pre verifikáciu OBO tokenov, ale majú rôzne PO a OVM identity, [kontaktujte nás](mailto:ekosystem@slovensko.digital).
 

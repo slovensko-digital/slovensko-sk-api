@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SKTalkMessage xmlns="http://gov.sk/SKTalkMessage">
+  <EnvelopeVersion>3.0</EnvelopeVersion>
+  <Header>
+    <MessageInfo>
+      <Class>EGOV_APPLICATION</Class>
+      <PospID>App.GeneralAgenda</PospID>
+      <PospVersion>1.9</PospVersion>
+      <MessageID>00000000-0000-0000-0000-000000000000</MessageID>
+      <CorrelationID>00000000-0000-0000-0000-000000000000</CorrelationID>
+    </MessageInfo>
+  </Header>
+  <Body/>
+</SKTalkMessage>

@@ -6,7 +6,7 @@ class SktalkController < ApiController
 
   before_action { authenticate(allow_sub: true, allow_obo_token: true, require_obo_token_scope: action_scope) }
 
-  before_action { params.require(:message) }
+  before_action(except: :prepare_for_later_receive) { params.require(:message) }
 
   rescue_from(SktalkReceiver::ReceiveMessageFormatError) { render_bad_request(:invalid, :message) }
   rescue_from(SktalkReceiver::ReceiveAsSaveToFolderError) { render_unprocessable_entity(:received_as_being_saved_to_folder) }
@@ -21,5 +21,11 @@ class SktalkController < ApiController
 
   def save_to_outbox
     render json: { save_to_outbox_result: sktalk_receiver(upvs_identity).save_to_outbox(params[:message]) }
+  end
+
+  # allow sending invalid sktalk to cache token for SSO
+  def prepare_for_later_receive(message_builder: SktalkMessageBuilder)
+    message = message_builder.new(class: 'EGOV_APPLICATION', posp_id: 'App.GeneralAgenda', posp_version: '1.9')
+    sktalk_receiver(upvs_identity).receive(message.to_xml)
   end
 end

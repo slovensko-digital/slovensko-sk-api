@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   scope format: false do
     namespace :administration do
+      resources :certificates, only: [:create, :show, :destroy]
+
       namespace :eform do
         get :synchronize
       end
@@ -38,6 +40,7 @@ Rails.application.routes.draw do
         post :receive
         post :receive_and_save_to_outbox
         post :save_to_outbox
+        get :prepare_for_later_receive
       end
 
       if UpvsEnvironment.sso_support?
