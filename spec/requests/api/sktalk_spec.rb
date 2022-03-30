@@ -253,4 +253,24 @@ RSpec.describe 'SKTalk API' do
     include_examples 'URP request failure', post: '/api/sktalk/save_to_outbox', save_to_outbox: true
     include_examples 'UPVS proxy initialization', post: '/api/sktalk/save_to_outbox', allow_sub: true, allow_obo_token: true
   end
+
+  describe 'POST /api/sktalk/prepare_for_later_receive' do
+    let(:headers) { respond_to?(:token) ? Hash['Authorization' => 'Bearer ' + token] : Hash.new }
+
+    let(:template) do
+      file_fixture('sktalk/egov_application_empty_general_agenda.xml').read
+    end
+
+    def set_upvs_expectations
+      expect(upvs.sktalk).to receive(:receive).with(sktalk_message_matching(template)).and_return(3100110)
+    end
+
+    it 'prepares for later receive' do
+      set_upvs_expectations
+
+      get "/api/sktalk/prepare_for_later_receive", headers: headers
+
+      expect(response.status).to eq(204)
+    end
+  end
 end

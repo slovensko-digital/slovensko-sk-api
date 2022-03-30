@@ -7,7 +7,7 @@ slovensko.sk API je proxy REST API komponent k službám www.slovensko.sk (Ústr
 ## Dokumentácia
 
 - [Inštalačná príručka](INSTALL.md)
-- [Špecifikácia API](https://generator.swagger.io/index.html?url=https://slovensko-sk-api.ekosystem.slovensko.digital/openapi.yaml)
+- [Špecifikácia API](https://generator3.swagger.io/index.html?url=https://slovensko-sk-api.ekosystem.slovensko.digital/openapi.yaml)
 
 ## Ďalšie služby
 
