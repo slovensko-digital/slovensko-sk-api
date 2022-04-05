@@ -1,6 +1,14 @@
 # See https://tools.ietf.org/html/rfc7519
 
 class OboTokenAuthenticator
+  DECODE_OPTIONS = {
+    algorithm: 'RS256',
+    verify_expiration: false,
+    verify_not_before: false,
+    verify_iat: false,
+    verify_jti: true,
+  }
+
   def initialize(assertion_store:, key_pair:, proxy_subject:)
     @assertion_store = assertion_store
     @key_pair = key_pair
@@ -26,22 +34,23 @@ class OboTokenAuthenticator
 
     ass = assertion_to_s(assertion)
 
-    loop do
-      jti = SecureRandom.uuid
+    payload = { sub: sub, exp: exp, nbf: nbf, iat: iat, name: name, scopes: scopes }
 
-      payload = { sub: sub, exp: exp, nbf: nbf, iat: iat, jti: jti, name: name, scopes: scopes }
-      exp_in = exp - Time.now.to_f
+    save_to_assertion_store(ass, payload)
+  end
 
-      raise ArgumentError, :exp if exp_in <= 0
+  def generate_long_lasting_token(token, scopes)
+    payload, header = JWT.decode(token, @key_pair.public_key, true, DECODE_OPTIONS)
 
-      next unless @assertion_store.write(jti, ass, expires_in: exp_in, unless_exist: true)
+    # TODO parse STS token expiration from assertion
+    token_expiration = Time.now.to_i + 120.minutes.to_i
 
-      begin
-        return JWT.encode(payload, @key_pair, 'RS256')
-      rescue => error
-        @assertion_store.delete(jti) and raise(error)
-      end
-    end
+    payload['exp'] = token_expiration
+    payload['scopes'] = scopes
+
+    assertion = @assertion_store.read(payload['jti'])
+
+    save_to_assertion_store(assertion, payload.symbolize_keys)
   end
 
   def invalidate_token(token)
@@ -52,15 +61,7 @@ class OboTokenAuthenticator
   end
 
   def verify_token(token, scope: nil)
-    options = {
-      algorithm: 'RS256',
-      verify_expiration: false,
-      verify_not_before: false,
-      verify_iat: false,
-      verify_jti: true,
-    }
-
-    payload, header = JWT.decode(token, @key_pair.public_key, true, options)
+    payload, header = JWT.decode(token, @key_pair.public_key, true, DECODE_OPTIONS)
     exp, nbf, iat, jti = payload['exp'], payload['nbf'], payload['iat'], payload['jti']
 
     raise JWT::InvalidPayload, :exp unless exp.is_a?(Integer)
@@ -87,6 +88,26 @@ class OboTokenAuthenticator
   end
 
   private
+
+  def save_to_assertion_store(assertion, payload)
+    loop do
+      jti = SecureRandom.uuid
+
+      payload[:jti] = jti
+
+      exp_in = payload[:exp] - Time.now.to_f
+
+      raise ArgumentError, :exp if exp_in <= 0
+
+      next unless @assertion_store.write(jti, assertion, expires_in: exp_in, unless_exist: true)
+
+      begin
+        return JWT.encode(payload, @key_pair, 'RS256')
+      rescue => error
+        @assertion_store.delete(jti) and raise(error)
+      end
+    end
+  end
 
   def parse_assertion(response)
     document = response.decrypted_document || response.document

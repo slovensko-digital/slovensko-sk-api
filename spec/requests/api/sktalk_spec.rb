@@ -255,7 +255,9 @@ RSpec.describe 'SKTalk API' do
   end
 
   describe 'POST /api/sktalk/prepare_for_later_receive' do
-    let(:headers) { respond_to?(:token) ? Hash['Authorization' => 'Bearer ' + token] : Hash.new }
+    before(:example) { travel_to(sso_response_issued_at) }
+
+    let(:headers) { respond_to?(:token) ? Hash['Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: ['sktalk/prepare_for_later_receive'])] : Hash.new }
 
     let(:template) do
       file_fixture('sktalk/egov_application_empty_general_agenda.xml').read
@@ -265,12 +267,13 @@ RSpec.describe 'SKTalk API' do
       expect(upvs.sktalk).to receive(:receive).with(sktalk_message_matching(template)).and_return(3100110)
     end
 
-    it 'prepares for later receive' do
+    it 'returns long lasting OBO token', if: sso_support? do
       set_upvs_expectations
 
       get "/api/sktalk/prepare_for_later_receive", headers: headers
 
-      expect(response.status).to eq(204)
+      expect(response.status).to eq(200)
+      expect(response.object[:token]).to be
     end
   end
 end

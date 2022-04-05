@@ -18,7 +18,9 @@ class Iam::IdentitiesController < ApiController
   def search
     query = params.permit(
       :match, :page, :per_page,
-      :ids, :uris, :en, :email, :phone,
+      :en, :email, :phone,
+      ids: [],
+      uris: [],
       address: [:type, :country, :district, :municipality, :street, :building_number, :registration_number],
       corporate_body: [:cin, :tin, :name],
       natural_person: [:given_name, :family_name, :date_of_birth, :place_of_birth],

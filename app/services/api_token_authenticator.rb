@@ -75,6 +75,19 @@ class ApiTokenAuthenticator
     [sub, obo]
   end
 
+  def generate_long_lasting_token(token, scopes)
+    options = {
+      algorithm: 'RS256',
+      verify_expiration: false,
+      verify_not_before: false,
+      verify_jti: -> (jti) { jti =~ JTI_PATTERN },
+    }
+
+    payload, header = JWT.decode(token, @public_key, true, options)
+
+    @obo_token_authenticator.generate_long_lasting_token(payload['obo'], scopes)
+  end
+
   private
 
   def obo_token_support?

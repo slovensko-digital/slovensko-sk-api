@@ -2,7 +2,7 @@ openapi: 3.0.0
 
 info:
   title: slovensko.sk API
-  version: 3.0.2 (Komunitná verzia) 8.0.2 (Prémium verzia)
+  version: 3.0.3 (Komunitná verzia) 8.0.3 (Prémium verzia)
 
   description: |
     slovensko.sk API je proxy REST API komponent k službám www.slovensko.sk (Ústredný portál verejnej správy – ÚPVS), pomocou ktorých je možné:
@@ -294,10 +294,37 @@ paths:
       summary: Pripraví odosielanie podania aj po vypršaní WebSSO session
       description: |
         Pripraví odosielanie podania aj po vypršaní WebSSO session.
-      responses:
-        204:
-          description: Úspešné získanie tokenu z modulu IAM.
 
+        Vráti OBO (On-Behalf-Of) token použiteľný na odoslanie podaní prihláseného používateľa aj po vypršaní WebSSO session. OBO token je platný 120 minút.
+      responses:
+        200:
+          description: |
+            OBO token v JWT formáte, ktorého payload vyzerá nasledovne:
+    
+                {
+                  "sub": "rc://sk/8311577984_tisici_janko",
+                  "exp": 1545153549,
+                  "nbf": 1545146349,
+                  "iat": 1545146349,
+                  "jti": "ad8e5d2a-85ff-46b9-a13f-ac860db9acee",
+                  "name": "Janko Tisíci",
+                  "scopes": [
+                    "sktalk/receive",
+                    "sktalk/receive_and_save_to_outbox",
+                    "sktalk/save_to_outbox"
+                  ]
+                }
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    schema:
+                      type: string
+                      format: jwt
+                required:
+                  - token
       security:
         - 'API + OBO Token': []
 
@@ -3295,6 +3322,7 @@ components:
             edesk_remote_uri:
               description: URI adresa vzdialenej eDesk schránky.
               type: string
+              nullable: true
               format: uri
               example: null
             edesk_cuet_delivery_enabled:
