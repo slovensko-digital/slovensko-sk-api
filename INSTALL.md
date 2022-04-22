@@ -1,4 +1,4 @@
-**Inštalačná príručka popisuje komponent verzie [3.0.3](https://github.com/slovensko-digital/slovensko-sk-api/releases/tag/v3.0.3), uistite sa, že čítate príručku [verzie komponentu](https://github.com/slovensko-digital/slovensko-sk-api/releases), ktorý používate.**
+**Inštalačná príručka popisuje komponent verzie [3.1.0](https://github.com/slovensko-digital/slovensko-sk-api/releases/tag/v8.0.3), uistite sa, že čítate príručku [verzie komponentu](https://github.com/slovensko-digital/slovensko-sk-api/releases), ktorý používate.**
 
 # slovensko.sk API - Inštalačná príručka
 
@@ -17,7 +17,8 @@ Pred prvým spustením je potrebné pripraviť si adresár, ktorý bude obsahova
 Pričom:
 
 - **ak potrebujete automatickú synchronizáciu eForm formulárov**, musíte do súboru `docker-compose.yml` pridať služby `clock` a `worker` tak, ako je to v tomto [docker-compose.yml](doc/templates/docker-compose.with_eform_sync.yml) súbore, 
-- **ak potrebujete podporu pre autentifikáciu cez ÚPVS SSO**, musíte do súboru`.env` pridať ďaľšie premenné tak, ako je to v tomto [.env](doc/templates/.env.with_upvs_sso) súbore.
+- **ak potrebujete podporu pre OBO autentifikáciu bez ÚPVS SSO na strane komponentu**, musíte do súboru `.env` pridať premennú `SSO_PROXY_SUBJECT`tak, ako je to v tomto [.env](doc/templates/.env.with_obo) súbore.
+- **ak potrebujete podporu pre autentifikáciu cez ÚPVS SSO**, musíte do súboru `.env` pridať ďaľšie premenné tak, ako je to v tomto [.env](doc/templates/.env.with_upvs_sso) súbore.
 
 Pozri časť [Konfigurácia API komponentu](#konfigurácia-api-komponentu).
 
@@ -93,7 +94,7 @@ Premenná | Popis | Hodnota
 `UPVS_PK_SALT` | Soľ hesla k privátnemu kľúču v úložisku certifikátov<sup>6</sup> | bezpečný reťazec (potrebná iba ak `UPVS_ENV=prod`)
 `EFORM_SYNC_SUBJECT` | Subjekt ukazujúci na STS certifikát pre automatickú synchronizáciu eForm formulárov<sup>7</sup> | `{sub}` (potrebná iba pre eForm Sync)
 `SSO_SP_SUBJECT` | Subjekt ukazujúci na SP certifikát pre podpisovanie pri autentifikácii cez ÚPVS SSO<sup>8</sup> | `{sub}` (potrebná iba pre ÚPVS SSO)
-`SSO_PROXY_SUBJECT` | Subjekt ukazujúci na STS certifikát pre OBO prístup pri autentifikácii cez ÚPVS SSO | `{sub}` (potrebná iba pre ÚPVS SSO)
+`SSO_PROXY_SUBJECT` | Subjekt ukazujúci na STS certifikát pre OBO prístup pri autentifikácii cez ÚPVS SSO<sup>9</sup> | `{sub}` (potrebná pre OBO autentifikáciu)
 `LOGIN_CALLBACK_URL` | Základná URL, na ktorú može byť používateľ presmerovaný po úspešnom prihlásení | bezpečná URL (potrebná iba pre ÚPVS SSO)
 `LOGOUT_CALLBACK_URL` | Základná URL, na ktorú može byť používateľ presmerovaný po úspešnom odhlásení | bezpečná URL (potrebná iba pre ÚPVS SSO)
 `STS_HEALTH_SUBJECT` | Subjekt ukazujúci na STS certifikát pre kontrolu spojenia s ÚPVS STS | `{sub}` (potrebná iba pre STS Health)
@@ -106,10 +107,11 @@ Premenná | Popis | Hodnota
 <sup>6</sup> Reťazec dlhý aspoň 40 znakov  
 <sup>7</sup> Nastavenie premennej zapína automatickú synchronizáciu eForm formulárov  
 <sup>8</sup> Nastavenie premennej zapína podporu pre autentifikáciu cez ÚPVS SSO  
+<sup>9</sup> Nastavenie premennej zapína podporu pre OBO autentifikáciu 
 
 #### Bezpečnostné súbory:
 
-Súbor | Popis | Podpora ÚPVS SSO vypnutá
+Súbor | Popis | Podpora ÚPVS SSO/ OBO autentifikácia vypnutá
 --- | --- | ---
 `security/api_token_{RAILS_ENV}.public.pem` | Verejný kľúč pre verifikáciu API tokenov<sup>1</sup> |
 `security/obo_token_{RAILS_ENV}.private.pem` | Privátny a verejný kľúč pre generovanie a verifikáciu OBO tokenov<sup>2</sup> | Nepotrebný

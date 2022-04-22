@@ -65,6 +65,8 @@ RSpec.describe UpvsEnvironment do
     end
   end
 
+  pending '.obo_support?'
+
   pending '.sso_support?'
 
   pending '.sso_settings'

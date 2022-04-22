@@ -87,6 +87,11 @@ class OboTokenAuthenticator
     [@proxy_subject, ass]
   end
 
+  def create_obo_token_from_assertion(assertion_string, scopes)
+    assertion = parse_saml_assertion_string(assertion_string)
+    generate_token(assertion, scopes: scopes)
+  end
+
   private
 
   def save_to_assertion_store(assertion, payload)
@@ -110,7 +115,7 @@ class OboTokenAuthenticator
   end
 
   def parse_assertion(response)
-    document = response.decrypted_document || response.document
+    document = response.decrypted_document|| response.document
     assertion = REXML::XPath.first(document, '//saml:Assertion')
 
     raise ArgumentError unless assertion
@@ -131,5 +136,21 @@ class OboTokenAuthenticator
     formatter.compact = true
     formatter.write(assertion, buffer = '')
     buffer.remove("\n")
+  end
+
+  def parse_saml_assertion_string(assertion)
+    document = REXML::Document.new(assertion)
+
+    OpenStruct.new(
+      attributes: {
+        'IssueInstant' => document.root.attributes['IssueInstant'],
+        'SubjectID' => REXML::XPath.first(document, '//*[@Name="SubjectID"]/saml:AttributeValue/text()'),
+        'Subject.FormattedName' => REXML::XPath.first(document, '//*[@Name="Subject.FormattedName"]/saml:AttributeValue/text()')
+      },
+      document: document,
+      decrypted_document: nil,
+      not_on_or_after: REXML::XPath.first(document, '//saml:Conditions').attributes['NotOnOrAfter'].to_time,
+      not_before: REXML::XPath.first(document, '//saml:Conditions').attributes['NotBefore'].to_time
+    )
   end
 end

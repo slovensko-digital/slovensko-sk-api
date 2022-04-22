@@ -188,6 +188,10 @@ module UpvsEnvironment
       .soft_values.build
   end
 
+  def obo_support?
+    @obo_support ||= ENV.key?('SSO_PROXY_SUBJECT')
+  end
+
   def sso_support?
     @sso_support ||= ENV.key?('SSO_SP_SUBJECT')
   end

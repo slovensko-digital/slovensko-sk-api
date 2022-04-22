@@ -22,6 +22,10 @@ Rails.application.routes.draw do
       end
     end
 
+    if UpvsEnvironment.obo_support?
+      post :login, to: 'upvs#login_with_saml_assertion'
+    end
+
     scope :api do
       namespace :eform do
         get :status

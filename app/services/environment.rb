@@ -33,7 +33,7 @@ module Environment
       assertion_store: obo_token_assertion_store,
       key_pair: OpenSSL::PKey::RSA.new(File.read(Rails.root.join('security', "obo_token_#{Rails.env}.private.pem"))),
       proxy_subject: UpvsEnvironment.sso_proxy_subject,
-    ) if UpvsEnvironment.sso_support?
+    ) if (UpvsEnvironment.obo_support? || UpvsEnvironment.sso_support?)
   end
 
   def obo_token_assertion_store
@@ -41,7 +41,7 @@ module Environment
       namespace: 'obo-token-assertions',
       error_handler: REDIS_CONNECTION_ENFORCER,
       compress: true,
-    ) if UpvsEnvironment.sso_support?
+    ) if (UpvsEnvironment.obo_support? || UpvsEnvironment.sso_support?)
   end
 
   def obo_token_scopes
