@@ -204,6 +204,14 @@ shared_examples 'API request authentication' do |allow_plain: false, allow_sub: 
     expect(response).to be_successful
   end if allow_sub
 
+  it 'allows authentication via tokens with CTY header + OBO token', if: obo_support? do
+    set_upvs_expectations
+
+    send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [obo_token_scope(method, path)])), params: params, as: format
+
+    expect(response).to be_successful
+  end if allow_obo_token
+
   it 'allows authentication via tokens with CTY header + OBO token', if: sso_support? do
     set_upvs_expectations
 
@@ -264,12 +272,26 @@ shared_examples 'API request authentication' do |allow_plain: false, allow_sub: 
     expect(response.object).to eq(message: 'Bad credentials')
   end if allow_sub
 
+  it 'responds with 401 if authenticating via token with CTY header + OBO token', if: obo_support? do
+    send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [obo_token_scope(method, path)])), params: params, as: format
+
+    expect(response.status).to eq(401)
+    expect(response.object).to eq(message: 'Bad credentials')
+  end unless allow_obo_token
+
   it 'responds with 401 if authenticating via token with CTY header + OBO token', if: sso_support? do
     send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [obo_token_scope(method, path)])), params: params, as: format
 
     expect(response.status).to eq(401)
     expect(response.object).to eq(message: 'Bad credentials')
   end unless allow_obo_token
+
+  it 'responds with 401 if authenticating via token with CTY header + OBO token with invalid scope', if: obo_support? do
+    send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: ['?'])), params: params, as: format
+
+    expect(response.status).to eq(401)
+    expect(response.object).to eq(message: 'Bad credentials')
+  end if allow_obo_token
 
   it 'responds with 401 if authenticating via token with CTY header + OBO token with invalid scope', if: sso_support? do
     send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: ['?'])), params: params, as: format
@@ -278,7 +300,7 @@ shared_examples 'API request authentication' do |allow_plain: false, allow_sub: 
     expect(response.object).to eq(message: 'Bad credentials')
   end if allow_obo_token
 
-  it 'responds with 401 if authenticating via token with CTY header + OBO token', unless: sso_support? do
+  it 'responds with 401 if authenticating via token with CTY header + OBO token', unless: obo_support? do
     # OBO tokens can not be generated nor verified therefore authentication will never succeed
     expect(Environment.obo_token_authenticator).to be_nil
   end
@@ -346,6 +368,17 @@ shared_examples 'UPVS proxy initialization' do |allow_plain: false, allow_sub: f
       end
     end if allow_obo_token
 
+    it 'does not use any UPVS proxy object when authenticating via token with CTY header + OBO token', if: obo_support? do
+      expect(UpvsEnvironment).not_to receive(:upvs_proxy)
+      expect(UpvsProxy).not_to receive(:new)
+
+      2.times do
+        send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [obo_token_scope(method, path)])), params: params, as: format
+
+        expect(response).not_to be_successful
+      end
+    end unless allow_obo_token
+
     it 'does not use any UPVS proxy object when authenticating via token with CTY header + OBO token', if: sso_support? do
       expect(UpvsEnvironment).not_to receive(:upvs_proxy)
       expect(UpvsProxy).not_to receive(:new)
@@ -357,7 +390,7 @@ shared_examples 'UPVS proxy initialization' do |allow_plain: false, allow_sub: f
       end
     end unless allow_obo_token
 
-    it 'does not use any UPVS proxy object when authenticating via token with CTY header + OBO token', unless: sso_support? do
+    it 'does not use any UPVS proxy object when authenticating via token with CTY header + OBO token', unless: obo_support? do
       # OBO tokens can not be generated nor verified therefore UPVS proxy objects will never be used
       expect(Environment.obo_token_authenticator).to be_nil
     end

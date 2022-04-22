@@ -267,6 +267,15 @@ RSpec.describe 'SKTalk API' do
       expect(upvs.sktalk).to receive(:receive).with(sktalk_message_matching(template)).and_return(3100110)
     end
 
+    it 'returns long lasting OBO token', if: obo_support? do
+      set_upvs_expectations
+
+      get "/api/sktalk/prepare_for_later_receive", headers: headers
+
+      expect(response.status).to eq(200)
+      expect(response.object[:token]).to be
+    end
+
     it 'returns long lasting OBO token', if: sso_support? do
       set_upvs_expectations
 

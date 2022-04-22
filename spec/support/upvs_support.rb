@@ -1,5 +1,6 @@
 module UpvsSupport
   delegate :sso_support?, to: UpvsEnvironment
+  delegate :obo_support?, to: UpvsEnvironment
 end
 
 RSpec.configure do |config|

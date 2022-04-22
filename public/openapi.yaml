@@ -2,7 +2,7 @@ openapi: 3.0.0
 
 info:
   title: slovensko.sk API
-  version: 3.0.3 (Komunitná verzia) 8.0.3 (Prémium verzia)
+  version: 3.1.0 (Komunitná verzia) 8.1.0 (Prémium verzia)
 
   description: |
     slovensko.sk API je proxy REST API komponent k službám www.slovensko.sk (Ústredný portál verejnej správy – ÚPVS), pomocou ktorých je možné:
@@ -74,7 +74,9 @@ paths:
                             "sktalk/receive",
                             "sktalk/receive_and_save_to_outbox",
                             "sktalk/save_to_outbox",
-                            "sktalk/prepare_for_later_receive"
+                            "sktalk/prepare_for_later_receive",
+                            "upvs/assertion",
+                            "upvs/identity"
                           ]
                         }
                   schema:

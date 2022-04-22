@@ -1,12 +1,24 @@
 class UpvsController < ApiController
-  skip_before_action(:verify_request_body, except: [:assertion, :identity])
+  skip_before_action(:verify_request_body, except: [:login_with_saml_assertion, :assertion, :identity])
   skip_before_action(:verify_format, except: :identity)
 
   before_action(only: :assertion) { respond_to(:saml) }
   before_action(only: [:assertion, :identity]) { authenticate(allow_obo_token: true, require_obo_token_scope: action_scope) }
+  before_action(only: :login_with_saml_assertion) { authenticate(allow_sub: true) }
+
+  before_action(only: :login_with_saml_assertion) { params.require(:saml_assertion) }
 
   def login
     redirect_to '/auth/saml'
+  end
+
+  def login_with_saml_assertion
+    saml_assertion = decode_base64(params[:saml_assertion])
+    token = Environment.obo_token_authenticator.create_obo_token_from_assertion(saml_assertion, Environment.obo_token_scopes)
+
+    render json: { token: token }
+  rescue ArgumentError => error
+    render_bad_request(:invalid, error.message)
   end
 
   def callback
@@ -65,5 +77,11 @@ class UpvsController < ApiController
 
   def obo_subject_id(assertion)
     Nokogiri::XML(assertion).at_xpath('//saml:Attribute[@Name="SubjectID"]/saml:AttributeValue').content
+  end
+
+  def decode_base64(content)
+    Base64.strict_decode64(content)
+  rescue ArgumentError
+    raise ArgumentError, :base64_content
   end
 end
