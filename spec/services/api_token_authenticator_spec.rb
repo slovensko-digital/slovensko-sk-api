@@ -48,7 +48,8 @@ RSpec.describe ApiTokenAuthenticator do
     context 'with token constraints' do
       let(:token) { generate_token }
       let(:token_with_sub) { generate_token(sub: 'CIN-11190868') }
-      let(:token_with_obo_id) { generate_token(sub: 'CIN-11190868', obo: generate_obo_id) }
+      let(:obo_id) { generate_obo_id }
+      let(:token_with_obo_id) { generate_token(sub: 'CIN-11190868', obo: obo_id) }
       let(:token_with_obo_token) { generate_token(obo: generate_obo_token, header: { cty: 'JWT' }) }
 
       context 'allow all token types' do
@@ -108,8 +109,8 @@ RSpec.describe ApiTokenAuthenticator do
           expect(subject.verify_token(token_with_sub, allow_sub: true)).to eq(['CIN-11190868', nil])
         end
 
-        it 'raises error for tokens with SUB identifier + OBO identifier' do
-          expect { subject.verify_token(token_with_obo_id, allow_sub: true) }.to raise_error(JWT::InvalidPayload)
+        it 'returns SUB claim and OBOID for tokens with SUB identifier + OBO identifier' do
+          expect(subject.verify_token(token_with_obo_id, allow_sub: true)).to eq(['CIN-11190868', obo_id])
         end
 
         it 'raises error for tokens with CTY header + OBO token' do
