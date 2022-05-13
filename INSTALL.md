@@ -1,4 +1,4 @@
-**Inštalačná príručka popisuje komponent verzie [3.1.0](https://github.com/slovensko-digital/slovensko-sk-api/releases/tag/v8.0.3), uistite sa, že čítate príručku [verzie komponentu](https://github.com/slovensko-digital/slovensko-sk-api/releases), ktorý používate.**
+**Inštalačná príručka popisuje komponent verzie [3.1.1](https://github.com/slovensko-digital/slovensko-sk-api/releases/tag/v3.1.1), uistite sa, že čítate príručku [verzie komponentu](https://github.com/slovensko-digital/slovensko-sk-api/releases), ktorý používate.**
 
 # slovensko.sk API - Inštalačná príručka
 
@@ -111,7 +111,7 @@ Premenná | Popis | Hodnota
 
 #### Bezpečnostné súbory:
 
-Súbor | Popis | Podpora ÚPVS SSO/ OBO autentifikácia vypnutá
+Súbor | Popis | Podpora ÚPVS SSO/ OBO autentifikácie vypnutá
 --- | --- | ---
 `security/api_token_{RAILS_ENV}.public.pem` | Verejný kľúč pre verifikáciu API tokenov<sup>1</sup> |
 `security/obo_token_{RAILS_ENV}.private.pem` | Privátny a verejný kľúč pre generovanie a verifikáciu OBO tokenov<sup>2</sup> | Nepotrebný

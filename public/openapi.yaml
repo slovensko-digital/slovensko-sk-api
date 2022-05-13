@@ -2,7 +2,7 @@ openapi: 3.0.0
 
 info:
   title: slovensko.sk API
-  version: 3.1.0 (Komunitná verzia) 8.1.0 (Prémium verzia)
+  version: 3.1.1 (Komunitná verzia) 8.1.1 (Prémium verzia)
 
   description: |
     slovensko.sk API je proxy REST API komponent k službám www.slovensko.sk (Ústredný portál verejnej správy – ÚPVS), pomocou ktorých je možné:
@@ -4169,6 +4169,7 @@ components:
 
               {
                 "sub": "iscep_00956852_10236",
+                "obo": "28830fdf-58ea-4654-8a2a-b3c3e182b2ee"
                 "exp": 1543437976,
                 "jti": "4dee8618-abbe-4dc3-83ba-e984d1396f9f"
               }
@@ -4181,11 +4182,12 @@ components:
         Poznámky:
 
         - identifikátor `sub` reprezentuje ÚPVS identitu, pre ktorú existuje zaregistrovaný certifikát s týmto identifikátorom,
+        - nepovinný identifikátor `obo` reprezentuje zastupovanú ÚPVS identitu a nastavuje sa iba pre riešenia, ktoré jedným certifikátom zastupujú viacero subjektov pomocou `OnBehalfOfID`,
+        - hodnota `obo` sa kontroluje podľa regulárneho výrazu `/\A[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\z/i`,
         - hodnota `exp` sa odporúča nastaviť na čo najkratší možný čas od vytvorenia tokenu,
         - hodnota `exp` sa kontroluje ako počet sekúnd od 1970-01-01T00:00:00 UTC,
         - hodnota `jti` sa kontroluje podľa regulárneho výrazu `/\A[0-9a-z\-_]{32,256}\z/i`,
-        - rovnaké `jti` sa nesmie použiť viac ako jedenkrát počas 120 minút,
-        - identifikátor `obo` reprezentuje zastupovanú ÚPVS identitu a nastavuje sa iba pre riešenia, ktoré jedným certifikátom zastupujú viacero subjektov pomocou `OnBehalfOfID`.
+        - rovnaké `jti` sa nesmie použiť viac ako jedenkrát počas 120 minút.
 
       type: http
       scheme: bearer

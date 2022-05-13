@@ -3,6 +3,7 @@
 class ApiTokenAuthenticator
   MAX_EXP_IN = 5.minutes
   JTI_PATTERN = /\A[0-9a-z\-_]{32,256}\z/i
+  UUID_PATTERN = /\A[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\z/i
 
   def initialize(identifier_store:, public_key:, subject_verifier:, obo_token_authenticator:)
     @identifier_store = identifier_store
@@ -52,7 +53,7 @@ class ApiTokenAuthenticator
     elsif sub
       raise JWT::InvalidPayload unless allow_sub
       raise JWT::InvalidPayload if cty
-      raise JWT::InvalidPayload if obo
+      raise JWT::InvalidPayload if obo && !UUID_PATTERN.match?(obo)
     else
       raise allow_sub ? JWT::InvalidSubError : JWT::InvalidPayload unless allow_plain
       raise JWT::InvalidPayload if cty
