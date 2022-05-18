@@ -23,3 +23,4 @@ slovensko.sk API je proxy REST API komponent k službám www.slovensko.sk (Ústr
 **Občianske združenie Slovensko.Digital** v spolupráci s CRYSTAL CONSULTING, s.r.o. a WEBY GROUP, s.r.o.
 
 test2
+test
