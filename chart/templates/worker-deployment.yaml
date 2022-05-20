@@ -1,0 +1,189 @@
+{{- if and (not .Values.application.initializeCommand) .Values.workers -}}
+apiVersion: v1
+kind: List
+items:
+{{- range $workerName, $workerConfig :=  .Values.workers }}
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: {{ template "trackableappname" $ }}-{{ $workerName }}
+    annotations:
+      {{ if $.Values.gitlab.app }}app.gitlab.com/app: {{ $.Values.gitlab.app | quote }}{{ end }}
+      {{ if $.Values.gitlab.env }}app.gitlab.com/env: {{ $.Values.gitlab.env | quote }}{{ end }}
+    labels:
+      track: "{{ $.Values.application.track }}"
+      tier: worker
+      chart: "{{ $.Chart.Name }}-{{ $.Chart.Version | replace "+" "_" }}"
+      release: {{ $.Release.Name }}
+      heritage: {{ $.Release.Service }}
+  spec:
+    selector:
+      matchLabels:
+        track: "{{ $.Values.application.track }}"
+        tier: worker
+        release: {{ $.Release.Name }}
+    replicas: {{ $workerConfig.replicaCount }}
+  {{- if $workerConfig.strategyType }}
+    strategy:
+      type: {{ $workerConfig.strategyType | quote }}
+  {{- end  }}
+    template:
+      metadata:
+        annotations:
+          checksum/application-secrets: "{{ $.Values.application.secretChecksum }}"
+          {{ if $.Values.gitlab.app }}app.gitlab.com/app: {{ $.Values.gitlab.app | quote }}{{ end }}
+          {{ if $.Values.gitlab.env }}app.gitlab.com/env: {{ $.Values.gitlab.env | quote }}{{ end }}
+{{- if $.Values.podAnnotations }}
+{{ toYaml $.Values.podAnnotations | indent 10 }}
+{{- end }}
+        labels:
+          track: "{{ $.Values.application.track }}"
+          tier: worker
+          release: {{ $.Release.Name }}
+{{- with $workerConfig.labels  }}
+{{ toYaml . | indent 10 }}
+{{- end }}
+      spec:
+{{- if or ($.Values.serviceAccount.name) ($.Values.serviceAccountName) }}
+        serviceAccountName: {{ $.Values.serviceAccount.name | default $.Values.serviceAccountName | quote }}
+{{- end }}
+        imagePullSecrets:
+  {{ toYaml $.Values.image.secrets | indent 12 }}
+{{- with $nodeSelectorConfig := default $.Values.nodeSelector $workerConfig.nodeSelector -}}
+{{- if $nodeSelectorConfig  }}
+        nodeSelector:
+{{ toYaml $nodeSelectorConfig | indent 10 }}
+{{- end }}
+{{- end }}
+{{- with $tolerationsConfig := default $.Values.tolerations $workerConfig.tolerations -}}
+{{- if $tolerationsConfig  }}
+        tolerations:
+{{ toYaml $tolerationsConfig | indent 10 }}
+{{- end }}
+{{- end }}
+{{- with $affinityConfig := default $.Values.affinity $workerConfig.affinity -}}
+{{- if $affinityConfig  }}
+        affinity:
+{{ toYaml $affinityConfig | indent 10 }}
+{{- end }}
+{{- end }}
+{{- with $initContainersConfig := default $.Values.initContainers $workerConfig.initContainers -}}
+{{- if $initContainersConfig  }}
+        initContainers:
+{{ toYaml $initContainersConfig | indent 10 }}
+{{- end }}
+{{- end }}
+        terminationGracePeriodSeconds: {{ $workerConfig.terminationGracePeriodSeconds }}
+{{- if $workerConfig.hostAliases }}
+        hostAliases:
+{{ toYaml $workerConfig.hostAliases | indent 10 }}
+{{- end }}
+
+
+{{- with $volumeConfig := default $.Values.persistence $workerConfig.persistence -}}
+{{- if $volumeConfig.enabled }}
+{{- $context := . }}
+        volumes:
+{{- range $volume := $volumeConfig.volumes }}
+        - name: {{ $volume.name | quote }}
+          persistentVolumeClaim:
+            {{ $args := dict "context" $context "name" $volume.name }}
+            claimName: {{ template "trackableappname" $ }}-auto-deploy-{{ $volume.name }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+        containers:
+        - name: {{ $.Chart.Name }}-{{ $workerName }}
+          image: {{ template "imagename" $ }}
+          command:
+          {{- range $workerConfig.command }}
+          - {{ . }}
+          {{- end }}
+          imagePullPolicy: {{ $.Values.image.pullPolicy }}
+          {{- if $.Values.application.secretName }}
+          envFrom:
+          - secretRef:
+              name: {{ $.Values.application.secretName }}
+          {{- end }}
+          env:
+{{- if $.Values.application.database_url }}
+          - name: DATABASE_URL
+            value: {{ $.Values.application.database_url | quote }}
+{{- end }}
+          - name: GITLAB_ENVIRONMENT_NAME
+            value: {{ $.Values.gitlab.envName | quote }}
+          - name: GITLAB_ENVIRONMENT_URL
+            value: {{ $.Values.gitlab.envURL | quote }}
+{{- with $livenessProbeConfig := default $.Values.livenessProbe $workerConfig.livenessProbe -}}
+{{- if $livenessProbeConfig }}
+          livenessProbe:
+{{- if eq $livenessProbeConfig.probeType "httpGet" }}
+            httpGet:
+              path: {{ $livenessProbeConfig.path }}
+              scheme: {{ $livenessProbeConfig.scheme }}
+              port: {{ $livenessProbeConfig.port | default $.Values.service.internalPort }}
+{{- else if eq $livenessProbeConfig.probeType "tcpSocket" }}
+            tcpSocket:
+              port: {{ $livenessProbeConfig.port | default $.Values.service.internalPort }}
+{{- else if eq $livenessProbeConfig.probeType "exec" }}
+            exec:
+              command:
+{{ toYaml $livenessProbeConfig.command | indent 16 }}
+{{- end }}
+            initialDelaySeconds: {{ $livenessProbeConfig.initialDelaySeconds }}
+            timeoutSeconds: {{ $livenessProbeConfig.timeoutSeconds }}
+{{- end }}
+{{- end }}
+{{- with $readinessProbeConfig := default $.Values.readinessProbe $workerConfig.readinessProbe -}}
+{{- if $readinessProbeConfig }}
+          readinessProbe:
+{{- if eq $readinessProbeConfig.probeType "httpGet" }}
+            httpGet:
+              path: {{ $readinessProbeConfig.path }}
+              scheme: {{ $readinessProbeConfig.scheme }}
+              port: {{ $readinessProbeConfig.port | default $.Values.service.internalPort }}
+{{- else if eq $readinessProbeConfig.probeType "tcpSocket" }}
+            tcpSocket:
+              port: {{ $readinessProbeConfig.port | default $.Values.service.internalPort }}
+{{- else if eq $readinessProbeConfig.probeType "exec" }}
+            exec:
+              command:
+{{ toYaml $readinessProbeConfig.command | indent 16 }}
+{{- end }}
+            initialDelaySeconds: {{ $readinessProbeConfig.initialDelaySeconds }}
+            timeoutSeconds: {{ $readinessProbeConfig.timeoutSeconds }}
+{{- end }}
+{{- end }}
+
+{{- with $volumeConfig := default $.Values.persistence $workerConfig.persistence -}}
+{{- if $volumeConfig.enabled }}
+          volumeMounts:
+{{- range $volume := $volumeConfig.volumes }}
+          - name: {{ $volume.name | quote }}
+            mountPath: {{ $volume.mount.path | quote }}
+            {{- if $volume.mount.subPath }}
+            subPath: {{ $volume.mount.subPath | quote }}
+            {{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+          {{- if or $workerConfig.lifecycle $workerConfig.preStopCommand }}
+          lifecycle:
+          {{- if $workerConfig.lifecycle }}
+{{ toYaml $workerConfig.lifecycle | indent 12 }}
+          {{- end }}
+            {{- if $workerConfig.preStopCommand }}
+            preStop:
+              exec:
+                command:
+                {{- range $workerConfig.preStopCommand }}
+                - {{ . }}
+                {{- end }}
+            {{- end}}
+          {{- end }}
+          resources:
+{{ toYaml $.Values.resources | indent 12 }}
+{{- end -}}
+{{- end -}}

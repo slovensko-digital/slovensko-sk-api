@@ -1,0 +1,223 @@
+# Default values for chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+replicaCount: 1
+strategyType:
+# `serviceAccountName` is deprecated in favor of `serviceAccount.name`
+serviceAccountName:
+image:
+  repository: gitlab.example.com/group/project
+  tag: stable
+  pullPolicy: IfNotPresent
+  secrets:
+    - name: gitlab-registry
+extraLabels: {}
+lifecycle: {}
+# preStop:
+#   exec:
+#     command: ["/bin/sh", "-c", "sleep 10"]
+podAnnotations: {}
+nodeSelector: {}
+affinity: {}
+tolerations: []
+initContainers: []
+# - name: init-myservice
+#   image: busybox
+#   command: ['sh', '-c', 'until nslookup myservice; do echo waiting for myservice to start; sleep 1; done;']
+topologySpreadConstraints: []
+application:
+  track: stable
+  tier: web
+  migrateCommand:
+  initializeCommand:
+  secretName:
+  secretChecksum:
+  # You can omit `DATABASE_URL` variable injection into your deployment containers,
+  # if you explicitly set `database_url` to `null`.
+  # database_url: null
+hpa:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  # Only one of targetCPUUtilizationPercentage and metrics can be chosen.
+  # This is because targetCPUUtilizationPercentage is from autoscaling/v1,
+  # whereas metrics is from autoscaling/v2beta2. If both are provided, only
+  # metrics will be used.
+  # See https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
+  # for examples of each.
+  targetCPUUtilizationPercentage: 80
+  # metrics:
+  # - type: Resource
+  #   resource:
+  #     name: cpu
+  #     target:
+  #       type: Utilization
+  #       averageUtilization: 80
+
+gitlab:
+  app:
+  env:
+  envName:
+  envURL:
+  projectID:
+service:
+  enabled: true
+  annotations: {}
+  name: web
+  type: ClusterIP
+  url: http://my.host.com/
+  additionalHosts:
+  commonName:
+  externalPort: 5000
+  internalPort: 5000
+  # nodePort: 30001
+  extraPorts: []
+ingress:
+  enabled: true
+  path: "/"
+  tls:
+    enabled: true
+    acme: true
+    secretName: ""
+    useDefaultSecret: false
+  className: nginx
+  modSecurity:
+    enabled: false
+    secRuleEngine: "DetectionOnly"
+    # secRules:
+    #   - variable: ""
+    #     operator: ""
+    #     action: ""
+  canary:
+    weight:
+prometheus:
+  metrics: false
+livenessProbe:
+  path: "/"
+  initialDelaySeconds: 15
+  timeoutSeconds: 15
+  scheme: "HTTP"
+  probeType: "httpGet"
+readinessProbe:
+  path: "/"
+  initialDelaySeconds: 5
+  timeoutSeconds: 3
+  scheme: "HTTP"
+  probeType: "httpGet"
+
+#hostAliases:
+#- ip: X.X.X.X
+#  hostnames:
+#  - dns1.DOMAIN1
+#  - dns2.DOMAIN2
+
+postgresql:
+  managed: false
+  managedClassSelector:
+    #   matchLabels:
+    #     stack: gitlab (This is an example. The labels should match the labels on the CloudSQLInstanceClass)
+
+resources:
+#  limits:
+#    cpu: 100m
+#    memory: 128Mi
+  requests: {}
+#    cpu: 100m
+#    memory: 128Mi
+
+## Configure PodDisruptionBudget
+## ref: https://kubernetes.io/docs/concepts/workloads/pods/disruptions/
+#
+podDisruptionBudget:
+  enabled: false
+  # minAvailable: 1
+  maxUnavailable: 1
+
+## Configure NetworkPolicy
+## ref: https://kubernetes.io/docs/concepts/services-networking/network-policies/
+#
+networkPolicy:
+  enabled: false
+  spec:
+    podSelector:
+      matchLabels: {}
+    ingress:
+    - from:
+      - podSelector:
+          matchLabels: {}
+      - namespaceSelector:
+          matchLabels:
+            app.gitlab.com/managed_by: gitlab
+
+ciliumNetworkPolicy:
+  enabled: false
+  alerts:
+    enabled: false
+  spec:
+    endpointSelector: {}
+    ingress:
+    - fromEndpoints:
+      - matchLabels:
+          app.gitlab.com/managed_by: gitlab
+
+serviceAccount:
+  name:
+  annotations: {}
+  createNew: false
+
+persistence:
+  enabled: false
+  volumes:
+    - name: data
+      mount:
+        path: "/pvc-mount"
+        # subPath: "/pvc-mount/config.txt"
+      claim:
+        accessMode: ReadWriteOnce
+        size: 8Gi
+        # If you want to use a custom storage class, you can specify `storageClass`. In this case, you need to create a storage class at first.
+        # If `storageClass` is not specified, the behavior will vary per Kubernetes provider.
+        # For example, GKE automatically chooses a default storage class and allocate a physical storage.
+        # See https://cloud.google.com/kubernetes-engine/docs/concepts/persistent-volumes for more information.
+        # storageClass: "myStorage"
+
+workers: {}
+  # worker:
+  #   replicaCount: 1
+  #   terminationGracePeriodSeconds: 60
+  #   hostAliases:
+  #   - ip: X.X.X.X
+  #     hostnames:
+  #     - dns1.DOMAIN1
+  #     - dns2.DOMAIN2
+  #   labels:
+  #     worker-type: worker
+  #   command:
+  #   - /bin/herokuish
+  #   - procfile
+  #   - start
+  #   - worker
+  #   nodeSelector: {}
+  #   tolerations: []
+  #   initContainers: []
+  #   livenessProbe:
+  #     path: "/"
+  #     initialDelaySeconds: 15
+  #     timeoutSeconds: 15
+  #     scheme: "HTTP"
+  #     probeType: "httpGet"
+  #   readinessProbe:
+  #     path: "/"
+  #     initialDelaySeconds: 5
+  #     timeoutSeconds: 3
+  #     scheme: "HTTP"
+  #     probeType: "httpGet"
+  #   lifecycle:
+  #     preStop:
+  #       exec:
+  #         command: ["/bin/sh", "-c", "sleep 10"]
+  #   preStopCommand:
+  #   - /bin/herokuish
+  #   - procfile
+  #   - start
+  #   - stop_worker

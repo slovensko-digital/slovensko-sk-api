@@ -1,0 +1,18 @@
+persistence:
+  enabled: true
+  volumes:
+    - name: log-dir
+      mount:
+        path: "/log"
+      claim:
+        accessMode: ReadWriteOnce
+        size: 20Gi
+        storageClass: ""
+    - name: config
+      mount:
+        path: "/app-config"
+        subPath: "config.txt"
+      claim:
+        accessMode: ReadWriteOnce
+        size: 8Gi
+        storageClass: ""
