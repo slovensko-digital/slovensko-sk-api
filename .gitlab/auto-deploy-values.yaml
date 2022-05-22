@@ -5,6 +5,17 @@ service:
 ingress:
   annotations:
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+hostAliases:
+- ip: "37.9.170.240"
+  hostnames:
+  - "eschranka1.slovensko.sk"
+  - "eschranka.upvsfixnew.gov.sk"
+  - "iamwse.slovensko.sk"
+  - "iamwse.upvsfix.gov.sk"
+  - "uir.slovensko.sk"
+  - "uir.upvsfixnew.gov.sk"
+  - "usr.slovensko.sk"
+  - "usr.upvsfixnew.gov.sk"
 livenessProbe:
   initialDelaySeconds: 20
   probeType: "exec"
@@ -29,6 +40,17 @@ persistence:
       storageClass: manual
 workers:
   clock:
+    hostAliases:
+    - ip: "37.9.170.240"
+      hostnames:
+      - "eschranka1.slovensko.sk"
+      - "eschranka.upvsfixnew.gov.sk"
+      - "iamwse.slovensko.sk"
+      - "iamwse.upvsfix.gov.sk"
+      - "uir.slovensko.sk"
+      - "uir.upvsfixnew.gov.sk"
+      - "usr.slovensko.sk"
+      - "usr.upvsfixnew.gov.sk"
     replicaCount: "1"
     command: ["bundle", "exec", "clockwork", "config/clock.rb"]
     terminationGracePeriodSeconds:  60
@@ -43,6 +65,17 @@ workers:
       command:
         - "true"
   worker:
+    hostAliases:
+    - ip: "37.9.170.240"
+      hostnames:
+      - "eschranka1.slovensko.sk"
+      - "eschranka.upvsfixnew.gov.sk"
+      - "iamwse.slovensko.sk"
+      - "iamwse.upvsfix.gov.sk"
+      - "uir.slovensko.sk"
+      - "uir.upvsfixnew.gov.sk"
+      - "usr.slovensko.sk"
+      - "usr.upvsfixnew.gov.sk"
     replicaCount: "1"
     command: ["bundle", "exec", "rake", "jobs:work"]
     terminationGracePeriodSeconds:  60
