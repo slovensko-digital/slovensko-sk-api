@@ -26,6 +26,13 @@ readinessProbe:
   probeType: "exec"
   command:
   - "true"
+resources:
+  requests:
+    cpu: 5m
+    memory: 380Mi
+  limits:
+    cpu: 20m
+    memory: 1024Mi
 application:
   migrateCommand: ["bundle", "exec", "rails", "db:migrate"]
 persistence:
