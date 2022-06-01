@@ -76,23 +76,19 @@ jobs:
           platforms: linux/amd64
           tags: ${{env.tags}}
 
-  deploy:
-    needs: build
+  gitlab-push:
+    needs: test
     if: startsWith(github.ref, 'refs/tags/')
 
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        upvs_env: [fix]
-      fail-fast: false
 
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
       - uses: dokku/github-action@master
         with:
-          git_push_flags: --force
-          git_remote_url: ssh://dokku@${{secrets.STAGING_HOST}}/${{matrix.upvs_env}}.${{github.event.repository.name}}
-          ssh_private_key: ${{secrets.STAGING_KEY}}
+          git_push_flags: '--force'
+          git_remote_url: ssh://git@${{secrets.GITLAB_DEPLOY_HOST}}/${{github.event.repository.name}}.git
+          ssh_private_key: ${{secrets.GITLAB_DEPLOY_KEY}}
