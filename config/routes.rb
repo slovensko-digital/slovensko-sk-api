@@ -47,7 +47,7 @@ Rails.application.routes.draw do
         get :prepare_for_later_receive
       end
 
-      if UpvsEnvironment.sso_support?
+      if UpvsEnvironment.obo_support?
         namespace :upvs do
           get :assertion
           get :identity
