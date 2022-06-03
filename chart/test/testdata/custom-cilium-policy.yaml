@@ -1,0 +1,10 @@
+ciliumNetworkPolicy:
+  enabled: true
+  alerts: 
+    enabled: true
+  spec:
+    endpointSelector: {}
+    ingress:
+    - fromEndpoints:
+      - matchLabels:
+          app.gitlab.com/managed_by: gitlab

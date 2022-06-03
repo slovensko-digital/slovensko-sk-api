@@ -1,0 +1,10 @@
+ingress:
+  modSecurity:
+    enabled: true
+    secRules:
+      - variable: "REQUEST_HEADERS:User-Agent"
+        operator: "scanner"
+        action: "log,deny,id:107,status:403,msg:'Scanner Identified'"
+      - variable: "REQUEST_HEADERS:Content-Type"
+        operator: "text/plain"
+        action: "log,deny,id:'20010',status:403,msg:'Text plain not allowed'"

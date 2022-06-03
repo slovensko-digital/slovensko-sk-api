@@ -1,0 +1,15 @@
+{{- if .Values.ciliumNetworkPolicy.enabled -}}
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: {{ template "fullname" . }}
+{{- if .Values.ciliumNetworkPolicy.alerts.enabled }}
+  annotations:
+    "app.gitlab.com/alert": "true"
+{{- end }}
+  labels:
+    app.gitlab.com/proj: {{ .Values.gitlab.projectID | quote }}
+{{ include "sharedlabels" . | indent 4}}
+spec:
+{{ toYaml .Values.ciliumNetworkPolicy.spec | indent 2 }}
+{{- end -}}

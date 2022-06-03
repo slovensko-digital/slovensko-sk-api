@@ -1,0 +1,14 @@
+{{- if .Values.postgresql.managed -}}
+apiVersion: database.crossplane.io/v1alpha1
+kind: PostgreSQLInstance
+metadata:
+  name: {{ template "appname" . }}
+spec:
+  engineVersion: "9.6"
+  writeConnectionSecretToRef:
+    name: app-postgres
+{{- if .Values.postgresql.managedClassSelector }}
+  classSelector:
+{{ toYaml .Values.postgresql.managedClassSelector | indent 4 }}
+{{- end }}
+{{- end -}}
