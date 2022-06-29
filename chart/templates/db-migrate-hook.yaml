@@ -18,6 +18,16 @@ spec:
     spec:
       restartPolicy: Never
       imagePullSecrets:
+{{- if .Values.persistence.enabled }}
+{{- $context := . }}
+      volumes:
+{{- range $volume := .Values.persistence.volumes }}
+        - name: {{ $volume.name | quote }}
+          persistentVolumeClaim:
+            {{ $args := dict "context" $context "name" $volume.name }}
+            claimName: {{ template "pvcName" $args }}
+{{- end }}
+{{- end }}
 {{ toYaml .Values.image.secrets | indent 10 }}
       containers:
       - name: {{ .Chart.Name }}
