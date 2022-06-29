@@ -31,6 +31,14 @@ spec:
             name: {{ .Values.application.secretName }}
         {{- end }}
         env:
+{{- if .Values.application.database_url }}
+        - name: DATABASE_URL
+          value: {{ .Values.application.database_url | quote }}
+{{- end }}
+        - name: GITLAB_ENVIRONMENT_NAME
+          value: {{ .Values.gitlab.envName | quote }}
+        - name: GITLAB_ENVIRONMENT_URL
+          value: {{ .Values.gitlab.envURL | quote }}
 {{- if .Values.persistence.enabled }}
 {{- $context := . }}
       volumes:
@@ -41,12 +49,4 @@ spec:
             claimName: {{ template "pvcName" $args }}
 {{- end }}
 {{- end }}
-{{- if .Values.application.database_url }}
-        - name: DATABASE_URL
-          value: {{ .Values.application.database_url | quote }}
-{{- end }}
-        - name: GITLAB_ENVIRONMENT_NAME
-          value: {{ .Values.gitlab.envName | quote }}
-        - name: GITLAB_ENVIRONMENT_URL
-          value: {{ .Values.gitlab.envURL | quote }}
 {{- end -}}
