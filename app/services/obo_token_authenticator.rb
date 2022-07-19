@@ -24,6 +24,10 @@ class OboTokenAuthenticator
     iat = assertion.attributes['IssueInstant'].to_time.to_i
 
     name = response.attributes['Subject.FormattedName'].to_s
+    actor = {
+      "name": response.attributes['Actor.FormattedName'].to_s,
+      "sub": response.attributes['ActorID'].to_s
+    }
     scopes = scopes.to_a
 
     now = Time.now.to_f
@@ -34,7 +38,7 @@ class OboTokenAuthenticator
 
     ass = assertion_to_s(assertion)
 
-    payload = { sub: sub, exp: exp, nbf: nbf, iat: iat, name: name, scopes: scopes }
+    payload = { sub: sub, exp: exp, nbf: nbf, iat: iat, name: name, actor: actor,  scopes: scopes }
 
     save_to_assertion_store(ass, payload)
   end
@@ -54,13 +58,13 @@ class OboTokenAuthenticator
   end
 
   def invalidate_token(token)
-    verify_token(token) do |payload, _|
+    verify_token(token, verify_expiration: false) do |payload, _|
       result = @assertion_store.delete(payload['jti'])
       result && result.to_s != '0'
     end
   end
 
-  def verify_token(token, scope: nil)
+  def verify_token(token, scope: nil, verify_expiration: true)
     payload, header = JWT.decode(token, @key_pair.public_key, true, DECODE_OPTIONS)
     exp, nbf, iat, jti = payload['exp'], payload['nbf'], payload['iat'], payload['jti']
 
@@ -70,7 +74,7 @@ class OboTokenAuthenticator
 
     now = Time.now.to_f
 
-    raise JWT::ExpiredSignature, :exp if exp <= now
+    raise JWT::ExpiredSignature, :exp if verify_expiration && exp <= now
     raise JWT::ImmatureSignature, :nbf if nbf > now
     raise JWT::InvalidIatError, :iat if iat > nbf
 
@@ -80,7 +84,7 @@ class OboTokenAuthenticator
 
     ass = @assertion_store.read(jti)
 
-    raise JWT::InvalidJtiError unless ass
+    raise JWT::InvalidJtiError if verify_expiration && !ass
 
     return yield payload, header if block_given?
 

@@ -159,7 +159,7 @@ RSpec.describe 'UPVS SSO' do
 
           get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }
 
-          expect { authenticator.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::DecodeError)
+          expect { authenticator.verify_token(token, allow_obo_token: true, verify_obo_expiration: false) }.to raise_error(JWT::DecodeError)
         end
 
         it 'supports authentication via headers' do

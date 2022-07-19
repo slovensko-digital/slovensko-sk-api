@@ -13,12 +13,12 @@ class ApiTokenAuthenticator
   end
 
   def invalidate_token(token, allow_plain: false, allow_sub: false, allow_obo_token: false)
-    verify_token(token, allow_plain: allow_plain, allow_sub: allow_sub, allow_obo_token: allow_obo_token) do |payload, header|
+    verify_token(token, allow_plain: allow_plain, allow_sub: allow_sub, allow_obo_token: allow_obo_token, verify_obo_expiration: false) do |payload, header|
       @obo_token_authenticator.invalidate_token(payload['obo']) if header['cty'] && payload['obo']
     end
   end
 
-  def verify_token(token, allow_plain: false, allow_sub: false, allow_obo_token: false, require_obo_token_scope: nil)
+  def verify_token(token, allow_plain: false, allow_sub: false, allow_obo_token: false, require_obo_token_scope: nil, verify_obo_expiration: true)
     raise ArgumentError if !allow_plain && !allow_sub && !allow_obo_token
     raise ArgumentError if !allow_obo_token && require_obo_token_scope
 
@@ -39,7 +39,7 @@ class ApiTokenAuthenticator
       raise JWT::InvalidPayload if sub
 
       begin
-        sub, obo = @obo_token_authenticator.verify_token(obo, scope: require_obo_token_scope)
+        sub, obo = @obo_token_authenticator.verify_token(obo, scope: require_obo_token_scope, verify_expiration: verify_obo_expiration)
       rescue JWT::DecodeError
         raise JWT::InvalidPayload, :obo
       end
