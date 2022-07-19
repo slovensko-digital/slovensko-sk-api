@@ -637,7 +637,7 @@ RSpec.describe ApiTokenAuthenticator do
         it 'verifies OBO token' do
           obo_token = generate_obo_token(exp: 1.second.ago.to_i)
           token = generate_token(obo: obo_token)
-          expect(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: nil).and_call_original
+          expect(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: nil, verify_expiration: true).and_call_original
           expect { subject.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::InvalidPayload, 'obo') do |error|
             expect { raise error.cause }.to raise_error(JWT::ExpiredSignature, 'exp')
           end
@@ -646,7 +646,7 @@ RSpec.describe ApiTokenAuthenticator do
         it 'verifies OBO token scope if given' do
           obo_token = generate_obo_token(scopes: ['edesk/authorize'])
           token = generate_token(obo: obo_token)
-          expect(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: 'sktalk/receive').and_call_original
+          expect(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: 'sktalk/receive', verify_expiration: true).and_call_original
           expect { subject.verify_token(token, allow_obo_token: true, require_obo_token_scope: 'sktalk/receive') }.to raise_error(JWT::InvalidPayload, 'obo') do |error|
             expect { raise error.cause }.to raise_error(JWT::InvalidPayload, 'scope')
           end
