@@ -2,7 +2,7 @@ openapi: 3.0.0
 
 info:
   title: slovensko.sk API
-  version: 3.1.2 (Komunitná verzia) 8.1.2 (Prémium verzia)
+  version: 3.2.0 (Komunitná verzia) 8.2.0 (Prémium verzia)
 
   description: |
     slovensko.sk API je proxy REST API komponent k službám www.slovensko.sk (Ústredný portál verejnej správy – ÚPVS), pomocou ktorých je možné:
@@ -26,12 +26,8 @@ info:
     email: ekosystem@slovensko.digital
 
 servers:
-  - description: Komunitná verzia v prostredí ÚPVS DEV
-    url: https://dev.slovensko-sk-api.staging.slovensko.digital
   - description: Komunitná verzia v prostredí ÚPVS FIX
     url: https://fix.slovensko-sk-api.staging.slovensko.digital
-  - description: Prémium verzia v prostredí ÚPVS DEV
-    url: https://dev.premium-slovensko-sk-api.staging.slovensko.digital
   - description: Prémium verzia v prostredí ÚPVS FIX
     url: https://fix.premium-slovensko-sk-api.staging.slovensko.digital
 
@@ -64,12 +60,16 @@ paths:
                     OBO token v JWT formáte, ktorého payload vyzerá nasledovne:
 
                         {
-                          "sub": "rc://sk/8311577984_tisici_janko",
+                          "sub": "ico://sk/83130022",
                           "exp": 1545147549,
                           "nbf": 1545146349,
                           "iat": 1545146349,
                           "jti": "ad8e5d2a-85ff-46b9-a13f-ac860db9acee",
-                          "name": "Janko Tisíci",
+                          "name": "Identita 83130022",
+                          "actor": {
+                            "name": "Janko Tisíci",
+                            "sub": "rc://sk/8314451337_tisici_janko"
+                          },
                           "scopes": [
                             "sktalk/receive",
                             "sktalk/receive_and_save_to_outbox",
@@ -114,12 +114,16 @@ paths:
             OBO token v JWT formáte, ktorého payload vyzerá nasledovne:
 
                 {
-                  "sub": "rc://sk/8311577984_tisici_janko",
+                  "sub": "ico://sk/83130022",
                   "exp": 1545153549,
                   "nbf": 1545146349,
                   "iat": 1545146349,
                   "jti": "ad8e5d2a-85ff-46b9-a13f-ac860db9acee",
-                  "name": "Janko Tisíci",
+                  "name": "Identita 83130022",
+                  "actor": {
+                    "name": "Janko Tisíci",
+                    "sub": "rc://sk/8314451337_tisici_janko"
+                  },
                   "scopes": [
                     "sktalk/receive",
                     "sktalk/receive_and_save_to_outbox",
@@ -359,12 +363,16 @@ paths:
             OBO token v JWT formáte, ktorého payload vyzerá nasledovne:
     
                 {
-                  "sub": "rc://sk/8311577984_tisici_janko",
+                  "sub": "ico://sk/83130022",
                   "exp": 1545153549,
                   "nbf": 1545146349,
                   "iat": 1545146349,
                   "jti": "ad8e5d2a-85ff-46b9-a13f-ac860db9acee",
-                  "name": "Janko Tisíci",
+                  "name": "Identita 83130022",
+                  "actor": {
+                    "name": "Janko Tisíci",
+                    "sub": "rc://sk/8314451337_tisici_janko"
+                  },
                   "scopes": [
                     "sktalk/receive",
                     "sktalk/receive_and_save_to_outbox",
@@ -608,7 +616,7 @@ paths:
                     original_xml: <SKTalkMessage ...
                     delivered_at: '2017-03-23T09:31:09.580+01:00'
                     delivery_notification:
-                      authorize_url: 'https://dev.slovensko-sk-api.staging.slovensko.digital/api/edesk/messages/4898663168/authorize'
+                      authorize_url: 'https://fix.slovensko-sk-api.staging.slovensko.digital/api/edesk/messages/4898663168/authorize'
                       consignment:
                         message_id: ec8c3281-b038-4637-bf8a-b8ebed8cca05
                         message_type: Doc.GeneralAgendaReport
@@ -2024,7 +2032,7 @@ paths:
                     example: '2022-01-05T20:07:30+01:00'
                   subject:
                     type: string
-                    example: tech.iscep.00956852_10236.upvsdev.ext.finsprava.sk
+                    example: tech.iscep.00956852_10236.upvsfix.ext.finsprava.sk
                 required:
                   - certificate
                   - fingerprint
@@ -3139,7 +3147,7 @@ components:
           description: URL na autorizáciu doručenky.
           type: string
           format: url
-          example: 'https://dev.slovensko-sk-api.staging.slovensko.digital/api/edesk/messages/4898663168/authorize'
+          example: 'https://fix.slovensko-sk-api.staging.slovensko.digital/api/edesk/messages/4898663168/authorize'
         delivery_period:
           description: Lehota na prevzatie správy v dňoch.
           type: integer
@@ -3205,7 +3213,7 @@ components:
         - authorize_url
         - consignment
       example:
-        authorize_url: 'https://dev.slovensko-sk-api.staging.slovensko.digital/api/edesk/messages/4898663168/authorize'
+        authorize_url: 'https://fix.slovensko-sk-api.staging.slovensko.digital/api/edesk/messages/4898663168/authorize'
         delivery_period: 15
         delivery_period_end_at: '2017-04-08T00:00:00+02:00'
         received_at: '2017-03-23T09:31:06.7209861+01:00'
