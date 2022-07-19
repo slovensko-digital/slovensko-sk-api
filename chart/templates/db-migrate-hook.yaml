@@ -25,6 +25,16 @@ spec:
         command: ["/bin/sh"]
         args: ["-c", "{{ .Values.application.migrateCommand }}"]
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+{{- if .Values.persistence.enabled }}
+        volumeMounts:
+{{- range $volume := .Values.persistence.volumes }}
+          - name: {{ $volume.name | quote }}
+            mountPath: {{ $volume.mount.path | quote }}
+            {{- if $volume.mount.subPath }}
+            subPath: {{ $volume.mount.subPath | quote }}
+            {{- end }}
+{{- end }}
+{{- end }}
         {{- if .Values.application.secretName }}
         envFrom:
         - secretRef:
@@ -39,4 +49,14 @@ spec:
           value: {{ .Values.gitlab.envName | quote }}
         - name: GITLAB_ENVIRONMENT_URL
           value: {{ .Values.gitlab.envURL | quote }}
+{{- if .Values.persistence.enabled }}
+{{- $context := . }}
+      volumes:
+{{- range $volume := .Values.persistence.volumes }}
+        - name: {{ $volume.name | quote }}
+          persistentVolumeClaim:
+            {{ $args := dict "context" $context "name" $volume.name }}
+            claimName: {{ template "pvcName" $args }}
+{{- end }}
+{{- end }}
 {{- end -}}
