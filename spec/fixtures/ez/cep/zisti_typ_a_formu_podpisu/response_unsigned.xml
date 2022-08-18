@@ -1,0 +1,9 @@
+<CallServiceResponse xmlns="http://schemas.gov.sk/ServiceBus/service/1.0">
+  <CallServiceResult xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns:a="http://schemas.gov.sk/ServiceBusServiceProvider/Ditec/CepProvider/1.0" i:type="a:ZistiTypAFormuPodpisu2Res">
+    <a:Kod>2123249</a:Kod>
+    <a:Popis>Vstupné dáta neobsahujú podpis alebo obsahujú nepodporovaný typ podpisu</a:Popis>
+    <a:MimeType i:nil="true"/>
+    <a:IdentifikatorZaznamu>9f696c01-b6c8-4bc7-81da-5ddf9b7f88df</a:IdentifikatorZaznamu>
+    <a:Podpisy i:nil="true"/>
+  </CallServiceResult>
+</CallServiceResponse>

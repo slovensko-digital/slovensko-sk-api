@@ -27,9 +27,14 @@ Rails.application.routes.draw do
     end
 
     scope :api do
+      namespace :cep do
+        post :signatures_info
+      end
+
       namespace :eform do
         get :status
         post :validate
+        get :form_template_related_document
       end
 
       namespace :iam do

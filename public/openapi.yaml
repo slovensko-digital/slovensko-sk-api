@@ -2,7 +2,7 @@ openapi: 3.0.0
 
 info:
   title: slovensko.sk API
-  version: 3.2.0 (Komunitná verzia) 8.2.0 (Prémium verzia)
+  version: 3.2.0 (Komunitná verzia) 8.3.0 (Prémium verzia)
 
   description: |
     slovensko.sk API je proxy REST API komponent k službám www.slovensko.sk (Ústredný portál verejnej správy – ÚPVS), pomocou ktorých je možné:
@@ -487,6 +487,50 @@ paths:
       security:
         - 'API Token': []
 
+  /api/eform/form_template_related_document:
+    get:
+      tags: [Zasielanie podaní]
+      summary: Vráti dokument súvisiaci s formulárom
+      description: |
+        Vráti dokument súvisiaci s formulárom. Napr. XSD schému, XSLT transformáciu.
+      parameters:
+        - name: identifier
+          in: query
+          required: true
+          description: Identifikátor formuláru.
+          schema:
+            type: string
+            example: App.GeneralAgenda
+        - name: version
+          in: query
+          required: true
+          description: Verzia formuláru.
+          schema:
+            type: string
+            example: 1.9
+        - name: type
+          in: query
+          required: true
+          description: Verzia formuláru.
+          schema:
+            type: string
+            enum: [CLS_F_XSD_EDOC, CLS_F_XSLT_TXT_SGN]
+            example: CLS_F_XSD_EDOC
+      responses:
+        200:
+          description: Úspešne vrátený súvisiaci dokument.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  document:
+                    type: string
+                required:
+                  - document
+      security:
+        - 'API Token': []
+
   /api/edesk/folders:
     get:
       tags: [Manipulácia so schránkou]
@@ -865,6 +909,71 @@ paths:
                 required:
                   - verify_result
                   - verify_description
+      security:
+        - 'API Token': []
+
+  /api/cep/signatures_info:
+    post:
+      tags: [Podpisovanie]
+      summary: Vráti informácie o type a forme podpisov.
+      description: |
+        Vráti informácie o type a forme podpisov podpísaného dokumentu.
+
+        Neoveruje platnosť podpisov, ani časových pečiatok, tak isto neoveruje legislatívnu formu podpisu.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  description: Obsah objektu zakódovaný podľa Base64. Môže ísť o objekt XADES_ZEP-DataEnvelope, XADES_ZEP-DataSignatures, ZEPfZIP, PAdES alebo ASIC.
+                  type: string
+                  format: base64
+                  example: UEsDBBQAAAgAANS0XU+K ...
+              required:
+                - content
+      responses:
+        200:
+          description: Úspešne zistenie typu a formy podpisu.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  is_signed:
+                    description: Výsledok zistenie prítomnosti podpisu.
+                    type: boolean
+                    example: true
+                  description:
+                    description: Popis výsledku.
+                    type: string
+                    example: OK
+                  mime_type:
+                    description: MimeType podpisovej obálky.
+                    type: string
+                    example: application/vnd.etsi.asic-e+zip
+                  signatures:
+                    type: array
+                    items:
+                      description: Objekt podpisu.
+                      properties:
+                        type:
+                          description: Typ podpisu.
+                          type: string
+                          enum: [XadesZepEpes, XadesZepT, XadesZepA, XadesZepX1, PAdES, PAdES_T, PAdES_A, XadesBPLevelB, XadesBPLevelT, XadesBPLevelLT, XadesBPLevelLTA, CAdES_BES, CAdES_EPES, CAdES_T, CAdES_XL, CAdES_A, Unknown]
+                        format:
+                          description: Formát podpisu.
+                          type: string
+                          enum: [XAdES_ZEP, CAdES_ZEP, PAdES, XAdES-BP, CAdES-BP]
+                        with_timestamp:
+                          description: Príznak, či ide o formát podpisu obsahujúci časovú pečiatku (bez ohľadu na jej platnosť).
+                          type: boolean
+                          example: true
+                required:
+                  - is_signed
+                  - description
       security:
         - 'API Token': []
 
