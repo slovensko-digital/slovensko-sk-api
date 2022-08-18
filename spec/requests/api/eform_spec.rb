@@ -147,4 +147,66 @@ RSpec.describe 'eForm API' do
 
     pending 'responds with 429 if request rate limit exceeds'
   end
+
+  describe 'GET /api/eform/form_template_related_document' do
+    let(:params) do
+      {
+        identifier: 'App.GeneralAgenda',
+        version: '1.9',
+        type: 'CLS_F_XSD_EDOC'
+      }.as_json
+    end
+
+    before(:example) { create(:form_template_related_document, :general_agenda_xsd_schema) }
+
+    it 'returns form related document' do
+
+      get '/api/eform/form_template_related_document', headers: headers, params: params
+
+      expect(response.status).to eq(200)
+      expect(response.object).to eq(document: Base64.encode64(FormTemplateRelatedDocument.last.data))
+    end
+
+    include_examples 'API request media types', get: '/api/eform/form_template_related_document', accept: 'application/json'
+    include_examples 'API request authentication', get: '/api/eform/form_template_related_document', allow_sub: true
+
+    it 'responds with 400 if request does not contain identifier' do
+      get '/api/eform/form_template_related_document', headers: headers, params: params.except('identifier')
+
+      expect(response.status).to eq(400)
+      expect(response.object).to eq(message: 'No identifier')
+    end
+
+    it 'responds with 400 if request does not contain version' do
+      get '/api/eform/form_template_related_document', headers: headers, params: params.except('version')
+
+      expect(response.status).to eq(400)
+      expect(response.object).to eq(message: 'No version')
+    end
+
+    it 'responds with 400 if request does not contain type' do
+      get '/api/eform/form_template_related_document', headers: headers, params: params.except('type')
+
+      expect(response.status).to eq(400)
+      expect(response.object).to eq(message: 'No type')
+    end
+
+    it 'responds with 404 if template can not be found' do
+      get '/api/eform/form_template_related_document', headers: headers, params: params.merge(identifier: 'App.UnknownAgenda', version: '1.0')
+
+      expect(response.status).to eq(404)
+      expect(response.object).to eq(message: 'Template not found')
+    end
+
+    it 'responds with 404 if template related document can not be found' do
+      create(:form_template, identifier: 'App.UnknownAgenda', version_major: 1, version_minor: 0)
+
+      get '/api/eform/form_template_related_document', headers: headers, params: params.merge(identifier: 'App.UnknownAgenda', version: '1.0')
+
+      expect(response.status).to eq(404)
+      expect(response.object).to eq(message: 'Template related document not found')
+    end
+
+    pending 'responds with 429 if request rate limit exceeds'
+  end
 end

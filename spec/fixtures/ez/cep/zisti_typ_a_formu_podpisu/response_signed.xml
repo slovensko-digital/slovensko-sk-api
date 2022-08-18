@@ -1,0 +1,15 @@
+<CallServiceResponse xmlns="http://schemas.gov.sk/ServiceBus/service/1.0">
+  <CallServiceResult xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns:a="http://schemas.gov.sk/ServiceBusServiceProvider/Ditec/CepProvider/1.0" i:type="a:ZistiTypAFormuPodpisu2Res">
+    <a:Kod>0</a:Kod>
+    <a:Popis>OK</a:Popis>
+    <a:MimeType>application/vnd.etsi.asic-e+zip</a:MimeType>
+    <a:IdentifikatorZaznamu>3fa9b5fd-4dc1-4d9d-aef9-3198f6c8c5ea</a:IdentifikatorZaznamu>
+    <a:Podpisy>
+      <a:ZTFP2_Podpis>
+        <a:TypPodpisu>XadesBPLevelT</a:TypPodpisu>
+        <a:FormatPodpisu>XAdES-BP</a:FormatPodpisu>
+        <a:ObsahujeCasovuPeciatku>true</a:ObsahujeCasovuPeciatku>
+      </a:ZTFP2_Podpis>
+    </a:Podpisy>
+  </CallServiceResult>
+</CallServiceResponse>

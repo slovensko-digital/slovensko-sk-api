@@ -20,12 +20,12 @@ class EformService
   end
 
   # TODO rename - this reads as "fetch XML schema definition schema"
-  def fetch_xsd_schema(identifier, version)
+  def fetch_form_related_document(identifier, version, type)
     service = ServiceClassEnum::EFORM_GETRELATEDDOCUMENTBYTYPE_SOAP_V_1_0
     request = factory.create_get_related_document_by_type_req
 
     request.form_template = factory.create_get_related_document_by_type_req_form_template(form_template_id(identifier, version))
-    request.related_document_type = factory.create_get_related_document_by_type_req_related_document_type('CLS_F_XSD_EDOC')
+    request.related_document_type = factory.create_get_related_document_by_type_req_related_document_type(type)
     request.related_document_language = factory.create_get_related_document_by_type_req_related_document_language('sk')
 
     @upvs.ez.call_service(service, request).related_document.value

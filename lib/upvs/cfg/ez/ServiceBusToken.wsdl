@@ -1374,6 +1374,36 @@
         </xs:restriction>
       </xs:simpleType>
       <xs:element name="TypPodpisu" nillable="true" type="tns:TypPodpisu"/>
+      <xs:complexType name="ZistiTypAFormuPodpisu2Req">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="DataB64" nillable="true" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ZistiTypAFormuPodpisu2Req" nillable="true" type="tns:ZistiTypAFormuPodpisu2Req"/>
+      <xs:complexType name="ZistiTypAFormuPodpisu2Res">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Kod" type="xs:int"/>
+          <xs:element minOccurs="0" name="Popis" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="MimeType" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="IdentifikatorZaznamu" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="Podpisy" nillable="true" type="tns:ArrayOfZTFP2_Podpis"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ZistiTypAFormuPodpisu2Res" nillable="true" type="tns:ZistiTypAFormuPodpisu2Res"/>
+      <xs:complexType name="ArrayOfZTFP2_Podpis">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="ZTFP2_Podpis" nillable="true" type="tns:ZTFP2_Podpis"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfZTFP2_Podpis" nillable="true" type="tns:ArrayOfZTFP2_Podpis"/>
+      <xs:complexType name="ZTFP2_Podpis">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="TypPodpisu" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="FormatPodpisu" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="ObsahujeCasovuPeciatku" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ZTFP2_Podpis" nillable="true" type="tns:ZTFP2_Podpis"/>
       <xs:complexType name="PrijatieDokumentovNaPodpisanieReq">
         <xs:sequence>
           <xs:element name="IdentifikatorSpravy" nillable="true" type="xs:string"/>
@@ -3129,6 +3159,7 @@
           <xs:enumeration value="DITEC_CEP_INFORMATIVNE_OVERENIE_ZEP_2"/>
           <xs:enumeration value="DITEC_CEP_VRATENIE_PODPISANYCH_DAT2"/>
           <xs:enumeration value="DITEC_CEP_ZISTI_TYP_A_FORMU_PODPISU"/>
+          <xs:enumeration value="DITEC_CEP_ZISTI_TYP_A_FORMU_PODPISU_2"/>
           <xs:enumeration value="DITEC_CEP_PODPISANIE_DOKUMENTOV"/>
           <xs:enumeration value="DITEC_CEP_PODPISANIE_DOKUMENTOV2_ASSERTIONS"/>
           <xs:enumeration value="DITEC_CEP_INFORMATIVNE_OVERENIE_KEP_3"/>
