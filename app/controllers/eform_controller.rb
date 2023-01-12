@@ -16,7 +16,7 @@ class EformController < ApiController
     identifier, version, form = params.require(:identifier), params.require(:version), params.require(:form)
 
     # TODO remove -> see notes in FormTemplate model
-    version_major, version_minor = *version.split('.', 2)
+    version_major, version_minor = version.split('.', 2)
 
     template = FormTemplate.find_by!(identifier: identifier, version_major: version_major, version_minor: version_minor)
 
@@ -30,5 +30,16 @@ class EformController < ApiController
     else
       render_not_found(:schema)
     end
+  end
+
+  def form_template_related_document
+    identifier, version, type = params.require(:identifier), params.require(:version), params.require(:type)
+
+    # TODO remove -> see notes in FormTemplate model
+    version_major, version_minor = *version.split('.', 2)
+
+    document = FormTemplate.find_by!(identifier: identifier, version_major: version_major, version_minor: version_minor).related_document(type)
+
+    document.present? ? (render status: :ok, json: { "document": Base64.encode64(document) }) : render_not_found(:template_related_document)
   end
 end

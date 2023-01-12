@@ -1,4 +1,4 @@
-**Inštalačná príručka popisuje komponent verzie [3.1.2](https://github.com/slovensko-digital/slovensko-sk-api/releases/tag/v3.1.2), uistite sa, že čítate príručku [verzie komponentu](https://github.com/slovensko-digital/slovensko-sk-api/releases), ktorý používate.**
+**Inštalačná príručka popisuje komponent verzie [3.3.0](https://github.com/slovensko-digital/slovensko-sk-api/releases/tag/v3.3.0), uistite sa, že čítate príručku [verzie komponentu](https://github.com/slovensko-digital/slovensko-sk-api/releases), ktorý používate.**
 
 # slovensko.sk API - Inštalačná príručka
 
@@ -59,21 +59,13 @@ Ukážka odoslania SKTalk správy a uloženia medzi odoslané správy v schránk
 
 kde `API-TOKEN` je [JWT](https://jwt.io) vytvorený podľa [Špecifikácie API](https://generator3.swagger.io/index.html?url=https://slovensko-sk-api.ekosystem.slovensko.digital/openapi.yaml) a `SKTALK-MESSAGE` je valídna SKTalk správa s unikátnym `MessageID` (prípadne aj `CorrelationID`) a správne nastaveným `SenderId` a `RecipientId`.
 
-V prípade potreby je možné vyskúšať komponet prevádzkovaný na strane Slovensko.Digital v DEV a FIX prostrediach: 
-
-- komponent v **DEV prostredí** je dostupný na URL
-
-      https://dev.slovensko-sk-api.staging.slovensko.digital
-
-  pozri aktuálny [stav komponentu](https://dev.slovensko-sk-api.staging.slovensko.digital/health) a [špecifikáciu API](https://generator3.swagger.io/index.html?url=https://dev.slovensko-sk-api.staging.slovensko.digital/openapi.yaml) nasadenej verzie. 
+V prípade potreby je možné vyskúšať komponet prevádzkovaný na strane Slovensko.Digital vo FIX prostredí: 
 
 - komponent vo **FIX prostredí** je dostupný na URL
 
       https://fix.slovensko-sk-api.staging.slovensko.digital
 
   pozri aktuálny [stav komponentu](https://fix.slovensko-sk-api.staging.slovensko.digital/health) a [špecifikáciu API](https://generator3.swagger.io/index.html?url=https://fix.slovensko-sk-api.staging.slovensko.digital/openapi.yaml) nasadenej verzie.
-
-- komponenty v **DEV a FIX prostredí** majú rovnaký privátny kľúč pre generovanie API tokenov a rovnaký verejný kľúč pre verifikáciu OBO tokenov, ale majú rôzne PO a OVM identity, [kontaktujte nás](mailto:ekosystem@slovensko.digital).
 
 ## Konfigurácia API komponentu
 
@@ -88,7 +80,7 @@ Premenná | Popis | Hodnota
 `LOG_LEVEL` | Úroveň logovania Rails aplikácie<sup>2</sup> | `debug` (predvolená), `info`, `warn`, `error` alebo `fatal`
 `SECRET_KEY_BASE` | Kľúč zabezpečenia Rails aplikácie<sup>5</sup> | bezpečný reťazec
 `TIME_ZONE` | Časové pásmo Rails aplikácie | `Europe/Bratislava` (predvolená) alebo `UTC` a pod.
-`UPVS_ENV` | Prostredie ÚPVS<sup>2</sup> | `dev` (predvolená), `fix` alebo `prod`
+`UPVS_ENV` | Prostredie ÚPVS<sup>2</sup> | `fix` (predvolená), `dev` alebo `prod`
 `UPVS_LOG_LEVEL` | Úroveň logovania ÚPVS komunikácie<sup>3</sup> | `trace`, `debug`, `info` (predvolená), `warn`, `error` alebo `off` (predvolená ak `RAILS_ENV=test` alebo `UPVS_ENV=prod`)
 `UPVS_KS_SALT` | Soľ hesla k úložisku certifikátov<sup>6</sup> | bezpečný reťazec (potrebná iba ak `UPVS_ENV=prod`)
 `UPVS_PK_SALT` | Soľ hesla k privátnemu kľúču v úložisku certifikátov<sup>6</sup> | bezpečný reťazec (potrebná iba ak `UPVS_ENV=prod`)
@@ -124,10 +116,10 @@ Súbor | Popis | Podpora ÚPVS SSO/ OBO autentifikácie vypnutá
 
 <sup>1</sup> Kľúč vygenerovaný príkazom `openssl genrsa -out api_token_development.private.pem 2048` a `openssl rsa -in api_token_development.private.pem -pubout -out api_token_development.public.pem`  
 <sup>2</sup> Kľúč vygenerovaný príkazom `openssl genrsa -out obo_token_development.private.pem 2048`  
-<sup>3</sup> Metadáta IDP / SP musia byť zaregistrované v prostredí ÚPVS, pozri časť [6.](#3-vytvorenie-identít-a-zriadenie-prístupov-do-dev-prostredia)  
+<sup>3</sup> Metadáta IDP / SP musia byť zaregistrované v prostredí ÚPVS, pozri časť [6.](#3-vytvorenie-identít-a-zriadenie-prístupov-do-fix-prostredia)  
 <sup>4</sup> Hodnota SUB claim z API tokenu nahrádza výraz `{sub}` v názve súboru  
-<sup>5</sup> Certifikát v úložisku musí byť zaregistrovaný v prostredí ÚPVS, pozri časť [6.](#3-vytvorenie-identít-a-zriadenie-prístupov-do-dev-prostredia)  
-<sup>6</sup> Heslo k úložisku a heslo k privátnemu kľúču v prostredí ÚPVS DEV a FIX je `password`. Pozor, tieto heslá v prostredí ÚPVS PROD sú SHA1 podľa vzorov `{UPVS_KS_SALT}:{sub}` (pre heslo k úložisku) a `{UPVS_PK_SALT}:{sub}` (pre heslo k privátnemu kľúču) v hexadecimálnom formáte  
+<sup>5</sup> Certifikát v úložisku musí byť zaregistrovaný v prostredí ÚPVS, pozri časť [6.](#3-vytvorenie-identít-a-zriadenie-prístupov-do-fixdev-prostredia)  
+<sup>6</sup> Heslo k úložisku a heslo k privátnemu kľúču v prostredí ÚPVS FIX je `password`. Pozor, tieto heslá v prostredí ÚPVS PROD sú SHA1 podľa vzorov `{UPVS_KS_SALT}:{sub}` (pre heslo k úložisku) a `{UPVS_PK_SALT}:{sub}` (pre heslo k privátnemu kľúču) v hexadecimálnom formáte  
 <sup>7</sup> Certifikát v úložisku pre prostredie ÚPVS DEV sa dá získať napr. cez `echo | openssl s_client -servername 'vyvoj.upvs.globaltel.sk' -connect 'vyvoj.upvs.globaltel.sk:443' | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > upvs_dev.crt`  
 <sup>8</sup> Heslo k úložisku v prostredí ÚPVS DEV, FIX a PROD je `password`  
 
@@ -147,7 +139,7 @@ Tento dokument následne premenujte na `DIZ_PO_{project}_v1.docx`, kde reťazec 
 
 > Adresát: integracie@globaltel.sk, integracie@nases.gov.sk
 >
-> Predmet: **{project}** – DEV – DIZ – Požiadavka – Revízia dohody o integračnom zámere – TYP PO – v1
+> Predmet: **{project}** – FIX – DIZ – Požiadavka – Revízia dohody o integračnom zámere – TYP PO – v1
 >
 > Dobrý deň,
 >
@@ -164,7 +156,7 @@ BC Omnipolis
 Trnavská cesta 100/II
 821 01 Bratislava
 
-### 3. Vytvorenie identít a zriadenie prístupov do DEV prostredia
+### 3. Vytvorenie identít a zriadenie prístupov do FIX prostredia
 
 TODO
 

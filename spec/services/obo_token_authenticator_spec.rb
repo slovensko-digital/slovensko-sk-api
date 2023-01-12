@@ -37,6 +37,10 @@ RSpec.describe OboTokenAuthenticator do
         'iat' => 1543436776,
         'jti' => kind_of(String),
         'name' => 'Janko Tisíci',
+        'actor' => {
+          'name' => 'Janko Tisíci',
+          'sub' => 'rc://sk/8314451337_tisici_janko'
+        },
         'scopes' => ['sktalk/receive'],
       )
     end
@@ -177,7 +181,7 @@ RSpec.describe OboTokenAuthenticator do
     end
 
     it 'verifies token' do
-      expect(subject).to receive(:verify_token).with(token).and_call_original
+      expect(subject).to receive(:verify_token).with(token, verify_expiration: false).and_call_original
 
       subject.invalidate_token(token)
     end
@@ -193,7 +197,7 @@ RSpec.describe OboTokenAuthenticator do
     end
 
     context 'token verification failure' do
-      before(:example) { expect(subject).to receive(:verify_token).with(token).and_raise(JWT::DecodeError) }
+      before(:example) { expect(subject).to receive(:verify_token).with(token, verify_expiration: false).and_raise(JWT::DecodeError) }
 
       it 'raises decode error' do
         expect { subject.invalidate_token(token) }.to raise_error(JWT::DecodeError)

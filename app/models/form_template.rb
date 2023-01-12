@@ -12,6 +12,10 @@ class FormTemplate < ApplicationRecord
 
   # TODO rename to just schema: "xsd_schema" reads "XML schema definition schema" which is weird
   def xsd_schema
-    related_documents.where(document_type: 'CLS_F_XSD_EDOC').where("lower(language) = 'sk'")&.first&.data
+    related_document('CLS_F_XSD_EDOC')
+  end
+
+  def related_document(type)
+    related_documents.where(document_type: type).where("lower(language) = 'sk'")&.first&.data
   end
 end
