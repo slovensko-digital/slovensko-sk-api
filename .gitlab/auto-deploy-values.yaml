@@ -2,6 +2,9 @@ timeout: 120
 service:
   externalPort: 3000
   internalPort: 3000
+image:
+  secrets:
+  - name: skdigital-bonet-registry
 ingress:
   annotations:
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
