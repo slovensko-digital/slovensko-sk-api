@@ -9,7 +9,7 @@ ingress:
   annotations:
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
 hostAliases:
-- ip: "37.9.170.240"
+- ip: "185.91.203.179"
   hostnames:
   - "eschranka1.slovensko.sk"
   - "eschranka.upvsfixnew.gov.sk"
@@ -51,7 +51,7 @@ persistence:
 workers:
   clock:
     hostAliases:
-    - ip: "37.9.170.240"
+    - ip: "185.91.203.179"
       hostnames:
       - "eschranka1.slovensko.sk"
       - "eschranka.upvsfixnew.gov.sk"
@@ -76,7 +76,7 @@ workers:
         - "true"
   worker:
     hostAliases:
-    - ip: "37.9.170.240"
+    - ip: "185.91.203.179"
       hostnames:
       - "eschranka1.slovensko.sk"
       - "eschranka.upvsfixnew.gov.sk"
