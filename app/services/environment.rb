@@ -25,6 +25,7 @@ module Environment
       namespace: 'api-token-identifiers',
       error_handler: REDIS_CONNECTION_ENFORCER,
       compress: false,
+      url: ENV['REDIS_URL'] || 'redis://localhost:6379/0'
     )
   end
 
@@ -41,6 +42,7 @@ module Environment
       namespace: 'obo-token-assertions',
       error_handler: REDIS_CONNECTION_ENFORCER,
       compress: true,
+      url: ENV['REDIS_URL'] || 'redis://localhost:6379/0'
     ) if (UpvsEnvironment.obo_support? || UpvsEnvironment.sso_support?)
   end
 

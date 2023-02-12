@@ -4,6 +4,7 @@ en:
     missing: 'No %{param}'
     out_of_range: '%{param} out of range'
     redundant: 'Redundant %{param}'
+  unpermitted_params: 'Unpermitted parameters: %{value}'
   internal_server_error: 'Unknown error'
   not_acceptable: 'Unacceptable Content-Type requested'
   not_found: '%{resource} not found'

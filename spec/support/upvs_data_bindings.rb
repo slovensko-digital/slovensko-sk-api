@@ -17,6 +17,10 @@ module UpvsDataBindings
     ekr_error_from_xml(file, sk.gov.schemas.edesk.eksservice._1.IEKSServiceGetMessagesEDeskFaultFaultFaultMessage)
   end
 
+  def eks_filter_messages_fault(file)
+    ekr_error_from_xml(file, sk.gov.schemas.edesk.eksservice._1.IEKSServiceGetMessagesByFilterEDeskFaultFaultFaultMessage)
+  end
+
   def eks_get_message_fault(file)
     ekr_error_from_xml(file, sk.gov.schemas.edesk.eksservice._1.IEKSServiceGetMessageEDeskFaultFaultFaultMessage)
   end
