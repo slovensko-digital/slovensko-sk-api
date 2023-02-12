@@ -22,8 +22,14 @@ module AuthenticityTokens
     api_token_with_subject(nil)
   end
 
-  def api_token_with_subject(subject = 'CIN-11190868', expires_in: 1.minute.from_now)
+  def api_token_with_subject(subject = 'CIN-11190868', obo: nil, expires_in: 1.minute.from_now)
     payload = { sub: subject, exp: expires_in.to_i, jti: SecureRandom.uuid }
+    payload[:obo] = obo if obo
+    JWT.encode(payload, api_token_key_pair, 'RS256')
+  end
+
+  def api_obo_token(obo, expires_in: 1.minute.from_now)
+    payload = { exp: expires_in.to_i, jti: SecureRandom.uuid, obo: obo }
     JWT.encode(payload, api_token_key_pair, 'RS256')
   end
 

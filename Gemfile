@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.6.8', engine: 'jruby', engine_version: '9.3.2.0'
+ruby '2.6.8', engine: 'jruby', engine_version: '9.3.9.0'
 
 gem 'rails', '~> 5.2.6'
 gem 'tzinfo-data', platforms: [:jruby]

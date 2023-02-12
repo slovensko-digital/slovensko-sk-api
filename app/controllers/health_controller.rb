@@ -10,7 +10,7 @@ class HealthController < ApiController
     status = :ok
     health = {
       description: 'slovensko.sk API',
-      version: '3.3.0',
+      version: '3.4.0',
       status: 'pass',
       checks: {
         'environment:variables' => environment_variables,
@@ -62,7 +62,7 @@ class HealthController < ApiController
   end
 
   def redis_connection
-    raise 'Unable to establish connection' unless ActiveSupport::Cache::RedisCacheStore.new.redis.ping
+    raise 'Unable to establish connection' unless ActiveSupport::Cache::RedisCacheStore.new(url: ENV['REDIS_URL'] || 'redis://localhost:6379/0').redis.ping
     { status: 'pass' }
   rescue => error
     { status: 'fail', output: error.message }

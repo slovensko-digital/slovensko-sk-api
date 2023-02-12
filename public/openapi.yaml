@@ -2,7 +2,7 @@ openapi: 3.0.0
 
 info:
   title: slovensko.sk API
-  version: 3.3.0 (Komunitná verzia) 8.3.0 (Prémium verzia)
+  version: 3.4.0 (Komunitná verzia) 8.5.0 (Prémium verzia)
 
   description: |
     slovensko.sk API je proxy REST API komponent k službám www.slovensko.sk (Ústredný portál verejnej správy – ÚPVS), pomocou ktorých je možné:
@@ -588,6 +588,52 @@ paths:
       security:
         - 'API Token': []
 
+
+  /api/edesk/messages/search:
+    get:
+      tags: [Manipulácia so schránkou]
+      summary: Vráti zoznam správ v schránke na základe vyhľadávacích kritérií
+      description: |
+        Vráti zoznam správ v schránke na základe vyhľadávacích kritérií.
+      parameters:
+        - name: correlation_id
+          in: query
+          required: true
+          description: Correlation ID vyhľadávaných správ.
+          schema:
+            type: uuid
+            example: 8a6a31c1-0d54-46c8-aac1-12465162b913
+        - name: page
+          in: query
+          required: false
+          description: Číslo stránky zoznamu správ.
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+            example: 1
+        - name: per_page
+          in: query
+          required: false
+          description: Počet správ na stránke zoznamu.
+          schema:
+            type: integer
+            minimum: 10
+            maximum: 5000
+            default: 50
+            example: 50
+      responses:
+        200:
+          description: Úspešne vrátený zoznam správ na základe vyhľadávacích kritérií.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EdeskHeader'
+      security:
+        - 'API Token': []
+
   /api/edesk/messages/{id}:
     get:
       tags: [Manipulácia so schránkou]
@@ -909,6 +955,52 @@ paths:
                 required:
                   - verify_result
                   - verify_description
+      security:
+        - 'API Token': []
+
+  /api/cep/add_timestamp:
+    post:
+      tags: [Podpisovanie]
+      summary: Pridá kvalifikovanú časovú pečiatku.
+      description: |
+        Rozšíri digitálny podpis z EPES na T formu pridaním kvalifikovanej časovej pečiatky.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  description: Base64 kódovaná štruktúra jednoduchého podpisu XAdES, zloženého podpisu XAdES, CAdES, PAdES alebo ASIC obálky.
+                  type: string
+                  format: base64
+                  example: UEsDBBQAAAgAANS0XU+K ...
+              required:
+                - content
+      responses:
+        200:
+          description: Úspešne pridanie kvalifikovanej časovej pečiatky.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  add_timestamp_result:
+                    description: Výsledok pridania časovej pečiatky, hodnota `0` znamená úspešné pridanie časovej pečiatky.
+                    type: string
+                    example: 0
+                  add_timestamp_description:
+                    description: Popis výsledku.
+                    type: string
+                    example: OK
+                  timestamped_data:
+                    description: Dáta rozšírené o kvalifikovanú časovú pečiatku.
+                    type: base64
+                    example: UEsDBBQAAAgAANS0XU+K ...
+                required:
+                  - description
+                  - data
       security:
         - 'API Token': []
 
@@ -1873,12 +1965,12 @@ paths:
                   description: |
                     Typ identity:
                       - `natural_person` fyzická osoba,
-                      - `corporate_body` právnická osoba,
+                      - `legal_entity` právnická osoba,
                       - `technical_account` technický účet,
                       - `employee_of_public_administration` zamestnanec verejnej správy,
                       - `institution_of_public_administration` orgán verejnej moci.
                   type: string
-                  enum: [natural_person, corporate_body, technical_account, employee_of_public_administration, institution_of_public_administration]
+                  enum: [natural_person, legal_entity, technical_account, administrator_crap, employee_of_public_administration, institution_of_public_administration, edemocracy_user]
                 email:
                   type: string
                   format: email
@@ -1929,7 +2021,7 @@ paths:
                     registration_number:
                       description: Súpisné číslo budovy.
                       type: integer
-                corporate_body:
+                legal_entity:
                   description: Právnická osoba.
                   type: object
                   properties:
@@ -3425,12 +3517,12 @@ components:
           description: |
             Typ:
               - `natural_person` fyzická osoba,
-              - `corporate_body` právnická osoba,
+              - `legal_entity` právnická osoba,
               - `technical_account` technický účet,
               - `employee_of_public_administration` zamestnanec verejnej správy,
               - `institution_of_public_administration` orgán verejnej moci.
           type: string
-          enum: [natural_person, corporate_body, technical_account, employee_of_public_administration, institution_of_public_administration]
+          enum: [natural_person, legal_entity, technical_account, employee_of_public_administration, institution_of_public_administration]
           example: institution_of_public_administration
         status:
           description: |

@@ -17,6 +17,10 @@ class ApiController < ActionController::API
     render_bad_request(:missing, error.param)
   end
 
+  rescue_from ActionController::UnpermittedParameters do |error|
+    render_unpermitted_params(value: error.params)
+  end
+
   rescue_from ActionController::UnknownFormat do
     render_not_acceptable
   end
@@ -140,6 +144,10 @@ class ApiController < ActionController::API
 
   def render_not_found(resource)
     render status: :not_found, json: { message: translate(:not_found, resource: resource.to_s.humanize(capitalize: false, keep_id_suffix: true)).upcase_first }
+  end
+
+  def render_unpermitted_params(params)
+    render status: :unprocessable_entity, json: { message: translate(:unpermitted_params, value: params[:value]).upcase_first }
   end
 
   def render_not_acceptable
