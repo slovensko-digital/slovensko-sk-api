@@ -32,10 +32,9 @@ readinessProbe:
 resources:
   requests:
     cpu: 5m
-    memory: 380Mi
+    memory: 650Mi
   limits:
-    cpu: 2
-    memory: 1024Mi
+    memory: 1Gi
 application:
   migrateCommand: ["bundle", "exec", "rails", "db:migrate"]
 persistence:
@@ -74,6 +73,12 @@ workers:
       probeType: "exec"
       command:
         - "true"
+    resources:
+      requests:
+        cpu: 20m
+        memory: 400Mi
+      limits:
+        memory: 600Mi
   worker:
     hostAliases:
     - ip: "185.91.203.179"
@@ -99,3 +104,9 @@ workers:
       probeType: "exec"
       command:
         - "true"
+    resources:
+      requests:
+        cpu: 5m
+        memory: 400Mi
+      limits:
+        memory: 600Mi
