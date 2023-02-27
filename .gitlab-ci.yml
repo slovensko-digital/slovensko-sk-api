@@ -4,7 +4,7 @@ variables:
   DOCKER_DRIVER: overlay2
   DOCKER_BUILDKIT: 0
   AUTO_DEVOPS_BUILD_CACHE: registry
-  AUTO_DEPLOY_IMAGE_VERSION: 'v2.26.0'
+  AUTO_DEPLOY_IMAGE_VERSION: 'v2.47.0'
 
 stages:  
   - build
