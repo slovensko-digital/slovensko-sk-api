@@ -361,7 +361,7 @@ paths:
         200:
           description: |
             OBO token v JWT formáte, ktorého payload vyzerá nasledovne:
-    
+
                 {
                   "sub": "ico://sk/83130022",
                   "exp": 1545153549,
@@ -2225,8 +2225,8 @@ paths:
                     example: ... BEGIN CERTIFICATE ...
                   fingerprint:
                     type: string
-                    format: sha1
-                    example: afe60265f5cecf4b44168cebe2ff954e9871ad94
+                    format: sha256
+                    example: afe60265f5cecf4b44168cebe2ff954e9871ad94265f5cecf4b44168cebe2ff9
                   not_after:
                     type: string
                     format: time
