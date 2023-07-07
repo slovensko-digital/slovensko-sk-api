@@ -299,7 +299,7 @@ shared_examples 'API request authentication' do |allow_plain: false, allow_sub: 
     expect(response.object).to eq(message: 'Bad credentials')
   end if allow_obo_token
 
-  it 'responds with 401 if authenticating via token with CTY header + OBO token', unless: obo_support? do
+  it 'responds with 401 if authenticating via token with CTY header + OBO token', if: (!sso_support? && !obo_support?) do
     # OBO tokens can not be generated nor verified therefore authentication will never succeed
     expect(Environment.obo_token_authenticator).to be_nil
   end
@@ -389,7 +389,7 @@ shared_examples 'UPVS proxy initialization' do |allow_plain: false, allow_sub: f
       end
     end unless allow_obo_token
 
-    it 'does not use any UPVS proxy object when authenticating via token with CTY header + OBO token', unless: obo_support? do
+    it 'does not use any UPVS proxy object when authenticating via token with CTY header + OBO token', if: (!sso_support? && !obo_support?) do
       # OBO tokens can not be generated nor verified therefore UPVS proxy objects will never be used
       expect(Environment.obo_token_authenticator).to be_nil
     end

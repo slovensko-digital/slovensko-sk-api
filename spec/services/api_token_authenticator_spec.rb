@@ -654,8 +654,9 @@ RSpec.describe ApiTokenAuthenticator do
       end
 
       context 'SUB proxy' do
-        it 'verifies SUB proxy presence' do
+        it 'verifies SUB proxy presence if obo_support?' do
           token = generate_token
+          expect(UpvsEnvironment).to receive(:obo_support?).and_return(true)
           expect(obo_token_authenticator).to receive(:verify_token).and_return([nil, obo_token_assertion])
           expect { subject.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::InvalidSubError, 'obo')
         end

@@ -77,7 +77,7 @@ RSpec.describe 'Administration' do
       expect(response.object.keys).to contain_exactly(:certificate, :fingerprint, :not_after, :subject)
 
       expect(response.object[:certificate]).to match(/\A-{5}BEGIN CERTIFICATE-{5}\n.+\n-{5}END CERTIFICATE-{5}\n\z/m)
-      expect(response.object[:fingerprint]).to match(/\A[0-9a-f]{40}\z/)
+      expect(response.object[:fingerprint]).to match(/\A[0-9a-f]{64}\z/)
       expect(response.object[:not_after]).to eq(response.object[:not_after].in_time_zone.as_json)
       expect(response.object[:subject]).to eq("ico-00956852_10236")
     end

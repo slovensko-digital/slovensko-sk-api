@@ -10,7 +10,7 @@ class HealthController < ApiController
     status = :ok
     health = {
       description: 'slovensko.sk API',
-      version: '3.4.0',
+      version: '3.5.0',
       status: 'pass',
       checks: {
         'environment:variables' => environment_variables,
@@ -108,7 +108,7 @@ class HealthController < ApiController
   end
 
   def sso_proxy_certificate
-    return unless (UpvsEnvironment.obo_support? || UpvsEnvironment.sso_support?)
+    return unless UpvsEnvironment.obo_support?
     not_after = UpvsEnvironment.subject(UpvsEnvironment.sso_proxy_subject)[:not_after].in_time_zone
     certificate_verification('SSO proxy', not_after)
   rescue => error

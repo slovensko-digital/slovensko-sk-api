@@ -44,7 +44,7 @@ class ApiTokenAuthenticator
         raise JWT::InvalidPayload, :obo
       end
 
-      raise JWT::InvalidSubError, :obo unless sub
+      raise JWT::InvalidSubError, :obo if (UpvsEnvironment.obo_support? && !sub)
     # elsif sub && obo
     #   raise JWT::InvalidPayload unless allow_obo_id
     #   raise JWT::InvalidPayload if cty
