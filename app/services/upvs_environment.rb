@@ -86,7 +86,7 @@ module UpvsEnvironment
       -storepass #{generate_pass(:ks, sub)}
     )
 
-    attributes = safe_capture('openssl x509 -subject -enddate -fingerprint -noout -sha1', stdin_data: certificate)
+    attributes = safe_capture('openssl x509 -subject -enddate -fingerprint -noout -sha256', stdin_data: certificate)
     attributes = attributes.lines(chomp: true).map { |r| r.split('=', 2).last }
 
     {
@@ -249,7 +249,7 @@ module UpvsEnvironment
   end
 
   def sso_proxy_subject
-    @sso_proxy_subject ||= ENV.fetch('SSO_PROXY_SUBJECT')
+    @sso_proxy_subject ||= (ENV.fetch('SSO_PROXY_SUBJECT') if obo_support?)
   end
 
   private

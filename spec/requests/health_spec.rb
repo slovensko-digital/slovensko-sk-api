@@ -71,7 +71,7 @@ RSpec.describe 'Health Check' do
       expect(response.status).to eq(200)
       expect(response.object.with_indifferent_access).to match(
         description: 'slovensko.sk API',
-        version: '3.4.0',
+        version: '3.5.0',
         status: 'pass',
         checks: hash_including(*checks),
         links: {
@@ -154,72 +154,6 @@ RSpec.describe 'Health Check' do
             {
               status: 'fail',
               output: contain('Unset environment variables')
-            }
-          ]
-        )
-      end
-
-      it 'fails on authenticator:api', if: obo_support? do
-        expect_fail(
-          'authenticator:api' => [
-            {
-              status: 'fail',
-              output: contain('key not found: "SSO_PROXY_SUBJECT"')
-            }
-          ]
-        )
-      end
-
-      it 'fails on authenticator:api', if: sso_support? do
-        expect_fail(
-          'authenticator:api' => [
-            {
-              status: 'fail',
-              output: contain('key not found: "SSO_PROXY_SUBJECT"')
-            }
-          ]
-        )
-      end
-
-      it 'fails on authenticator:obo', if: obo_support? do
-        expect_fail(
-          'authenticator:obo' => [
-            {
-              status: 'fail',
-              output: contain('key not found: "SSO_PROXY_SUBJECT"')
-            }
-          ]
-        )
-      end
-
-      it 'fails on authenticator:obo', if: sso_support? do
-        expect_fail(
-          'authenticator:obo' => [
-            {
-              status: 'fail',
-              output: contain('key not found: "SSO_PROXY_SUBJECT"')
-            }
-          ]
-        )
-      end
-
-      it 'fails on sso:proxy_certificate', if: obo_support? do
-        expect_fail(
-          'sso:proxy_certificate' => [
-            {
-              status: 'fail',
-              output: contain('key not found: "SSO_PROXY_SUBJECT"')
-            }
-          ]
-        )
-      end
-
-      it 'fails on sso:proxy_certificate', if: sso_support? do
-        expect_fail(
-          'sso:proxy_certificate' => [
-            {
-              status: 'fail',
-              output: contain('key not found: "SSO_PROXY_SUBJECT"')
             }
           ]
         )
@@ -585,62 +519,6 @@ RSpec.describe 'Health Check' do
             'redis:connection' => [contain(status: 'pass')],
             'authenticator:api' => [contain(status: 'pass')],
             'authenticator:obo' => [contain(status: 'pass')]
-          )
-        end
-      end
-    end
-
-    context 'without SSO proxy subject ', if: sso_support? do
-      context 'with no certificate' do
-        before(:example) { allow(UpvsEnvironment).to receive(:subject).with(sso_proxy_subject).and_call_original }
-
-        it 'fails on sso:proxy_certificate' do
-          expect_fail(
-            'sso:proxy_certificate' => [
-              {
-                status: 'fail',
-                output: contain('file does not exist')
-              }
-            ]
-          )
-        end
-
-        it 'passes on others' do
-          expect_fail(
-            'environment:variables' => [contain(status: 'pass')],
-            'postgresql:connection' => [contain(status: 'pass')],
-            'redis:connection' => [contain(status: 'pass')],
-            'authenticator:api' => [contain(status: 'pass')],
-            'authenticator:obo' => [contain(status: 'pass')],
-            'sso:sp_certificate' => [contain(status: 'pass')],
-          )
-        end
-      end
-
-      context 'with expiring certificate' do
-        let(:sso_proxy_certificate_expires_at) { 2.days.from_now }
-
-        it 'warns on sso:proxy_certificate' do
-          expect_warn(
-            'sso:proxy_certificate' => [
-              {
-                status: 'warn',
-                observed_value: sso_proxy_certificate_expires_at.as_json,
-                observed_unit: 'time',
-                output: 'SSO proxy certificate expires in less than 2 months'
-              }
-            ]
-          )
-        end
-
-        it 'passes on others' do
-          expect_warn(
-            'environment:variables' => [contain(status: 'pass')],
-            'postgresql:connection' => [contain(status: 'pass')],
-            'redis:connection' => [contain(status: 'pass')],
-            'authenticator:api' => [contain(status: 'pass')],
-            'authenticator:obo' => [contain(status: 'pass')],
-            'sso:sp_certificate' => [contain(status: 'pass')],
           )
         end
       end
