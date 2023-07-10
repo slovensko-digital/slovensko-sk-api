@@ -44,7 +44,7 @@ class HealthController < ApiController
   def environment_variables(keys = [])
     keys += %w(DATABASE_URL REDIS_URL SECRET_KEY_BASE) if Rails.env.production? || Rails.env.staging?
     keys += %w(UPVS_KS_SALT UPVS_PK_SALT) if Upvs.env.prod?
-    keys += %w(SSO_PROXY_SUBJECT) if (UpvsEnvironment.obo_support? || UpvsEnvironment.sso_support?)
+    keys += %w(SSO_PROXY_SUBJECT) if UpvsEnvironment.obo_support?
     keys += %w(SSO_SP_SUBJECT LOGIN_CALLBACK_URL LOGOUT_CALLBACK_URL) if UpvsEnvironment.sso_support?
     unset = keys.select { |v| ENV[v].blank? }
     raise "Unset environment variables #{unset.to_sentence}" if unset.any?
