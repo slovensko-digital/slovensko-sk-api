@@ -11,6 +11,8 @@ class Iam::IdentitiesController < ApiController
   rescue_from(sk.gov.schemas.identity.service._1_7.GetIdentityFault) { |error| render_bad_request(:invalid, :identity_id, upvs_fault(error)) }
   rescue_from(sk.gov.schemas.identity.service._1_7.GetEdeskInfo2Fault) { |error| render_bad_request(:invalid, :query, upvs_fault(error)) }
 
+  CODE_LIST_ATTRIBUTES = [:id, :name]
+  
   def show
     @identity = iam_repository(upvs_identity).identity(params[:id])
   end
@@ -21,7 +23,7 @@ class Iam::IdentitiesController < ApiController
       :en, :email, :phone,
       ids: [],
       uris: [],
-      address: [:type, :country, :district, :municipality, :street, :building_number, :registration_number],
+      address: [:type, :street, :building_number, :registration_number, :municipality => CODE_LIST_ATTRIBUTES, :country => CODE_LIST_ATTRIBUTES, :district => CODE_LIST_ATTRIBUTES],
       corporate_body: [:cin, :tin, :name],
       natural_person: [:given_name, :family_name, :date_of_birth, :place_of_birth],
     )

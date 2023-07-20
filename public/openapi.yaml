@@ -2,7 +2,7 @@ openapi: 3.0.0
 
 info:
   title: slovensko.sk API
-  version: 3.5.0 (Komunitná verzia) 8.6.0 (Prémium verzia)
+  version: 3.6.0 (Komunitná verzia) 8.7.0 (Prémium verzia)
 
   description: |
     slovensko.sk API je proxy REST API komponent k službám www.slovensko.sk (Ústredný portál verejnej správy – ÚPVS), pomocou ktorých je možné:
@@ -2021,6 +2021,8 @@ paths:
                     registration_number:
                       description: Súpisné číslo budovy.
                       type: integer
+                  required:
+                    - type
                 legal_entity:
                   description: Právnická osoba.
                   type: object
