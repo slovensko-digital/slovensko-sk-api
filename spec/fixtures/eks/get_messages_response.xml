@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GetMessagesResponse xmlns="http://schemas.gov.sk/edesk/eksService/1">
+  <GetMessagesResult xmlns:a="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII.Model" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+    <a:TotalCount>52</a:TotalCount>
+    <a:Values>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>INFORMATION</a:Class>
+        <a:CorrelationId>9ada9bb5-45c1-48eb-ab5f-de40afc1e6ff</a:CorrelationId>
+        <a:DateDelivery>2016-11-29T12:25:15</a:DateDelivery>
+        <a:IdMessage>4898584833</a:IdMessage>
+        <a:MessageId>f80b6b7a-5e6a-4954-8ed4-288edfd41079</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Informácia</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>EDESK_QUOTA_TRESHOLD_EXCEEDED</a:Class>
+        <a:CorrelationId>00000000-0000-0000-0000-000000000000</a:CorrelationId>
+        <a:DateDelivery>2016-11-30T17:01:03.77</a:DateDelivery>
+        <a:IdMessage>4898590463</a:IdMessage>
+        <a:MessageId>e2885eb5-5a42-429f-aae6-7c172ad91cc0</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Informácia</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_DELIVERY_NOTIFICATION</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2017-03-17T10:52:36.537</a:DateDelivery>
+        <a:IdMessage>4898659645</a:IdMessage>
+        <a:MessageId>70976844-f7a8-4f21-b41f-2f6017f42a31</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Doručenka</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_DELIVERY_NOTIFICATION</a:Class>
+        <a:CorrelationId>e2a8424d-3cdb-4fa2-b6bd-b5f6aefbf341</a:CorrelationId>
+        <a:DateDelivery>2017-03-17T10:53:15.317</a:DateDelivery>
+        <a:IdMessage>4898659649</a:IdMessage>
+        <a:MessageId>f9f7a7d6-8ae9-48e0-aa86-b72081994ee1</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Doručenka</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_DELIVERY_NOTIFICATION</a:Class>
+        <a:CorrelationId>49456e2a-21da-4820-8f84-a7b9be46df24</a:CorrelationId>
+        <a:DateDelivery>2017-03-17T10:53:51.473</a:DateDelivery>
+        <a:IdMessage>4898659653</a:IdMessage>
+        <a:MessageId>6599ba98-7e81-4e07-ad7f-ea476eaed5e2</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Doručenka</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_DELIVERY_NOTIFICATION</a:Class>
+        <a:CorrelationId>4a483554-bce7-4ada-99fc-704812847cad</a:CorrelationId>
+        <a:DateDelivery>2017-03-17T10:54:32.507</a:DateDelivery>
+        <a:IdMessage>4898659657</a:IdMessage>
+        <a:MessageId>d972e9fe-7a1b-447e-a21d-7ffd47235f4c</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Doručenka</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_DELIVERY_NOTIFICATION</a:Class>
+        <a:CorrelationId>5ba02769-0a55-4fb0-84e8-9edcab328c28</a:CorrelationId>
+        <a:DateDelivery>2017-03-17T10:55:05.41</a:DateDelivery>
+        <a:IdMessage>4898659661</a:IdMessage>
+        <a:MessageId>5a61f923-2a94-45b0-8167-2a3e1b7229e2</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Doručenka</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_DELIVERY_NOTIFICATION</a:Class>
+        <a:CorrelationId>ef88eba0-460f-4bf6-8375-a92ff93c1420</a:CorrelationId>
+        <a:DateDelivery>2017-03-17T10:56:05.173</a:DateDelivery>
+        <a:IdMessage>4898659666</a:IdMessage>
+        <a:MessageId>4fbc619b-0e2e-4a69-8597-00524d1f8d0d</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Doručenka</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>EGOV_DOCUMENT</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2017-03-22T11:49:43.357</a:DateDelivery>
+        <a:IdMessage>4898662475</a:IdMessage>
+        <a:MessageId>7acc32dd-1586-4103-8634-ba0707820e2e</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Všeobecná agenda - rozhodnutie do vlastných rúk s fikciou doručenia</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2017-03-22T11:53:19.543</a:DateDelivery>
+        <a:IdMessage>4898662482</a:IdMessage>
+        <a:MessageId>d57b8037-5563-46cf-913d-1dfd4f0f970a</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_DELIVERY_NOTIFICATION</a:Class>
+        <a:CorrelationId>3f7e5397-d823-4715-a138-a0127832b184</a:CorrelationId>
+        <a:DateDelivery>2017-03-23T09:31:09.58</a:DateDelivery>
+        <a:IdMessage>4898663168</a:IdMessage>
+        <a:MessageId>765439ee-d757-4917-9ff3-5e77a169345a</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Doručenka</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>EGOV_DOCUMENT</a:Class>
+        <a:CorrelationId>49456e2a-21da-4820-8f84-a7b9be46df24</a:CorrelationId>
+        <a:DateDelivery>2017-04-02T00:02:59.083</a:DateDelivery>
+        <a:IdMessage>4898688186</a:IdMessage>
+        <a:MessageId>8f6457e2-38c8-4d99-8408-3ed3ce638510</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Všeobecná agenda - rozhodnutie do vlastných rúk s fikciou doručenia</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>EGOV_DOCUMENT</a:Class>
+        <a:CorrelationId>5ba02769-0a55-4fb0-84e8-9edcab328c28</a:CorrelationId>
+        <a:DateDelivery>2017-04-02T00:03:02.017</a:DateDelivery>
+        <a:IdMessage>4898688187</a:IdMessage>
+        <a:MessageId>55b17997-35b2-4b3f-9257-f212585418e1</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Všeobecná agenda - rozhodnutie do vlastných rúk s fikciou doručenia</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>EGOV_DOCUMENT</a:Class>
+        <a:CorrelationId>4a483554-bce7-4ada-99fc-704812847cad</a:CorrelationId>
+        <a:DateDelivery>2017-04-02T00:02:58.83</a:DateDelivery>
+        <a:IdMessage>4898688188</a:IdMessage>
+        <a:MessageId>465c354d-2958-4ec0-94fd-0ccf02041229</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Všeobecná agenda - rozhodnutie do vlastných rúk s fikciou doručenia</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>EGOV_DOCUMENT</a:Class>
+        <a:CorrelationId>e2a8424d-3cdb-4fa2-b6bd-b5f6aefbf341</a:CorrelationId>
+        <a:DateDelivery>2017-04-02T00:04:01.48</a:DateDelivery>
+        <a:IdMessage>4898688194</a:IdMessage>
+        <a:MessageId>197677bb-7325-4126-aca5-805a519f8fa4</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Všeobecná agenda - rozhodnutie do vlastných rúk s fikciou doručenia</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2018-05-03T09:17:04.743</a:DateDelivery>
+        <a:IdMessage>4899776913</a:IdMessage>
+        <a:MessageId>19a60cb3-79aa-491b-914d-9cc5b58985a3</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2018-05-03T09:22:34.05</a:DateDelivery>
+        <a:IdMessage>4899776922</a:IdMessage>
+        <a:MessageId>53737cc8-7191-41dc-9edc-492f2447ef94</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2018-05-03T09:27:26.357</a:DateDelivery>
+        <a:IdMessage>4899776928</a:IdMessage>
+        <a:MessageId>a7a4350f-818b-4800-8bd5-46010c30d261</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2018-05-03T09:27:29.347</a:DateDelivery>
+        <a:IdMessage>4899776929</a:IdMessage>
+        <a:MessageId>85c3fea7-9ac2-4b11-8090-7a5f85fd248d</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2018-05-03T09:45:54.383</a:DateDelivery>
+        <a:IdMessage>4899776988</a:IdMessage>
+        <a:MessageId>54d02dc7-5c6d-46f5-a9de-0ecbb49b979d</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2018-05-03T09:49:49.183</a:DateDelivery>
+        <a:IdMessage>4899776990</a:IdMessage>
+        <a:MessageId>c9279c39-b619-4f5e-980a-b68c8e77f56b</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2018-05-03T09:50:22.403</a:DateDelivery>
+        <a:IdMessage>4899776991</a:IdMessage>
+        <a:MessageId>81ee1d9c-337a-4ef5-94c6-41d003c3eb93</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2018-05-03T11:07:02.813</a:DateDelivery>
+        <a:IdMessage>4899777360</a:IdMessage>
+        <a:MessageId>966dedae-1704-45b3-8e64-1fd34434a342</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2018-05-03T11:12:36.98</a:DateDelivery>
+        <a:IdMessage>4899777535</a:IdMessage>
+        <a:MessageId>6aabf667-f591-47c5-8a56-dcb7418f4011</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2018-05-03T11:17:26.12</a:DateDelivery>
+        <a:IdMessage>4899777679</a:IdMessage>
+        <a:MessageId>10057359-d6da-4e58-9274-9030c94a64ea</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2018-05-03T11:22:00.013</a:DateDelivery>
+        <a:IdMessage>4899777789</a:IdMessage>
+        <a:MessageId>bb90bf04-4aaa-45ab-8230-24c542b9193b</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2018-05-03T11:22:57.407</a:DateDelivery>
+        <a:IdMessage>4899777828</a:IdMessage>
+        <a:MessageId>b1bb72ac-d1bd-4f14-8fc4-430a2f62bec3</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2018-05-03T11:36:30.15</a:DateDelivery>
+        <a:IdMessage>4899777894</a:IdMessage>
+        <a:MessageId>eba44f4c-3a85-4474-8126-2867d655f301</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2018-05-03T11:37:00.57</a:DateDelivery>
+        <a:IdMessage>4899777895</a:IdMessage>
+        <a:MessageId>5ab4ee93-1891-496f-8c55-5203fcb2a43e</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_ERROR</a:Class>
+        <a:CorrelationId>ef88eba0-460f-4bf6-8375-a92ff93c1420</a:CorrelationId>
+        <a:DateDelivery>2018-05-14T14:50:13.81</a:DateDelivery>
+        <a:IdMessage>4899810516</a:IdMessage>
+        <a:MessageId>446daa9f-f3a1-4505-b63e-6193a62c06b3</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Chyba pri spracovaní</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2018-09-24T20:48:17.9</a:DateDelivery>
+        <a:IdMessage>4900160872</a:IdMessage>
+        <a:MessageId>502ab343-c364-4efd-9101-908d745d3e87</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2018-09-24T20:48:20.99</a:DateDelivery>
+        <a:IdMessage>4900160873</a:IdMessage>
+        <a:MessageId>ed31dcb6-6853-4ea9-ae5d-6195320c5c87</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_ERROR</a:Class>
+        <a:CorrelationId>3f7e5397-d823-4715-a138-a0127832b184</a:CorrelationId>
+        <a:DateDelivery>2019-09-05T22:08:56.683</a:DateDelivery>
+        <a:IdMessage>4901255736</a:IdMessage>
+        <a:MessageId>a427acb3-61f3-45d1-93bc-6c069b9e7638</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Chyba pri spracovaní</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_ERROR</a:Class>
+        <a:CorrelationId>3f7e5397-d823-4715-a138-a0127832b184</a:CorrelationId>
+        <a:DateDelivery>2019-09-05T22:09:38.553</a:DateDelivery>
+        <a:IdMessage>4901255737</a:IdMessage>
+        <a:MessageId>5e12841c-e389-495c-8c0e-90161ad32155</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Chyba pri spracovaní</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_ERROR</a:Class>
+        <a:CorrelationId>3f7e5397-d823-4715-a138-a0127832b184</a:CorrelationId>
+        <a:DateDelivery>2019-10-22T18:09:46.99</a:DateDelivery>
+        <a:IdMessage>4901377989</a:IdMessage>
+        <a:MessageId>557ff3be-d726-4a97-b5be-4e8c490eea5c</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Chyba pri spracovaní</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_ERROR</a:Class>
+        <a:CorrelationId>3f7e5397-d823-4715-a138-a0127832b184</a:CorrelationId>
+        <a:DateDelivery>2019-10-22T18:09:56.163</a:DateDelivery>
+        <a:IdMessage>4901377990</a:IdMessage>
+        <a:MessageId>c144bd62-5347-4cce-9311-c36894bb2d2e</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Chyba pri spracovaní</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_ERROR</a:Class>
+        <a:CorrelationId>3f7e5397-d823-4715-a138-a0127832b184</a:CorrelationId>
+        <a:DateDelivery>2019-10-22T18:14:07.12</a:DateDelivery>
+        <a:IdMessage>4901377991</a:IdMessage>
+        <a:MessageId>51b18019-e1e7-4610-b192-f26d057b2fb2</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Chyba pri spracovaní</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2019-10-22T18:14:46.573</a:DateDelivery>
+        <a:IdMessage>4901377993</a:IdMessage>
+        <a:MessageId>9d84554c-17d4-4c93-ae84-73de53e7f74b</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2019-10-22T18:17:56.993</a:DateDelivery>
+        <a:IdMessage>4901377995</a:IdMessage>
+        <a:MessageId>bd0a4308-83d3-47e7-8ae5-691715652981</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2019-10-22T22:44:18.613</a:DateDelivery>
+        <a:IdMessage>4901378265</a:IdMessage>
+        <a:MessageId>d557e9f5-a4f6-4766-8a4a-c27e8c82621f</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2019-10-22T22:44:46.513</a:DateDelivery>
+        <a:IdMessage>4901378267</a:IdMessage>
+        <a:MessageId>de43da17-d60b-4dcc-a606-6954bedbeac1</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2019-10-22T22:45:28.197</a:DateDelivery>
+        <a:IdMessage>4901378269</a:IdMessage>
+        <a:MessageId>6a26d843-71a7-4931-944b-69f81b9cc80f</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2019-10-22T23:09:08.06</a:DateDelivery>
+        <a:IdMessage>4901378279</a:IdMessage>
+        <a:MessageId>afc6ff8a-8b61-4fa8-8c99-898f36f92573</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2019-10-23T01:24:07.41</a:DateDelivery>
+        <a:IdMessage>4901380236</a:IdMessage>
+        <a:MessageId>1e0d4593-d348-415e-b219-03625a636079</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2019-10-23T01:41:08.51</a:DateDelivery>
+        <a:IdMessage>4901380291</a:IdMessage>
+        <a:MessageId>7792adae-3dfa-4a26-bf1d-c235ca7ee8ca</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2019-10-23T09:09:44.567</a:DateDelivery>
+        <a:IdMessage>4901380647</a:IdMessage>
+        <a:MessageId>78a771cc-91db-4cf7-b370-8011adbabe13</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2019-10-23T09:11:12.21</a:DateDelivery>
+        <a:IdMessage>4901380650</a:IdMessage>
+        <a:MessageId>9b62d394-8437-4c45-9984-04b16b2f81ca</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2019-10-23T09:13:32.257</a:DateDelivery>
+        <a:IdMessage>4901380656</a:IdMessage>
+        <a:MessageId>46b1df55-5ef2-408e-b058-0dc45a0913ec</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2019-10-23T09:14:43.38</a:DateDelivery>
+        <a:IdMessage>4901380659</a:IdMessage>
+        <a:MessageId>b2ce1735-c70b-461b-9bfb-afb60dba642a</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+      <a:Message>
+        <a:Body i:nil="true"/>
+        <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+        <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+        <a:DateDelivery>2019-10-23T10:38:38.45</a:DateDelivery>
+        <a:IdMessage>4901380795</a:IdMessage>
+        <a:MessageId>f37eb6c2-f08c-42d2-a806-d6590eaf6615</a:MessageId>
+        <a:SkTalk i:nil="true"/>
+        <a:Title>Autorizácia doručenej správy</a:Title>
+      </a:Message>
+    </a:Values>
+  </GetMessagesResult>
+</GetMessagesResponse>

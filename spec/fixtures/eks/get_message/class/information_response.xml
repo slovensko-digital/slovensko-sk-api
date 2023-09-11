@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GetMessageResponse xmlns="http://schemas.gov.sk/edesk/eksService/1">
+  <GetMessageResult xmlns:a="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII.Model" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+    <a:Body>&amp;lt;!DOCTYPE html PUBLIC &amp;quot;-//W3C//DTD XHTML 1.0 Strict//EN&amp;quot; &amp;quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&amp;quot;&amp;gt;&amp;lt;html xml:lang=&amp;quot;en&amp;quot; xmlns=&amp;quot;http://www.w3.org/1999/xhtml&amp;quot; xmlns:egonp=&amp;quot;http://schemas.gov.sk/form/G2G.InformationMessage/1.3&amp;quot;&amp;gt;&amp;lt;head&amp;gt;&amp;lt;meta http-equiv=&amp;quot;X-UA-Compatible&amp;quot; content=&amp;quot;IE=8&amp;quot; /&amp;gt;&amp;lt;title&amp;gt;Informačn&amp;#225; spr&amp;#225;va&amp;lt;/title&amp;gt;&amp;lt;meta http-equiv=&amp;quot;Content-Type&amp;quot; content=&amp;quot;text/html; charset=UTF-8&amp;quot; /&amp;gt;&amp;lt;meta name=&amp;quot;language&amp;quot; content=&amp;quot;sk-SK&amp;quot; /&amp;gt;&amp;lt;style type=&amp;quot;text/css&amp;quot;&amp;gt;&#xd;
+body { &#xd;
+  font-family: &amp;#39;Open Sans&amp;#39;, &amp;#39;Segoe UI&amp;#39;, &amp;#39;Trebuchet MS&amp;#39;, &amp;#39;Geneva CE&amp;#39;, lucida, sans-serif;&#xd;
+  background : #ffffff !important ;&#xd;
+}&#xd;
+.ui-tabs {&#xd;
+  padding: .2em;&#xd;
+  position: relative;&#xd;
+  zoom: 1;&#xd;
+}                &#xd;
+.clear { clear: both; height: 0;}&#xd;
+.layoutMain {&#xd;
+  margin: 0px auto;&#xd;
+  padding: 5px 5px 5px 5px;  &#xd;
+}        &#xd;
+.layoutRow { margin-bottom: 5px; }        &#xd;
+.caption { /*width: 100%; border-bottom: solid 1px black;*/ }&#xd;
+.nocaption &amp;amp;gt; .caption { border: 0px !important; }&#xd;
+.nocaption &amp;amp;gt; .caption span {&#xd;
+  background: none !important;&#xd;
+  display: none;&#xd;
+} &#xd;
+.caption .title { padding-left: 5px; }&#xd;
+.headercorrection {  &#xd;
+  margin: 0px;&#xd;
+    font-size : 1em;&#xd;
+    font-weight: bold;&#xd;
+}        &#xd;
+.labelVis {&#xd;
+  float: left;&#xd;
+  font-weight: bold;&#xd;
+  font-family: &amp;#39;Open Sans&amp;#39;, &amp;#39;Segoe UI&amp;#39;, &amp;#39;Trebuchet MS&amp;#39;, &amp;#39;Geneva CE&amp;#39;, lucida, sans-serif;&#xd;
+  line-height: 25px;&#xd;
+  margin: 0px 18px 0px 0px;&#xd;
+  padding-left: 3px;&#xd;
+  width: 190px;&#xd;
+  word-wrap: break-word;&#xd;
+    font-size: 0.8em;&#xd;
+}&#xd;
+.contentVis {           &#xd;
+  float: left;  &#xd;
+  line-height: 25px;&#xd;
+  margin: 0px;&#xd;
+  padding: 0px;&#xd;
+  vertical-align: top;&#xd;
+    font-size: 0.75em;      &#xd;
+}&#xd;
+.wordwrap { &#xd;
+    white-space: pre-wrap;      &#xd;
+    white-space: -moz-pre-wrap; &#xd;
+    white-space: -pre-wrap;     &#xd;
+    white-space: -o-pre-wrap;   &#xd;
+    word-wrap: break-word;      &#xd;
+}  &#xd;
+.ui-widget-content {&#xd;
+  background : 50% 50% repeat-x #ffffff;&#xd;
+  border : #d4d4d4 solid 2px;&#xd;
+  color : #4f4e4e;&#xd;
+  border-radius : 3px;&#xd;
+}&#xd;
+.ui-widget-header {&#xd;
+  cursor : pointer;&#xd;
+  font-size : 0.8em;&#xd;
+  color : #494949;&#xd;
+  padding-left : 2px;&#xd;
+  border : #eae9e8 solid 1px;&#xd;
+  background-color : #eae9e8;&#xd;
+  margin-bottom: 3px;&#xd;
+  border-radius : 3px;&#xd;
+}      &#xd;
+&amp;lt;/style&amp;gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;&amp;lt;div id=&amp;quot;main&amp;quot; class=&amp;quot;layoutMain&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;layoutRow ui-tabs ui-widget-content&amp;quot; xmlns=&amp;quot;&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;caption ui-widget-header&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;headercorrection&amp;quot;&amp;gt;Informačn&amp;#225; spr&amp;#225;va&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div&amp;gt;&amp;lt;label class=&amp;quot;labelVis&amp;quot;&amp;gt;Predmet: &amp;lt;/label&amp;gt;&amp;lt;span class=&amp;quot;contentVis wordwrap&amp;quot;&amp;gt;Uv&amp;#237;tacia spr&amp;#225;va&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;clear&amp;quot;&amp;gt;&amp;#160;&amp;lt;/div&amp;gt;&amp;lt;div&amp;gt;&amp;lt;label class=&amp;quot;labelVis&amp;quot;&amp;gt;Popis: &amp;lt;/label&amp;gt;&amp;lt;span class=&amp;quot;contentVis wordwrap&amp;quot;&amp;gt;Dobr&amp;#253; deň, vitajte vo Vašej elektronickej schr&amp;#225;nke na &amp;#218;strednom port&amp;#225;li verejnej spr&amp;#225;vy (&amp;#218;PVS). Vaša elektronick&amp;#225; schr&amp;#225;nka bola aktivovan&amp;#225; na doručovanie.&#xd;
+Bližšie inform&amp;#225;cie o použ&amp;#237;van&amp;#237; port&amp;#225;lu n&amp;#225;jdete v n&amp;#225;vodoch a postupoch zverejnen&amp;#253;ch na adrese: https://www.slovensko.sk/sk/navody &#xd;
+ &#xd;
+Prev&amp;#225;dzka port&amp;#225;lu &amp;#218;PVS&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;clear&amp;quot;&amp;gt;&amp;#160;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</a:Body>
+    <a:Class>INFORMATION</a:Class>
+    <a:CorrelationId>9ada9bb5-45c1-48eb-ab5f-de40afc1e6ff</a:CorrelationId>
+    <a:DateDelivery>2016-11-29T12:25:15.043</a:DateDelivery>
+    <a:IdMessage>4898584833</a:IdMessage>
+    <a:MessageId>f80b6b7a-5e6a-4954-8ed4-288edfd41079</a:MessageId>
+    <a:SkTalk>&lt;SKTalkMessage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://gov.sk/SKTalkMessage">&#xd;
+  &lt;EnvelopeVersion>3.0&lt;/EnvelopeVersion>&#xd;
+  &lt;Header>&#xd;
+    &lt;MessageInfo>&#xd;
+      &lt;Class>INFORMATION&lt;/Class>&#xd;
+      &lt;MessageID>f80b6b7a-5e6a-4954-8ed4-288edfd41079&lt;/MessageID>&#xd;
+      &lt;CorrelationID>9ada9bb5-45c1-48eb-ab5f-de40afc1e6ff&lt;/CorrelationID>&#xd;
+      &lt;ReferenceID>72f53ef9-6663-413a-94f0-221cc9d6da2f&lt;/ReferenceID>&#xd;
+      &lt;BusinessID>f1fd4523-294b-4fb2-a336-a5387b601426&lt;/BusinessID>&#xd;
+      &lt;ChannelInfo>&#xd;
+        &lt;Channel>&#xd;
+          &lt;ChannelInfoURI>ico://sk/83110656&lt;/ChannelInfoURI>&#xd;
+        &lt;/Channel>&#xd;
+      &lt;/ChannelInfo>&#xd;
+      &lt;ChannelInfoReply>&#xd;
+        &lt;Channel>&#xd;
+          &lt;ChannelInfoURI>ico://sk/00151513_10001&lt;/ChannelInfoURI>&#xd;
+        &lt;/Channel>&#xd;
+      &lt;/ChannelInfoReply>&#xd;
+    &lt;/MessageInfo>&#xd;
+    &lt;SenderInfo />&#xd;
+  &lt;/Header>&#xd;
+  &lt;Body>&#xd;
+    &lt;InformationMessage xmlns="http://schemas.gov.sk/form/G2G.InformationMessage/1.3">&#xd;
+      &lt;Subject>Uvítacia správa&lt;/Subject>&#xd;
+      &lt;Text>Dobrý deň, vitajte vo Vašej elektronickej schránke na Ústrednom portáli verejnej správy (ÚPVS). Vaša elektronická schránka bola aktivovaná na doručovanie.&#xd;
+Bližšie informácie o používaní portálu nájdete v návodoch a postupoch zverejnených na adrese: https://www.slovensko.sk/sk/navody &#xd;
+ &#xd;
+Prevádzka portálu ÚPVS&lt;/Text>&#xd;
+    &lt;/InformationMessage>&#xd;
+  &lt;/Body>&#xd;
+&lt;/SKTalkMessage></a:SkTalk>
+    <a:Title>Informácia</a:Title>
+  </GetMessageResult>
+</GetMessageResponse>

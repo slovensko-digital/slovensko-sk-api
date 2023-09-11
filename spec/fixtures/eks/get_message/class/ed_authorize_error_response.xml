@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GetMessageResponse xmlns="http://schemas.gov.sk/edesk/eksService/1">
+  <GetMessageResult xmlns:a="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII.Model" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+    <a:Body>&amp;lt;!DOCTYPE html PUBLIC &amp;quot;-//W3C//DTD XHTML 1.0 Strict//EN&amp;quot; &amp;quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&amp;quot;&amp;gt;&amp;lt;html xml:lang=&amp;quot;en&amp;quot; xmlns=&amp;quot;http://www.w3.org/1999/xhtml&amp;quot; xmlns:egonp=&amp;quot;http://schemas.gov.sk/form/G2G.ErrorMessage/1.3&amp;quot;&amp;gt;&amp;lt;head&amp;gt;&amp;lt;meta http-equiv=&amp;quot;X-UA-Compatible&amp;quot; content=&amp;quot;IE=8&amp;quot; /&amp;gt;&amp;lt;title&amp;gt;Chybov&amp;#225; spr&amp;#225;va&amp;lt;/title&amp;gt;&amp;lt;meta http-equiv=&amp;quot;Content-Type&amp;quot; content=&amp;quot;text/html; charset=UTF-8&amp;quot; /&amp;gt;&amp;lt;meta name=&amp;quot;language&amp;quot; content=&amp;quot;sk-SK&amp;quot; /&amp;gt;&amp;lt;style type=&amp;quot;text/css&amp;quot;&amp;gt;&#xd;
+body { &#xd;
+  font-family: &amp;#39;Open Sans&amp;#39;, &amp;#39;Segoe UI&amp;#39;, &amp;#39;Trebuchet MS&amp;#39;, &amp;#39;Geneva CE&amp;#39;, lucida, sans-serif;&#xd;
+  background-color:transparent;&#xd;
+  color: #646464;&#xd;
+}&#xd;
+.ui-tabs {&#xd;
+  padding: .2em;&#xd;
+  position: relative;&#xd;
+  zoom: 1;&#xd;
+}&#xd;
+.ui-widget-content {&#xd;
+  background: #f9f9f9;&#xd;
+  border: 2px solid #d4d4d4;&#xd;
+  color: #3e3e3e;&#xd;
+  -webkit-border-radius: 5px;&#xd;
+  -moz-border-radius: 5px;&#xd;
+  -ms-border-radius: 5px;&#xd;
+  -o-border-radius: 5px;&#xd;
+  border-radius: 5px&#xd;
+}&#xd;
+.ui-widget-header {           &#xd;
+  font-weight: 400;  &#xd;
+  border: 1px solid #5f5247;&#xd;
+  background-color: #5f5247;&#xd;
+  color: #fff;&#xd;
+  -webkit-border-radius: 5px;&#xd;
+  -moz-border-radius: 5px;&#xd;
+  -ms-border-radius: 5px;&#xd;
+  -o-border-radius: 5px;&#xd;
+  border-radius: 5px&#xd;
+}                &#xd;
+.clear { clear: both; }&#xd;
+.layoutMain {&#xd;
+  margin: 0px auto;&#xd;
+  padding: 5px 5px 5px 5px;  &#xd;
+}        &#xd;
+.layoutRow { margin-bottom: 5px; }        &#xd;
+.caption { /*width: 100%; border-bottom: solid 1px black;*/ }&#xd;
+.nocaption &amp;amp;gt; .caption { border: 0px !important; }&#xd;
+.nocaption &amp;amp;gt; .caption span {&#xd;
+  background: none !important;&#xd;
+  display: none;&#xd;
+} &#xd;
+.caption .title { padding-left: 5px; }&#xd;
+.headercorrection {  &#xd;
+  margin: 0px;&#xd;
+}        &#xd;
+.labelVis {&#xd;
+  float: left;&#xd;
+  font-weight: bold;&#xd;
+  font-family: &amp;#39;Open Sans&amp;#39;, &amp;#39;Segoe UI&amp;#39;, &amp;#39;Trebuchet MS&amp;#39;, &amp;#39;Geneva CE&amp;#39;, lucida, sans-serif;&#xd;
+  line-height: 25px;&#xd;
+  margin: 0px 18px 0px 0px;&#xd;
+  padding: 0;&#xd;
+  width: 190px;&#xd;
+}&#xd;
+.contentVis {           &#xd;
+  float: left;  &#xd;
+  line-height: 25px;&#xd;
+  margin: 0px;&#xd;
+  padding: 0px;&#xd;
+  vertical-align: top;      &#xd;
+}&#xd;
+.wordwrap { &#xd;
+   white-space: pre-wrap;      &#xd;
+   white-space: -moz-pre-wrap; &#xd;
+   white-space: -pre-wrap;     &#xd;
+   white-space: -o-pre-wrap;   &#xd;
+   word-wrap: break-word;      &#xd;
+}        &#xd;
+&amp;lt;/style&amp;gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;&amp;lt;div id=&amp;quot;main&amp;quot; class=&amp;quot;layoutMain ui-widget-content&amp;quot;&amp;gt;&amp;lt;div id=&amp;quot;&amp;quot; class=&amp;quot;layoutRow ui-tabs ui-widget-content&amp;quot; title=&amp;quot;&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;caption ui-widget-header&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;headercorrection&amp;quot;&amp;gt;Chybov&amp;#225; spr&amp;#225;va&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div&amp;gt;&amp;lt;label class=&amp;quot;labelVis&amp;quot;&amp;gt;K&amp;#243;d chyby: &amp;lt;/label&amp;gt;&amp;lt;span class=&amp;quot;contentVis wordwrap&amp;quot;&amp;gt;8021013&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;clear&amp;quot; /&amp;gt;&amp;lt;div&amp;gt;&amp;lt;label class=&amp;quot;labelVis&amp;quot;&amp;gt;Popis chyby: &amp;lt;/label&amp;gt;&amp;lt;span class=&amp;quot;contentVis wordwrap&amp;quot;&amp;gt;Dan&amp;#225; spr&amp;#225;va nem&amp;#244;že byť authorizovan&amp;#225; na z&amp;#225;klade jej aktu&amp;#225;lneho statusu&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;clear&amp;quot; /&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</a:Body>
+    <a:Class>ED_AUTHORIZE_ERROR</a:Class>
+    <a:CorrelationId>ef88eba0-460f-4bf6-8375-a92ff93c1420</a:CorrelationId>
+    <a:DateDelivery>2018-05-14T14:50:13.81</a:DateDelivery>
+    <a:IdMessage>4899810516</a:IdMessage>
+    <a:MessageId>446daa9f-f3a1-4505-b63e-6193a62c06b3</a:MessageId>
+    <a:SkTalk>&lt;SKTalkMessage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://gov.sk/SKTalkMessage">&#xd;
+  &lt;EnvelopeVersion>3.0&lt;/EnvelopeVersion>&#xd;
+  &lt;Header>&#xd;
+    &lt;MessageInfo>&#xd;
+      &lt;Class>ED_AUTHORIZE_ERROR&lt;/Class>&#xd;
+      &lt;MessageID>446daa9f-f3a1-4505-b63e-6193a62c06b3&lt;/MessageID>&#xd;
+      &lt;CorrelationID>ef88eba0-460f-4bf6-8375-a92ff93c1420&lt;/CorrelationID>&#xd;
+      &lt;ReferenceID>6a2bdfab-2c86-4ce8-a6a8-2120456ff027&lt;/ReferenceID>&#xd;
+      &lt;ChannelInfo>&#xd;
+        &lt;Channel>&#xd;
+          &lt;ChannelInfoURI>ico://sk/83110656&lt;/ChannelInfoURI>&#xd;
+        &lt;/Channel>&#xd;
+      &lt;/ChannelInfo>&#xd;
+    &lt;/MessageInfo>&#xd;
+  &lt;/Header>&#xd;
+  &lt;Body>&#xd;
+    &lt;MessageContainer xmlns="http://schemas.gov.sk/core/MessageContainer/1.0">&#xd;
+      &lt;MessageId>446daa9f-f3a1-4505-b63e-6193a62c06b3&lt;/MessageId>&#xd;
+      &lt;SenderId>ico://sk/00151513_10001&lt;/SenderId>&#xd;
+      &lt;RecipientId>ico://sk/83110656&lt;/RecipientId>&#xd;
+      &lt;MessageType>Chyba pri spracovaní&lt;/MessageType>&#xd;
+      &lt;MessageSubject>Chyba pri spracovaní&lt;/MessageSubject>&#xd;
+      &lt;Object Id="b97a2158-423a-4a3d-bae6-3dc2eee5b026" Class="FORM" MimeType="application/x-eform-xml" Encoding="XML">&#xd;
+        &lt;Error xmlns="http://schemas.gov.sk/form/G2G.ErrorMessage/1.3">&#xd;
+          &lt;ErrorCode>8021013&lt;/ErrorCode>&#xd;
+          &lt;ErrorDescription>Daná správa nemôže byť authorizovaná na základe jej aktuálneho statusu&lt;/ErrorDescription>&#xd;
+        &lt;/Error>&#xd;
+      &lt;/Object>&#xd;
+    &lt;/MessageContainer>&#xd;
+  &lt;/Body>&#xd;
+&lt;/SKTalkMessage></a:SkTalk>
+    <a:Title>Chyba pri spracovaní</a:Title>
+  </GetMessageResult>
+</GetMessageResponse>

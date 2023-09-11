@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GetFoldersResponse xmlns="http://schemas.gov.sk/edesk/eksService/1">
+  <GetFoldersResult xmlns:a="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII.Model" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+    <a:TotalCount>0</a:TotalCount>
+    <a:Values/>
+  </GetFoldersResult>
+</GetFoldersResponse>

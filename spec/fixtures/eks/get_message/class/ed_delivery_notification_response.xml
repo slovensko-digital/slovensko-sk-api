@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GetMessageResponse xmlns="http://schemas.gov.sk/edesk/eksService/1">
+  <GetMessageResult xmlns:a="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII.Model" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+    <a:Body>&amp;lt;!DOCTYPE html PUBLIC &amp;quot;-//W3C//DTD HTML 4.01 Transitional//EN&amp;quot; &amp;quot;http://www.w3.org/TR/html4/loose.dtd&amp;quot;&amp;gt;&amp;lt;html&amp;gt;&amp;lt;head&amp;gt;&amp;lt;META http-equiv=&amp;quot;Content-Type&amp;quot; content=&amp;quot;text/html; charset=utf-16&amp;quot;&amp;gt;&amp;lt;meta http-equiv=&amp;quot;X-UA-Compatible&amp;quot; content=&amp;quot;IE=9&amp;quot;&amp;gt;&amp;lt;title&amp;gt;Notifikačn&amp;#225; doručenka&amp;lt;/title&amp;gt;&amp;lt;meta http-equiv=&amp;quot;Content-Type&amp;quot; content=&amp;quot;text/html; charset=UTF-8&amp;quot;&amp;gt;&amp;lt;meta name=&amp;quot;language&amp;quot; content=&amp;quot;sk-SK&amp;quot;&amp;gt;&amp;lt;style type=&amp;quot;text/css&amp;quot;&amp;gt;
+body {
+font-family: &amp;#39;Open Sans&amp;#39;, &amp;#39;Segoe UI&amp;#39;, &amp;#39;Trebuchet MS&amp;#39;, &amp;#39;Geneva CE&amp;#39;, lucida, sans-serif;
+background : #ffffff !important ;
+}
+.ui-tabs {
+padding: .2em;
+position: relative;
+zoom: 1;
+}
+.clear { clear: both; height: 0;}
+.layoutMain {
+margin: 0px auto;
+padding: 5px 5px 5px 5px;
+}
+.layoutRow { margin-bottom: 5px; }
+.caption { /*width: 100%; border-bottom: solid 1px black;*/ }
+.nocaption &amp;gt; .caption { border: 0px !important; }
+.nocaption &amp;gt; .caption span {
+background: none !important;
+display: none;
+}
+.caption .title { padding-left: 5px; }
+.headercorrection {
+margin: 0px;
+font-size : 1em;
+font-weight: bold;
+}
+.labelVis {
+float: left;
+font-weight: bold;
+font-family: &amp;#39;Open Sans&amp;#39;, &amp;#39;Segoe UI&amp;#39;, &amp;#39;Trebuchet MS&amp;#39;, &amp;#39;Geneva CE&amp;#39;, lucida, sans-serif;
+line-height: 25px;
+margin: 0px 18px 0px 0px;
+padding-left: 3px;
+width: 190px;
+word-wrap: break-word;
+font-size: 0.8em;
+}
+.contentVis {
+float: left;
+line-height: 25px;
+margin: 0px;
+padding: 0px;
+vertical-align: top;
+font-size: 0.75em;
+}
+.wordwrap {
+white-space: pre-wrap;
+white-space: -moz-pre-wrap;
+white-space: -pre-wrap;
+white-space: -o-pre-wrap;
+word-wrap: break-word;
+}
+.ui-widget-content {
+background : 50% 50% repeat-x #ffffff;
+border : #d4d4d4 solid 2px;
+color : #4f4e4e;
+border-radius : 3px;
+}
+.ui-widget-header {
+cursor : pointer;
+font-size : 0.8em;
+color : #494949;
+padding-left : 2px;
+border : #eae9e8 solid 1px;
+background-color : #eae9e8;
+margin-bottom: 3px;
+border-radius : 3px;
+}
+&amp;lt;/style&amp;gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;&amp;lt;div id=&amp;quot;main&amp;quot; class=&amp;quot;layoutMain&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;layoutRow ui-tabs ui-widget-content&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;caption ui-widget-header&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;headercorrection&amp;quot;&amp;gt;Notifikačn&amp;#225; doručenka&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;layoutRow ui-tabs ui-widget-content&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;caption ui-widget-header&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;headercorrection&amp;quot;&amp;gt;Odosielateľ a prij&amp;#237;mateľ&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div&amp;gt;&amp;lt;label class=&amp;quot;labelVis&amp;quot;&amp;gt;Odosielateľ: &amp;lt;/label&amp;gt;&amp;lt;span class=&amp;quot;contentVis wordwrap&amp;quot;&amp;gt;ico://sk/42156424_90000&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;clear&amp;quot;&amp;gt;&amp;#160;&amp;lt;/div&amp;gt;&amp;lt;div&amp;gt;&amp;lt;label class=&amp;quot;labelVis&amp;quot;&amp;gt;Prij&amp;#237;mateľ: &amp;lt;/label&amp;gt;&amp;lt;span class=&amp;quot;contentVis wordwrap&amp;quot;&amp;gt;ico://sk/83110656&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;clear&amp;quot;&amp;gt;&amp;#160;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;layoutRow ui-tabs ui-widget-content&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;caption ui-widget-header&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;headercorrection&amp;quot;&amp;gt;Inform&amp;#225;cie o doručovan&amp;#237;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div&amp;gt;&amp;lt;label class=&amp;quot;labelVis&amp;quot;&amp;gt;D&amp;#225;tum uloženia spr&amp;#225;vy: &amp;lt;/label&amp;gt;&amp;lt;span class=&amp;quot;contentVis wordwrap&amp;quot;&amp;gt;23.03.2017 09:31:06&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;clear&amp;quot;&amp;gt;&amp;#160;&amp;lt;/div&amp;gt;&amp;lt;div&amp;gt;&amp;lt;label class=&amp;quot;labelVis&amp;quot;&amp;gt;&amp;#218;ložn&amp;#225; lehota (počet dn&amp;#237;): &amp;lt;/label&amp;gt;&amp;lt;span class=&amp;quot;contentVis wordwrap&amp;quot;&amp;gt;15&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;clear&amp;quot;&amp;gt;&amp;#160;&amp;lt;/div&amp;gt;&amp;lt;div&amp;gt;&amp;lt;label class=&amp;quot;labelVis&amp;quot;&amp;gt;D&amp;#225;tum uplynutia doručenia: &amp;lt;/label&amp;gt;&amp;lt;span class=&amp;quot;contentVis wordwrap&amp;quot;&amp;gt;08.04.2017 00:00:00&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;clear&amp;quot;&amp;gt;&amp;#160;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;layoutRow ui-tabs ui-widget-content&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;caption ui-widget-header&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;headercorrection&amp;quot;&amp;gt;Spr&amp;#225;va na doručenie&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div&amp;gt;&amp;lt;label class=&amp;quot;labelVis&amp;quot;&amp;gt;Identifik&amp;#225;tor spr&amp;#225;vy: &amp;lt;/label&amp;gt;&amp;lt;span class=&amp;quot;contentVis wordwrap&amp;quot;&amp;gt;ec8c3281-b038-4637-bf8a-b8ebed8cca05&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;clear&amp;quot;&amp;gt;&amp;#160;&amp;lt;/div&amp;gt;&amp;lt;div&amp;gt;&amp;lt;label class=&amp;quot;labelVis&amp;quot;&amp;gt;Predmet spr&amp;#225;vy: &amp;lt;/label&amp;gt;&amp;lt;span class=&amp;quot;contentVis wordwrap&amp;quot;&amp;gt;Všeobecn&amp;#225; agenda - rozhodnutie do vlastn&amp;#253;ch r&amp;#250;k&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;clear&amp;quot;&amp;gt;&amp;#160;&amp;lt;/div&amp;gt;&amp;lt;div&amp;gt;&amp;lt;label class=&amp;quot;labelVis&amp;quot;&amp;gt;Typ spr&amp;#225;vy: &amp;lt;/label&amp;gt;&amp;lt;span class=&amp;quot;contentVis wordwrap&amp;quot;&amp;gt;Doc.GeneralAgendaReport&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;clear&amp;quot;&amp;gt;&amp;#160;&amp;lt;/div&amp;gt;&amp;lt;div&amp;gt;&amp;lt;label class=&amp;quot;labelVis&amp;quot;&amp;gt;Pozn&amp;#225;mka: &amp;lt;/label&amp;gt;&amp;lt;span class=&amp;quot;contentVis wordwrap&amp;quot;&amp;gt;Po uplynut&amp;#237; d&amp;#225;tumu doručenia sa doručovan&amp;#225; spr&amp;#225;va považuje za nedoručen&amp;#250;.&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;clear&amp;quot;&amp;gt;&amp;#160;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;layoutRow ui-tabs ui-widget-content&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;caption ui-widget-header&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;headercorrection&amp;quot;&amp;gt;Pr&amp;#237;lohy&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;layoutRow ui-tabs ui-widget-content&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;caption ui-widget-header&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;headercorrection&amp;quot;&amp;gt;Pr&amp;#237;loha&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div&amp;gt;&amp;lt;label class=&amp;quot;labelVis&amp;quot;&amp;gt;Identifik&amp;#225;tor elektronick&amp;#233;ho dokumentu: &amp;lt;/label&amp;gt;&amp;lt;span class=&amp;quot;contentVis wordwrap&amp;quot;&amp;gt;d69d59d6-7d57-4995-8423-f8de5ca3e9f6&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;clear&amp;quot;&amp;gt;&amp;#160;&amp;lt;/div&amp;gt;&amp;lt;div&amp;gt;&amp;lt;label class=&amp;quot;labelVis&amp;quot;&amp;gt;N&amp;#225;zov elektronick&amp;#233;ho dokumentu: &amp;lt;/label&amp;gt;&amp;lt;span class=&amp;quot;contentVis wordwrap&amp;quot;&amp;gt;Všeobecn&amp;#225; agenda - rozhodnutie do vlastn&amp;#253;ch r&amp;#250;k&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;clear&amp;quot;&amp;gt;&amp;#160;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</a:Body>
+    <a:Class>ED_DELIVERY_NOTIFICATION</a:Class>
+    <a:CorrelationId>3f7e5397-d823-4715-a138-a0127832b184</a:CorrelationId>
+    <a:DateDelivery>2017-03-23T09:31:09.58</a:DateDelivery>
+    <a:IdMessage>4898663168</a:IdMessage>
+    <a:MessageId>765439ee-d757-4917-9ff3-5e77a169345a</a:MessageId>
+    <a:SkTalk>&lt;SKTalkMessage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://gov.sk/SKTalkMessage">&#xd;
+  &lt;EnvelopeVersion>3.0&lt;/EnvelopeVersion>&#xd;
+  &lt;Header>&#xd;
+    &lt;MessageInfo>&#xd;
+      &lt;Class>ED_DELIVERY_NOTIFICATION&lt;/Class>&#xd;
+      &lt;MessageID>765439ee-d757-4917-9ff3-5e77a169345a&lt;/MessageID>&#xd;
+      &lt;CorrelationID>3f7e5397-d823-4715-a138-a0127832b184&lt;/CorrelationID>&#xd;
+      &lt;ReferenceID>ec8c3281-b038-4637-bf8a-b8ebed8cca05&lt;/ReferenceID>&#xd;
+      &lt;ChannelInfo />&#xd;
+      &lt;ChannelInfoReply />&#xd;
+    &lt;/MessageInfo>&#xd;
+    &lt;SenderInfo />&#xd;
+  &lt;/Header>&#xd;
+  &lt;Body>&#xd;
+    &lt;MessageContainer xmlns="http://schemas.gov.sk/core/MessageContainer/1.0">&#xd;
+      &lt;MessageId>765439ee-d757-4917-9ff3-5e77a169345a&lt;/MessageId>&#xd;
+      &lt;SenderId>ico://sk/42156424_90000&lt;/SenderId>&#xd;
+      &lt;RecipientId>ico://sk/83110656&lt;/RecipientId>&#xd;
+      &lt;MessageType>ED.DeliveryReportNotification&lt;/MessageType>&#xd;
+      &lt;MessageSubject>Doručenka&lt;/MessageSubject>&#xd;
+      &lt;SenderBusinessReference>ec8c3281-b038-4637-bf8a-b8ebed8cca05&lt;/SenderBusinessReference>&#xd;
+      &lt;Object Id="03114956-3301-4b5e-b280-4fddf38ee3b4" Name="Doručenka" Description="" Class="FORM" IsSigned="false" MimeType="application/x-eform-xml" Encoding="XML">&#xd;
+        &lt;DeliveryReportNotification xmlns="http://schemas.gov.sk/form/ED.DeliveryReportNotification/1.6">&#xd;
+          &lt;Persons>&#xd;
+            &lt;SenderID>ico://sk/42156424_90000&lt;/SenderID>&#xd;
+            &lt;RecipientID>ico://sk/83110656&lt;/RecipientID>&#xd;
+          &lt;/Persons>&#xd;
+          &lt;DeliveryInformation>&#xd;
+            &lt;Received>2017-03-23T09:31:06.7209861+01:00&lt;/Received>&#xd;
+            &lt;DeliveryPeriod>15&lt;/DeliveryPeriod>&#xd;
+            &lt;DeliveryPeriodEnd>2017-04-08T00:00:00+02:00&lt;/DeliveryPeriodEnd>&#xd;
+          &lt;/DeliveryInformation>&#xd;
+          &lt;Consignment>&#xd;
+            &lt;MessageID>ec8c3281-b038-4637-bf8a-b8ebed8cca05&lt;/MessageID>&#xd;
+            &lt;MessageSubject>Všeobecná agenda - rozhodnutie do vlastných rúk&lt;/MessageSubject>&#xd;
+            &lt;MessageType>Doc.GeneralAgendaReport&lt;/MessageType>&#xd;
+            &lt;Note>Po uplynutí dátumu doručenia sa doručovaná správa považuje za nedoručenú.&lt;/Note>&#xd;
+            &lt;Attachments>&#xd;
+              &lt;Attachment>&#xd;
+                &lt;AttachmentId>d69d59d6-7d57-4995-8423-f8de5ca3e9f6&lt;/AttachmentId>&#xd;
+                &lt;AttachmentName>Všeobecná agenda - rozhodnutie do vlastných rúk&lt;/AttachmentName>&#xd;
+              &lt;/Attachment>&#xd;
+            &lt;/Attachments>&#xd;
+          &lt;/Consignment>&#xd;
+        &lt;/DeliveryReportNotification>&#xd;
+      &lt;/Object>&#xd;
+    &lt;/MessageContainer>&#xd;
+  &lt;/Body>&#xd;
+&lt;/SKTalkMessage></a:SkTalk>
+    <a:Title>Doručenka</a:Title>
+  </GetMessageResult>
+</GetMessageResponse>
