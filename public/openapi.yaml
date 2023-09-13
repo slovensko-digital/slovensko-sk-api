@@ -2,7 +2,7 @@ openapi: 3.0.0
 
 info:
   title: slovensko.sk API
-  version: 3.6.0 (Komunitná verzia) 8.7.0 (Prémium verzia)
+  version: 3.7.0 (Komunitná verzia) 8.8.0 (Prémium verzia)
 
   description: |
     slovensko.sk API je proxy REST API komponent k službám www.slovensko.sk (Ústredný portál verejnej správy – ÚPVS), pomocou ktorých je možné:
@@ -903,6 +903,61 @@ paths:
                   - sign_description
       security:
         - 'API Token': []
+
+  /api/cep/sign_v2:
+    post:
+      tags: [Podpisovanie]
+      summary: Podpíše súbory elektronickou pečaťou
+      description:
+        Podpíše súbory kvalifikovanou časovou pečiatkou a overí vstupné dokumenty vočí validátorom dátových objektov.
+
+        Spracúva viacero skupín objektov v jednom requeste.
+        Umožňuje aj spoločne podpisovať viacero nepodpísaných objektov jedným podpisom, pridávať podpis do podpisovej obálky a spoločne podpisovať nepodpísané objekty s už podpísanými objektami z ASiC-E XAdES alebo ASiC-E CAdES jedným podpisom.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                object_groups:
+                  description: Skupiny objektov, ktoré sa majú podpisovať spolu.
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/CepSigningV2ObjectGroup'
+                pdf_verification:
+                  description: Indikátor overenia obsahu objektu podľa štandardu PDF/A-1a.
+                  type: boolean
+              required:
+                - object_groups
+      responses:
+        200:
+          description: Úspešne podpísané súbory elektronickou pečaťou.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sign_result:
+                    description: Kód výsledku podpísania.
+                    type: integer
+                    example: 0
+                  sign_description:
+                    description: Popis výsledku podpísania.
+                    type: string
+                    example: OK
+                  signed_object_groups:
+                    description: Podpísané objekty.
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CepSignedObjectGroup'
+                required:
+                  - sign_result
+                  - sign_description
+
+      security:
+        - 'API Token': []
+
 
   /api/cep/verify:
     post:
@@ -2526,6 +2581,111 @@ components:
         mime_type: application/xml
         encoding: XML
         content: <GeneralAgenda ...
+
+    CepSigningV2ObjectGroup:
+      description: Množina objektov, ktoré majú byť spoločne podpísané.
+      properties:
+        signing_certificate:
+          $ref: '#/components/schemas/CepSigningCertificate'
+        unsigned_objects:
+          type: array
+          items:
+            $ref: '#/components/schemas/CepSigningObjectV2'
+        signed_object:
+          description: Už podpísaný ASiC kontajner určený na podpis - obsah ASiC kontajnera zakódovaný v base64
+          type: string
+          format: base64
+          example: MIIFvzCCBKegAwIBAgIC ...
+        id:
+          description: Identifikátor množiny objektov.
+          type: string
+          format: uuid
+          example: db2c9ac9-8881-4a6a-8ddc-bbbc38ed9650
+      required:
+        - signing_certificate
+        - id
+
+    CepSigningObjectV2:
+      description: Objekt na podpis v rámci modulu CEP pre volanie metódy `POST /api/cep/sign_v2`.
+      properties:
+        id:
+          description: Identifikátor objektu v tvare URI. Hodnota z evidencie dátových objektov.
+          type: string
+          format: uri
+          example: http://schemas.gov.sk/form/ED.DeliveryReport/1.9/form.xsd
+        data:
+          description: Obsah objektu zakódovaný podľa hodnoty v base64.
+          type: string
+          format: base64
+          example: MIIFvzCCBKegAwIBAgIC ...
+        name:
+          description: Názov objektu.
+          type: string
+          nullable: true
+          example: Podanie všeobecnej agendy
+        visualization_uri:
+          description: Identifikátor podpisovej vizualizácie.
+          type: string
+          format: uri
+          example: http://schemas.gov.sk/form/App.GeneralAgenda/1.9/form.xslt
+      required:
+        - id
+        - data
+
+    CepSignedObjectGroup:
+      description: Podpísaná množina objektov ako ASiC kontajner.
+      properties:
+        id:
+          description: Identifikátor podpisového konatjnera.
+          type: string
+          format: uuid
+          example: db2c9ac9-8881-4a6a-8ddc-bbbc38ed9650
+        mime_type:
+          description: MimeType podpisového kontajnera.
+          type: string
+          example: application/vnd.etsi.asic-e+zip
+        data:
+          description: Obsah ASiC kontajnera zakódovaný v base64.
+          type: string
+          format: base64
+          example: MIIFvzCCBKegAwIBAgIC ...
+        timestamp_certificate:
+          description: Certifikát poslednej časovej pečiatky v base64.
+          type: string
+          format: base64
+          example: MIIFvzCCBKegAwIBAgIC ...
+
+    CepSigningCertificate:
+      description: Štruktúra pre výber podpisového certifkátu.
+      properties:
+        type:
+          description: |
+            Typ výberu podpisového certifikátu:
+              - `Issuer` znamená výber certifikátu podľa vydavateľa a sériového čísla, ktoré sú uvedené v atribúte `issuer`,
+              - `Subject` znamená výber certifikátu podľa subjektu v certifikáte, ktorý je uvedený v atribúte `subject`,
+              - `URI` znamená výber certifikátu podľa URI evidovaného na strane ÚPVS, ktorý je uvedený v atribúte `uri`.
+          type: string
+          enum: [Issuer, Subject, URI]
+          example: Subject
+        issuer:
+          description: Vydavateľ podpisového certifikátu, iba pre typ `Issuer`.
+          type: string
+          format: base64
+        issuer_serial_number:
+          description: Sériové číslo podpisového certifikátu, iba pre typ `Issuer`.
+          type: string
+          format: base64
+        subject:
+          description: Subjekt podpisového certifikátu, iba pre typ `Subject`.
+          type: string
+          example: C=SK,CN= ...
+        uri:
+          description: URI podpisového certifikátu, iba pre typ `URI`.
+          type: string
+          format: uri
+          example: ico://sk/83369509
+      required:
+        - type
 
     CepSignedObject:
       description: Podpísaný objekt v rámci modulu CEP. Napríklad ASiC-E kontajner.
