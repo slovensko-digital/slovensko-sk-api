@@ -1,0 +1,402 @@
+[
+  {
+    "id": 4898584833,
+    "class": "INFORMATION",
+    "message_id": "f80b6b7a-5e6a-4954-8ed4-288edfd41079",
+    "correlation_id": "9ada9bb5-45c1-48eb-ab5f-de40afc1e6ff",
+    "subject": "Informácia",
+    "delivered_at": "2016-11-29T12:25:15.000+01:00"
+  },
+  {
+    "id": 4898590463,
+    "class": "EDESK_QUOTA_TRESHOLD_EXCEEDED",
+    "message_id": "e2885eb5-5a42-429f-aae6-7c172ad91cc0",
+    "correlation_id": "00000000-0000-0000-0000-000000000000",
+    "subject": "Informácia",
+    "delivered_at": "2016-11-30T17:01:03.770+01:00"
+  },
+  {
+    "id": 4898659645,
+    "class": "ED_DELIVERY_NOTIFICATION",
+    "message_id": "70976844-f7a8-4f21-b41f-2f6017f42a31",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Doručenka",
+    "delivered_at": "2017-03-17T10:52:36.537+01:00"
+  },
+  {
+    "id": 4898659649,
+    "class": "ED_DELIVERY_NOTIFICATION",
+    "message_id": "f9f7a7d6-8ae9-48e0-aa86-b72081994ee1",
+    "correlation_id": "e2a8424d-3cdb-4fa2-b6bd-b5f6aefbf341",
+    "subject": "Doručenka",
+    "delivered_at": "2017-03-17T10:53:15.317+01:00"
+  },
+  {
+    "id": 4898659653,
+    "class": "ED_DELIVERY_NOTIFICATION",
+    "message_id": "6599ba98-7e81-4e07-ad7f-ea476eaed5e2",
+    "correlation_id": "49456e2a-21da-4820-8f84-a7b9be46df24",
+    "subject": "Doručenka",
+    "delivered_at": "2017-03-17T10:53:51.473+01:00"
+  },
+  {
+    "id": 4898659657,
+    "class": "ED_DELIVERY_NOTIFICATION",
+    "message_id": "d972e9fe-7a1b-447e-a21d-7ffd47235f4c",
+    "correlation_id": "4a483554-bce7-4ada-99fc-704812847cad",
+    "subject": "Doručenka",
+    "delivered_at": "2017-03-17T10:54:32.507+01:00"
+  },
+  {
+    "id": 4898659661,
+    "class": "ED_DELIVERY_NOTIFICATION",
+    "message_id": "5a61f923-2a94-45b0-8167-2a3e1b7229e2",
+    "correlation_id": "5ba02769-0a55-4fb0-84e8-9edcab328c28",
+    "subject": "Doručenka",
+    "delivered_at": "2017-03-17T10:55:05.410+01:00"
+  },
+  {
+    "id": 4898659666,
+    "class": "ED_DELIVERY_NOTIFICATION",
+    "message_id": "4fbc619b-0e2e-4a69-8597-00524d1f8d0d",
+    "correlation_id": "ef88eba0-460f-4bf6-8375-a92ff93c1420",
+    "subject": "Doručenka",
+    "delivered_at": "2017-03-17T10:56:05.173+01:00"
+  },
+  {
+    "id": 4898662475,
+    "class": "EGOV_DOCUMENT",
+    "message_id": "7acc32dd-1586-4103-8634-ba0707820e2e",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Všeobecná agenda - rozhodnutie do vlastných rúk s fikciou doručenia",
+    "delivered_at": "2017-03-22T11:49:43.357+01:00"
+  },
+  {
+    "id": 4898662482,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "d57b8037-5563-46cf-913d-1dfd4f0f970a",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2017-03-22T11:53:19.543+01:00"
+  },
+  {
+    "id": 4898663168,
+    "class": "ED_DELIVERY_NOTIFICATION",
+    "message_id": "765439ee-d757-4917-9ff3-5e77a169345a",
+    "correlation_id": "3f7e5397-d823-4715-a138-a0127832b184",
+    "subject": "Doručenka",
+    "delivered_at": "2017-03-23T09:31:09.580+01:00"
+  },
+  {
+    "id": 4898688186,
+    "class": "EGOV_DOCUMENT",
+    "message_id": "8f6457e2-38c8-4d99-8408-3ed3ce638510",
+    "correlation_id": "49456e2a-21da-4820-8f84-a7b9be46df24",
+    "subject": "Všeobecná agenda - rozhodnutie do vlastných rúk s fikciou doručenia",
+    "delivered_at": "2017-04-02T00:02:59.083+02:00"
+  },
+  {
+    "id": 4898688187,
+    "class": "EGOV_DOCUMENT",
+    "message_id": "55b17997-35b2-4b3f-9257-f212585418e1",
+    "correlation_id": "5ba02769-0a55-4fb0-84e8-9edcab328c28",
+    "subject": "Všeobecná agenda - rozhodnutie do vlastných rúk s fikciou doručenia",
+    "delivered_at": "2017-04-02T00:03:02.017+02:00"
+  },
+  {
+    "id": 4898688188,
+    "class": "EGOV_DOCUMENT",
+    "message_id": "465c354d-2958-4ec0-94fd-0ccf02041229",
+    "correlation_id": "4a483554-bce7-4ada-99fc-704812847cad",
+    "subject": "Všeobecná agenda - rozhodnutie do vlastných rúk s fikciou doručenia",
+    "delivered_at": "2017-04-02T00:02:58.830+02:00"
+  },
+  {
+    "id": 4898688194,
+    "class": "EGOV_DOCUMENT",
+    "message_id": "197677bb-7325-4126-aca5-805a519f8fa4",
+    "correlation_id": "e2a8424d-3cdb-4fa2-b6bd-b5f6aefbf341",
+    "subject": "Všeobecná agenda - rozhodnutie do vlastných rúk s fikciou doručenia",
+    "delivered_at": "2017-04-02T00:04:01.480+02:00"
+  },
+  {
+    "id": 4899776913,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "19a60cb3-79aa-491b-914d-9cc5b58985a3",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2018-05-03T09:17:04.743+02:00"
+  },
+  {
+    "id": 4899776922,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "53737cc8-7191-41dc-9edc-492f2447ef94",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2018-05-03T09:22:34.050+02:00"
+  },
+  {
+    "id": 4899776928,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "a7a4350f-818b-4800-8bd5-46010c30d261",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2018-05-03T09:27:26.357+02:00"
+  },
+  {
+    "id": 4899776929,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "85c3fea7-9ac2-4b11-8090-7a5f85fd248d",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2018-05-03T09:27:29.347+02:00"
+  },
+  {
+    "id": 4899776988,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "54d02dc7-5c6d-46f5-a9de-0ecbb49b979d",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2018-05-03T09:45:54.383+02:00"
+  },
+  {
+    "id": 4899776990,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "c9279c39-b619-4f5e-980a-b68c8e77f56b",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2018-05-03T09:49:49.183+02:00"
+  },
+  {
+    "id": 4899776991,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "81ee1d9c-337a-4ef5-94c6-41d003c3eb93",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2018-05-03T09:50:22.403+02:00"
+  },
+  {
+    "id": 4899777360,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "966dedae-1704-45b3-8e64-1fd34434a342",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2018-05-03T11:07:02.813+02:00"
+  },
+  {
+    "id": 4899777535,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "6aabf667-f591-47c5-8a56-dcb7418f4011",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2018-05-03T11:12:36.980+02:00"
+  },
+  {
+    "id": 4899777679,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "10057359-d6da-4e58-9274-9030c94a64ea",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2018-05-03T11:17:26.120+02:00"
+  },
+  {
+    "id": 4899777789,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "bb90bf04-4aaa-45ab-8230-24c542b9193b",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2018-05-03T11:22:00.013+02:00"
+  },
+  {
+    "id": 4899777828,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "b1bb72ac-d1bd-4f14-8fc4-430a2f62bec3",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2018-05-03T11:22:57.407+02:00"
+  },
+  {
+    "id": 4899777894,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "eba44f4c-3a85-4474-8126-2867d655f301",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2018-05-03T11:36:30.150+02:00"
+  },
+  {
+    "id": 4899777895,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "5ab4ee93-1891-496f-8c55-5203fcb2a43e",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2018-05-03T11:37:00.570+02:00"
+  },
+  {
+    "id": 4899810516,
+    "class": "ED_AUTHORIZE_ERROR",
+    "message_id": "446daa9f-f3a1-4505-b63e-6193a62c06b3",
+    "correlation_id": "ef88eba0-460f-4bf6-8375-a92ff93c1420",
+    "subject": "Chyba pri spracovaní",
+    "delivered_at": "2018-05-14T14:50:13.810+02:00"
+  },
+  {
+    "id": 4900160872,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "502ab343-c364-4efd-9101-908d745d3e87",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2018-09-24T20:48:17.900+02:00"
+  },
+  {
+    "id": 4900160873,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "ed31dcb6-6853-4ea9-ae5d-6195320c5c87",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2018-09-24T20:48:20.990+02:00"
+  },
+  {
+    "id": 4901255736,
+    "class": "ED_AUTHORIZE_ERROR",
+    "message_id": "a427acb3-61f3-45d1-93bc-6c069b9e7638",
+    "correlation_id": "3f7e5397-d823-4715-a138-a0127832b184",
+    "subject": "Chyba pri spracovaní",
+    "delivered_at": "2019-09-05T22:08:56.683+02:00"
+  },
+  {
+    "id": 4901255737,
+    "class": "ED_AUTHORIZE_ERROR",
+    "message_id": "5e12841c-e389-495c-8c0e-90161ad32155",
+    "correlation_id": "3f7e5397-d823-4715-a138-a0127832b184",
+    "subject": "Chyba pri spracovaní",
+    "delivered_at": "2019-09-05T22:09:38.553+02:00"
+  },
+  {
+    "id": 4901377989,
+    "class": "ED_AUTHORIZE_ERROR",
+    "message_id": "557ff3be-d726-4a97-b5be-4e8c490eea5c",
+    "correlation_id": "3f7e5397-d823-4715-a138-a0127832b184",
+    "subject": "Chyba pri spracovaní",
+    "delivered_at": "2019-10-22T18:09:46.990+02:00"
+  },
+  {
+    "id": 4901377990,
+    "class": "ED_AUTHORIZE_ERROR",
+    "message_id": "c144bd62-5347-4cce-9311-c36894bb2d2e",
+    "correlation_id": "3f7e5397-d823-4715-a138-a0127832b184",
+    "subject": "Chyba pri spracovaní",
+    "delivered_at": "2019-10-22T18:09:56.163+02:00"
+  },
+  {
+    "id": 4901377991,
+    "class": "ED_AUTHORIZE_ERROR",
+    "message_id": "51b18019-e1e7-4610-b192-f26d057b2fb2",
+    "correlation_id": "3f7e5397-d823-4715-a138-a0127832b184",
+    "subject": "Chyba pri spracovaní",
+    "delivered_at": "2019-10-22T18:14:07.120+02:00"
+  },
+  {
+    "id": 4901377993,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "9d84554c-17d4-4c93-ae84-73de53e7f74b",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2019-10-22T18:14:46.573+02:00"
+  },
+  {
+    "id": 4901377995,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "bd0a4308-83d3-47e7-8ae5-691715652981",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2019-10-22T18:17:56.993+02:00"
+  },
+  {
+    "id": 4901378265,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "d557e9f5-a4f6-4766-8a4a-c27e8c82621f",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2019-10-22T22:44:18.613+02:00"
+  },
+  {
+    "id": 4901378267,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "de43da17-d60b-4dcc-a606-6954bedbeac1",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2019-10-22T22:44:46.513+02:00"
+  },
+  {
+    "id": 4901378269,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "6a26d843-71a7-4931-944b-69f81b9cc80f",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2019-10-22T22:45:28.197+02:00"
+  },
+  {
+    "id": 4901378279,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "afc6ff8a-8b61-4fa8-8c99-898f36f92573",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2019-10-22T23:09:08.060+02:00"
+  },
+  {
+    "id": 4901380236,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "1e0d4593-d348-415e-b219-03625a636079",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2019-10-23T01:24:07.410+02:00"
+  },
+  {
+    "id": 4901380291,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "7792adae-3dfa-4a26-bf1d-c235ca7ee8ca",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2019-10-23T01:41:08.510+02:00"
+  },
+  {
+    "id": 4901380647,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "78a771cc-91db-4cf7-b370-8011adbabe13",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2019-10-23T09:09:44.567+02:00"
+  },
+  {
+    "id": 4901380650,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "9b62d394-8437-4c45-9984-04b16b2f81ca",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2019-10-23T09:11:12.210+02:00"
+  },
+  {
+    "id": 4901380656,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "46b1df55-5ef2-408e-b058-0dc45a0913ec",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2019-10-23T09:13:32.257+02:00"
+  },
+  {
+    "id": 4901380659,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "b2ce1735-c70b-461b-9bfb-afb60dba642a",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2019-10-23T09:14:43.380+02:00"
+  },
+  {
+    "id": 4901380795,
+    "class": "ED_AUTHORIZE_DELIVERY_FINISHED",
+    "message_id": "f37eb6c2-f08c-42d2-a806-d6590eaf6615",
+    "correlation_id": "8a6a31c1-0d54-46c8-aac1-12465162b913",
+    "subject": "Autorizácia doručenej správy",
+    "delivered_at": "2019-10-23T10:38:38.450+02:00"
+  }
+]

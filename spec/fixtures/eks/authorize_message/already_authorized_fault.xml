@@ -1,0 +1,5 @@
+<EDeskFault xmlns="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <Code>MessageNotDeliverable</Code>
+  <MessageId i:nil="true"/>
+  <Reason>Správu ste už prevzali cez elektronickú schránku alebo integrovaný systém, a preto ju nemôžete prevziať opakovane.</Reason>
+</EDeskFault>

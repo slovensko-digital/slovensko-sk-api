@@ -31,6 +31,22 @@ Rails.application.routes.draw do
         post :signatures_info
       end
 
+      namespace :edesk do
+        resources :folders, only: [:index] do
+          resources :messages, only: [:index]
+        end
+
+        resources :messages, only: [:show, :update, :destroy] do
+          collection do
+            get :search
+          end
+
+          member do
+            post :authorize
+          end
+        end
+      end
+      
       namespace :eform do
         get :status
         post :validate

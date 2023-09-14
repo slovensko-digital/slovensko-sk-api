@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DeleteMessageResponse xmlns="http://schemas.gov.sk/edesk/eksService/1">
+  <DeleteMessageResult>true</DeleteMessageResult>
+</DeleteMessageResponse>

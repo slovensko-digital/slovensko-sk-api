@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GetMessageResponse xmlns="http://schemas.gov.sk/edesk/eksService/1">
+  <GetMessageResult xmlns:a="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII.Model" xmlns:i="http://www.w3.org/2001/XMLSchema-instance" i:nil="true"/>
+</GetMessageResponse>

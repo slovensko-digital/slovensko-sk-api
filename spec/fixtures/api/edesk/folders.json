@@ -1,0 +1,26 @@
+[
+  {
+    "id": 20378640,
+    "parent_id": null,
+    "name": "Inbox",
+    "system": true
+  },
+  {
+    "id": 20378641,
+    "parent_id": null,
+    "name": "SentItems",
+    "system": true
+  },
+  {
+    "id": 20378642,
+    "parent_id": null,
+    "name": "Drafts",
+    "system": true
+  },
+  {
+    "id": 25616503,
+    "parent_id": null,
+    "name": "Bin",
+    "system": true
+  }
+]
