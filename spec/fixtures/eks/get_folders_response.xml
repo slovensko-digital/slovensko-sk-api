@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GetFoldersResponse xmlns="http://schemas.gov.sk/edesk/eksService/1">
+  <GetFoldersResult xmlns:a="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII.Model" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+    <a:TotalCount>4</a:TotalCount>
+    <a:Values>
+      <a:Folder>
+        <a:IdFolder>20378640</a:IdFolder>
+        <a:IdFolderParent i:nil="true"/>
+        <a:Name>Inbox</a:Name>
+        <a:SystemFolder>true</a:SystemFolder>
+      </a:Folder>
+      <a:Folder>
+        <a:IdFolder>20378641</a:IdFolder>
+        <a:IdFolderParent i:nil="true"/>
+        <a:Name>SentItems</a:Name>
+        <a:SystemFolder>true</a:SystemFolder>
+      </a:Folder>
+      <a:Folder>
+        <a:IdFolder>20378642</a:IdFolder>
+        <a:IdFolderParent i:nil="true"/>
+        <a:Name>Drafts</a:Name>
+        <a:SystemFolder>true</a:SystemFolder>
+      </a:Folder>
+      <a:Folder>
+        <a:IdFolder>25616503</a:IdFolder>
+        <a:IdFolderParent i:nil="true"/>
+        <a:Name>Bin</a:Name>
+        <a:SystemFolder>true</a:SystemFolder>
+      </a:Folder>
+    </a:Values>
+  </GetFoldersResult>
+</GetFoldersResponse>

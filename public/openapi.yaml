@@ -9,16 +9,18 @@ info:
 
     **Komunitná verzia** (EUPL 1.2 licencia)
     - uskutočniť prihlásenie pomocou ÚPVS (pomocou elektronického občianskeho preukazu) a získať údaje o prihlásenom subjekte,
+    - manipulovať s obsahom el. schránky a preberať poštu do vlastných rúk,
     - podávať podania v mene subjektu, ktorý sa prihlásil cez ÚPVS alebo pomocou technického účtu,
+    - vyhľadávať subjekty (právnické a fyzické osoby) za účelom zasielania správ (dostupné len pre OVM),
     - skontrolovať či je daná správa vo formáte SKTalk validná voči aktuálnej definícii formuláru (podporná funkcia).
 
     **Prémium verzia** (komerčná licencia)
-    - manipulovať s obsahom el. schránky a preberať poštu do vlastných rúk,
     - ukladať záznamy do dlhodobého úložiska registratúrnych záznamov,
     - zverejnovať dokumenty na centrálnej úradnej tabuli (dostupné len pre OVM),
     - podpisovať správy pomocou kvalifikovanej pečate uloženej v úložisku na slovensko.sk,
+    - pridávať kvalifikované časové pečiatky elektronicky podpísaným dokumentom,
     - informatívne overovať podpisy na elektronicky podpísaných dokumentoch,
-    - vyhľadávať subjekty (právnické a fyzické osoby) za účelom zasielania správ (dostupné len pre OVM).
+    - získať informácie o type a forme podpisov elektronicky podpísaných dokumentov.
 
   contact:
     name: Služby Slovensko.Digital, s.r.o.

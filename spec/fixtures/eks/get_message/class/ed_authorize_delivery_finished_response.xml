@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GetMessageResponse xmlns="http://schemas.gov.sk/edesk/eksService/1">
+  <GetMessageResult xmlns:a="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII.Model" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+    <a:Body>&amp;lt;!DOCTYPE html PUBLIC &amp;quot;-//W3C//DTD HTML 4.01 Transitional//EN&amp;quot; &amp;quot;http://www.w3.org/TR/html4/loose.dtd&amp;quot;&amp;gt;&amp;lt;html&amp;gt;&amp;lt;head&amp;gt;&amp;lt;META http-equiv=&amp;quot;Content-Type&amp;quot; content=&amp;quot;text/html; charset=utf-16&amp;quot;&amp;gt;&amp;lt;meta http-equiv=&amp;quot;X-UA-Compatible&amp;quot; content=&amp;quot;IE=9&amp;quot;&amp;gt;&amp;lt;title&amp;gt;Inform&amp;#225;cia pri op&amp;#228;tovnej autoriz&amp;#225;ci&amp;#237; doručenej spr&amp;#225;vy&amp;lt;/title&amp;gt;&amp;lt;meta http-equiv=&amp;quot;Content-Type&amp;quot; content=&amp;quot;text/html; charset=UTF-8&amp;quot;&amp;gt;&amp;lt;meta name=&amp;quot;language&amp;quot; content=&amp;quot;sk-SK&amp;quot;&amp;gt;&amp;lt;style type=&amp;quot;text/css&amp;quot;&amp;gt;
+body {
+  font-family: &amp;#39;Open Sans&amp;#39;, &amp;#39;Segoe UI&amp;#39;, &amp;#39;Trebuchet MS&amp;#39;, &amp;#39;Geneva CE&amp;#39;, lucida, sans-serif;
+  background : #ffffff !important ;
+}
+.ui-tabs {
+  padding: .2em;
+  position: relative;
+  zoom: 1;
+}
+.clear { clear: both; height: 0;}
+.layoutMain {
+  margin: 0px auto;
+  padding: 5px 5px 5px 5px;
+}
+.layoutRow { margin-bottom: 5px; }
+.caption { /*width: 100%; border-bottom: solid 1px black;*/ }
+.nocaption &amp;gt; .caption { border: 0px !important; }
+.nocaption &amp;gt; .caption span {
+  background: none !important;
+  display: none;
+}
+.caption .title { padding-left: 5px; }
+.headercorrection {
+  margin: 0px;
+    font-size : 1em;
+    font-weight: bold;
+}
+.labelVis {
+  float: left;
+  font-weight: bold;
+  font-family: &amp;#39;Open Sans&amp;#39;, &amp;#39;Segoe UI&amp;#39;, &amp;#39;Trebuchet MS&amp;#39;, &amp;#39;Geneva CE&amp;#39;, lucida, sans-serif;
+  line-height: 25px;
+  margin: 0px 18px 0px 0px;
+  padding-left: 3px;
+  width: 190px;
+  word-wrap: break-word;
+    font-size: 0.8em;
+}
+.contentVis {
+  float: left;
+  line-height: 25px;
+  margin: 0px;
+  padding: 0px;
+  vertical-align: top;
+    font-size: 0.75em;
+}
+.wordwrap {
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+}
+.ui-widget-content {
+  background : 50% 50% repeat-x #ffffff;
+  border : #d4d4d4 solid 2px;
+  color : #4f4e4e;
+  border-radius : 3px;
+}
+.ui-widget-header {
+  cursor : pointer;
+  font-size : 0.8em;
+  color : #494949;
+  padding-left : 2px;
+  border : #eae9e8 solid 1px;
+  background-color : #eae9e8;
+  margin-bottom: 3px;
+  border-radius : 3px;
+}
+&amp;lt;/style&amp;gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;&amp;lt;div id=&amp;quot;main&amp;quot; class=&amp;quot;layoutMain&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;layoutRow ui-tabs ui-widget-content&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;caption ui-widget-header&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;headercorrection&amp;quot;&amp;gt;Inform&amp;#225;cia pri op&amp;#228;tovnej autoriz&amp;#225;ci&amp;#237; doručenej spr&amp;#225;vy&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div&amp;gt;&amp;lt;label class=&amp;quot;labelVis&amp;quot;&amp;gt;Identifik&amp;#225;tor spr&amp;#225;vy: &amp;lt;/label&amp;gt;&amp;lt;span class=&amp;quot;contentVis wordwrap&amp;quot;&amp;gt;7acc32dd-1586-4103-8634-ba0707820e2e&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;clear&amp;quot;&amp;gt;&amp;#160;&amp;lt;/div&amp;gt;&amp;lt;div&amp;gt;&amp;lt;label class=&amp;quot;labelVis&amp;quot;&amp;gt;Spr&amp;#225;va: &amp;lt;/label&amp;gt;&amp;lt;span class=&amp;quot;contentVis wordwrap&amp;quot;&amp;gt;Dan&amp;#225; spr&amp;#225;va už bola doručen&amp;#225;&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;clear&amp;quot;&amp;gt;&amp;#160;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;layoutRow ui-tabs ui-widget-content&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;caption ui-widget-header&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;headercorrection&amp;quot;&amp;gt;Stav doručovania&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div&amp;gt;&amp;lt;label class=&amp;quot;labelVis&amp;quot;&amp;gt;Identifik&amp;#225;tor stavu: &amp;lt;/label&amp;gt;&amp;lt;span class=&amp;quot;contentVis wordwrap&amp;quot;&amp;gt;2&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;clear&amp;quot;&amp;gt;&amp;#160;&amp;lt;/div&amp;gt;&amp;lt;div&amp;gt;&amp;lt;label class=&amp;quot;labelVis&amp;quot;&amp;gt;Stav: &amp;lt;/label&amp;gt;&amp;lt;span class=&amp;quot;contentVis wordwrap&amp;quot;&amp;gt;Doručen&amp;#233;&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;clear&amp;quot;&amp;gt;&amp;#160;&amp;lt;/div&amp;gt;&amp;lt;div&amp;gt;&amp;lt;label class=&amp;quot;labelVis&amp;quot;&amp;gt;Čas stavu: &amp;lt;/label&amp;gt;&amp;lt;span class=&amp;quot;contentVis wordwrap&amp;quot;&amp;gt;22.03.2017&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;clear&amp;quot;&amp;gt;&amp;#160;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</a:Body>
+    <a:Class>ED_AUTHORIZE_DELIVERY_FINISHED</a:Class>
+    <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+    <a:DateDelivery>2017-03-22T11:53:19.543</a:DateDelivery>
+    <a:IdMessage>4898662482</a:IdMessage>
+    <a:MessageId>d57b8037-5563-46cf-913d-1dfd4f0f970a</a:MessageId>
+    <a:SkTalk>&lt;SKTalkMessage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://gov.sk/SKTalkMessage">&#xd;
+  &lt;EnvelopeVersion>3.0&lt;/EnvelopeVersion>&#xd;
+  &lt;Header>&#xd;
+    &lt;MessageInfo>&#xd;
+      &lt;Class>ED_AUTHORIZE_DELIVERY_FINISHED&lt;/Class>&#xd;
+      &lt;MessageID>d57b8037-5563-46cf-913d-1dfd4f0f970a&lt;/MessageID>&#xd;
+      &lt;CorrelationID>8a6a31c1-0d54-46c8-aac1-12465162b913&lt;/CorrelationID>&#xd;
+      &lt;ReferenceID>9dbc3976-a0ae-4578-8d43-8e14327eb6ee&lt;/ReferenceID>&#xd;
+      &lt;ChannelInfo>&#xd;
+        &lt;Channel>&#xd;
+          &lt;ChannelInfoURI>ico://sk/83110656&lt;/ChannelInfoURI>&#xd;
+        &lt;/Channel>&#xd;
+      &lt;/ChannelInfo>&#xd;
+    &lt;/MessageInfo>&#xd;
+  &lt;/Header>&#xd;
+  &lt;Body>&#xd;
+    &lt;MessageContainer xmlns="http://schemas.gov.sk/core/MessageContainer/1.0">&#xd;
+      &lt;MessageId>d57b8037-5563-46cf-913d-1dfd4f0f970a&lt;/MessageId>&#xd;
+      &lt;SenderId>ico://sk/00151513_10001&lt;/SenderId>&#xd;
+      &lt;RecipientId>ico://sk/83110656&lt;/RecipientId>&#xd;
+      &lt;MessageType>Autorizácia doručenej správy&lt;/MessageType>&#xd;
+      &lt;MessageSubject>Autorizácia doručenej správy&lt;/MessageSubject>&#xd;
+      &lt;Object Id="40a07cd9-0377-41fc-be08-3742a73bbf59" Class="FORM" MimeType="application/x-eform-xml" Encoding="XML">&#xd;
+        &lt;DeliveryFinished xmlns="http://schemas.gov.sk/form/ED.DeliveryFinished/1.3">&#xd;
+          &lt;MessageID>7acc32dd-1586-4103-8634-ba0707820e2e&lt;/MessageID>&#xd;
+          &lt;DeliveryInformation>Daná správa už bola doručená&lt;/DeliveryInformation>&#xd;
+          &lt;State>&#xd;
+            &lt;Status>2&lt;/Status>&#xd;
+            &lt;StatusText>Doručené&lt;/StatusText>&#xd;
+            &lt;StatusTime>2017-03-22&lt;/StatusTime>&#xd;
+          &lt;/State>&#xd;
+        &lt;/DeliveryFinished>&#xd;
+      &lt;/Object>&#xd;
+    &lt;/MessageContainer>&#xd;
+  &lt;/Body>&#xd;
+&lt;/SKTalkMessage></a:SkTalk>
+    <a:Title>Autorizácia doručenej správy</a:Title>
+  </GetMessageResult>
+</GetMessageResponse>
