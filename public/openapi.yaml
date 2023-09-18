@@ -911,7 +911,7 @@ paths:
       tags: [Podpisovanie]
       summary: Podpíše súbory elektronickou pečaťou
       description:
-        Podpíše súbory kvalifikovanou časovou pečiatkou a overí vstupné dokumenty vočí validátorom dátových objektov.
+        Podpíše súbory elektronickou pečaťou a overí vstupné dokumenty vočí validátorom dátových objektov.
 
         Spracúva viacero skupín objektov v jednom requeste.
         Umožňuje aj spoločne podpisovať viacero nepodpísaných objektov jedným podpisom, pridávať podpis do podpisovej obálky a spoločne podpisovať nepodpísané objekty s už podpísanými objektami z ASiC-E XAdES alebo ASiC-E CAdES jedným podpisom.
