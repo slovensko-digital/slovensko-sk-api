@@ -99,13 +99,13 @@ class EdeskMessageParser
   end
 
   def build_message_from_body(d, m)
-    raise ParseError if d.children.count > 1
+    raise ParseError if d.children.count { |node| node.name == 'MessageContainer' } > 1
 
     d.children.each do |e|
       case e.name
       when 'MessageContainer'
         build_message_from_message_container(e, m)
-      when 'InformationMessage'
+      when 'InformationMessage', 'MetadataContainer'
         # skip
       else
         raise ParseError
