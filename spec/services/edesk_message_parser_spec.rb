@@ -41,6 +41,44 @@ RSpec.describe EdeskMessageParser do
       )
     end
 
+    it 'parses SkTalk structure even if body contains MetadataContainer' do
+      edesk_message = ekr_response('eks/get_message/class/egov_document_response_with_metadata_container.xml').get_message_result.value
+
+      message = subject.parse(edesk_message)
+
+      expect(message).to have_attributes(
+        id: 4906251507,
+        klass: 'EGOV_APPLICATION',
+        message_id: '95ccec13-7298-4e6b-8a08-5bb52a4e973b',
+        correlation_id: '95ccec13-7298-4e6b-8a08-5bb52a4e973b',
+        subject: 'Všeobecná agenda - rozhodnutie do vlastných rúk',
+        original_html: start_with('<!DOCTYPE html'),
+        original_xml: start_with('<SKTalkMessage'),
+        delivered_at: '2023-10-12T17:53:42.747+02:00'.to_time,
+        posp_id: 'Doc.GeneralAgendaReport',
+        posp_version: '1.4',
+        reference_id: '00000000-0000-0000-0000-000000000000',
+        sender_uri: 'ico://sk/83369225',
+        recipient_uri: 'rc://sk/8311577189_tisici_janko',
+        type: 'Doc.GeneralAgendaReport',
+        sender_business_reference: nil,
+        recipient_business_reference: nil,
+        objects: [
+         have_attributes(
+           id: '9c91d6c6-b271-483c-9823-1c665f24dad0',
+           name: 'Všeobecná agenda - Všeobecná agenda - rozhodnutie do vlastných rúk',
+           description: nil,
+           klass: 'FORM',
+           signed: true,
+           mime_type: 'application/vnd.etsi.asic-e+zip',
+           encoding: 'Base64'
+         )
+        ],
+        delivery_notification: nil,
+        parse_error: nil
+      )
+    end
+
     it 'parses delivery report notification message structure' do
       edesk_message = ekr_response('eks/get_message/class/ed_delivery_notification_response.xml').get_message_result.value
 
@@ -149,6 +187,34 @@ RSpec.describe EdeskMessageParser do
         posp_id: nil,
         posp_version: nil,
         reference_id: nil,
+        sender_uri: nil,
+        recipient_uri: nil,
+        type: nil,
+        sender_business_reference: nil,
+        recipient_business_reference: nil,
+        objects: [],
+        delivery_notification: nil,
+        parse_error: kind_of(EdeskMessageParser::ParseError)
+      )
+    end
+
+    it 'parses message structure with extra MessageContainer by marking it with parse error' do
+      edesk_message = ekr_response('eks/get_message/error/egov_document_response_with_two_message_containers.xml').get_message_result.value
+
+      message = subject.parse(edesk_message)
+
+      expect(message).to have_attributes(
+        id: 4906251507,
+        klass: 'EGOV_APPLICATION',
+        message_id: '95ccec13-7298-4e6b-8a08-5bb52a4e973b',
+        correlation_id: '95ccec13-7298-4e6b-8a08-5bb52a4e973b',
+        subject: 'Všeobecná agenda - rozhodnutie do vlastných rúk',
+        original_html: start_with('<!DOCTYPE html'),
+        original_xml: start_with('<SKTalkMessage'),
+        delivered_at: '2023-10-12T17:53:42.747+02:00'.to_time,
+        posp_id: 'Doc.GeneralAgendaReport',
+        posp_version: '1.4',
+        reference_id: '00000000-0000-0000-0000-000000000000',
         sender_uri: nil,
         recipient_uri: nil,
         type: nil,
