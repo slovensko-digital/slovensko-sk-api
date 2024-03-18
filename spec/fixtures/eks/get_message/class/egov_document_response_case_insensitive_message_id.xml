@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GetMessageResponse xmlns="http://schemas.gov.sk/edesk/eksService/1">
+  <GetMessageResult xmlns:a="http://schemas.datacontract.org/2004/07/Anasoft.eDesk.eDeskII.Model" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+    <a:Body>&amp;lt;!DOCTYPE html PUBLIC &amp;quot;-//W3C//DTD HTML 4.01//EN&amp;quot; &amp;quot;http://www.w3.org/TR/html4/strict.dtd&amp;quot;&amp;gt;&amp;lt;html&amp;gt;&amp;lt;head&amp;gt;&amp;lt;META http-equiv=&amp;quot;Content-Type&amp;quot; content=&amp;quot;text/html; charset=utf-16&amp;quot;&amp;gt;&amp;lt;meta http-equiv=&amp;quot;X-UA-Compatible&amp;quot; content=&amp;quot;IE=8&amp;quot;&amp;gt;&amp;lt;title&amp;gt;Všeobecn&amp;#225; agenda - rozhodnutie do vlastn&amp;#253;ch r&amp;#250;k s fikciou doručenia&amp;lt;/title&amp;gt;&amp;lt;meta http-equiv=&amp;quot;Content-Type&amp;quot; content=&amp;quot;text/html; charset=UTF-8&amp;quot;&amp;gt;&amp;lt;meta name=&amp;quot;language&amp;quot; content=&amp;quot;sk-SK&amp;quot;&amp;gt;&amp;lt;style type=&amp;quot;text/css&amp;quot;&amp;gt;
+body {
+  font-family: &amp;#39;Open Sans&amp;#39;, &amp;#39;Segoe UI&amp;#39;, &amp;#39;Trebuchet MS&amp;#39;, &amp;#39;Geneva CE&amp;#39;, lucida, sans-serif;
+  background : #ffffff !important ;
+}
+.ui-tabs {
+  padding: .2em;
+  position: relative;
+  zoom: 1;
+}
+.clear { clear: both; height: 0;}
+.layoutMain {
+  margin: 0px auto;
+  padding: 5px 5px 5px 5px;
+}
+.layoutRow { margin-bottom: 5px; }
+.caption { /*width: 100%; border-bottom: solid 1px black;*/ }
+.nocaption &amp;gt; .caption { border: 0px !important; }
+.nocaption &amp;gt; .caption span {
+  background: none !important;
+  display: none;
+}
+.caption .title { padding-left: 5px; }
+.headercorrection {
+  margin: 0px;
+    font-size : 1em;
+    font-weight: bold;
+}
+.labelVis {
+  float: left;
+  font-weight: bold;
+  font-family: &amp;#39;Open Sans&amp;#39;, &amp;#39;Segoe UI&amp;#39;, &amp;#39;Trebuchet MS&amp;#39;, &amp;#39;Geneva CE&amp;#39;, lucida, sans-serif;
+  line-height: 25px;
+  margin: 0px 18px 0px 0px;
+  padding-left: 3px;
+  width: 190px;
+  word-wrap: break-word;
+    font-size: 0.8em;
+}
+.contentVis {
+  float: left;
+  line-height: 25px;
+  margin: 0px;
+  padding: 0px;
+  vertical-align: top;
+    font-size: 0.75em;
+}
+.wordwrap {
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+}
+.ui-widget-content {
+  background : 50% 50% repeat-x #ffffff;
+  border : #d4d4d4 solid 2px;
+  color : #4f4e4e;
+  border-radius : 3px;
+}
+.ui-widget-header {
+  cursor : pointer;
+  font-size : 0.8em;
+  color : #494949;
+  padding-left : 2px;
+  border : #eae9e8 solid 1px;
+  background-color : #eae9e8;
+  margin-bottom: 3px;
+  border-radius : 3px;
+}
+&amp;lt;/style&amp;gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;&amp;lt;div id=&amp;quot;main&amp;quot; class=&amp;quot;layoutMain&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;layoutRow ui-tabs ui-widget-content&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;caption ui-widget-header&amp;quot;&amp;gt;&amp;lt;div class=&amp;quot;headercorrection&amp;quot;&amp;gt;Všeobecn&amp;#225; agenda - rozhodnutie do vlastn&amp;#253;ch r&amp;#250;k s fikciou doručenia&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div&amp;gt;&amp;lt;label class=&amp;quot;labelVis&amp;quot;&amp;gt;Predmet: &amp;lt;/label&amp;gt;&amp;lt;span class=&amp;quot;contentVis wordwrap&amp;quot;&amp;gt;test1&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;clear&amp;quot;&amp;gt;&amp;#160;&amp;lt;/div&amp;gt;&amp;lt;div&amp;gt;&amp;lt;label class=&amp;quot;labelVis&amp;quot;&amp;gt;Text: &amp;lt;/label&amp;gt;&amp;lt;span class=&amp;quot;contentVis wordwrap&amp;quot;&amp;gt;test&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;quot;clear&amp;quot;&amp;gt;&amp;#160;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</a:Body>
+    <a:Class>EGOV_DOCUMENT</a:Class>
+    <a:CorrelationId>8a6a31c1-0d54-46c8-aac1-12465162b913</a:CorrelationId>
+    <a:DateDelivery>2017-03-22T11:49:43.357</a:DateDelivery>
+    <a:IdMessage>4898662475</a:IdMessage>
+    <a:MessageId>7acc32dd-1586-4103-8634-ba0707820e2e</a:MessageId>
+    <a:SkTalk>&lt;SKTalkMessage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://gov.sk/SKTalkMessage">&#xd;
+  &lt;EnvelopeVersion>3.0&lt;/EnvelopeVersion>&#xd;
+  &lt;Header>&#xd;
+    &lt;MessageInfo>&#xd;
+      &lt;Class>EGOV_DOCUMENT&lt;/Class>&#xd;
+      &lt;PospID>Doc.GeneralAgendaFiction&lt;/PospID>&#xd;
+      &lt;PospVersion>1.5&lt;/PospVersion>&#xd;
+      &lt;MessageID>7acc32dd-1586-4103-8634-ba0707820e2e&lt;/MessageID>&#xd;
+      &lt;CorrelationID>8a6a31c1-0d54-46c8-aac1-12465162b913&lt;/CorrelationID>&#xd;
+      &lt;ReferenceID>00000000-0000-0000-0000-000000000000&lt;/ReferenceID>&#xd;
+      &lt;ChannelInfo />&#xd;
+      &lt;ChannelInfoReply />&#xd;
+    &lt;/MessageInfo>&#xd;
+    &lt;SenderInfo>&#xd;
+      &lt;SecurityMethod>SAML2&lt;/SecurityMethod>&#xd;
+      &lt;SecurityToken>&#xd;
+        &lt;saml:Assertion xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:enc="http://www.w3.org/2001/04/xmlenc#" xmlns:x500="urn:oasis:names:tc:SAML:2.0:profiles:attribute:X500" ID="id-hg7ZybnYBD4HlUjZBgJ5idM78H0-" IssueInstant="2017-03-17T09:52:08Z" Version="2.0">&#xd;
+          &lt;saml:Issuer>idp:sts.upvsfix.gov.sk&lt;/saml:Issuer>&#xd;
+          &lt;dsig:Signature>&#xd;
+            &lt;dsig:SignedInfo>&#xd;
+              &lt;dsig:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />&#xd;
+              &lt;dsig:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />&#xd;
+              &lt;dsig:Reference URI="#id-hg7ZybnYBD4HlUjZBgJ5idM78H0-">&#xd;
+                &lt;dsig:Transforms>&#xd;
+                  &lt;dsig:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />&#xd;
+                  &lt;dsig:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />&#xd;
+                &lt;/dsig:Transforms>&#xd;
+                &lt;dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />&#xd;
+                &lt;dsig:DigestValue>ybnSYzSXXO+h9m9gX5SUqE+/Uxo=&lt;/dsig:DigestValue>&#xd;
+              &lt;/dsig:Reference>&#xd;
+            &lt;/dsig:SignedInfo>&#xd;
+            &lt;dsig:SignatureValue>gLp5he6PCou9a3ijgYQkGeIg9ch4ZV9h2kCPOJl2umMBovrV4sxFtL3N8KQ0NyiSyhEbx52ZfWgsf0s7md8AF6fnBtz0oRJKrjFw4xbewqGaP5WX4BKFSAUXC1hdCSuOAiNuF2igsQ96llu31xwo1sCmFle9uDQD1dCCH0A77/w=&lt;/dsig:SignatureValue>&#xd;
+            &lt;dsig:KeyInfo>&#xd;
+              &lt;dsig:X509Data>&#xd;
+                &lt;dsig:X509Certificate>MIIB8DCCAVmgAwIBAgIBCjANBgkqhkiG9w0BAQQFADAdMRswGQYDVQQDExJpYW0xLnVwdnNmaXgubG9jYWwwHhcNMTMwNjEyMDYxMzQwWhcNMjMwNjEwMDYxMzQwWjAdMRswGQYDVQQDExJpYW0xLnVwdnNmaXgubG9jYWwwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAL4tgBWlI5hlaRD1pYxC6gi9fPhCLzbofKJxTnfgZMrTSDh7VTdh3LvnvbdO9RzfKDjyM6IuSrUJ792yfSvmVokt435DfjLVcgS6YtuEwjapf6mvPWW+Rcix510tJzByo2OnWpEit/8AJ2AQKIPSf9pNyk/r8BImkudPdeGB3tVZAgMBAAGjQDA+MAwGA1UdEwEB/wQCMAAwDwYDVR0PAQH/BAUDAwfYADAdBgNVHQ4EFgQU7xHOPfuetdBr1R0KePkN6d8MQE4wDQYJKoZIhvcNAQEEBQADgYEAR9YrG2ZuK6TjQL19wwkpbgLWV2Au8PavMLdyHSKd0yI8T4cOtLpTCzyIdLg0qTvjO2wSZ2k8/9XUWUzR9MObyfjdZbkgJl+Hedx0ZvDiLHt1OibODAM6anc7KVn1JmYIaFqJoY0sOV8TbR90IPa18t6FTN9LzDe0UPanrPOY00Y=&lt;/dsig:X509Certificate>&#xd;
+              &lt;/dsig:X509Data>&#xd;
+            &lt;/dsig:KeyInfo>&#xd;
+          &lt;/dsig:Signature>&#xd;
+          &lt;saml:Subject>&#xd;
+            &lt;saml:NameID Format="" NameQualifier="UpvsFederatedIdentification">E0000000145&lt;/saml:NameID>&#xd;
+            &lt;saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer" />&#xd;
+          &lt;/saml:Subject>&#xd;
+          &lt;saml:Conditions NotBefore="2017-03-17T09:52:08Z" NotOnOrAfter="2017-03-17T11:52:08Z" />&#xd;
+          &lt;saml:AuthnStatement AuthnInstant="2017-03-17T09:50:00Z" SessionNotOnOrAfter="2017-03-17T10:10:00Z"&gt;&#xd;
+            &lt;saml:AuthnContext>&#xd;
+              &lt;saml:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport&lt;/saml:AuthnContextClassRef>&#xd;
+            &lt;/saml:AuthnContext>&#xd;
+          &lt;/saml:AuthnStatement>&#xd;
+          &lt;saml:AttributeStatement>&#xd;
+            &lt;saml:Attribute Name="Actor.LastName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">Skutočný1145&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="DelegationType" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">0&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="Actor.IdentityType" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">1&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="DerivedFromID" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string" />&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="Actor.FirstName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string"&gt;Emil&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="SubjectIDSector" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">SECTOR_UPVS&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="Subject.FormattedName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">Národná agentúra pre sieťové a elektronické služby: Test --12345678901234567890123456789012345678901234567890123456789012345678901234567890&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="Subject.eDeskStatus" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">DELIVERABLE&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="Actor.UPVSIdentityID" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">3E1D5187-AD58-4A31-B011-CD91156A5595&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="QAALevel" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">1&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="AssertionType" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">OBO&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="SubjectID" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic"&gt;&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">ico://sk/42156424_90000&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="Subject.eDeskRemoteURI" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string" />&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="ActorID" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">rc://sk/7001011145_skutocny1145_emil&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="Subject.IdentityType" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">6&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="Subject.UPVSIdentityID" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">DE240E27-CE92-40D3-805B-1B9432021E7E&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="Actor.PCO" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">2100071216&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="Roles" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_UPVS_IAM_SVC_REVOKEROLEFROMIDENTITY&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_ENOTIFY_EMERGENCY_ALLOWED&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_PK_INFOCONTENT_GESTOR&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_ED_CAN_REQUEST_LOGIN_INFO&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_EFORM_GESTOR&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_SLUZBA_CEP&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_IAM_OCVTK&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_EDEMOKRACIA_EDEM_USER&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_DELEGATION_GESTOR&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_EKOLKY_SUPERVIZOR&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_TECHFORM_IAM_REGISTRATOR_IOM&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_IAM_GESTOR_OJ&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_IAM_IDENTITY_STATUS_CHANGE&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_MDURZ_READER&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_IAM_DELIVERY_EXCEPTION_CHANGE&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_IAM_OVM&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_OID_USER_ACTIVATED&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_EKOLKY_POKLADNIK&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_EFORM_NOTIFY_GESTOR&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_IAM_PROFILE_NOT_CHANGED_YET&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_CEP_SIGN_DOCUMENT&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_CUET_PUBLISHER&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_ENOTIFY_ALLOWED&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_EDESK_VPI&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_MDURZ_WRITER&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_AUTH_RES_LOGINPASSWORD&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_EKOLKY_REFERENT&lt;/saml:AttributeValue>&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">R_IAM_EGOV&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="Subject.FirstName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">Národná agentúra pre sieťové a elektronické služby: Test --12345678901234567890123456789012345678901234567890123456789012345678901234567890&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="Actor.FormattedName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">Emil Skutočný1145&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="Actor.REIdentityId" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string"&gt;822&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="Subject.PCO" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string" />&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="Subject.PreferredLanguage" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">SK&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="Subject.LastName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">Národná agentúra pre sieťové a elektronické služby: Test --12345678901234567890123456789012345678901234567890123456789012345678901234567890&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="Subject.REIdentityId" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">5007595&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="Actor.PreferredLanguage" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">SK&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="ActorIDSector" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">SECTOR_UPVS&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="Subject.Email" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">bla@globaltel.sk&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="Subject.eDeskNumber" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">E0005006660&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="Actor.Username" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">E0000000145&lt;/saml:AttributeValue>&#xd;
+            &lt;/saml:Attribute>&#xd;
+            &lt;saml:Attribute Name="Actor.Email" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">&#xd;
+              &lt;saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string" />&#xd;
+            &lt;/saml:Attribute>&#xd;
+          &lt;/saml:AttributeStatement>&#xd;
+        &lt;/saml:Assertion>&#xd;
+      &lt;/SecurityToken>&#xd;
+      &lt;Identity>&#xd;
+        &lt;Assertions xmlns="http://gov.sk/Iam/SamlAssertions">&#xd;
+          &lt;ActorID>rc://sk/7001011145_skutocny1145_emil&lt;/ActorID>&#xd;
+          &lt;Actor.UPVSIdentityID>3E1D5187-AD58-4A31-B011-CD91156A5595&lt;/Actor.UPVSIdentityID>&#xd;
+          &lt;ActorIDSector>SECTOR_UPVS&lt;/ActorIDSector>&#xd;
+          &lt;Actor.Email />&#xd;
+          &lt;Actor.FormattedName>Emil Skutočný1145&lt;/Actor.FormattedName>&#xd;
+          &lt;Actor.IdentityType>Person&lt;/Actor.IdentityType>&#xd;
+          &lt;Actor.REIdentityId>822&lt;/Actor.REIdentityId>&#xd;
+          &lt;Actor.Username>E0000000145&lt;/Actor.Username>&#xd;
+          &lt;SubjectID>ico://sk/42156424_90000&lt;/SubjectID>&#xd;
+          &lt;Subject.UPVSIdentityID>DE240E27-CE92-40D3-805B-1B9432021E7E&lt;/Subject.UPVSIdentityID>&#xd;
+          &lt;SubjectIDSector>SECTOR_UPVS&lt;/SubjectIDSector>&#xd;
+          &lt;Subject.Email>bla@globaltel.sk&lt;/Subject.Email>&#xd;
+          &lt;Subject.FormattedName>Národná agentúra pre sieťové a elektronické služby: Test --12345678901234567890123456789012345678901234567890123456789012345678901234567890&lt;/Subject.FormattedName>&#xd;
+          &lt;Subject.IdentityType>PublicAdministration&lt;/Subject.IdentityType>&#xd;
+          &lt;Subject.REIdentityId>5007595&lt;/Subject.REIdentityId>&#xd;
+          &lt;Subject.eDeskNumber>E0005006660&lt;/Subject.eDeskNumber>&#xd;
+          &lt;Subject.eDeskRemoteURI />&#xd;
+          &lt;QAAlevel>1_NameAndPassword&lt;/QAAlevel>&#xd;
+          &lt;DelegationType>RepresentationByLaw&lt;/DelegationType>&#xd;
+          &lt;Roles>&#xd;
+            &lt;Role>R_UPVS_IAM_SVC_REVOKEROLEFROMIDENTITY&lt;/Role>&#xd;
+            &lt;Role>R_ENOTIFY_EMERGENCY_ALLOWED&lt;/Role>&#xd;
+            &lt;Role>R_PK_INFOCONTENT_GESTOR&lt;/Role>&#xd;
+            &lt;Role>R_ED_CAN_REQUEST_LOGIN_INFO&lt;/Role>&#xd;
+            &lt;Role>R_EFORM_GESTOR&lt;/Role>&#xd;
+            &lt;Role>R_SLUZBA_CEP&lt;/Role>&#xd;
+            &lt;Role>R_IAM_OCVTK&lt;/Role>&#xd;
+            &lt;Role>R_EDEMOKRACIA_EDEM_USER&lt;/Role>&#xd;
+            &lt;Role>R_DELEGATION_GESTOR&lt;/Role>&#xd;
+            &lt;Role>R_EKOLKY_SUPERVIZOR&lt;/Role>&#xd;
+            &lt;Role>R_TECHFORM_IAM_REGISTRATOR_IOM&lt;/Role>&#xd;
+            &lt;Role>R_IAM_GESTOR_OJ&lt;/Role>&#xd;
+            &lt;Role>R_IAM_IDENTITY_STATUS_CHANGE&lt;/Role>&#xd;
+            &lt;Role>R_MDURZ_READER&lt;/Role>&#xd;
+            &lt;Role>R_IAM_DELIVERY_EXCEPTION_CHANGE&lt;/Role>&#xd;
+            &lt;Role>R_IAM_OVM&lt;/Role>&#xd;
+            &lt;Role>R_OID_USER_ACTIVATED&lt;/Role>&#xd;
+            &lt;Role>R_EKOLKY_POKLADNIK&lt;/Role>&#xd;
+            &lt;Role>R_EFORM_NOTIFY_GESTOR&lt;/Role>&#xd;
+            &lt;Role>R_IAM_PROFILE_NOT_CHANGED_YET&lt;/Role>&#xd;
+            &lt;Role>R_CEP_SIGN_DOCUMENT&lt;/Role>&#xd;
+            &lt;Role>R_CUET_PUBLISHER&lt;/Role>&#xd;
+            &lt;Role>R_ENOTIFY_ALLOWED&lt;/Role>&#xd;
+            &lt;Role>R_EDESK_VPI&lt;/Role>&#xd;
+            &lt;Role>R_MDURZ_WRITER&lt;/Role>&#xd;
+            &lt;Role>R_AUTH_RES_LOGINPASSWORD&lt;/Role>&#xd;
+            &lt;Role>R_EKOLKY_REFERENT&lt;/Role>&#xd;
+            &lt;Role>R_IAM_EGOV&lt;/Role>&#xd;
+          &lt;/Roles>&#xd;
+        &lt;/Assertions>&#xd;
+      &lt;/Identity>&#xd;
+    &lt;/SenderInfo>&#xd;
+  &lt;/Header>&#xd;
+  &lt;Body>&#xd;
+    &lt;MessageContainer xmlns="http://schemas.gov.sk/core/MessageContainer/1.0">&#xd;
+      &lt;MessageId>7ACC32DD-1586-4103-8634-BA0707820E2E&lt;/MessageId>&#xd;
+      &lt;SenderId>ico://sk/42156424_90000&lt;/SenderId>&#xd;
+      &lt;RecipientId>ico://sk/83110656&lt;/RecipientId>&#xd;
+      &lt;MessageType>Doc.GeneralAgendaFiction&lt;/MessageType>&#xd;
+      &lt;MessageSubject>Všeobecná agenda - rozhodnutie do vlastných rúk s fikciou doručenia&lt;/MessageSubject>&#xd;
+      &lt;SenderBusinessReference />&#xd;
+      &lt;RecipientBusinessReference />&#xd;
+      &lt;Object Id="a8529890-258c-4be8-8a71-28a66e523730" Name="Všeobecná agenda - Všeobecná agenda - rozhodnutie do vlastných rúk s fikciou doručenia" Description="" Class="FORM" IsSigned="false" MimeType="application/x-eform-xml" Encoding="XML"&gt;&#xd;
+        &lt;GeneralAgenda xmlns="http://schemas.gov.sk/form/Doc.GeneralAgendaFiction/1.5">&#xd;
+          &lt;subject>test1&lt;/subject>&#xd;
+          &lt;text>test&lt;/text>&#xd;
+        &lt;/GeneralAgenda>&#xd;
+      &lt;/Object>&#xd;
+    &lt;/MessageContainer>&#xd;
+  &lt;/Body>&#xd;
+&lt;/SKTalkMessage></a:SkTalk>
+    <a:Title>Všeobecná agenda - rozhodnutie do vlastných rúk s fikciou doručenia</a:Title>
+  </GetMessageResult>
+</GetMessageResponse>

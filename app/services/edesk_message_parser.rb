@@ -6,8 +6,8 @@ class EdeskMessageParser
 
     m.id = edesk_message.id_message
     m.klass = edesk_message.clazz.value
-    m.message_id = edesk_message.message_id.value
-    m.correlation_id = edesk_message.correlation_id.value
+    m.message_id = edesk_message.message_id.value&.downcase
+    m.correlation_id = edesk_message.correlation_id.value&.downcase
     m.subject = edesk_message.title.value
     m.original_html = self.class.parse_original_html(edesk_message.body.value)
     m.original_xml = edesk_message.sk_talk.value
@@ -83,9 +83,9 @@ class EdeskMessageParser
       when 'PospVersion'
         m.posp_version = e.content.presence
       when 'MessageID'
-        raise ParseError if e.content != m.message_id
+        raise ParseError if e.content&.downcase != m.message_id
       when 'CorrelationID'
-        raise ParseError if e.content != m.correlation_id
+        raise ParseError if e.content&.downcase != m.correlation_id
       when 'ReferenceID'
         m.reference_id = e.content.presence
       when 'BusinessID'
@@ -117,7 +117,7 @@ class EdeskMessageParser
     d.children.each do |e|
       case e.name
       when 'MessageId'
-        raise ParseError if e.content != m.message_id
+        raise ParseError if e.content&.downcase != m.message_id
       when 'SenderId'
         m.sender_uri = e.content
       when 'RecipientId'
@@ -210,7 +210,7 @@ class EdeskMessageParser
     d.children.each do |e|
       case e.name
       when 'MessageID'
-        c.message_id = e.content
+        c.message_id = e.content&.downcase
       when 'MessageSubject'
         c.message_subject = e.content
       when 'MessageType'
