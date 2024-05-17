@@ -127,7 +127,9 @@ Súbor | Popis | Podpora ÚPVS SSO/ OBO autentifikácie vypnutá
 
 ### 1. Zriadenie prístupu k dokumentácii ÚPVS
 
-Na [stránke NASES](https://www.nases.gov.sk/sluzby/usmernenie-k-integracii/index.html) nájdete formulár na prístup k aktuálnej dokumentácii ÚPVS. Odporúčame si prístup zriadiť, kedže sa na [partner framework portáli](https://kp.gov.sk/pf/default.aspx), okrem dokumentácie, nachádzajú aj informácie o plánovaných odstávkach a ďalšom rozvoji ÚPVS.
+Pokyny k žiadosti o zriadenie prístupu je možné nájsť iba v častých otázkach na [stránke NASES](https://www.nases.gov.sk/sluzby/sluzby-pre-po-a-ovm/integracie) v otázke `Kde získam prístup do Partner Framework Portálu?`. Samotnú žiadosť je možné nájsť iba vyhľadávaním na internete. V čase písania návodu je platný [tento link](https://www.nases.gov.sk/files/public/2023-08/Web-Registracny-formular-na-PFP_v1.3.docx).
+
+Odporúčame si prístup zriadiť, kedže sa na [partner framework portáli](https://kp.gov.sk/pf/default.aspx), okrem dokumentácie, nachádzajú aj informácie o plánovaných odstávkach a ďalšom rozvoji ÚPVS.
 
 ### 2. Zaslanie a podpis dohody o integračnom zámere (DIZ)
 
@@ -135,11 +137,11 @@ Je potrebné si zvoliť skratku projektu, ktorá sa bude používať pre účely
 
 Stiahnite si šablónu dohody o integračnom zámere z [partner framework portálu](https://kp.gov.sk/pf/default.aspx) a upravte podľa potreby. **Pozor**, treba sa uistiť, že používate **aktuálnu šablónu** NASES, pretože tie sa v čase menia.
 
-Tento dokument následne premenujte na `DIZ_PO_{project}_v1.docx`, kde reťazec `{project}` nahraďte skratkou Vášho projektu a priložte ako prílohu k emailu:
+Do názvu súboru doplňte skratku Vášho projektu, IČO Konzumenta a DIZ vo formáte Microsoft Word priložte ako prílohu k emailu:
 
-> Adresát: integracie@globaltel.sk, integracie@nases.gov.sk
+> Adresát: integracie@nases.gov.sk
 >
-> Predmet: **{project}** – FIX – DIZ – Požiadavka – Revízia dohody o integračnom zámere – TYP PO – v1
+> Predmet: **{project}** – FIX – DIZ – Žiadosť – Revízia dohody o integračnom zámere – v1
 >
 > Dobrý deň,
 >
@@ -149,28 +151,27 @@ Tento dokument následne premenujte na `DIZ_PO_{project}_v1.docx`, kde reťazec 
 > 
 > Ďakujem.
 
-Po schválení DIZ je potrebné DIZ vytlačiť 4x, podpísať a zaslať poštou (alebo osobne doručiť) do NASES na adresu:
+Po schválení DIZ je potrebné DIZ vytlačiť 3x, podpísať a zaslať poštou (alebo osobne doručiť) do NASES na adresu:
 
 Národná agentúra pre sieťové a elektronické služby
-BC Omnipolis
-Trnavská cesta 100/II
-821 01 Bratislava
 
-### 3. Vytvorenie identít a zriadenie prístupov do FIX prostredia
+Tower 115
 
-TODO
+Pribinova 4195/25
 
-### 4. Žiadosť o vytvorenie infraštruktúrneho prepojenia
+811 09 Bratislava
 
-Požiadajte o vytvorenie infraštruktúrneho prepojenia emailom:
+### 3. Žiadosť o vytvorenie infraštruktúrneho prepojenia
 
-> Adresát: integracie@globaltel.sk, integracie@nases.gov.sk
+Požiadajte o vytvorenie infraštruktúrneho prepojenia emailom (do textu doplňte názov projektu a vyberte jednu z možností Govnet/Internet):
+
+> Adresát: integracie@nases.gov.sk
 > 
-> Predmet: **{project}** - FIX/PROD - INFRA - Požiadavka - Pridelenie adresného rozsahu
+> Predmet: **{project}** - FIX/PROD - INFRA - Žiadosť - Pridelenie adresného rozsahu
 > 
 > Dobrý deň,
 > 
-> týmto žiadam o pridelenie adresného rozsahu pre tunel do FIX/PROD prostredia a zaslanie potrebného XLS pre špecifikáciu komunikácie.
+> týmto žiadam pre projekt {projekt} - {nazov-projektu} o pridelenie adresného rozsahu pre tunel do FIX prostredia a zaslanie potrebného XLS pre špecifikáciu komunikácie. Komunikácia bude prebiehať cez Govnet / Internet.
 >
 > Ďakujem.
 
@@ -187,31 +188,27 @@ NASES Vám zašle naspäť XLS dokument, ktorý bude treba doplniť nasledovne:
 
 Doplnený XLS dokument priložte ako prílohu k emailu:
 
-> Adresát: integracie@globaltel.sk, integracie@nases.gov.sk
+> Adresát: integracie@nases.gov.sk
 > 
-> Predmet:  **{project}** - FIX/PROD - INFRA - Požiadavka - Vytvorenie infraštruktúrneho prepojenia
+> Predmet:  **{project}** - FIX/PROD - INFRA - Žiadosť - Vytvorenie infraštruktúrneho prepojenia
 > 
 > Dobrý deň,
 > 
-> týmto žiadam o zriadenie tunela do FIX/PROD prostredia. Vyplnenú konfiguráciu posielam v prílohe.
+> týmto žiadam o zriadenie tunela do FIX prostredia. Vyplnenú konfiguráciu posielam v prílohe.
 >
 > Ďakujem.
 
-### 5. Vytvorenie infraštruktúrneho prepojenia
-
-TODO
-
-### 6. Vytvorenie identít a zriadenie prístupov do FIX prostredia
+### 4. Vytvorenie identít a zriadenie prístupov do FIX prostredia
 
 Požiadajte o vytvorenie identít emailom:
 
-> Adresát: integracie@globaltel.sk, integracie@nases.gov.sk
+> Adresát: integracie@nases.gov.sk
 >
 > Predmet: **{project}** - FIX - IAM - Žiadosť - Zriadenie identít a zastupovanie
 > 
 > Dobrý deň,
 > 
-> týmto žiadam zriadenie testovacích identít 4x FO, 2x PO a 2x OVM a zároveň nastavenie splnomocnenia, kde prvé dve FO budú zastupovať PO a druhé dve FO budú zastupovať OVM.
+> týmto žiadam o vytvorenie testovacích identít 4x FO, 2x PO a 2x OVM, pričom prvé dve FO zastupujú PO a druhé dve FO zastupujú OVM.
 > 
 > Ďakujem.
 
@@ -225,15 +222,15 @@ Vygenerované certifikáty je následne potrebné zaregistrovať vyplnením form
 
 #### CEP
 
-Ak potrebujete podporu pre podpisovanie podaní, požiadajte o pridelenie testovacieho KSC emailom: 
+Ak potrebujete podporu pre podpisovanie podaní, požiadajte o pridelenie testovacieho KSC emailom, ku ktorému je potrebné priložiť vyplnenú žiadosť, ktorú nájdete v dokumente "Všeobecný popis integrácie" dostupnom na PFP: 
 
-> Adresát: integracie@globaltel.sk, integracie@nases.gov.sk
+> Adresát: spravapki@nases.gov.sk
 >
-> Predmet: **{project}** - FIX - CEP - Žiadosť - Pridelenie testovacieho KSC
+> Predmet: **{project}** - FIX - CEP - Žiadosť - Vytvorenie a registrácia testovacieho KSC
 > 
 > Dobrý deň,
 >
-> týmto žiadam o pridelenie testovacieho KSC pre PO s IČO {cin}.
+> týmto zasielam žiadosť o vytvorenie a registráciu testovacieho KSC. Detailné informácie k certifikátu zasielam v prílohe.
 > 
 > Ďakujem.
 
@@ -243,18 +240,56 @@ Ak potrebujete podporu pre autentifikáciu cez ÚPVS SSO, podobne vygenerujte SP
 
 Vygenerované metadáta je následne potrebné zaregistrovať vyplnením formuláru *Registrácia poskytovateľa služieb* v časti [*Môj profil – Technické účty a certifikáty*](https://portal.upvsfixnew.gov.sk/sk/moj-profil/technicke-ucty-a-certifikaty), ktorý je dostupný po prihlásení testovacej identity (FO) na [ÚPVS portál](https://portal.upvsfixnew.gov.sk) v zastúpení testovacej identity (PO alebo OVM), pre ktorú bude registrácia príslušných metadát vykonávaná, pozri [Návod na využívanie služieb centrálneho registra SP metadát](https://www.slovensko.sk/_img/CMS4/Navody/navod_poskytovatelia_sluzieb.pdf).
 
-### 7. Vykonanie akceptačného testovania (UAT) vo FIX prostredí
+### 5. Vytvorenie infraštruktúrneho prepojenia a nasadenie komponentu
+
+Na základe konfigurácie tunela a infraštruktúrenho prepojenie je potrebné adekvátne tomu nastaviť sieťovú infraštruktúru. Ak sa váš server pripája k ÚPVS prostredníctvom IPSec tunela a nenachádza sa fyzicky v požadovanej podsieti, je potrebné nejakým spôsobom simulovať `source_ip` odchádzajúcich requestov - napríklad pomocou [HAProxy](https://www.haproxy.org/).
+
+Pokyny k nasadneiu nášho komponentu sa nachádzajú na začiatku tohto dokumentu.
+
+### 6. Vykonanie akceptačného testovania (UAT) vo FIX prostredí
 
 Stiahnite si šablónu akceptačného protokolu z [partner framework portálu](https://kp.gov.sk/pf/default.aspx) a upravte podľa potreby. **Pozor**, treba sa uistiť, že používate **aktuálnu šablónu** NASES, pretože tie sa v čase menia.
+Testovanie je potrebné zrealizovať na FIX prostredí s využitím na FIX registrovaných integračných artefaktov a identít. Test cases v UAT dokumente musia obsahovať payloady volaní a taktiež relevantné screenshoty.
 
-TODO
+Do názvu súboru doplňte skratku Vášho projektu, IČO Konzumenta a UAT protokol vo formáte Microsoft Word priložte ako prílohu k emailu:
 
-### 8. Zriadenie prístupov do PROD prostredia
+> Adresát: integracie@nases.gov.sk
+>
+> Predmet: **{project}** – FIX – UAT – Žiadosť – Revízia akceptačného protokolu
+>
+> Dobrý deň,
+>
+> zasielam vypracovaný akceptačný protokol (v prílohe) na revíziu.
+>
+> Prosím o potvrdenie, že žiadosť ste zaevidovali.
+>
+> Ďakujem.
 
-TODO
 
-### 9. Vykonanie akceptačného testovania (UAT) v PROD prostredí
+Po schválení UAT je potrebné UAT vytlačiť 3x, podpísať a zaslať poštou (alebo osobne doručiť) do NASES na adresu:
 
-Ak potrebujete podporu pre autentifikáciu cez ÚPVS SSO, budete vyzvaní na vykonanie UAT aj v PROD prostredí.  
+Národná agentúra pre sieťové a elektronické služby
 
-TODO
+Tower 115
+
+Pribinova 4195/25
+
+811 09 Bratislava
+
+### 7. Zriadenie prístupov do PROD prostredia
+
+Pre prechod do produkčného prostredia je potrebné požiadať o otvorenie infraštruktúrneho tunela pre PROD. Žiadosť je potrebné mailom zaslať nasledovne:
+
+> Adresát: integracie@nases.gov.sk
+>
+> Predmet: **{project}** – PROD – INFRA – Žiadosť – Sprístupnenie tunela v PROD
+>
+> Dobrý deň,
+>
+> týmto žiadam pre projekt {projekt} - {názov-projektu} o sprístupnenie tunela do PROD prostredia. Infraštruktúrnu maticu posielam v prílohe.
+>
+> Ďakujem.
+
+Do prílohy, priložte inframaticu z bodu 3 doplnenú o PROD endpointy, ktoré musia byť v súlade so službami uvedenými v DIZ a riadne otestovanými v UAT protokole.
+
+Následne bude potrebné zaregistrovať technický účet a v prípade využívania ÚPVS SSO aj metadáta Service Providera.
