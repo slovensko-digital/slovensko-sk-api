@@ -4,13 +4,14 @@ ruby '2.6.8', engine: 'jruby', engine_version: '9.3.9.0'
 
 gem 'rails', '~> 5.2.6'
 gem 'tzinfo-data', platforms: [:jruby]
-gem 'puma'
+gem 'puma', '~> 6.3.1'
 
 # Drivers
 gem 'activerecord-jdbcpostgresql-adapter'
 gem 'redis'
 
 # Security
+gem 'ruby-saml', '~> 1.17'
 gem 'omniauth-saml', '~> 1.10' # TODO unlock this once https://sluzbyslovenskodigital.atlassian.net/browse/API-103 is resolved
 gem 'jwt'
 
