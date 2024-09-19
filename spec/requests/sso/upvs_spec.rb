@@ -6,7 +6,7 @@ RSpec.describe 'UPVS SSO' do
   end
 
   def mock_idp_response(response)
-    OmniAuth.config.add_mock(:saml, extra: { response_object: OneLogin::RubySaml::Response.new(response) })
+    OmniAuth.config.add_mock(:saml, extra: { response_object: OneLogin::RubySaml::Response.new(response, {skip_conditions: true}) })
   end
 
   before do
@@ -52,7 +52,7 @@ RSpec.describe 'UPVS SSO' do
       end
 
       context 'with invalid response' do
-        let(:idp_response) { 'INVALID' }
+        let(:idp_response) { '<invalid/>' }
 
         before(:example) { mock_idp_response(idp_response) }
 

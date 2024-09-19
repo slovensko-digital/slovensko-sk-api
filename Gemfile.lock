@@ -140,7 +140,7 @@ GEM
       spoon (~> 0.0)
     pry-rails (0.3.9)
       pry (>= 0.10.4)
-    puma (6.0.2-java)
+    puma (6.3.1-java)
       nio4r (~> 2.0)
     racc (1.6.2-java)
     rack (2.2.6.2)
@@ -178,7 +178,7 @@ GEM
       redis-client (>= 0.9.0)
     redis-client (0.12.1)
       connection_pool
-    rexml (3.2.5)
+    rexml (3.3.7)
     rspec-core (3.12.0)
       rspec-support (~> 3.12.0)
     rspec-expectations (3.12.2)
@@ -196,7 +196,7 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.12.0)
-    ruby-saml (1.15.0)
+    ruby-saml (1.17.0)
       nokogiri (>= 1.13.10)
       rexml
     ruby2_keywords (0.0.5)
@@ -248,10 +248,11 @@ DEPENDENCIES
   nokogiri
   omniauth-saml (~> 1.10)
   pry-rails
-  puma
+  puma (~> 6.3.1)
   rails (~> 5.2.6)
   redis
   rspec-rails
+  ruby-saml (~> 1.17)
   rubyzip
   super_diff
   tzinfo-data
