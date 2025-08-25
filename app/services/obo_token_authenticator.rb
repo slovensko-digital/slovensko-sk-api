@@ -149,7 +149,9 @@ class OboTokenAuthenticator
       attributes: {
         'IssueInstant' => document.root.attributes['IssueInstant'],
         'SubjectID' => REXML::XPath.first(document, '//*[@Name="SubjectID"]/saml:AttributeValue/text()'),
-        'Subject.FormattedName' => REXML::XPath.first(document, '//*[@Name="Subject.FormattedName"]/saml:AttributeValue/text()')
+        'Subject.FormattedName' => REXML::XPath.first(document, '//*[@Name="Subject.FormattedName"]/saml:AttributeValue/text()'),
+        'ActorID' => REXML::XPath.first(document, '//*[@Name="ActorID"]/saml:AttributeValue/text()'),
+        'Actor.FormattedName' => REXML::XPath.first(document, '//*[@Name="Actor.FormattedName"]/saml:AttributeValue/text()')
       },
       document: document,
       decrypted_document: nil,
