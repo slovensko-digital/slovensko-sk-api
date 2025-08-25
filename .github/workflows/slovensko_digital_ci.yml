@@ -34,7 +34,7 @@ jobs:
         with:
           java-version: 17
           distribution: 'adopt'
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: ~/.m2
           key: ${{hashFiles('lib/upvs/pom.xml')}}
