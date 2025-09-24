@@ -2,7 +2,7 @@ openapi: 3.0.0
 
 info:
   title: slovensko.sk API
-  version: 3.7.4 (Komunitná verzia) 8.8.4 (Prémium verzia)
+  version: 3.8.0 (Komunitná verzia) 8.9.0 (Prémium verzia)
 
   description: |
     slovensko.sk API je proxy REST API komponent k službám www.slovensko.sk (Ústredný portál verejnej správy – ÚPVS), pomocou ktorých je možné:
@@ -4576,6 +4576,7 @@ components:
         - má nastavenú `cty` header na hodnotu `JWT`,
         - má nastavený `exp` claim na čas expirácie, ktorý vyprší o 5 minút alebo skôr od vytvorenia tokenu,
         - má nastavený `jti` claim na identifikátor, ktorý je unikátny počas 5 minút,
+        - môže mať nastavený identifikátor `sub`, ktorý reprezentuje ÚPVS identitu, pre ktorú existuje zaregistrovaný certifikát s týmto identifikátorom,
         - má nastavený `obo` claim na hodnotu OBO tokenu, ktorý je získaný po úspešnom prihlásení.
 
         Príklad `header` segmentu:
@@ -4590,6 +4591,7 @@ components:
               {
                 "exp": 1543437976,
                 "jti": "4dee8618-abbe-4dc3-83ba-e984d1396f9f",
+                "sub": "iscep_00956852_10236",
                 "obo": "eyJhbGciOiJIUzI1NiJ9 ..."
               }
 
@@ -4604,6 +4606,7 @@ components:
         - hodnota `exp` sa kontroluje ako počet sekúnd od 1970-01-01T00:00:00 UTC,
         - hodnota `jti` sa kontroluje podľa regulárneho výrazu `/\A[0-9a-z\-_]{32,256}\z/i`,
         - rovnaké `jti` sa nesmie použiť viac ako jedenkrát počas 5 minút.
+        - hodnota nepovinného atribútu `sub` reprezentuje OBO proxy subject (ak atribút nie je prítomný, použije sa hodnota ENV premennej `SSO_PROXY_SUBJECT`).
 
       type: http
       scheme: bearer
