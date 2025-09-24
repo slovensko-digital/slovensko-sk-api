@@ -36,10 +36,10 @@ class ApiTokenAuthenticator
       raise JWT::DecodeError unless obo_token_support?
       raise JWT::InvalidPayload unless allow_obo_token
       raise JWT::InvalidPayload if cty != 'JWT'
-      raise JWT::InvalidPayload if sub
 
       begin
-        sub, obo = @obo_token_authenticator.verify_token(obo, scope: require_obo_token_scope, verify_expiration: verify_obo_expiration)
+        proxy_sub, obo = @obo_token_authenticator.verify_token(obo, scope: require_obo_token_scope, verify_expiration: verify_obo_expiration)
+        sub ||= proxy_sub
       rescue JWT::DecodeError
         raise JWT::InvalidPayload, :obo
       end

@@ -567,9 +567,9 @@ RSpec.describe ApiTokenAuthenticator do
         expect { subject.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::InvalidPayload)
       end
 
-      it 'verifies SUB claim absence' do
+      it 'SUB claim presence does not raise error' do
         token = generate_token(sub: 'CIN-11190868')
-        expect { subject.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::InvalidPayload)
+        expect { subject.verify_token(token, allow_obo_token: true) }.not_to raise_error
       end
 
       it 'verifies EXP claim presence' do

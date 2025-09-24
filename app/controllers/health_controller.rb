@@ -10,7 +10,7 @@ class HealthController < ApiController
     status = :ok
     health = {
       description: 'slovensko.sk API',
-      version: '3.7.4',
+      version: '3.8.0',
       status: 'pass',
       checks: {
         'environment:variables' => environment_variables,
