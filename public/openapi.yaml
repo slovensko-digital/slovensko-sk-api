@@ -2,7 +2,7 @@ openapi: 3.0.0
 
 info:
   title: slovensko.sk API
-  version: 3.8.0 (Komunitná verzia) 8.9.0 (Prémium verzia)
+  version: 3.8.1 (Komunitná verzia) 8.9.1 (Prémium verzia)
 
   description: |
     slovensko.sk API je proxy REST API komponent k službám www.slovensko.sk (Ústredný portál verejnej správy – ÚPVS), pomocou ktorých je možné:
@@ -214,7 +214,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UpvsNaturalPerson'
+                oneOf:
+                  - $ref: '#/components/schemas/UpvsNaturalPerson'
+                  - $ref: '#/components/schemas/UpvsCorporateBody'
       security:
         - 'API + OBO Token': []
 
