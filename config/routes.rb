@@ -56,6 +56,7 @@ Rails.application.routes.draw do
       namespace :iam do
         resources :identities, only: [:show] do
           collection do
+            get :show, path: ''
             post :search
           end
         end
