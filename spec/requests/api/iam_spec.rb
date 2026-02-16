@@ -22,6 +22,92 @@ RSpec.describe 'IAM API' do
       expect(response.object).to eq(JSON.parse(file_fixture('api/iam/identity.json').read, symbolize_names: true))
     end
 
+    it 'returns identity with optional query parameters' do
+      expect(upvs.iam).to receive(:get_identity).with(
+        satisfy do |request|
+          request.identity_id == '6d9dc77b-70ed-432f-abaa-5de8753c967c' &&
+          request.personal_identification_number == '1234567890' &&
+          request.given_name == 'John' &&
+          request.family_name == 'Doe' &&
+          request.company_registration_number == '12345678'
+        end
+      ).and_return(iam_response('iam/get_identity_response.xml'))
+
+      get '/api/iam/identities/6d9dc77b-70ed-432f-abaa-5de8753c967c',
+          headers: headers,
+          params: {
+            personal_identification_number: '1234567890',
+            given_name: 'John',
+            family_name: 'Doe',
+            company_registration_number: '12345678'
+          }
+
+      expect(response.status).to eq(200)
+      expect(response.object).to eq(JSON.parse(file_fixture('api/iam/identity.json').read, symbolize_names: true))
+    end
+
+    it 'returns identity when searching by personal info without id' do
+      expect(upvs.iam).to receive(:get_identity).with(
+        satisfy do |request|
+          request.identity_id.nil? &&
+          request.personal_identification_number == '1234567890' &&
+          request.given_name == 'John' &&
+          request.family_name == 'Doe'
+        end
+      ).and_return(iam_response('iam/get_identity_response.xml'))
+
+      get '/api/iam/identities/',
+          headers: headers,
+          params: {
+            personal_identification_number: '1234567890',
+            given_name: 'John',
+            family_name: 'Doe'
+          }
+
+      expect(response.status).to eq(200)
+      expect(response.object).to eq(JSON.parse(file_fixture('api/iam/identity.json').read, symbolize_names: true))
+    end
+
+    it 'returns identity when searching by company registration number only' do
+      expect(upvs.iam).to receive(:get_identity).with(
+        satisfy do |request|
+          request.identity_id.nil? &&
+          request.company_registration_number == '12345678' &&
+          request.personal_identification_number.nil? &&
+          request.given_name.nil? &&
+          request.family_name.nil?
+        end
+      ).and_return(iam_response('iam/get_identity_response.xml'))
+
+      get '/api/iam/identities/',
+          headers: headers,
+          params: {
+            company_registration_number: '12345678'
+          }
+
+      expect(response.status).to eq(200)
+      expect(response.object).to eq(JSON.parse(file_fixture('api/iam/identity.json').read, symbolize_names: true))
+    end
+
+    it 'responds with 400 if no valid search parameters are provided' do
+      get '/api/iam/identities/', headers: headers
+
+      expect(response.status).to eq(400)
+      expect(response.object[:message]).to include('Either id, company_registration_number')
+    end
+
+    it 'responds with 400 if only partial personal info is provided' do
+      get '/api/iam/identities/',
+          headers: headers,
+          params: {
+            personal_identification_number: '1234567890',
+            given_name: 'John'
+          }
+
+      expect(response.status).to eq(400)
+      expect(response.object[:message]).to include('Either id, company_registration_number')
+    end
+
     include_examples 'API request media types', get: '/api/iam/identities/6d9dc77b-70ed-432f-abaa-5de8753c967c', accept: 'application/json'
     include_examples 'API request authentication', get: '/api/iam/identities/6d9dc77b-70ed-432f-abaa-5de8753c967c', allow_sub: true
 
