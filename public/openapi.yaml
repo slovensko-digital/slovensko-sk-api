@@ -1951,12 +1951,72 @@ paths:
       security:
         - 'API Token': []
 
+  /api/iam/identities:
+    get:
+      tags: [Vyhľadávanie identít (dostupné len pre OVM)]
+      summary: Vráti identitu podľa osobných údajov alebo IČO
+      description: |
+        Vráti identitu na základe osobných údajov alebo IČO.
+
+        Možné spôsoby vyhľadávania:
+        - IČO (company_registration_number) samostatne, alebo
+        - Všetky tri parametre spoločne: rodné číslo (personal_identification_number), krstné meno (given_name) a priezvisko (family_name)
+
+        Pozor, volanie je dostupné len pre OVM.
+      parameters:
+        - name: personal_identification_number
+          in: query
+          required: false
+          description: Rodné číslo fyzickej osoby. Vyžadované spolu s given_name a family_name, ak nie je poskytnuté company_registration_number.
+          schema:
+            type: string
+            example: '1234567890'
+        - name: given_name
+          in: query
+          required: false
+          description: Krstné meno fyzickej osoby. Vyžadované spolu s personal_identification_number a family_name, ak nie je poskytnuté company_registration_number.
+          schema:
+            type: string
+            example: 'Ján'
+        - name: family_name
+          in: query
+          required: false
+          description: Priezvisko fyzickej osoby. Vyžadované spolu s personal_identification_number a given_name, ak nie je poskytnuté company_registration_number.
+          schema:
+            type: string
+            example: 'Novák'
+        - name: company_registration_number
+          in: query
+          required: false
+          description: IČO právnickej osoby. Môže byť použité samostatne na vyhľadávanie.
+          schema:
+            type: string
+            example: '12345678'
+      responses:
+        200:
+          description: Úspešne vrátená identita.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/UpvsCorporateBody'
+                  - $ref: '#/components/schemas/UpvsNaturalPerson'
+              examples:
+                'Právnická osoba':
+                  value:
+                    $ref: '#/components/schemas/UpvsCorporateBody/example'
+                'Fyzická osoba':
+                  value:
+                    $ref: '#/components/schemas/UpvsNaturalPerson/example'
+      security:
+        - 'API Token': []
+
   /api/iam/identities/{id}:
     get:
       tags: [Vyhľadávanie identít (dostupné len pre OVM)]
-      summary: Vráti identitu
+      summary: Vráti identitu podľa ID
       description: |
-        Vráti identitu.
+        Vráti identitu na základe ID identity.
 
         Pozor, volanie je dostupné len pre OVM.
       parameters:
@@ -1968,6 +2028,34 @@ paths:
             type: string
             format: uuid
             example: 6d9dc77b-70ed-432f-abaa-5de8753c967c
+        - name: personal_identification_number
+          in: query
+          required: false
+          description: Rodné číslo fyzickej osoby (voliteľné, pre dodatočnú validáciu).
+          schema:
+            type: string
+            example: '1234567890'
+        - name: given_name
+          in: query
+          required: false
+          description: Krstné meno fyzickej osoby (voliteľné, pre dodatočnú validáciu).
+          schema:
+            type: string
+            example: 'Ján'
+        - name: family_name
+          in: query
+          required: false
+          description: Priezvisko fyzickej osoby (voliteľné, pre dodatočnú validáciu).
+          schema:
+            type: string
+            example: 'Novák'
+        - name: company_registration_number
+          in: query
+          required: false
+          description: IČO právnickej osoby (voliteľné).
+          schema:
+            type: string
+            example: '12345678'
       responses:
         200:
           description: Úspešne vrátená identita.
