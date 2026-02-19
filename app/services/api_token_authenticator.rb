@@ -40,7 +40,10 @@ class ApiTokenAuthenticator
       begin
         proxy_sub, obo = @obo_token_authenticator.verify_token(obo, scope: require_obo_token_scope, verify_expiration: verify_obo_expiration)
         sub ||= proxy_sub
-      rescue JWT::DecodeError
+      rescue Exception => e
+        Rails.logger.error("Error verifying OBO token: #{e.message}")
+        Rails.logger.error("Backtrace: #{e.backtrace.join("\n")}")
+
         raise JWT::InvalidPayload, :obo
       end
 
