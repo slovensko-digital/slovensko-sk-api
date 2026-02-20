@@ -726,7 +726,7 @@ RSpec.describe ApiTokenAuthenticator do
         let(:identifier_store) { double(:unreachable) }
 
         it 'raises error' do
-          expect { subject.verify_token(generate_token, allow_obo_token: true) }.to raise_error(RuntimeError)
+          expect { subject.verify_token(generate_token, allow_obo_token: true) }.to raise_error(JWT::InvalidPayload)
         end
       end
 
