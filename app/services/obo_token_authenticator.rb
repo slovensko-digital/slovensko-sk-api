@@ -65,7 +65,17 @@ class OboTokenAuthenticator
   end
 
   def verify_token(token, scope: nil, verify_expiration: true)
-    payload, header = JWT.decode(token, @key_pair.public_key, true, DECODE_OPTIONS)
+    Rails.logger.info("OBO token: #{token}\n")
+    Rails.logger.info("OBO token public key: #{@key_pair.public_key.to_s}")
+
+    begin
+      payload, header = JWT.decode(token, @key_pair.public_key, true, DECODE_OPTIONS)
+    rescue Exception => e
+      Rails.logger.error("Error in OboTokenAuthenticator: #{e.message}")
+      Rails.logger.error("Backtrace: #{e.backtrace.join("\n")}")
+
+      raise e
+    end
     exp, nbf, iat, jti = payload['exp'], payload['nbf'], payload['iat'], payload['jti']
 
     raise JWT::InvalidPayload, :exp unless exp.is_a?(Integer)
