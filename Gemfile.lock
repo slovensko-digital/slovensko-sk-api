@@ -95,6 +95,7 @@ GEM
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     jdbc-postgres (42.2.25)
+    jruby-openssl (0.14.4-java)
     jwt (2.6.0)
     listen (3.8.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -243,6 +244,7 @@ DEPENDENCIES
   htmlentities
   i18n (= 1.8.7)
   jbuilder
+  jruby-openssl (= 0.14.4)
   jwt
   listen
   mock_redis
@@ -263,4 +265,4 @@ RUBY VERSION
    ruby 2.6.8p0 (jruby 9.3.15.0)
 
 BUNDLED WITH
-   2.3.26
+   2.4.22
