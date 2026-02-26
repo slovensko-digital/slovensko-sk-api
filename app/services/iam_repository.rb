@@ -3,9 +3,13 @@ class IamRepository
     @upvs = proxy
   end
 
-  def identity(id)
+  def identity(id = nil, personal_identification_number: nil, given_name: nil, family_name: nil, company_registration_number: nil)
     request = factory.create_get_identity_request
-    request.identity_id = id
+    request.identity_id = id if id
+    request.personal_identification_number = personal_identification_number if personal_identification_number
+    request.given_name = given_name if given_name
+    request.family_name = family_name if family_name
+    request.company_registration_number = company_registration_number if company_registration_number
 
     @upvs.iam.get_identity(request).identity_data
   end
