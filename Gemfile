@@ -14,6 +14,7 @@ gem 'redis'
 gem 'ruby-saml', '~> 1.17'
 gem 'omniauth-saml', '~> 1.10' # TODO unlock this once https://sluzbyslovenskodigital.atlassian.net/browse/API-103 is resolved
 gem 'jwt'
+gem 'jruby-openssl', '0.14.4'
 
 # Workers
 gem 'clockwork'

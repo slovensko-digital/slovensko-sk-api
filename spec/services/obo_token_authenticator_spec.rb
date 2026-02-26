@@ -164,6 +164,55 @@ RSpec.describe OboTokenAuthenticator do
       end
     end
 
+    context 'getting OBO public key' do
+      it 'gets valid OBO public key' do
+        private_key = <<KEY
+-----BEGIN PRIVATE KEY-----
+MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDV6tu6c3soJajF
+i7dh2wM+qBfD38a/E2DkL3xn45/iFIg5/3zmij3ebOwilluiaupn8xAHjtlgBjaU
+hojgULO3GaEYWeKhng/0IjRFk+BOliYo8W+TxwW0930ajj7MSLH8/YWws50gtC0B
+11vJJuFxGzi+HNvvIgk945bvcPNBbx3fbM1LKruPKAiGdQuNmeAvRtWEyrPOOpLE
+iW6f0LcrC46opSW2m86WsyLV+K3iRidJgYoKKNNlSNYn1q7ruwVBzKKjj9nxdHQc
+kAXRQ3KSuYoQkoph8xeycKNRnxNOWF93VnuoZySg0F4uclwlcfrU+csa0eXZFRr0
+pIPguHSpAgMBAAECggEBAJ4vyYKsSONcTdyfP+GWAmVACirnfOHpY5n534Y3lhCp
+3D7/Rg55Jd0oMMo249ZMN8DcxfrA0NAoaA4XGnq+UtdQlYcbWPLonqWK8ZqOCq4y
+bE+Ukkz2PKsg5JtRmvCXxT7u/wC3IbeAZVPaPF6YaNeqKKC1WJISWkEw3nl7zfaQ
+6Vo0YzApP93vv4wDWrcP7EI/x/LXB47i+iOAA6EMbhLSn4y+QUmkYgkLvG7ZaSv6
+rhFlUlnm1eC9Rv1xhKZVrxLfRAfOrfaSZrLydeJZWqTgJLmrWYXpFKZi+iYs/sXX
+gdjmuAgBXb9vLaQPD58Ej65bqhT5tMd27juPZ6abKQECgYEA9F7nbcKYTgxKLfK0
+MtWLiJSiI9U3wt2oAawT+2dFidWJjIYsFVnhLOxxbUhOxE+xAecWeZhXCSyAobkL
+dOCMjI9hOsu67T7baa6MMRhrGXBfVG1qI93Y+brQ3tFqyeSiZ5qmiGmzrnXe1OY/
+taEFEdu+I2nnZX3emRgMqFYMtckCgYEA4BjzYyIXbBAWencrvgOrgHvHNqEnOIQ0
++ozrKtCg3FEam+stkAxoKijVk4rVS+WR0Aar+bf38MD0qaqHlH/7182jSzJEgsTM
+iYhUuI6yG+u2amNfZ6Uj3uNOA771ShRR1O7ML1KpOcPIxupjvyCikJV76FgSogfT
+qOFKiHHKt+ECgYBTWEr2VHg9plNmeHCdJdgBLTBfqEjsXUz/xQDLrd05tWrEUr6W
+SaFTARFuhErZCZUFYRt5PUvyBQuaHNKbejp1djFjLDkE0Xtj//QwinN8qabZ1Ldu
+pCtsgRrb4/DYCvKZA1XpEKQHzIvDcQQpnlFsVdXznhsdsmBJNrqabz7GgQKBgGpW
+LJerw6V5dNEj31PI9gZ/taYMjknZIjKJz8V/PfWNXq0ByZsC6CKpQb9DL7dV9fza
+TZyvWS2awf4Id1FV8bETWRsDfVL4A353fIwe2hE5plORV+IckIrhHVHVuRsvzSzX
+K3iBJt/MMWeCLVayK7Gj3SoBMMZGJH+MeAuKw4DBAoGBAOBkJVyqez2njr7Ah74Y
+Ju+xZNapfQWbXT/hKL9hbVS6HYoyVwHqBLsqvp9gpMV7Y6VvZlsKKWxGVDcKktF6
+xNpIapkSGYqR1lMlbo5vOSc5b+bnHNSOoXPBRDWaY+5ujUYMub12YGhf3kM0XYji
+ASaA7F97TnfCTjMQjFZ+si+w
+-----END PRIVATE KEY-----
+KEY
+        public_key = <<KEY
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1erbunN7KCWoxYu3YdsD
+PqgXw9/GvxNg5C98Z+Of4hSIOf985oo93mzsIpZbomrqZ/MQB47ZYAY2lIaI4FCz
+txmhGFnioZ4P9CI0RZPgTpYmKPFvk8cFtPd9Go4+zEix/P2FsLOdILQtAddbySbh
+cRs4vhzb7yIJPeOW73DzQW8d32zNSyq7jygIhnULjZngL0bVhMqzzjqSxIlun9C3
+KwuOqKUltpvOlrMi1fit4kYnSYGKCijTZUjWJ9au67sFQcyio4/Z8XR0HJAF0UNy
+krmKEJKKYfMXsnCjUZ8TTlhfd1Z7qGckoNBeLnJcJXH61PnLGtHl2RUa9KSD4Lh0
+qQIDAQAB
+-----END PUBLIC KEY-----
+KEY
+        key_pair = OpenSSL::PKey::RSA.new(private_key)
+        
+        expect(key_pair.public_key.to_pem).to eq(public_key)
+      end
+    end
+
     context 'assertion store failure' do
       let(:assertion_store) { redis_cache_store_without_connection }
 
