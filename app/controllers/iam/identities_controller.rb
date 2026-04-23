@@ -18,28 +18,26 @@ class Iam::IdentitiesController < ApiController
   end
 
   def lookup
-    query_params = params.permit(
+    permitted_params = params.permit(
       :personal_identification_number,
       :given_name,
       :family_name,
-      :company_registration_number)
+      :company_registration_number
+    ).to_options
 
-    has_company_registration_number = query_params[:company_registration_number].present?
-    has_personal_info = query_params[:personal_identification_number].present? &&
-                        query_params[:given_name].present? &&
-                        query_params[:family_name].present?
+    lookup_params = IdentityLookupParams.new(permitted_params)
 
-    unless has_company_registration_number || has_personal_info
-      render json: { message: 'Either company_registration_number, or all three of personal_identification_number, given_name, and family_name must be provided' }, status: :bad_request
+    unless lookup_params.valid?
+      render json: { message: lookup_params.errors.full_messages.first }, status: :bad_request
       return
     end
 
     @identity = iam_repository(upvs_identity).identity(
       nil,
-      personal_identification_number: query_params[:personal_identification_number],
-      given_name: query_params[:given_name],
-      family_name: query_params[:family_name],
-      company_registration_number: query_params[:company_registration_number]
+      personal_identification_number: lookup_params.personal_identification_number,
+      given_name: lookup_params.given_name,
+      family_name: lookup_params.family_name,
+      company_registration_number: lookup_params.company_registration_number
     )
   end
 
