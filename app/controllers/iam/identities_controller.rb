@@ -12,27 +12,30 @@ class Iam::IdentitiesController < ApiController
   rescue_from(sk.gov.schemas.identity.service._1_7.GetEdeskInfo2Fault) { |error| render_bad_request(:invalid, :query, upvs_fault(error)) }
 
   CODE_LIST_ATTRIBUTES = [:id, :name]
-  
+
   def show
+    @identity = iam_repository(upvs_identity).identity(params[:id])
+  end
+
+  def lookup
     query_params = params.permit(
       :personal_identification_number,
       :given_name,
       :family_name,
       :company_registration_number)
 
-    has_id = params[:id].present?
     has_company_registration_number = query_params[:company_registration_number].present?
     has_personal_info = query_params[:personal_identification_number].present? &&
                         query_params[:given_name].present? &&
                         query_params[:family_name].present?
 
-    unless has_id || has_company_registration_number || has_personal_info
-      render json: { message: 'Either id, company_registration_number, or all three of personal_identification_number, given_name, and family_name must be provided' }, status: :bad_request
+    unless has_company_registration_number || has_personal_info
+      render json: { message: 'Either company_registration_number, or all three of personal_identification_number, given_name, and family_name must be provided' }, status: :bad_request
       return
     end
 
     @identity = iam_repository(upvs_identity).identity(
-      params[:id],
+      nil,
       personal_identification_number: query_params[:personal_identification_number],
       given_name: query_params[:given_name],
       family_name: query_params[:family_name],
