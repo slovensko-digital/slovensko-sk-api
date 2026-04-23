@@ -19,6 +19,6 @@ class IdentityLookupParams
 
     return if has_company_registration_number || has_personal_info
 
-    errors.add(:base, 'Either company_registration_number, or all three of personal_identification_number, given_name, and family_name must be provided')
+    errors.add(:base, :invalid)
   end
 end

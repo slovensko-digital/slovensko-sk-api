@@ -26,11 +26,7 @@ class Iam::IdentitiesController < ApiController
     ).to_options
 
     lookup_params = IdentityLookupParams.new(permitted_params)
-
-    unless lookup_params.valid?
-      render json: { message: lookup_params.errors.full_messages.first }, status: :bad_request
-      return
-    end
+    return render_bad_request(:invalid, :query) if lookup_params.invalid?
 
     @identity = iam_repository(upvs_identity).identity(
       nil,

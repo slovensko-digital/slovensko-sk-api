@@ -127,7 +127,7 @@ RSpec.describe 'IAM API' do
       get '/api/iam/identities/lookup', headers: headers
 
       expect(response.status).to eq(400)
-      expect(response.object[:message]).to include('company_registration_number')
+      expect(response.object).to eq(message: 'Invalid query')
     end
 
     it 'responds with 400 if only partial personal info is provided' do
@@ -139,7 +139,7 @@ RSpec.describe 'IAM API' do
           }
 
       expect(response.status).to eq(400)
-      expect(response.object[:message]).to include('company_registration_number')
+      expect(response.object).to eq(message: 'Invalid query')
     end
 
     include_examples 'API request media types', get: '/api/iam/identities/lookup', accept: 'application/json' do
