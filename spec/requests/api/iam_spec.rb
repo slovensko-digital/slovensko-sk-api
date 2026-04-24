@@ -150,6 +150,53 @@ RSpec.describe 'IAM API' do
       let(:params) { { company_registration_number: '12345678' } }
     end
 
+    it 'responds with 400 if IAM raises identifier fault' do
+      expect(upvs.iam).to receive(:get_identity).with(kind_of(sk.gov.schemas.identity.service._1.GetIdentityRequest)).and_raise(iam_get_identity_fault('iam/get_identity/invalid_identifier_fault.xml'))
+
+      get '/api/iam/identities/lookup', headers: headers, params: { company_registration_number: '12345678' }
+
+      expect(response.status).to eq(400)
+      expect(response.object).to eq(message: 'Invalid identity identifier', fault: { code: '00074421', reason: 'Nastala chyba: IDENTITY_ID_FAULT' })
+    end
+
+    it 'responds with 400 if IAM raises IAM fault' do
+      expect(upvs.iam).to receive(:get_identity).with(kind_of(sk.gov.schemas.identity.service._1.GetIdentityRequest)).and_raise(iam_get_identity_fault('iam/get_identity/undefined_fault.xml'))
+
+      get '/api/iam/identities/lookup', headers: headers, params: { company_registration_number: '12345678' }
+
+      expect(response.status).to eq(400)
+      expect(response.object).to eq(message: 'Invalid identity identifier', fault: { code: '00000000', reason: 'Nedefinovaná chyba!' })
+    end
+
+    it 'responds with 408 if IAM raises timeout error' do
+      expect(upvs.iam).to receive(:get_identity).and_raise(soap_timeout_exception)
+
+      get '/api/iam/identities/lookup', headers: headers, params: { company_registration_number: '12345678' }
+
+      expect(response.status).to eq(408)
+      expect(response.object).to eq(message: 'Operation timeout exceeded')
+    end
+
+    pending 'responds with 429 if request rate limit exceeds'
+
+    it 'responds with 500 if IAM raises internal error' do
+      expect(upvs.iam).to receive(:get_identity).and_raise
+
+      get '/api/iam/identities/lookup', headers: headers, params: { company_registration_number: '12345678' }
+
+      expect(response.status).to eq(500)
+      expect(response.object).to eq(message: 'Unknown error')
+    end
+
+    it 'responds with 503 if IAM raises SOAP fault' do
+      expect(upvs.iam).to receive(:get_identity).and_raise(soap_fault_exception)
+
+      get '/api/iam/identities/lookup', headers: headers, params: { company_registration_number: '12345678' }
+
+      expect(response.status).to eq(503)
+      expect(response.object).to eq(message: 'Unknown failure')
+    end
+
     include_examples 'UPVS proxy initialization', get: '/api/iam/identities/lookup', allow_sub: true do
       let(:params) { { company_registration_number: '12345678' } }
     end
