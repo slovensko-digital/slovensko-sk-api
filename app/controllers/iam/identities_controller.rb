@@ -8,7 +8,7 @@ class Iam::IdentitiesController < ApiController
 
   before_action(only: :search) { render_bad_request(:missing, :query) if request.request_parameters.blank? }
 
-  rescue_from(sk.gov.schemas.identity.service._1_7.GetIdentityFault) { |error| render_bad_request(:invalid, :identity_id, upvs_fault(error)) }
+  rescue_from(sk.gov.schemas.identity.service._1_7.GetIdentityFault, with: :render_identity_fault)
   rescue_from(sk.gov.schemas.identity.service._1_7.GetEdeskInfo2Fault) { |error| render_bad_request(:invalid, :query, upvs_fault(error)) }
 
   CODE_LIST_ATTRIBUTES = [:id, :name]
@@ -49,5 +49,12 @@ class Iam::IdentitiesController < ApiController
     )
 
     @identities = iam_repository(upvs_identity).search(query.to_options.merge(page: page, per_page: per_page))
+  end
+
+  private
+
+  def render_identity_fault(error)
+    param = action_name == 'show' ? :identity_id : :query
+    render_bad_request(:invalid, param, upvs_fault(error))
   end
 end

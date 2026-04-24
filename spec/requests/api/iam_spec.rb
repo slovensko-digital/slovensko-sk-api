@@ -156,7 +156,7 @@ RSpec.describe 'IAM API' do
       get '/api/iam/identities/lookup', headers: headers, params: { company_registration_number: '12345678' }
 
       expect(response.status).to eq(400)
-      expect(response.object).to eq(message: 'Invalid identity identifier', fault: { code: '00074421', reason: 'Nastala chyba: IDENTITY_ID_FAULT' })
+      expect(response.object).to eq(message: 'Invalid query', fault: { code: '00074421', reason: 'Nastala chyba: IDENTITY_ID_FAULT' })
     end
 
     it 'responds with 400 if IAM raises IAM fault' do
@@ -165,7 +165,7 @@ RSpec.describe 'IAM API' do
       get '/api/iam/identities/lookup', headers: headers, params: { company_registration_number: '12345678' }
 
       expect(response.status).to eq(400)
-      expect(response.object).to eq(message: 'Invalid identity identifier', fault: { code: '00000000', reason: 'Nedefinovaná chyba!' })
+      expect(response.object).to eq(message: 'Invalid query', fault: { code: '00000000', reason: 'Nedefinovaná chyba!' })
     end
 
     it 'responds with 408 if IAM raises timeout error' do
