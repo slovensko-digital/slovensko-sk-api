@@ -75,6 +75,133 @@ RSpec.describe 'IAM API' do
     include_examples 'UPVS proxy initialization', get: '/api/iam/identities/6d9dc77b-70ed-432f-abaa-5de8753c967c', allow_sub: true
   end
 
+  describe 'GET /api/iam/identities/lookup' do
+    def set_upvs_expectations
+      expect(upvs.iam).to receive(:get_identity).with(kind_of(sk.gov.schemas.identity.service._1.GetIdentityRequest)).and_return(iam_response('iam/get_identity_response.xml'))
+    end
+
+    it 'returns identity when searching by personal info' do
+      expect(upvs.iam).to receive(:get_identity).with(
+        satisfy do |request|
+          request.identity_id.nil? &&
+          request.personal_identification_number == '1234567890' &&
+          request.given_name == 'John' &&
+          request.family_name == 'Doe'
+        end
+      ).and_return(iam_response('iam/get_identity_response.xml'))
+
+      get '/api/iam/identities/lookup',
+          headers: headers,
+          params: {
+            personal_identification_number: '1234567890',
+            given_name: 'John',
+            family_name: 'Doe'
+          }
+
+      expect(response.status).to eq(200)
+      expect(response.object).to eq(JSON.parse(file_fixture('api/iam/identity.json').read, symbolize_names: true))
+    end
+
+    it 'returns identity when searching by company registration number only' do
+      expect(upvs.iam).to receive(:get_identity).with(
+        satisfy do |request|
+          request.identity_id.nil? &&
+          request.company_registration_number == '12345678' &&
+          request.personal_identification_number.nil? &&
+          request.given_name.nil? &&
+          request.family_name.nil?
+        end
+      ).and_return(iam_response('iam/get_identity_response.xml'))
+
+      get '/api/iam/identities/lookup',
+          headers: headers,
+          params: {
+            company_registration_number: '12345678'
+          }
+
+      expect(response.status).to eq(200)
+      expect(response.object).to eq(JSON.parse(file_fixture('api/iam/identity.json').read, symbolize_names: true))
+    end
+
+    it 'responds with 400 if no valid search parameters are provided' do
+      get '/api/iam/identities/lookup', headers: headers
+
+      expect(response.status).to eq(400)
+      expect(response.object).to eq(message: 'Invalid query')
+    end
+
+    it 'responds with 400 if only partial personal info is provided' do
+      get '/api/iam/identities/lookup',
+          headers: headers,
+          params: {
+            personal_identification_number: '1234567890',
+            given_name: 'John'
+          }
+
+      expect(response.status).to eq(400)
+      expect(response.object).to eq(message: 'Invalid query')
+    end
+
+    include_examples 'API request media types', get: '/api/iam/identities/lookup', accept: 'application/json' do
+      let(:params) { { company_registration_number: '12345678' } }
+    end
+
+    include_examples 'API request authentication', get: '/api/iam/identities/lookup', allow_sub: true do
+      let(:params) { { company_registration_number: '12345678' } }
+    end
+
+    it 'responds with 400 if IAM raises identifier fault' do
+      expect(upvs.iam).to receive(:get_identity).with(kind_of(sk.gov.schemas.identity.service._1.GetIdentityRequest)).and_raise(iam_get_identity_fault('iam/get_identity/invalid_identifier_fault.xml'))
+
+      get '/api/iam/identities/lookup', headers: headers, params: { company_registration_number: '12345678' }
+
+      expect(response.status).to eq(400)
+      expect(response.object).to eq(message: 'Invalid query', fault: { code: '00074421', reason: 'Nastala chyba: IDENTITY_ID_FAULT' })
+    end
+
+    it 'responds with 400 if IAM raises IAM fault' do
+      expect(upvs.iam).to receive(:get_identity).with(kind_of(sk.gov.schemas.identity.service._1.GetIdentityRequest)).and_raise(iam_get_identity_fault('iam/get_identity/undefined_fault.xml'))
+
+      get '/api/iam/identities/lookup', headers: headers, params: { company_registration_number: '12345678' }
+
+      expect(response.status).to eq(400)
+      expect(response.object).to eq(message: 'Invalid query', fault: { code: '00000000', reason: 'Nedefinovaná chyba!' })
+    end
+
+    it 'responds with 408 if IAM raises timeout error' do
+      expect(upvs.iam).to receive(:get_identity).and_raise(soap_timeout_exception)
+
+      get '/api/iam/identities/lookup', headers: headers, params: { company_registration_number: '12345678' }
+
+      expect(response.status).to eq(408)
+      expect(response.object).to eq(message: 'Operation timeout exceeded')
+    end
+
+    pending 'responds with 429 if request rate limit exceeds'
+
+    it 'responds with 500 if IAM raises internal error' do
+      expect(upvs.iam).to receive(:get_identity).and_raise
+
+      get '/api/iam/identities/lookup', headers: headers, params: { company_registration_number: '12345678' }
+
+      expect(response.status).to eq(500)
+      expect(response.object).to eq(message: 'Unknown error')
+    end
+
+    it 'responds with 503 if IAM raises SOAP fault' do
+      expect(upvs.iam).to receive(:get_identity).and_raise(soap_fault_exception)
+
+      get '/api/iam/identities/lookup', headers: headers, params: { company_registration_number: '12345678' }
+
+      expect(response.status).to eq(503)
+      expect(response.object).to eq(message: 'Unknown failure')
+    end
+
+    include_examples 'UPVS proxy initialization', get: '/api/iam/identities/lookup', allow_sub: true do
+      let(:params) { { company_registration_number: '12345678' } }
+    end
+  end
+
   describe 'POST /api/iam/identities/search' do
     let(:params) do
       {
