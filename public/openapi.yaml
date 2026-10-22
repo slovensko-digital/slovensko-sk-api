@@ -2,7 +2,7 @@ openapi: 3.0.0
 
 info:
   title: slovensko.sk API
-  version: 3.8.3 (Komunitná verzia) 8.9.3 (Prémium verzia)
+  version: 3.8.3 (Komunitná verzia) 8.10.0 (Prémium verzia)
 
   description: |
     slovensko.sk API je proxy REST API komponent k službám www.slovensko.sk (Ústredný portál verejnej správy – ÚPVS), pomocou ktorých je možné:
@@ -12,7 +12,7 @@ info:
     - manipulovať s obsahom el. schránky a preberať poštu do vlastných rúk,
     - podávať podania v mene subjektu, ktorý sa prihlásil cez ÚPVS alebo pomocou technického účtu,
     - vyhľadávať subjekty (právnické a fyzické osoby) za účelom zasielania správ (dostupné len pre OVM),
-    - skontrolovať či je daná správa vo formáte SKTalk validná voči aktuálnej definícii formuláru (podporná funkcia).
+    - skontrolovať či je daná správa vo formáte SKTalk validná voči aktuálnej definícii formulára (podporná funkcia).
 
     **Prémium verzia** (komerčná licencia)
     - ukladať záznamy do dlhodobého úložiska registratúrnych záznamov,
@@ -20,6 +20,7 @@ info:
     - podpisovať správy pomocou kvalifikovanej pečate uloženej v úložisku na slovensko.sk,
     - pridávať kvalifikované časové pečiatky elektronicky podpísaným dokumentom,
     - informatívne overovať podpisy na elektronicky podpísaných dokumentoch,
+    - generovať doložky o autorizácii (dostupné len pre OVM),
     - získať informácie o type a forme podpisov elektronicky podpísaných dokumentov.
 
   contact:
@@ -400,21 +401,21 @@ paths:
   /api/eform/validate:
     post:
       tags: [Zasielanie podaní]
-      summary: Zvaliduje dáta voči definícii formuláru
+      summary: Zvaliduje dáta voči definícii formulára
       description: |
-        Zvaliduje dáta voči definícii formuláru.
+        Zvaliduje dáta voči definícii formulára.
       parameters:
         - name: identifier
           in: query
           required: true
-          description: Identifikátor formuláru.
+          description: Identifikátor formulára.
           schema:
             type: string
             example: App.GeneralAgenda
         - name: version
           in: query
           required: true
-          description: Verzia formuláru.
+          description: Verzia formulára.
           schema:
             type: string
             example: 1.9
@@ -426,7 +427,7 @@ paths:
               type: object
               properties:
                 form:
-                  description: Dáta formuláru vo formáte XML.
+                  description: Dáta formulára vo formáte XML.
                   type: string
                   format: xml
                   example: <GeneralAgenda ...
@@ -434,7 +435,7 @@ paths:
                 - form
       responses:
         200:
-          description: Úspešne zvalidované dáta voči definícii formuláru.
+          description: Úspešne zvalidované dáta voči definícii formulára.
           content:
             application/json:
               schema:
@@ -456,27 +457,27 @@ paths:
   /api/eform/status:
     get:
       tags: [Zasielanie podaní]
-      summary: Vráti stav formuláru
+      summary: Vráti stav formulára
       description: |
-        Vráti stav formuláru.
+        Vráti stav formulára.
       parameters:
         - name: identifier
           in: query
           required: true
-          description: Identifikátor formuláru.
+          description: Identifikátor formulára.
           schema:
             type: string
             example: App.GeneralAgenda
         - name: version
           in: query
           required: true
-          description: Verzia formuláru.
+          description: Verzia formulára.
           schema:
             type: string
             example: 1.9
       responses:
         200:
-          description: Úspešne vrátený stav formuláru.
+          description: Úspešne vrátený stav formulára.
           content:
             application/json:
               schema:
@@ -491,6 +492,78 @@ paths:
       security:
         - 'API Token': []
 
+  /api/eform/form_template_metadata:
+    get:
+      tags: [ Zasielanie podaní ]
+      summary: Vráti metadáta el. formulára
+      description: |
+        Vráti metadáta el. formulára, vhodné napr. pri overovaní jeho účinnosti.
+      parameters:
+        - name: identifier
+          in: query
+          required: true
+          description: Identifikátor formulára.
+          schema:
+            type: string
+            example: App.GeneralAgenda
+        - name: version
+          in: query
+          required: true
+          description: Verzia formulára.
+          schema:
+            type: string
+            example: 1.9
+      responses:
+        200:
+          description: Úspešne vrátené metadáta el. formulára.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  identifier:
+                    type: string
+                  title:
+                    type: string
+                  type:
+                    type: string
+                  description:
+                    type: string
+                  gestor:
+                    type: string
+                  publisher:
+                    type: string
+                  section:
+                    type: string
+                  agenda:
+                    type: string
+                  source:
+                    type: string
+                  version_major:
+                    type: integer
+                  version_minor:
+                    type: integer
+                  valid_from:
+                    type: string
+                  valid_to:
+                    type: string
+                  keywords:
+                    type: string
+                  access_group:
+                    type: string
+                required:
+                  - identifier
+                  - title
+                  - type
+                  - description
+                  - gestor
+                  - publisher
+                  - version_major
+                  - version_minor
+                  - valid_from
+      security:
+        - 'API Token': [ ]
+
   /api/eform/form_template_related_document:
     get:
       tags: [Zasielanie podaní]
@@ -501,21 +574,21 @@ paths:
         - name: identifier
           in: query
           required: true
-          description: Identifikátor formuláru.
+          description: Identifikátor formulára.
           schema:
             type: string
             example: App.GeneralAgenda
         - name: version
           in: query
           required: true
-          description: Verzia formuláru.
+          description: Verzia formulára.
           schema:
             type: string
             example: 1.9
         - name: type
           in: query
           required: true
-          description: Verzia formuláru.
+          description: Verzia formulára.
           schema:
             type: string
             enum: [CLS_F_XSD_EDOC, CLS_F_XSLT_TXT_SGN]
@@ -532,6 +605,44 @@ paths:
                     type: string
                 required:
                   - document
+      security:
+        - 'API Token': []
+
+  /api/eform/form_package:
+    get:
+      tags: [Zasielanie podaní]
+      summary: Vráti vzor el. formulára
+      description: |
+        Vráti vzor el. formulára vo formáte ZIP balíka.
+      parameters:
+        - name: identifier
+          in: query
+          required: true
+          description: Identifikátor formulára.
+          schema:
+            type: string
+            example: App.GeneralAgenda
+        - name: version
+          in: query
+          required: true
+          description: Verzia formulára.
+          schema:
+            type: string
+            example: 1.9
+      responses:
+        200:
+          description: Úspešne vrátený vzor el. formulára.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    encoding: Base64
+                    description: ZIP balík vzoru el. formulára v Base64 kódovaní.
+                required:
+                  - data
       security:
         - 'API Token': []
 
@@ -1124,6 +1235,98 @@ paths:
                           example: true
                 required:
                   - is_signed
+                  - description
+      security:
+        - 'API Token': []
+
+  /api/cep/signed_data_content:
+    post:
+      tags: [Podpisovanie]
+      summary: Vráti odpodpísané dáta.
+      description: |
+        Vráti odpodpísané dáta (obsah podpísaného dokumentu).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  description: Obsah objektu zakódovaný podľa Base64.
+                  type: string
+                  format: base64
+                  example: UEsDBBQAAAgAANS0XU+K ...
+              required:
+                - content
+      responses:
+        200:
+          description: Úspešné vrátenie odpodpísaných dát.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    description: Výsledok odpodpísania dát.
+                    type: integer
+                    example: 0
+                  description:
+                    description: Popis výsledku.
+                    type: string
+                    example: OK
+                  signed_objects:
+                    description: Podpísané dátové objekty.
+                    type: array
+                    items:
+                      description: Objekt podpisu.
+                      properties:
+                        id:
+                          description: Identifikátor objektu.
+                          type: string
+                          example: Vseobecna_agenda.xml
+                        mime_type:
+                          description: MimeType objektu.
+                          type: string
+                          example: application/xml
+                        name:
+                          description: Názov objektu.
+                          type: string
+                          example: Vseobecna_agenda.xml
+                        data:
+                          description: Odpodpísané dáta.
+                          type: string
+                          example: <GeneralAgenda xmlns="http://schemas.gov.sk/form/Doc.GeneralAgendaFiction/1.4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><subject>Slovensko.Digital</subject><text>Pozdrav zo Slovensko.DIgital. :)</text></GeneralAgenda>
+                  unsigned_zepfzip_objects:
+                    description: Nepodpísané dátové objekty v ZEPf.
+                    type: array
+                    items:
+                      description: Objekt podpisu.
+                      properties:
+                        id:
+                          description: Identifikátor objektu.
+                          type: string
+                          example: Vseobecna_agenda.xml
+                        data:
+                          description: Dáta objektu.
+                          type: string
+                          example: <GeneralAgenda xmlns="http://schemas.gov.sk/form/Doc.GeneralAgendaFiction/1.4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><subject>Slovensko.Digital</subject><text>Pozdrav zo Slovensko.DIgital. :)</text></GeneralAgenda>
+                  unsigned_asic_objects:
+                    description: Nepodpísané dátové objekty v ASIC.
+                    type: array
+                    items:
+                      description: Objekt podpisu.
+                      properties:
+                        id:
+                          description: Identifikátor objektu.
+                          type: string
+                          example: Vseobecna_agenda.xml
+                        data:
+                          description: Dáta objektu.
+                          type: string
+                          example: <GeneralAgenda xmlns="http://schemas.gov.sk/form/Doc.GeneralAgendaFiction/1.4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><subject>Slovensko.Digital</subject><text>Pozdrav zo Slovensko.DIgital. :)</text></GeneralAgenda>
+                required:
+                  - result
                   - description
       security:
         - 'API Token': []
@@ -2241,6 +2444,69 @@ paths:
                   oneOf:
                     - $ref: '#/components/schemas/UpvsCorporateBody'
                     - $ref: '#/components/schemas/UpvsNaturalPerson'
+      security:
+        - 'API Token': []
+
+  /api/cud/authorization_clause:
+    post:
+      tags: [Centrálne úradné doručovanie (dostupné len pre OVM)]
+      summary: Vygeneruje doložku o autorizácii
+      description: |
+        Vygeneruje doložku o autorizácii.
+
+        Pozor, volanie je dostupné len pre OVM.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                created_by:
+                  description: Meno, priezvisko a pracovná pozícia zamestnanca, ktorý generuje doložku o autorizácii.
+                  type: string
+                  example: Meno priezvisko, odborný referent
+                message_container:
+                  description: XML MessageContainer-a s EÚD zakódované pomocou Base64.
+                  type: string
+                  format: base64
+                  example: PE1lc3NhZ2VDb250YWluZXIgeG1...
+              required:
+                - created_by
+                - message_container
+      responses:
+        200:
+          description: Úspešne vygenerovaná doložka o autorizácii.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  authorization_clause:
+                    description: Elektronický formulár vytvorenej doložky o autorizácii.
+                    type: string
+                    format: base64
+                    example: PEF1dGhvcml6YXRpb...
+                  metadata_container:
+                    description: MetadataContainer, ktorý obsahuje MetadataItem, AuthorizationClauseMetadata. V ňom sú dodatočné informácie o prílohach spomenutých v doložke o autorizácii.
+                    type: string
+                    format: base64
+                    example: PE1ldGFkYXRhQ29...
+                required:
+                  - authorization_clause
+                  - metadata_container
+        422:
+          description: Neúspešný pokus o vygenerovanie doložky o autorizácii, chyba vo vstupných dátach.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    description: Chybová hláška z ÚPVS
+                    type: string
+                    example: Správa neobsahuje žiadny podpísaný dokument.
+
       security:
         - 'API Token': []
 

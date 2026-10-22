@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CallServiceResponse xmlns="http://schemas.gov.sk/ServiceBus/service/1.0">
+  <CallServiceResult xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns:a="http://schemas.gov.sk/ServiceBusServiceProvider/Ness/eFormProvider/1.0" i:type="a:GetFormTemplateMetaDataRes">
+    <a:MetaData>
+      <a:AccessGroup i:nil="true"/>
+      <a:Agenda i:nil="true"/>
+      <a:Description>Všeobecná agenda</a:Description>
+      <a:Gestor>Skutocny1145 Emil</a:Gestor>
+      <a:Identifier>App.GeneralAgenda</a:Identifier>
+      <a:Keywords i:nil="true"/>
+      <a:Publisher>ico://sk/42156424_90000</a:Publisher>
+      <a:Section i:nil="true"/>
+      <a:Source i:nil="true"/>
+      <a:Title>Všeobecná agenda</a:Title>
+      <a:Type>eForm</a:Type>
+      <a:ValidDateFrom>2015-04-08T00:00:00</a:ValidDateFrom>
+      <a:ValidDateTo>0001-01-01T00:00:00</a:ValidDateTo>
+      <a:Version>
+        <a:Major>1</a:Major>
+        <a:Minor>9</a:Minor>
+      </a:Version>
+    </a:MetaData>
+  </CallServiceResult>
+</CallServiceResponse>

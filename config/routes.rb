@@ -51,6 +51,8 @@ Rails.application.routes.draw do
         get :status
         post :validate
         get :form_template_related_document
+        get :form_template_metadata
+        get :form_package
       end
 
       namespace :iam do

@@ -19,6 +19,15 @@ class EformService
     @upvs.ez.call_service(service, request).form_status.value
   end
 
+  def fetch_form_related_documents_list(identifier, version)
+    service = ServiceClassEnum::EFORM_GETRELATEDDOCUMENTLIST_SOAP_V_1_0
+    request = factory.create_get_related_document_list_req
+
+    request.form_template = factory.create_get_related_document_list_req_form_template(form_template_id(identifier, version))
+
+    @upvs.ez.call_service(service, request)
+  end
+
   # TODO rename - this reads as "fetch XML schema definition schema"
   def fetch_form_related_document(identifier, version, type)
     service = ServiceClassEnum::EFORM_GETRELATEDDOCUMENTBYTYPE_SOAP_V_1_0
@@ -29,6 +38,24 @@ class EformService
     request.related_document_language = factory.create_get_related_document_by_type_req_related_document_language('sk')
 
     @upvs.ez.call_service(service, request).related_document.value
+  end
+
+  def fetch_form_template_metadata(identifier, version)
+    service = ServiceClassEnum::EFORM_GETFORMTEMPLATEMETADATA_SOAP_V_1_0
+    request = factory.create_get_form_template_meta_data_req
+
+    request.form_template = factory.create_get_form_template_meta_data_req_form_template(form_template_id(identifier, version))
+
+    @upvs.ez.call_service(service, request).get_meta_data.value
+  end
+
+  def fetch_form_package(identifier, version)
+    service = ServiceClassEnum::EFORM_GETEFORMPACKAGE_SOAP_V_1_0
+    request = factory.create_get_eform_package_req
+
+    request.form_template = factory.create_get_eform_package_req_form_template(form_template_id(identifier, version))
+
+    @upvs.ez.call_service(service, request).get_form_package.value.data.value
   end
 
   private
