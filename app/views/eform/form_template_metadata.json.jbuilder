@@ -1,0 +1,14 @@
+json.identifier @response.identifier.value
+json.title @response.title.value
+json.type @response.type.value
+json.gestor @response.gestor.value
+json.publisher @response.publisher.value
+json.section @response.section.value
+json.agenda @response.agenda.value
+json.source @response.source.value
+json.version_major @response.version.value.major
+json.version_minor @response.version.value.minor
+json.valid_from @response.valid_date_from.to_string
+json.valid_to @response.valid_date_to.to_string
+json.keywords @response.keywords.value
+json.access_group @response.access_group.value

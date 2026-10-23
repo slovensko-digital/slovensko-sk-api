@@ -42,4 +42,24 @@ class EformController < ApiController
 
     document.present? ? (render status: :ok, json: { "document": Base64.encode64(document) }) : render_not_found(:template_related_document)
   end
+
+  def form_template_metadata
+    identifier, version = params.require(:identifier), params.require(:version)
+
+    @response = eform_service(upvs_identity).fetch_form_template_metadata(identifier, version)
+  end
+
+  def form_package
+    identifier, version = params.require(:identifier), params.require(:version)
+
+    form_package_data = eform_service(upvs_identity).fetch_form_package(identifier, version)
+
+    render json: { data: Base64.strict_encode64(String.from_java_bytes(form_package_data).force_encoding('UTF-8')) }
+  rescue Java::JavaxXmlWsSoap::SOAPFaultException => e
+    if e.message == 'Nie je možné vygenerovať vzor formulára.'
+      render_not_found(:template)
+    else
+      raise e
+    end
+  end
 end
