@@ -62,7 +62,7 @@ class HealthController < ApiController
   end
 
   def redis_connection
-    raise 'Unable to establish connection' unless ActiveSupport::Cache::RedisCacheStore.new(url: ENV['REDIS_URL'] || 'redis://localhost:6379/0').redis.ping
+    raise 'Unable to establish connection' unless ActiveSupport::Cache::RedisCacheStore.new(url: ENV['REDIS_URL'] || 'redis://localhost:6379/0', pool: false).redis.ping
     { status: 'pass' }
   rescue => error
     { status: 'fail', output: error.message }

@@ -1,6 +1,6 @@
 class ActiveSupport::Cache::RedisCacheStore
   def keys
-    redis.keys([options[:namespace], '*'].compact * ':')
+    redis.with { |connection| connection.keys([options[:namespace], '*'].compact * ':') }
   end
 end
 

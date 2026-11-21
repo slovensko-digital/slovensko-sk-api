@@ -3,7 +3,13 @@ module UpvsObjects
 
   mattr_reader :datatype_factory, default: javax.xml.datatype.DatatypeFactory.new_instance
 
-  delegate :from_xml, :to_xml, to: digital.slovensko.upvs.UpvsObjects
+  def from_xml(...)
+    digital.slovensko.upvs.UpvsObjects.from_xml(...)
+  end
+
+  def to_xml(...)
+    digital.slovensko.upvs.UpvsObjects.to_xml(...)
+  end
 
   def to_structure(object)
     to_ruby_object(digital.slovensko.upvs.UpvsObjects.to_structure(object))
