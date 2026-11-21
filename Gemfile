@@ -4,7 +4,7 @@ ruby '4.0.0', engine: 'jruby', engine_version: '10.1.2.0'
 
 gem 'rails', '~> 8.1.4'
 gem 'tzinfo-data', platforms: [:jruby]
-gem 'puma', '~> 6.3.1'
+gem 'puma'
 
 # Drivers
 # TODO switch to activerecord-jdbcpostgresql-adapter once its rails 8.1 release is published,
@@ -14,8 +14,8 @@ gem 'jdbc-postgres'
 gem 'redis'
 
 # Security
-gem 'ruby-saml', '~> 1.17'
-gem 'omniauth-saml', '~> 1.10' # TODO unlock this once https://sluzbyslovenskodigital.atlassian.net/browse/API-103 is resolved
+gem 'ruby-saml', '~> 1.18'
+gem 'omniauth-saml', '~> 2.2'
 gem 'jwt'
 
 # Workers
@@ -28,8 +28,6 @@ gem 'jbuilder'
 gem 'nokogiri'
 gem 'rubyzip'
 gem 'xmldsig'
-
-gem 'i18n', '1.8.7' # TODO unlock this once https://github.com/jruby/jruby/issues/6547 and https://github.com/ruby-i18n/i18n/issues/555 are resolved
 
 group :development, :test do
   gem 'database_cleaner-active_record'

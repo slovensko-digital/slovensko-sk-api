@@ -13,6 +13,11 @@ Rails.application.config.middleware.use OmniAuth::Builder do
 
     # Use default application logger.
     config.logger = Rails.logger
+
+    # Allow request phase via GET since /login redirects to it, CVE-2015-9284 was assessed as not applicable (API-103),
+    # POST requests remain protected by authenticity token verification.
+    config.allowed_request_methods = [:get, :post]
+    config.silence_get_warning = true
   end
 
   provider :saml, UpvsEnvironment.sso_settings

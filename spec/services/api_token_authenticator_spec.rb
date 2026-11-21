@@ -16,8 +16,6 @@ RSpec.describe ApiTokenAuthenticator do
 
   subject { described_class.new(identifier_store: identifier_store, public_key: public_key, subject_verifier: subject_verifier, obo_token_authenticator: obo_token_authenticator) }
 
-  before(:example) { allow(JWT::ClaimsValidator).to receive_message_chain(:new, :validate!).with(any_args) }
-
   before(:example) { identifier_store.clear if identifier_store.respond_to?(:clear) }
   before(:example) { obo_token_assertion_store.clear if obo_token_assertion_store.respond_to?(:clear) }
 
@@ -27,7 +25,7 @@ RSpec.describe ApiTokenAuthenticator do
 
   def generate_token(sub: nil, exp: 1543437076, jti: SecureRandom.uuid, obo: nil, header: {}, **payload)
     payload.merge!(sub: sub, exp: exp, jti: jti, obo: obo)
-    JWT.encode(payload.compact, api_token_key_pair, 'RS256', header)
+    encode_token_without_claim_verification(payload.compact, api_token_key_pair, 'RS256', header)
   end
 
   def generate_obo_id
@@ -37,7 +35,7 @@ RSpec.describe ApiTokenAuthenticator do
   def generate_obo_token(exp: 1543437976, nbf: 1543436776, iat: 1543436776, jti: SecureRandom.uuid, header: {}, **payload)
     payload.merge!(exp: exp, nbf: nbf, iat: iat, jti: jti)
     obo_token_assertion_store.write(jti, obo_token_assertion) if obo_token_assertion_store.respond_to?(:write)
-    JWT.encode(payload.compact, obo_token_key_pair, 'RS256', header)
+    encode_token_without_claim_verification(payload.compact, obo_token_key_pair, 'RS256', header)
   end
 
   describe '#invalidate_token' do

@@ -100,7 +100,7 @@ class ApiController < ActionController::API
     else
       # TODO apparently Rails test framework always sends application/x-www-form-urlencoded with no body (params: {}, as: nil) in non-get requests which is just weird and hence ignored here
       return if request.form_data? && request.raw_post.empty? if Rails.env.test?
-      return render_bad_request(:redundant, :body) unless request.body.tap(&:rewind).eof?
+      return render_bad_request(:redundant, :body) unless request.raw_post.to_s.empty?
       return render_bad_request(:redundant, 'Content-Type') if request.content_type
     end
   end

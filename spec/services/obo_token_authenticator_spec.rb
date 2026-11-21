@@ -12,8 +12,6 @@ RSpec.describe OboTokenAuthenticator do
 
   subject { described_class.new(assertion_store: assertion_store, key_pair: key_pair, proxy_subject: proxy_subject) }
 
-  before(:example) { allow(JWT::ClaimsValidator).to receive_message_chain(:new, :validate!).with(any_args) }
-
   before(:example) { assertion_store.clear }
 
   before(:example) { travel_to '2018-11-28T20:26:16Z' }
@@ -271,7 +269,7 @@ KEY
     def generate_token(sub: 'rc://sk/8314451337_tisici_janko', exp: 1543437976, nbf: 1543436776, iat: 1543436776, jti: SecureRandom.uuid, header: {}, **payload)
       payload.merge!(sub: sub, exp: exp, nbf: nbf, iat: iat, jti: jti)
       assertion_store.write(jti, assertion) if jti
-      JWT.encode(payload.compact, key_pair, 'RS256', header)
+      encode_token_without_claim_verification(payload.compact, key_pair, 'RS256', header)
     end
 
     it 'returns subject and assertion' do

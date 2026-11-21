@@ -44,6 +44,13 @@ module AuthenticityTokens
     Environment.obo_token_authenticator.generate_token(response, scopes: scopes)
   end
 
+  # Skips numeric claim verification done by JWT.encode to allow malformed tokens in specs
+  def encode_token_without_claim_verification(payload, key, algorithm, header = {})
+    token = JWT::Token.new(payload: payload, header: header)
+    token.sign!(algorithm: algorithm, key: key)
+    token.jwt
+  end
+
   def obo_token_scope(method, path)
     Rails.application.routes.recognize_path(path, method: method).slice(:controller, :action).values.join('/')
   end
