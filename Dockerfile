@@ -1,8 +1,8 @@
 FROM jruby:10.1.2.0-jdk21
 
-# Install packages needed to build gems with native extensions
+# Install packages needed to build gems with native extensions and network protocols database for JRuby
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential && \
+    apt-get install --no-install-recommends -y build-essential netbase && \
     rm -rf /var/lib/apt/lists/*
 
 # Set working directory
