@@ -2,12 +2,12 @@ source 'https://rubygems.org'
 
 ruby '4.0.0', engine: 'jruby', engine_version: '10.1.2.0'
 
-gem 'rails', '~> 7.2.3'
+gem 'rails', '~> 8.0.4'
 gem 'tzinfo-data', platforms: [:jruby]
 gem 'puma', '~> 6.3.1'
 
 # Drivers
-gem 'activerecord-jdbcpostgresql-adapter', '~> 72.1'
+gem 'activerecord-jdbcpostgresql-adapter', '80.0.pre1'
 gem 'redis'
 
 # Security
@@ -40,6 +40,6 @@ group :development, :test do
 end
 
 group :development do
-  gem 'annotate'
+  gem 'annotaterb'
   gem 'listen'
 end
