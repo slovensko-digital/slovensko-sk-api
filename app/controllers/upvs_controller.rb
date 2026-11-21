@@ -25,12 +25,12 @@ class UpvsController < ApiController
     response = request.env['omniauth.auth']['extra']['response_object']
     token = Environment.obo_token_authenticator.generate_token(response, scopes: Environment.obo_token_scopes)
 
-    redirect_to callback_url_with_token(Environment.login_callback_url, token)
+    redirect_to callback_url_with_token(Environment.login_callback_url, token), allow_other_host: true
   end
 
   def logout
     if params[:SAMLRequest]
-      redirect_to callback_url_with_sp_callback(Environment.logout_callback_url)
+      redirect_to callback_url_with_sp_callback(Environment.logout_callback_url), allow_other_host: true
     elsif params[:SAMLResponse]
       redirect_to "/auth/saml/slo?#{slo_response_params(Environment.logout_callback_url).to_query}"
     else

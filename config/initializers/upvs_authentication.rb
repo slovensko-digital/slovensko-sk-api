@@ -1,8 +1,9 @@
 # Be sure to restart your server when you modify this file.
 
-return unless UpvsEnvironment.sso_support?
-
+# The block is evaluated when the middleware stack is built, after application code becomes loadable.
 Rails.application.config.middleware.use OmniAuth::Builder do
+  next unless UpvsEnvironment.sso_support?
+
   configure do |config|
     # Raise errors in every environment instead of redirecting to the default error page.
     config.failure_raise_out_environments = ['development', 'production', 'staging', 'test']
