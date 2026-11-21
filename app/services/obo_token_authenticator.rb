@@ -9,6 +9,10 @@ class OboTokenAuthenticator
     verify_jti: true,
   }
 
+  # Subset of OneLogin::RubySaml::Response used to generate tokens from plain SAML assertions
+  SamlAssertion = Data.define(:attributes, :document, :decrypted_document, :not_on_or_after, :not_before)
+  private_constant :SamlAssertion
+
   def initialize(assertion_store:, key_pair:, proxy_subject:)
     @assertion_store = assertion_store
     @key_pair = key_pair
@@ -145,7 +149,7 @@ class OboTokenAuthenticator
   def parse_saml_assertion_string(assertion)
     document = REXML::Document.new(assertion)
 
-    OpenStruct.new(
+    SamlAssertion.new(
       attributes: {
         'IssueInstant' => document.root.attributes['IssueInstant'],
         'SubjectID' => REXML::XPath.first(document, '//*[@Name="SubjectID"]/saml:AttributeValue/text()'),

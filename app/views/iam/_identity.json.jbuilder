@@ -55,7 +55,7 @@ json.addresses identity.physical_address do |a|
   json.inline a.address_line
 
   json.country { json.partial! 'iam/enumeration', value: a.country }
-  json.region a.region.first
+  json.region a.region.to_a.first # Java 21 List#first (getFirst) raises on empty lists
   json.district { json.partial! 'iam/enumeration', value: a.county }
   json.municipality { json.partial! 'iam/enumeration', value: a.municipality }
   json.part a.district

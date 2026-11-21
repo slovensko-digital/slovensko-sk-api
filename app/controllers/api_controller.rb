@@ -126,7 +126,7 @@ class ApiController < ActionController::API
     return upvs_fault(error.cause) unless error.respond_to?(:fault_info)
     case fault = error.fault_info
     when org.datacontract.schemas._2004._07.anasoft_edesk.EDeskFault then { code: fault.code&.value, reason: fault.code&.reason }
-    when sk.gov.schemas.identity.service._1.IamFault then { code: fault.fault_code.first, reason: fault.fault_message.first }
+    when sk.gov.schemas.identity.service._1.IamFault then { code: fault.fault_code.to_a.first, reason: fault.fault_message.to_a.first }
     else
       raise 'Unknown fault'
     end

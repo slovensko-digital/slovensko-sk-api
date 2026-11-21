@@ -1,23 +1,23 @@
-FROM jruby:9.4.15.0-jdk17
+FROM jruby:10.1.2.0-jdk21
 
-# Install packages
-RUN apt-get update
-RUN apt-get install -y build-essential libpq-dev
+# Install packages needed to build gems with native extensions
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y build-essential && \
+    rm -rf /var/lib/apt/lists/*
 
 # Set working directory
-RUN mkdir /app
 WORKDIR /app
 
 # Bundle and cache Ruby gems
-COPY Gemfile* ./
-RUN bundle config set deployment true
-RUN bundle config set without development:test
-RUN bundle install
+COPY Gemfile Gemfile.lock ./
+RUN bundle config set deployment true && \
+    bundle config set without development:test && \
+    bundle install
 
 # Package and cache UPVS library
 COPY lib/upvs lib/upvs
-RUN gem install ruby-maven
-RUN rmvn -f lib/upvs package
+RUN gem install ruby-maven && \
+    rmvn -f lib/upvs package
 
 # Cache everything
 COPY . .
