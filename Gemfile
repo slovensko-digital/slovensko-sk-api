@@ -2,12 +2,12 @@ source 'https://rubygems.org'
 
 ruby '2.6.8', engine: 'jruby', engine_version: '9.3.15.0'
 
-gem 'rails', '~> 5.2.6'
+gem 'rails', '~> 6.0.6'
 gem 'tzinfo-data', platforms: [:jruby]
 gem 'puma', '~> 6.3.1'
 
 # Drivers
-gem 'activerecord-jdbcpostgresql-adapter'
+gem 'activerecord-jdbcpostgresql-adapter', '~> 60.4'
 gem 'redis'
 
 # Security

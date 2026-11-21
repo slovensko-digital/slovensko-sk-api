@@ -82,6 +82,9 @@ class ApiController < ActionController::API
 
   def set_default_format(value = :json)
     request.format = Mime::Type.lookup(request.accept).symbol || value
+  rescue Mime::Type::InvalidMimeType
+    # Accept header lists more media types (or is malformed), fall back to default format as before
+    request.format = value
   end
 
   def verify_format

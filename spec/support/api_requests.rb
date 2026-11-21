@@ -153,7 +153,7 @@ shared_examples 'API request media types' do |accept:, require_request_body: nil
 
     send method, path, headers: headers, params: params, as: format
 
-    expect(response.content_type).to eq(accept)
+    expect(response.media_type).to eq(accept)
     expect(response.charset).to eq('utf-8')
   end if expect_response_body
 end

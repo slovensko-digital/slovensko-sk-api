@@ -6,6 +6,6 @@ module Integers
   end
 
   def self.match_positive?(s)
-    s =~ /\A[1-9]\d*\z/
+    s.is_a?(String) && s.match?(/\A[1-9]\d*\z/)
   end
 end
