@@ -21,7 +21,7 @@ Bundler.require(*Rails.groups)
 module SlovenskoSkApi
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.0
+    config.load_defaults 6.1
 
     # Rails 6.x enables Zeitwerk by default on CRuby only, opt in explicitly on JRuby.
     config.autoloader = :zeitwerk
