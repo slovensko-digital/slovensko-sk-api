@@ -55,10 +55,7 @@ module SlovenskoSkApi
     config.exceptions_app = self.routes
 
     # Set static files server
-    config.public_file_server.headers = {
-      'access-control-allow-origin' => '*',
-      'content-type' => 'text/plain; charset=utf-8',
-    }
+    config.public_file_server.headers = { 'access-control-allow-origin' => '*' }
   end
 end
 
