@@ -21,7 +21,7 @@ Bundler.require(*Rails.groups)
 module SlovenskoSkApi
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 8.0
+    config.load_defaults 8.1
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
@@ -36,6 +36,10 @@ module SlovenskoSkApi
     # Add cookies back
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore
+
+    # TODO drop once activerecord-jdbc-adapter implements current_schemas for rails 8.1,
+    # dumping all schemas is equivalent here since the application uses public schema only
+    config.active_record.dump_schemas = :all
 
     # Set local time zone
     config.active_record.default_timezone = :utc

@@ -2,12 +2,15 @@ source 'https://rubygems.org'
 
 ruby '4.0.0', engine: 'jruby', engine_version: '10.1.2.0'
 
-gem 'rails', '~> 8.0.4'
+gem 'rails', '~> 8.1.4'
 gem 'tzinfo-data', platforms: [:jruby]
 gem 'puma', '~> 6.3.1'
 
 # Drivers
-gem 'activerecord-jdbcpostgresql-adapter', '80.0.pre1'
+# TODO switch to activerecord-jdbcpostgresql-adapter once its rails 8.1 release is published,
+# until then the base adapter registers postgresql and loads driver from jdbc-postgres on its own
+gem 'activerecord-jdbc-adapter', '81.0.pre1'
+gem 'jdbc-postgres'
 gem 'redis'
 
 # Security
