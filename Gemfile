@@ -42,5 +42,4 @@ end
 
 group :development do
   gem 'annotaterb'
-  gem 'listen'
 end
