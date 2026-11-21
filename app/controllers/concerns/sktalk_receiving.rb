@@ -21,7 +21,7 @@ module SktalkReceiving
       }
 
       # TODO get save_to_outbox from params
-      render_sktalk_results sktalk_receiver(upvs_identity).receive!(message.to_xml, save_to_outbox: false)
+      render_sktalk_results sktalk_receiver(**upvs_identity).receive!(message.to_xml, save_to_outbox: false)
     end
 
     def render_sktalk_results(results)

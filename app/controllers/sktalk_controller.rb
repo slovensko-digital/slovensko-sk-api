@@ -14,22 +14,22 @@ class SktalkController < ApiController
   PREPARE_FOR_LATER_RECEIVE_SCOPES = %w[sktalk/receive sktalk/receive_and_save_to_outbox sktalk/save_to_outbox]
 
   def receive
-    render json: { receive_result: sktalk_receiver(upvs_identity).receive(params[:message]) }
+    render json: { receive_result: sktalk_receiver(**upvs_identity).receive(params[:message]) }
   end
 
   def receive_and_save_to_outbox
-    render_sktalk_results sktalk_receiver(upvs_identity).receive_and_save_to_outbox!(params[:message])
+    render_sktalk_results sktalk_receiver(**upvs_identity).receive_and_save_to_outbox!(params[:message])
   end
 
   def save_to_outbox
-    render json: { save_to_outbox_result: sktalk_receiver(upvs_identity).save_to_outbox(params[:message]) }
+    render json: { save_to_outbox_result: sktalk_receiver(**upvs_identity).save_to_outbox(params[:message]) }
   end
 
   # allow sending invalid sktalk to cache token for SSO
   def prepare_for_later_receive(message_builder: SktalkMessageBuilder)
     message = message_builder.new(class: 'EGOV_APPLICATION', posp_id: 'App.GeneralAgenda', posp_version: '1.9')
 
-    sktalk_receiver(upvs_identity).receive(message.to_xml)
+    sktalk_receiver(**upvs_identity).receive(message.to_xml)
 
     long_lasting_obo_token = Environment.api_token_authenticator.generate_long_lasting_token(authenticity_token, PREPARE_FOR_LATER_RECEIVE_SCOPES)
 

@@ -4,6 +4,6 @@ class CepController < ApiController
   def signatures_info
     content = params.require(:content)
 
-    @response = cep_signer(upvs_identity).signatures_info(content)
+    @response = cep_signer(**upvs_identity).signatures_info(content)
   end
 end

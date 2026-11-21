@@ -17,7 +17,7 @@ class IamRepository
   def search(match: 'exact', page: 1, per_page: 20, **identity)
     request = factory.create_get_edesk_info2_request
     request.search_type = SearchType.from_value(MATCHES.fetch(match)) if match
-    request.identity_request = new_identity_request(identity)
+    request.identity_request = new_identity_request(**identity)
     request.paging = factory.create_paging_type
     request.paging.start_index = (page - 1) * per_page + 1
     request.paging.num_records_per_page = per_page
@@ -45,18 +45,18 @@ class IamRepository
     request.identity_type = IDENTITY_TYPES.fetch(type).to_s if type
     request.email = email
     request.telephone_number = phone
-    request.physical_address = new_address(address) if address.present?
-    request.corporate_body = new_corporate_body(corporate_body) if corporate_body.present?
-    request.physical_person = new_natural_person(natural_person) if natural_person.present?
+    request.physical_address = new_address(**address) if address.present?
+    request.corporate_body = new_corporate_body(**corporate_body) if corporate_body.present?
+    request.physical_person = new_natural_person(**natural_person) if natural_person.present?
     request
   end
 
   def new_address(type: nil, country: nil, district: nil, municipality: nil, street: nil, building_number: nil, registration_number: nil)
     address = factory.create_physical_address_request2_type
     address.address_type = ERequestAddressType.from_value(ADDRESS_TYPES.fetch(type)) if type
-    address.country = new_value(country) if country
-    address.county = new_value(district) if district
-    address.municipality = new_value(municipality) if municipality
+    address.country = new_value(**country) if country
+    address.county = new_value(**district) if district
+    address.municipality = new_value(**municipality) if municipality
     address.street = street
     address.building_number = building_number
     address.property_registration_number = registration_number

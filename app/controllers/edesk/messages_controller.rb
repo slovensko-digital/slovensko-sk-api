@@ -17,31 +17,31 @@ class Edesk::MessagesController < ApiController
   before_action(except: [:index, :search]) { render_bad_request(:invalid, :message_id) unless match_positive?(params[:id]) }
 
   def index
-    @messages = edesk_service(upvs_identity).messages(params[:folder_id].to_i, page: page, per_page: per_page)
+    @messages = edesk_service(**upvs_identity).messages(params[:folder_id].to_i, page: page, per_page: per_page)
   end
 
   def show
-    @message = edesk_message_parser.parse(edesk_service(upvs_identity).message(params[:id].to_i))
+    @message = edesk_message_parser.parse(edesk_service(**upvs_identity).message(params[:id].to_i))
   end
 
   def search
-    @messages = edesk_service(upvs_identity).filter_messages(search_params, page: page, per_page: per_page)
+    @messages = edesk_service(**upvs_identity).filter_messages(search_params, page: page, per_page: per_page)
   end
 
   def update
-    edesk_service(upvs_identity).move_message(params[:id].to_i, params[:folder_id].to_i)
+    edesk_service(**upvs_identity).move_message(params[:id].to_i, params[:folder_id].to_i)
 
     head :no_content
   end
 
   def destroy
-    edesk_service(upvs_identity).delete_message(params[:id].to_i)
+    edesk_service(**upvs_identity).delete_message(params[:id].to_i)
 
     head :no_content
   end
 
   def authorize
-    render json: { authorized_message_id: edesk_service(upvs_identity).authorize_message(params[:id].to_i) }
+    render json: { authorized_message_id: edesk_service(**upvs_identity).authorize_message(params[:id].to_i) }
   end
 
   private

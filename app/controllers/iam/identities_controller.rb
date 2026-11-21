@@ -14,7 +14,7 @@ class Iam::IdentitiesController < ApiController
   CODE_LIST_ATTRIBUTES = [:id, :name]
 
   def show
-    @identity = iam_repository(upvs_identity).identity(params[:id])
+    @identity = iam_repository(**upvs_identity).identity(params[:id])
   end
 
   def lookup
@@ -28,7 +28,7 @@ class Iam::IdentitiesController < ApiController
     lookup_params = IdentityLookupParams.new(permitted_params)
     return render_bad_request(:invalid, :query) if lookup_params.invalid?
 
-    @identity = iam_repository(upvs_identity).identity(
+    @identity = iam_repository(**upvs_identity).identity(
       nil,
       personal_identification_number: lookup_params.personal_identification_number,
       given_name: lookup_params.given_name,
@@ -48,7 +48,7 @@ class Iam::IdentitiesController < ApiController
       natural_person: [:given_name, :family_name, :date_of_birth, :place_of_birth],
     )
 
-    @identities = iam_repository(upvs_identity).search(query.to_options.merge(page: page, per_page: per_page))
+    @identities = iam_repository(**upvs_identity).search(**query.to_options, page: page, per_page: per_page)
   end
 
   private

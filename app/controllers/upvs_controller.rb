@@ -45,7 +45,7 @@ class UpvsController < ApiController
   end
 
   def identity
-    render partial: 'iam/identity', locals: { identity: iam_repository(upvs_identity).identity(obo_subject_id(upvs_identity[:obo])) }
+    render partial: 'iam/identity', locals: { identity: iam_repository(**upvs_identity).identity(obo_subject_id(upvs_identity[:obo])) }
   end
 
   rescue_from(sk.gov.schemas.identity.service._1_7.GetIdentityFault) { |error| render_bad_request(:invalid, :identity_id, upvs_fault(error)) }

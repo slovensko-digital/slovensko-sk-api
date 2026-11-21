@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe DownloadFormTemplatesJob, :sts do
-  before(:example) { stub_const('ENV', ENV.merge('EFORM_SYNC_SUBJECT' => corporate_body_subject)) }
+  before(:example) { stub_const('ENV', ENV.to_h.merge('EFORM_SYNC_SUBJECT' => corporate_body_subject)) }
 
   describe '#perform' do
     before(:context) do

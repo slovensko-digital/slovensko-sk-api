@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.6.8', engine: 'jruby', engine_version: '9.3.15.0'
+ruby '3.1.7', engine: 'jruby', engine_version: '9.4.15.0'
 
 gem 'rails', '~> 6.1.7'
 gem 'tzinfo-data', platforms: [:jruby]
@@ -14,7 +14,6 @@ gem 'redis'
 gem 'ruby-saml', '~> 1.17'
 gem 'omniauth-saml', '~> 1.10' # TODO unlock this once https://sluzbyslovenskodigital.atlassian.net/browse/API-103 is resolved
 gem 'jwt'
-gem 'jruby-openssl', '0.14.4'
 
 # Workers
 gem 'clockwork'

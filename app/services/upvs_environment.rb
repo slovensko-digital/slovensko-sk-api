@@ -7,29 +7,28 @@ module UpvsEnvironment
 
   extend self
 
-  # TODO replace **args with ... when on ruby 2.7
-  def cep_signer(**args)
-    CepSigner.new(upvs_proxy(**args))
+  def cep_signer(...)
+    CepSigner.new(upvs_proxy(...))
   end
 
-  def edesk_service(**args)
-    EdeskService.new(upvs_proxy(**args))
+  def edesk_service(...)
+    EdeskService.new(upvs_proxy(...))
   end
 
-  def eform_service(**args)
-    EformService.new(upvs_proxy(**args))
+  def eform_service(...)
+    EformService.new(upvs_proxy(...))
   end
 
-  def iam_repository(**args)
-    IamRepository.new(upvs_proxy(**args))
+  def iam_repository(...)
+    IamRepository.new(upvs_proxy(...))
   end
 
-  def sktalk_receiver(**args)
-    SktalkReceiver.new(upvs_proxy(**args))
+  def sktalk_receiver(...)
+    SktalkReceiver.new(upvs_proxy(...))
   end
 
-  def usr_service(**args)
-    UsrService.new(upvs_proxy(**args))
+  def usr_service(...)
+    UsrService.new(upvs_proxy(...))
   end
 
   def create_subject(sub, cin:)

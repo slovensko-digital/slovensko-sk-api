@@ -9,7 +9,7 @@ class EformController < ApiController
   def status
     identifier, version = params.require(:identifier), params.require(:version)
 
-    render json: { status: eform_service(upvs_identity).fetch_form_template_status(identifier, version) }
+    render json: { status: eform_service(**upvs_identity).fetch_form_template_status(identifier, version) }
   end
 
   def validate
@@ -46,13 +46,13 @@ class EformController < ApiController
   def form_template_metadata
     identifier, version = params.require(:identifier), params.require(:version)
 
-    @response = eform_service(upvs_identity).fetch_form_template_metadata(identifier, version)
+    @response = eform_service(**upvs_identity).fetch_form_template_metadata(identifier, version)
   end
 
   def form_package
     identifier, version = params.require(:identifier), params.require(:version)
 
-    form_package_data = eform_service(upvs_identity).fetch_form_package(identifier, version)
+    form_package_data = eform_service(**upvs_identity).fetch_form_package(identifier, version)
 
     render json: { data: Base64.strict_encode64(String.from_java_bytes(form_package_data).force_encoding('UTF-8')) }
   rescue Java::JavaxXmlWsSoap::SOAPFaultException => e

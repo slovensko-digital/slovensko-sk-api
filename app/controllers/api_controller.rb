@@ -66,9 +66,8 @@ class ApiController < ActionController::API
 
   private
 
-  # TODO replace **options with ... when on ruby 2.7
   def authenticate(**options)
-    self.upvs_identity = Environment.api_token_authenticator.verify_token(authenticity_token, options)
+    self.upvs_identity = Environment.api_token_authenticator.verify_token(authenticity_token, **options)
   end
 
   # TODO drop support of params[:token]

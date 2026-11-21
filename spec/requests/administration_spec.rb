@@ -28,7 +28,7 @@ RSpec.describe 'Administration' do
       subject { Rails.root.join('security', 'sts', "iscep_00956852_10236_#{Upvs.env}.keystore") }
 
       before(:example) { allow(Upvs).to receive(:env).and_return(ActiveSupport::StringInquirer.new('prod')) }
-      before(:example) { stub_const('ENV', ENV.merge('UPVS_KS_SALT' => SecureRandom.hex(20), 'UPVS_PK_SALT' => SecureRandom.hex(20))) }
+      before(:example) { stub_const('ENV', ENV.to_h.merge('UPVS_KS_SALT' => SecureRandom.hex(20), 'UPVS_PK_SALT' => SecureRandom.hex(20))) }
 
       it 'has JKS format' do
         post '/administration/certificates', headers: headers, params: params, as: :json

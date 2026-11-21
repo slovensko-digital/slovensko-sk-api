@@ -1,4 +1,4 @@
-FROM jruby:9.3.15.0-jdk17
+FROM jruby:9.4.15.0-jdk17
 
 # Install packages
 RUN apt-get update
