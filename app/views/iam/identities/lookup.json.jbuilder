@@ -1,1 +1,1 @@
-json.partial! 'iam/identity', identity: @identity
+json.partial! "iam/identity", identity: @identity

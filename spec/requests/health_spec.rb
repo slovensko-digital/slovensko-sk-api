@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Health Check' do
-  def reload_environment!(services = [Environment, UpvsEnvironment])
+  def reload_environment!(services = [ Environment, UpvsEnvironment ])
     services.each do |service|
       if defined? service
         Object.send(:remove_const, service.name)
@@ -18,7 +18,7 @@ RSpec.describe 'Health Check' do
     reload_environment!
   end
 
-  let(:environment) { ENV.map { |k, v| [k, k.end_with?('SUBJECT') ? SecureRandom.hex : v] }.to_h }
+  let(:environment) { ENV.map { |k, v| [ k, k.end_with?('SUBJECT') ? SecureRandom.hex : v ] }.to_h }
 
   before(:example) do
     stub_const('ENV', environment)
@@ -64,9 +64,9 @@ RSpec.describe 'Health Check' do
     it 'gets health status' do
       get '/health'
 
-      checks = ['environment:variables', 'postgresql:connection', 'redis:connection', 'authenticator:api']
-      checks += ['authenticator:obo', 'sso:proxy_certificate'] if (obo_support? || sso_support?)
-      checks += ['sso:sp_certificate'] if sso_support?
+      checks = [ 'environment:variables', 'postgresql:connection', 'redis:connection', 'authenticator:api' ]
+      checks += [ 'authenticator:obo', 'sso:proxy_certificate' ] if obo_support? || sso_support?
+      checks += [ 'sso:sp_certificate' ] if sso_support?
 
       expect(response.status).to eq(200)
       expect(response.object.with_indifferent_access).to match(
@@ -76,7 +76,7 @@ RSpec.describe 'Health Check' do
         checks: hash_including(*checks),
         links: {
           installation: 'http://www.example.com/install.md',
-          documentation: 'http://www.example.com/openapi.yaml',
+          documentation: 'http://www.example.com/openapi.yaml'
         }
       )
     end
@@ -84,27 +84,27 @@ RSpec.describe 'Health Check' do
     include_examples 'API request media types', get: '/health', accept: 'application/health+json'
 
     it 'passes on environment:variables' do
-      expect_pass('environment:variables' => [{ status: 'pass' }])
+      expect_pass('environment:variables' => [ { status: 'pass' } ])
     end
 
     it 'passes on postgresql:connection' do
-      expect_pass('postgresql:connection' => [{ status: 'pass' }])
+      expect_pass('postgresql:connection' => [ { status: 'pass' } ])
     end
 
     it 'passes on redis:connection' do
-      expect_pass('redis:connection' => [{ status: 'pass' }])
+      expect_pass('redis:connection' => [ { status: 'pass' } ])
     end
 
     it 'passes on authenticator:api' do
-      expect_pass('authenticator:api' => [{ status: 'pass' }])
+      expect_pass('authenticator:api' => [ { status: 'pass' } ])
     end
 
     it 'passes on authenticator:obo', if: obo_support? do
-      expect_pass('authenticator:obo' => [{ status: 'pass' }])
+      expect_pass('authenticator:obo' => [ { status: 'pass' } ])
     end
 
     it 'passes on authenticator:obo', if: sso_support? do
-      expect_pass('authenticator:obo' => [{ status: 'pass' }])
+      expect_pass('authenticator:obo' => [ { status: 'pass' } ])
     end
 
     it 'passes on sso:sp_certificate', if: sso_support? do
@@ -161,16 +161,16 @@ RSpec.describe 'Health Check' do
 
       it 'passes on others' do
         expect_fail(
-          'postgresql:connection' => [contain(status: 'pass')],
-          'redis:connection' => [contain(status: 'pass')],
+          'postgresql:connection' => [ contain(status: 'pass') ],
+          'redis:connection' => [ contain(status: 'pass') ],
         )
 
         expect_fail(
-          'authenticator:api' => [contain(status: 'pass')],
-        ) unless (obo_support? || sso_support?)
+          'authenticator:api' => [ contain(status: 'pass') ],
+        ) unless obo_support? || sso_support?
 
         expect_fail(
-          'sso:sp_certificate' => [contain(status: 'pass')],
+          'sso:sp_certificate' => [ contain(status: 'pass') ],
         ) if sso_support?
       end
     end
@@ -191,20 +191,20 @@ RSpec.describe 'Health Check' do
 
       it 'passes on others' do
         expect_fail(
-          'environment:variables' => [contain(status: 'pass')],
-          'redis:connection' => [contain(status: 'pass')],
-          'authenticator:api' => [contain(status: 'pass')],
+          'environment:variables' => [ contain(status: 'pass') ],
+          'redis:connection' => [ contain(status: 'pass') ],
+          'authenticator:api' => [ contain(status: 'pass') ],
         )
 
         expect_fail(
-          'authenticator:obo' => [contain(status: 'pass')],
-          'sso:proxy_certificate' => [contain(status: 'pass')],
+          'authenticator:obo' => [ contain(status: 'pass') ],
+          'sso:proxy_certificate' => [ contain(status: 'pass') ],
         ) if obo_support?
 
         expect_fail(
-          'authenticator:obo' => [contain(status: 'pass')],
-          'sso:sp_certificate' => [contain(status: 'pass')],
-          'sso:proxy_certificate' => [contain(status: 'pass')],
+          'authenticator:obo' => [ contain(status: 'pass') ],
+          'sso:sp_certificate' => [ contain(status: 'pass') ],
+          'sso:proxy_certificate' => [ contain(status: 'pass') ],
         ) if sso_support?
       end
     end
@@ -225,26 +225,26 @@ RSpec.describe 'Health Check' do
 
       it 'passes on others' do
         expect_fail(
-          'environment:variables' => [contain(status: 'pass')],
-          'postgresql:connection' => [contain(status: 'pass')],
-          'authenticator:api' => [contain(status: 'pass')],
+          'environment:variables' => [ contain(status: 'pass') ],
+          'postgresql:connection' => [ contain(status: 'pass') ],
+          'authenticator:api' => [ contain(status: 'pass') ],
         )
 
         expect_fail(
-          'authenticator:obo' => [contain(status: 'pass')],
-          'sso:proxy_certificate' => [contain(status: 'pass')],
+          'authenticator:obo' => [ contain(status: 'pass') ],
+          'sso:proxy_certificate' => [ contain(status: 'pass') ],
         ) if obo_support?
 
         expect_fail(
-          'authenticator:obo' => [contain(status: 'pass')],
-          'sso:sp_certificate' => [contain(status: 'pass')],
-          'sso:proxy_certificate' => [contain(status: 'pass')],
+          'authenticator:obo' => [ contain(status: 'pass') ],
+          'sso:sp_certificate' => [ contain(status: 'pass') ],
+          'sso:proxy_certificate' => [ contain(status: 'pass') ],
         ) if sso_support?
       end
     end
 
     context 'without API token public key' do
-      before(:example) { allow(Rails.root).to receive(:join).and_wrap_original { |m, *args| args.last.start_with?('api_token') ? '*' : m.call(*args) }}
+      before(:example) { allow(Rails.root).to receive(:join).and_wrap_original { |m, *args| args.last.start_with?('api_token') ? '*' : m.call(*args) } }
 
       it 'fails on authenticator:api' do
         expect_fail(
@@ -259,26 +259,26 @@ RSpec.describe 'Health Check' do
 
       it 'passes on others' do
         expect_fail(
-          'environment:variables' => [contain(status: 'pass')],
-          'postgresql:connection' => [contain(status: 'pass')],
-          'redis:connection' => [contain(status: 'pass')],
+          'environment:variables' => [ contain(status: 'pass') ],
+          'postgresql:connection' => [ contain(status: 'pass') ],
+          'redis:connection' => [ contain(status: 'pass') ],
         )
 
         expect_fail(
-          'authenticator:obo' => [contain(status: 'pass')],
-          'sso:proxy_certificate' => [contain(status: 'pass')],
+          'authenticator:obo' => [ contain(status: 'pass') ],
+          'sso:proxy_certificate' => [ contain(status: 'pass') ],
         ) if obo_support?
 
         expect_fail(
-          'authenticator:obo' => [contain(status: 'pass')],
-          'sso:sp_certificate' => [contain(status: 'pass')],
-          'sso:proxy_certificate' => [contain(status: 'pass')],
+          'authenticator:obo' => [ contain(status: 'pass') ],
+          'sso:sp_certificate' => [ contain(status: 'pass') ],
+          'sso:proxy_certificate' => [ contain(status: 'pass') ],
         ) if sso_support?
       end
     end
 
     context 'without OBO token private key', if: obo_support? do
-      before(:example) { allow(Rails.root).to receive(:join).and_wrap_original { |m, *args| args.last.start_with?('obo_token') ? '*' : m.call(*args) }}
+      before(:example) { allow(Rails.root).to receive(:join).and_wrap_original { |m, *args| args.last.start_with?('obo_token') ? '*' : m.call(*args) } }
 
       it 'fails on authenticator:api' do
         expect_fail(
@@ -304,19 +304,19 @@ RSpec.describe 'Health Check' do
 
       it 'passes on others' do
         expect_fail(
-          'environment:variables' => [contain(status: 'pass')],
-          'postgresql:connection' => [contain(status: 'pass')],
-          'redis:connection' => [contain(status: 'pass')],
+          'environment:variables' => [ contain(status: 'pass') ],
+          'postgresql:connection' => [ contain(status: 'pass') ],
+          'redis:connection' => [ contain(status: 'pass') ],
         )
 
         expect_fail(
-          'sso:proxy_certificate' => [contain(status: 'pass')],
+          'sso:proxy_certificate' => [ contain(status: 'pass') ],
         ) if obo_support?
       end
     end
 
     context 'without OBO token private key', if: sso_support? do
-      before(:example) { allow(Rails.root).to receive(:join).and_wrap_original { |m, *args| args.last.start_with?('obo_token') ? '*' : m.call(*args) }}
+      before(:example) { allow(Rails.root).to receive(:join).and_wrap_original { |m, *args| args.last.start_with?('obo_token') ? '*' : m.call(*args) } }
 
       it 'fails on authenticator:api' do
         expect_fail(
@@ -342,14 +342,14 @@ RSpec.describe 'Health Check' do
 
       it 'passes on others' do
         expect_fail(
-          'environment:variables' => [contain(status: 'pass')],
-          'postgresql:connection' => [contain(status: 'pass')],
-          'redis:connection' => [contain(status: 'pass')],
+          'environment:variables' => [ contain(status: 'pass') ],
+          'postgresql:connection' => [ contain(status: 'pass') ],
+          'redis:connection' => [ contain(status: 'pass') ],
         )
 
         expect_fail(
-          'sso:sp_certificate' => [contain(status: 'pass')],
-          'sso:proxy_certificate' => [contain(status: 'pass')],
+          'sso:sp_certificate' => [ contain(status: 'pass') ],
+          'sso:proxy_certificate' => [ contain(status: 'pass') ],
         ) if sso_support?
       end
     end
@@ -376,12 +376,12 @@ RSpec.describe 'Health Check' do
 
         it 'passes on others' do
           expect_fail(
-            'environment:variables' => [contain(status: 'pass')],
-            'postgresql:connection' => [contain(status: 'pass')],
-            'redis:connection' => [contain(status: 'pass')],
-            'authenticator:api' => [contain(status: 'pass')],
-            'authenticator:obo' => [contain(status: 'pass')],
-            'sso:proxy_certificate' => [contain(status: 'pass')],
+            'environment:variables' => [ contain(status: 'pass') ],
+            'postgresql:connection' => [ contain(status: 'pass') ],
+            'redis:connection' => [ contain(status: 'pass') ],
+            'authenticator:api' => [ contain(status: 'pass') ],
+            'authenticator:obo' => [ contain(status: 'pass') ],
+            'sso:proxy_certificate' => [ contain(status: 'pass') ],
           )
         end
       end
@@ -404,12 +404,12 @@ RSpec.describe 'Health Check' do
 
         it 'passes on others' do
           expect_warn(
-            'environment:variables' => [contain(status: 'pass')],
-            'postgresql:connection' => [contain(status: 'pass')],
-            'redis:connection' => [contain(status: 'pass')],
-            'authenticator:api' => [contain(status: 'pass')],
-            'authenticator:obo' => [contain(status: 'pass')],
-            'sso:proxy_certificate' => [contain(status: 'pass')],
+            'environment:variables' => [ contain(status: 'pass') ],
+            'postgresql:connection' => [ contain(status: 'pass') ],
+            'redis:connection' => [ contain(status: 'pass') ],
+            'authenticator:api' => [ contain(status: 'pass') ],
+            'authenticator:obo' => [ contain(status: 'pass') ],
+            'sso:proxy_certificate' => [ contain(status: 'pass') ],
           )
         end
       end
@@ -432,12 +432,12 @@ RSpec.describe 'Health Check' do
 
         it 'passes on others' do
           expect_fail(
-            'environment:variables' => [contain(status: 'pass')],
-            'postgresql:connection' => [contain(status: 'pass')],
-            'redis:connection' => [contain(status: 'pass')],
-            'authenticator:api' => [contain(status: 'pass')],
-            'authenticator:obo' => [contain(status: 'pass')],
-            'sso:proxy_certificate' => [contain(status: 'pass')],
+            'environment:variables' => [ contain(status: 'pass') ],
+            'postgresql:connection' => [ contain(status: 'pass') ],
+            'redis:connection' => [ contain(status: 'pass') ],
+            'authenticator:api' => [ contain(status: 'pass') ],
+            'authenticator:obo' => [ contain(status: 'pass') ],
+            'sso:proxy_certificate' => [ contain(status: 'pass') ],
           )
         end
       end
@@ -460,11 +460,11 @@ RSpec.describe 'Health Check' do
 
         it 'passes on others' do
           expect_fail(
-            'environment:variables' => [contain(status: 'pass')],
-            'postgresql:connection' => [contain(status: 'pass')],
-            'redis:connection' => [contain(status: 'pass')],
-            'authenticator:api' => [contain(status: 'pass')],
-            'authenticator:obo' => [contain(status: 'pass')]
+            'environment:variables' => [ contain(status: 'pass') ],
+            'postgresql:connection' => [ contain(status: 'pass') ],
+            'redis:connection' => [ contain(status: 'pass') ],
+            'authenticator:api' => [ contain(status: 'pass') ],
+            'authenticator:obo' => [ contain(status: 'pass') ]
           )
         end
       end
@@ -487,11 +487,11 @@ RSpec.describe 'Health Check' do
 
         it 'passes on others' do
           expect_warn(
-            'environment:variables' => [contain(status: 'pass')],
-            'postgresql:connection' => [contain(status: 'pass')],
-            'redis:connection' => [contain(status: 'pass')],
-            'authenticator:api' => [contain(status: 'pass')],
-            'authenticator:obo' => [contain(status: 'pass')]
+            'environment:variables' => [ contain(status: 'pass') ],
+            'postgresql:connection' => [ contain(status: 'pass') ],
+            'redis:connection' => [ contain(status: 'pass') ],
+            'authenticator:api' => [ contain(status: 'pass') ],
+            'authenticator:obo' => [ contain(status: 'pass') ]
           )
         end
       end
@@ -514,11 +514,11 @@ RSpec.describe 'Health Check' do
 
         it 'passes on others' do
           expect_fail(
-            'environment:variables' => [contain(status: 'pass')],
-            'postgresql:connection' => [contain(status: 'pass')],
-            'redis:connection' => [contain(status: 'pass')],
-            'authenticator:api' => [contain(status: 'pass')],
-            'authenticator:obo' => [contain(status: 'pass')]
+            'environment:variables' => [ contain(status: 'pass') ],
+            'postgresql:connection' => [ contain(status: 'pass') ],
+            'redis:connection' => [ contain(status: 'pass') ],
+            'authenticator:api' => [ contain(status: 'pass') ],
+            'authenticator:obo' => [ contain(status: 'pass') ]
           )
         end
       end
@@ -560,21 +560,21 @@ RSpec.describe 'Health Check' do
 
       it 'passes on others' do
         expect_pass(
-          'environment:variables' => [contain(status: 'pass')],
-          'postgresql:connection' => [contain(status: 'pass')],
-          'redis:connection' => [contain(status: 'pass')],
-          'authenticator:api' => [contain(status: 'pass')],
+          'environment:variables' => [ contain(status: 'pass') ],
+          'postgresql:connection' => [ contain(status: 'pass') ],
+          'redis:connection' => [ contain(status: 'pass') ],
+          'authenticator:api' => [ contain(status: 'pass') ],
         )
 
         expect_pass(
-          'authenticator:obo' => [contain(status: 'pass')],
-          'sso:proxy_certificate' => [contain(status: 'pass')],
+          'authenticator:obo' => [ contain(status: 'pass') ],
+          'sso:proxy_certificate' => [ contain(status: 'pass') ],
         ) if obo_support?
 
         expect_pass(
-          'authenticator:obo' => [contain(status: 'pass')],
-          'sso:sp_certificate' => [contain(status: 'pass')],
-          'sso:proxy_certificate' => [contain(status: 'pass')],
+          'authenticator:obo' => [ contain(status: 'pass') ],
+          'sso:sp_certificate' => [ contain(status: 'pass') ],
+          'sso:proxy_certificate' => [ contain(status: 'pass') ],
         ) if sso_support?
       end
 
@@ -594,22 +594,22 @@ RSpec.describe 'Health Check' do
 
         it 'passes on others' do
           expect_fail(
-            'environment:variables' => [contain(status: 'pass')],
-            'postgresql:connection' => [contain(status: 'pass')],
-            'redis:connection' => [contain(status: 'pass')],
-            'authenticator:api' => [contain(status: 'pass')],
-            'eform:sync_task' => [contain(status: 'pass')],
+            'environment:variables' => [ contain(status: 'pass') ],
+            'postgresql:connection' => [ contain(status: 'pass') ],
+            'redis:connection' => [ contain(status: 'pass') ],
+            'authenticator:api' => [ contain(status: 'pass') ],
+            'eform:sync_task' => [ contain(status: 'pass') ],
           )
 
           expect_fail(
-            'authenticator:obo' => [contain(status: 'pass')],
-            'sso:proxy_certificate' => [contain(status: 'pass')],
+            'authenticator:obo' => [ contain(status: 'pass') ],
+            'sso:proxy_certificate' => [ contain(status: 'pass') ],
           ) if obo_support?
 
           expect_fail(
-            'authenticator:obo' => [contain(status: 'pass')],
-            'sso:sp_certificate' => [contain(status: 'pass')],
-            'sso:proxy_certificate' => [contain(status: 'pass')],
+            'authenticator:obo' => [ contain(status: 'pass') ],
+            'sso:sp_certificate' => [ contain(status: 'pass') ],
+            'sso:proxy_certificate' => [ contain(status: 'pass') ],
           ) if sso_support?
         end
       end
@@ -632,22 +632,22 @@ RSpec.describe 'Health Check' do
 
         it 'passes on others' do
           expect_warn(
-            'environment:variables' => [contain(status: 'pass')],
-            'postgresql:connection' => [contain(status: 'pass')],
-            'redis:connection' => [contain(status: 'pass')],
-            'authenticator:api' => [contain(status: 'pass')],
-            'eform:sync_task' => [contain(status: 'pass')],
+            'environment:variables' => [ contain(status: 'pass') ],
+            'postgresql:connection' => [ contain(status: 'pass') ],
+            'redis:connection' => [ contain(status: 'pass') ],
+            'authenticator:api' => [ contain(status: 'pass') ],
+            'eform:sync_task' => [ contain(status: 'pass') ],
           )
 
           expect_warn(
-            'authenticator:obo' => [contain(status: 'pass')],
-            'sso:proxy_certificate' => [contain(status: 'pass')],
+            'authenticator:obo' => [ contain(status: 'pass') ],
+            'sso:proxy_certificate' => [ contain(status: 'pass') ],
           ) if obo_support?
 
           expect_warn(
-            'authenticator:obo' => [contain(status: 'pass')],
-            'sso:sp_certificate' => [contain(status: 'pass')],
-            'sso:proxy_certificate' => [contain(status: 'pass')],
+            'authenticator:obo' => [ contain(status: 'pass') ],
+            'sso:sp_certificate' => [ contain(status: 'pass') ],
+            'sso:proxy_certificate' => [ contain(status: 'pass') ],
           ) if sso_support?
         end
       end
@@ -670,22 +670,22 @@ RSpec.describe 'Health Check' do
 
         it 'passes on others' do
           expect_fail(
-            'environment:variables' => [contain(status: 'pass')],
-            'postgresql:connection' => [contain(status: 'pass')],
-            'redis:connection' => [contain(status: 'pass')],
-            'authenticator:api' => [contain(status: 'pass')],
-            'eform:sync_task' => [contain(status: 'pass')],
+            'environment:variables' => [ contain(status: 'pass') ],
+            'postgresql:connection' => [ contain(status: 'pass') ],
+            'redis:connection' => [ contain(status: 'pass') ],
+            'authenticator:api' => [ contain(status: 'pass') ],
+            'eform:sync_task' => [ contain(status: 'pass') ],
           )
 
           expect_fail(
-            'authenticator:obo' => [contain(status: 'pass')],
-            'sso:proxy_certificate' => [contain(status: 'pass')],
+            'authenticator:obo' => [ contain(status: 'pass') ],
+            'sso:proxy_certificate' => [ contain(status: 'pass') ],
           ) if obo_support?
 
           expect_fail(
-            'authenticator:obo' => [contain(status: 'pass')],
-            'sso:sp_certificate' => [contain(status: 'pass')],
-            'sso:proxy_certificate' => [contain(status: 'pass')],
+            'authenticator:obo' => [ contain(status: 'pass') ],
+            'sso:sp_certificate' => [ contain(status: 'pass') ],
+            'sso:proxy_certificate' => [ contain(status: 'pass') ],
           ) if sso_support?
         end
       end
@@ -707,22 +707,22 @@ RSpec.describe 'Health Check' do
 
         it 'passes on others' do
           expect_pass(
-            'environment:variables' => [contain(status: 'pass')],
-            'postgresql:connection' => [contain(status: 'pass')],
-            'redis:connection' => [contain(status: 'pass')],
-            'authenticator:api' => [contain(status: 'pass')],
-            'eform:sync_certificate' => [contain(status: 'pass')],
+            'environment:variables' => [ contain(status: 'pass') ],
+            'postgresql:connection' => [ contain(status: 'pass') ],
+            'redis:connection' => [ contain(status: 'pass') ],
+            'authenticator:api' => [ contain(status: 'pass') ],
+            'eform:sync_certificate' => [ contain(status: 'pass') ],
           )
 
           expect_pass(
-            'authenticator:obo' => [contain(status: 'pass')],
-            'sso:proxy_certificate' => [contain(status: 'pass')],
+            'authenticator:obo' => [ contain(status: 'pass') ],
+            'sso:proxy_certificate' => [ contain(status: 'pass') ],
           ) if obo_support?
 
           expect_pass(
-            'authenticator:obo' => [contain(status: 'pass')],
-            'sso:sp_certificate' => [contain(status: 'pass')],
-            'sso:proxy_certificate' => [contain(status: 'pass')],
+            'authenticator:obo' => [ contain(status: 'pass') ],
+            'sso:sp_certificate' => [ contain(status: 'pass') ],
+            'sso:proxy_certificate' => [ contain(status: 'pass') ],
           ) if sso_support?
         end
       end
@@ -745,22 +745,22 @@ RSpec.describe 'Health Check' do
 
         it 'passes on others' do
           expect_warn(
-            'environment:variables' => [contain(status: 'pass')],
-            'postgresql:connection' => [contain(status: 'pass')],
-            'redis:connection' => [contain(status: 'pass')],
-            'authenticator:api' => [contain(status: 'pass')],
-            'eform:sync_certificate' => [contain(status: 'pass')],
+            'environment:variables' => [ contain(status: 'pass') ],
+            'postgresql:connection' => [ contain(status: 'pass') ],
+            'redis:connection' => [ contain(status: 'pass') ],
+            'authenticator:api' => [ contain(status: 'pass') ],
+            'eform:sync_certificate' => [ contain(status: 'pass') ],
           )
 
           expect_warn(
-            'authenticator:obo' => [contain(status: 'pass')],
-            'sso:proxy_certificate' => [contain(status: 'pass')],
+            'authenticator:obo' => [ contain(status: 'pass') ],
+            'sso:proxy_certificate' => [ contain(status: 'pass') ],
           ) if obo_support?
 
           expect_warn(
-            'authenticator:obo' => [contain(status: 'pass')],
-            'sso:sp_certificate' => [contain(status: 'pass')],
-            'sso:proxy_certificate' => [contain(status: 'pass')],
+            'authenticator:obo' => [ contain(status: 'pass') ],
+            'sso:sp_certificate' => [ contain(status: 'pass') ],
+            'sso:proxy_certificate' => [ contain(status: 'pass') ],
           ) if sso_support?
         end
       end
@@ -814,21 +814,21 @@ RSpec.describe 'Health Check' do
 
       it 'passes on others' do
         expect_pass(
-          'environment:variables' => [contain(status: 'pass')],
-          'postgresql:connection' => [contain(status: 'pass')],
-          'redis:connection' => [contain(status: 'pass')],
-          'authenticator:api' => [contain(status: 'pass')],
+          'environment:variables' => [ contain(status: 'pass') ],
+          'postgresql:connection' => [ contain(status: 'pass') ],
+          'redis:connection' => [ contain(status: 'pass') ],
+          'authenticator:api' => [ contain(status: 'pass') ],
         )
 
         expect_pass(
-          'authenticator:obo' => [contain(status: 'pass')],
-          'sso:proxy_certificate' => [contain(status: 'pass')],
+          'authenticator:obo' => [ contain(status: 'pass') ],
+          'sso:proxy_certificate' => [ contain(status: 'pass') ],
         ) if obo_support?
 
         expect_pass(
-          'authenticator:obo' => [contain(status: 'pass')],
-          'sso:sp_certificate' => [contain(status: 'pass')],
-          'sso:proxy_certificate' => [contain(status: 'pass')],
+          'authenticator:obo' => [ contain(status: 'pass') ],
+          'sso:sp_certificate' => [ contain(status: 'pass') ],
+          'sso:proxy_certificate' => [ contain(status: 'pass') ],
         ) if sso_support?
       end
 
@@ -872,21 +872,21 @@ RSpec.describe 'Health Check' do
 
         it 'passes on others' do
           expect_fail(
-            'environment:variables' => [contain(status: 'pass')],
-            'postgresql:connection' => [contain(status: 'pass')],
-            'redis:connection' => [contain(status: 'pass')],
-            'authenticator:api' => [contain(status: 'pass')],
+            'environment:variables' => [ contain(status: 'pass') ],
+            'postgresql:connection' => [ contain(status: 'pass') ],
+            'redis:connection' => [ contain(status: 'pass') ],
+            'authenticator:api' => [ contain(status: 'pass') ],
           )
 
           expect_fail(
-            'authenticator:obo' => [contain(status: 'pass')],
-            'sso:proxy_certificate' => [contain(status: 'pass')],
+            'authenticator:obo' => [ contain(status: 'pass') ],
+            'sso:proxy_certificate' => [ contain(status: 'pass') ],
           ) if obo_support?
 
           expect_fail(
-            'authenticator:obo' => [contain(status: 'pass')],
-            'sso:sp_certificate' => [contain(status: 'pass')],
-            'sso:proxy_certificate' => [contain(status: 'pass')],
+            'authenticator:obo' => [ contain(status: 'pass') ],
+            'sso:sp_certificate' => [ contain(status: 'pass') ],
+            'sso:proxy_certificate' => [ contain(status: 'pass') ],
           ) if sso_support?
         end
       end
@@ -909,23 +909,23 @@ RSpec.describe 'Health Check' do
 
         it 'passes on others' do
           expect_warn(
-            'environment:variables' => [contain(status: 'pass')],
-            'postgresql:connection' => [contain(status: 'pass')],
-            'redis:connection' => [contain(status: 'pass')],
-            'authenticator:api' => [contain(status: 'pass')],
-            'sts:creation_time' => [contain(status: 'pass')],
-            'sts:response_time' => [contain(status: 'pass')],
+            'environment:variables' => [ contain(status: 'pass') ],
+            'postgresql:connection' => [ contain(status: 'pass') ],
+            'redis:connection' => [ contain(status: 'pass') ],
+            'authenticator:api' => [ contain(status: 'pass') ],
+            'sts:creation_time' => [ contain(status: 'pass') ],
+            'sts:response_time' => [ contain(status: 'pass') ],
           )
 
           expect_warn(
-            'authenticator:obo' => [contain(status: 'pass')],
-            'sso:proxy_certificate' => [contain(status: 'pass')],
+            'authenticator:obo' => [ contain(status: 'pass') ],
+            'sso:proxy_certificate' => [ contain(status: 'pass') ],
           ) if obo_support?
 
           expect_warn(
-            'authenticator:obo' => [contain(status: 'pass')],
-            'sso:sp_certificate' => [contain(status: 'pass')],
-            'sso:proxy_certificate' => [contain(status: 'pass')],
+            'authenticator:obo' => [ contain(status: 'pass') ],
+            'sso:sp_certificate' => [ contain(status: 'pass') ],
+            'sso:proxy_certificate' => [ contain(status: 'pass') ],
           ) if sso_support?
         end
       end
@@ -951,21 +951,21 @@ RSpec.describe 'Health Check' do
 
         it 'passes on others' do
           expect_fail(
-            'environment:variables' => [contain(status: 'pass')],
-            'postgresql:connection' => [contain(status: 'pass')],
-            'redis:connection' => [contain(status: 'pass')],
-            'authenticator:api' => [contain(status: 'pass')],
+            'environment:variables' => [ contain(status: 'pass') ],
+            'postgresql:connection' => [ contain(status: 'pass') ],
+            'redis:connection' => [ contain(status: 'pass') ],
+            'authenticator:api' => [ contain(status: 'pass') ],
           )
 
           expect_fail(
-            'authenticator:obo' => [contain(status: 'pass')],
-            'sso:proxy_certificate' => [contain(status: 'pass')],
+            'authenticator:obo' => [ contain(status: 'pass') ],
+            'sso:proxy_certificate' => [ contain(status: 'pass') ],
           ) if obo_support?
 
           expect_fail(
-            'authenticator:obo' => [contain(status: 'pass')],
-            'sso:sp_certificate' => [contain(status: 'pass')],
-            'sso:proxy_certificate' => [contain(status: 'pass')],
+            'authenticator:obo' => [ contain(status: 'pass') ],
+            'sso:sp_certificate' => [ contain(status: 'pass') ],
+            'sso:proxy_certificate' => [ contain(status: 'pass') ],
           ) if sso_support?
         end
       end
@@ -986,23 +986,23 @@ RSpec.describe 'Health Check' do
 
         it 'passes on others' do
           expect_fail(
-            'environment:variables' => [contain(status: 'pass')],
-            'postgresql:connection' => [contain(status: 'pass')],
-            'redis:connection' => [contain(status: 'pass')],
-            'authenticator:api' => [contain(status: 'pass')],
-            'sts:certificate' => [contain(status: 'pass')],
-            'sts:creation_time' => [contain(status: 'pass')],
+            'environment:variables' => [ contain(status: 'pass') ],
+            'postgresql:connection' => [ contain(status: 'pass') ],
+            'redis:connection' => [ contain(status: 'pass') ],
+            'authenticator:api' => [ contain(status: 'pass') ],
+            'sts:certificate' => [ contain(status: 'pass') ],
+            'sts:creation_time' => [ contain(status: 'pass') ],
           )
 
           expect_fail(
-            'authenticator:obo' => [contain(status: 'pass')],
-            'sso:proxy_certificate' => [contain(status: 'pass')],
+            'authenticator:obo' => [ contain(status: 'pass') ],
+            'sso:proxy_certificate' => [ contain(status: 'pass') ],
           ) if obo_support?
 
           expect_fail(
-            'authenticator:obo' => [contain(status: 'pass')],
-            'sso:sp_certificate' => [contain(status: 'pass')],
-            'sso:proxy_certificate' => [contain(status: 'pass')],
+            'authenticator:obo' => [ contain(status: 'pass') ],
+            'sso:sp_certificate' => [ contain(status: 'pass') ],
+            'sso:proxy_certificate' => [ contain(status: 'pass') ],
           ) if sso_support?
         end
       end

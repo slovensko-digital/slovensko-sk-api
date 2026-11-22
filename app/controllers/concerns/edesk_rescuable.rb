@@ -34,7 +34,7 @@ module EdeskRescuable
         case error.message
         when /Správa \d+ nemá Class ED_DELIVERY_NOTIFICATION, a teda nie je notifikačná doručenka./ then render_unprocessable_entity(:authorize_non_notification_report)
         when /Správa \d+ neexistuje./ then render_not_found(:message)
-        when 'Nie ste adresátom správy a preto ju nemáte oprávnenie prevziať.' then render_not_found(:message)
+        when "Nie ste adresátom správy a preto ju nemáte oprávnenie prevziať." then render_not_found(:message)
         else
           internal_server_error
         end

@@ -1,6 +1,6 @@
 json.ids identity.general_data.egov_identifier do |egov_identifier|
   json.type sector = egov_identifier.sector_identifier.downcase
-  json.value egov_identifier.identifier.tap { |id| id.downcase! if sector == 'sector_upvs' }
+  json.value egov_identifier.identifier.tap { |id| id.downcase! if sector == "sector_upvs" }
 end
 
 json.uri identity.general_data.uri
@@ -11,7 +11,7 @@ json.name identity.general_data.formatted_name
 json.suffix identity.general_data.suffix
 
 json.various_ids identity.id do |id|
-  json.type { json.partial! 'iam/enumeration', value: id.identifier_type }
+  json.type { json.partial! "iam/enumeration", value: id.identifier_type }
   json.value id.identifier_value
   json.specified id.is_specified
 end
@@ -41,23 +41,23 @@ json.upvs do
 end
 
 if identity.corporate_body
-  json.corporate_body { json.partial! 'iam/corporate_body', identity: identity, corporate_body: identity.corporate_body }
+  json.corporate_body { json.partial! "iam/corporate_body", identity: identity, corporate_body: identity.corporate_body }
 end
 
 if identity.physical_person
-  json.natural_person { json.partial! 'iam/natural_person', identity: identity, natural_person: identity.physical_person }
+  json.natural_person { json.partial! "iam/natural_person", identity: identity, natural_person: identity.physical_person }
 end
 
 json.addresses identity.physical_address do |a|
-  raise 'Too many regions' if a.region.count > 1
+  raise "Too many regions" if a.region.count > 1
 
-  json.type a.type.value.underscore.remove('_address').tap { |t| t.replace('resident') if t == 'street' }
+  json.type a.type.value.underscore.remove("_address").tap { |t| t.replace("resident") if t == "street" }
   json.inline a.address_line
 
-  json.country { json.partial! 'iam/enumeration', value: a.country }
+  json.country { json.partial! "iam/enumeration", value: a.country }
   json.region a.region.to_a.first # Java 21 List#first (getFirst) raises on empty lists
-  json.district { json.partial! 'iam/enumeration', value: a.county }
-  json.municipality { json.partial! 'iam/enumeration', value: a.municipality }
+  json.district { json.partial! "iam/enumeration", value: a.county }
+  json.municipality { json.partial! "iam/enumeration", value: a.municipality }
   json.part a.district
   json.street a.street_name
   json.building_number a.building_number
@@ -79,13 +79,13 @@ json.addresses identity.physical_address do |a|
           if a.delivery_address.recipient.organization_unit || a.delivery_address.recipient.corporate_body_name
             json.corporate_body do
               json.organization_unit a.delivery_address.recipient.organization_unit
-              json.partial! 'iam/corporate_body_name', corporate_body: a.delivery_address.recipient
+              json.partial! "iam/corporate_body_name", corporate_body: a.delivery_address.recipient
             end
           end
 
           if a.delivery_address.recipient.person_name
             json.natural_person do
-              json.partial! 'iam/natural_person_name', natural_person: a.delivery_address.recipient.person_name
+              json.partial! "iam/natural_person_name", natural_person: a.delivery_address.recipient.person_name
             end
           end
 
@@ -108,7 +108,7 @@ json.emails identity.internet_address do |e|
 end
 
 json.phones identity.telephone_address do |p|
-  json.type { json.partial! 'iam/enumeration', value: p.telephone_type }
+  json.type { json.partial! "iam/enumeration", value: p.telephone_type }
   json.number p.telephone_number.formatted_number&.value
   json.(p.telephone_number, :international_country_code, :national_number, :area_city_code, :subscriber_number, :extension)
 end

@@ -16,7 +16,7 @@ module UpvsObjectMatchers
         @expected_formatted = RSpec::Support::ObjectFormatter.format(expected)
         @actual_formatted = RSpec::Support::ObjectFormatter.format(actual)
 
-        @expected_as_array = [expected_as_struct]
+        @expected_as_array = [ expected_as_struct ]
         @actual = actual_as_struct
       end
 
@@ -40,7 +40,7 @@ module UpvsObjectMatchers
 
   def usr_service_call_args(file)
     object = upvs_object_from_xml(file)
-    [object.service_class, be_upvs_object(object.service_parameter.value)]
+    [ object.service_class, be_upvs_object(object.service_parameter.value) ]
   end
 
   alias usr_args usr_service_call_args

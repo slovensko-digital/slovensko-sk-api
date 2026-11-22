@@ -55,12 +55,12 @@ class SktalkReceiver
 
   private
 
-  SAVE_TO_DRAFTS_CLASS = 'EDESK_SAVE_APPLICATION_TO_DRAFTS'
-  SAVE_TO_OUTBOX_CLASS = 'EDESK_SAVE_APPLICATION_TO_OUTBOX'
+  SAVE_TO_DRAFTS_CLASS = "EDESK_SAVE_APPLICATION_TO_DRAFTS"
+  SAVE_TO_OUTBOX_CLASS = "EDESK_SAVE_APPLICATION_TO_OUTBOX"
 
   def parse(message)
     object = SktalkMessages.from_xml(message)
-    raise ReceiveAsSaveToFolderError if object.header.message_info.clazz.in?([SAVE_TO_DRAFTS_CLASS, SAVE_TO_OUTBOX_CLASS])
+    raise ReceiveAsSaveToFolderError if object.header.message_info.clazz.in?([ SAVE_TO_DRAFTS_CLASS, SAVE_TO_OUTBOX_CLASS ])
     object
   rescue javax.xml.bind.UnmarshalException
     raise ReceiveMessageFormatError

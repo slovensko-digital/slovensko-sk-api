@@ -23,7 +23,7 @@ class EdeskMessageParser
   end
 
   def self.parse_delivery_time(s)
-    offset = Time.use_zone('Europe/Bratislava') { Time.zone.parse(s.to_s).strftime('%:z') }
+    offset = Time.use_zone("Europe/Bratislava") { Time.zone.parse(s.to_s).strftime("%:z") }
     Time.zone.parse(s.to_s + offset)
   end
 
@@ -44,15 +44,15 @@ class EdeskMessageParser
 
     d = d.children.first
 
-    raise ParseError if d.name != 'SKTalkMessage'
+    raise ParseError if d.name != "SKTalkMessage"
 
     d.children.each do |e|
       case e.name
-      when 'EnvelopeVersion'
-        raise ParseError if e.content != '3.0'
-      when 'Header'
+      when "EnvelopeVersion"
+        raise ParseError if e.content != "3.0"
+      when "Header"
         build_message_from_header(e, m)
-      when 'Body'
+      when "Body"
         build_message_from_body(e, m)
       else
         raise ParseError
@@ -63,9 +63,9 @@ class EdeskMessageParser
   def build_message_from_header(d, m)
     d.children.each do |e|
       case e.name
-      when 'MessageInfo'
+      when "MessageInfo"
         build_message_from_message_info(e, m)
-      when 'SenderInfo'
+      when "SenderInfo"
         # skip
       else
         raise ParseError
@@ -76,21 +76,21 @@ class EdeskMessageParser
   def build_message_from_message_info(d, m)
     d.children.each do |e|
       case e.name
-      when 'Class'
+      when "Class"
         raise ParseError if e.content != m.klass
-      when 'PospID'
+      when "PospID"
         m.posp_id = e.content.presence
-      when 'PospVersion'
+      when "PospVersion"
         m.posp_version = e.content.presence
-      when 'MessageID'
+      when "MessageID"
         raise ParseError if e.content&.downcase != m.message_id
-      when 'CorrelationID'
+      when "CorrelationID"
         raise ParseError if e.content&.downcase != m.correlation_id
-      when 'ReferenceID'
+      when "ReferenceID"
         m.reference_id = e.content.presence
-      when 'BusinessID'
+      when "BusinessID"
         # skip
-      when 'ChannelInfo', 'ChannelInfoReply'
+      when "ChannelInfo", "ChannelInfoReply"
         # skip
       else
         raise ParseError
@@ -99,13 +99,13 @@ class EdeskMessageParser
   end
 
   def build_message_from_body(d, m)
-    raise ParseError if d.children.count { |node| node.name == 'MessageContainer' } > 1
+    raise ParseError if d.children.count { |node| node.name == "MessageContainer" } > 1
 
     d.children.each do |e|
       case e.name
-      when 'MessageContainer'
+      when "MessageContainer"
         build_message_from_message_container(e, m)
-      when 'InformationMessage', 'MetadataContainer'
+      when "InformationMessage", "MetadataContainer"
         # skip
       else
         raise ParseError
@@ -116,21 +116,21 @@ class EdeskMessageParser
   def build_message_from_message_container(d, m)
     d.children.each do |e|
       case e.name
-      when 'MessageId'
+      when "MessageId"
         raise ParseError if e.content&.downcase != m.message_id
-      when 'SenderId'
+      when "SenderId"
         m.sender_uri = e.content
-      when 'RecipientId'
+      when "RecipientId"
         m.recipient_uri = e.content
-      when 'MessageType'
+      when "MessageType"
         m.type = e.content
-      when 'MessageSubject'
+      when "MessageSubject"
         raise ParseError if e.content != m.subject
-      when 'SenderBusinessReference'
+      when "SenderBusinessReference"
         m.sender_business_reference = e.content.presence
-      when 'RecipientBusinessReference'
+      when "RecipientBusinessReference"
         m.recipient_business_reference = e.content.presence
-      when 'Object'
+      when "Object"
         build_message_object_from_object(e, m)
       else
         raise ParseError
@@ -145,20 +145,20 @@ class EdeskMessageParser
       value = attribute.value
 
       case name
-      when 'Id'
+      when "Id"
         o.id = value
-      when 'Class'
+      when "Class"
         o.klass = value
-      when 'Name'
+      when "Name"
         o.name = value.presence
-      when 'Description'
+      when "Description"
         o.description = value.presence
-      when 'Encoding'
+      when "Encoding"
         o.encoding = value
-      when 'MimeType'
+      when "MimeType"
         o.mime_type = value
-      when 'IsSigned'
-        o.signed = value.casecmp?('true')
+      when "IsSigned"
+        o.signed = value.casecmp?("true")
       else
         raise ParseError
       end
@@ -166,8 +166,8 @@ class EdeskMessageParser
 
     o.content = d.children.to_s
 
-    if m.klass == 'ED_DELIVERY_NOTIFICATION'
-      raise ParseError if d.children.count > 1 || d.children.first.name != 'DeliveryReportNotification'
+    if m.klass == "ED_DELIVERY_NOTIFICATION"
+      raise ParseError if d.children.count > 1 || d.children.first.name != "DeliveryReportNotification"
       build_message_delivery_notification_from_delivery_report_notification(d.children.first, m)
     end
   end
@@ -177,11 +177,11 @@ class EdeskMessageParser
 
     d.children.each do |e|
       case e.name
-      when 'Persons'
+      when "Persons"
         # skip
-      when 'DeliveryInformation'
+      when "DeliveryInformation"
         build_delivery_notification_from_delivery_information(e, n)
-      when 'Consignment'
+      when "Consignment"
         build_delivery_notification_consignment_from_consignment(e, n)
       else
         raise ParseError
@@ -192,11 +192,11 @@ class EdeskMessageParser
   def build_delivery_notification_from_delivery_information(d, n)
     d.children.each do |e|
       case e.name
-      when 'Received'
+      when "Received"
         n.received_at = e.content.in_time_zone if e.content.present?
-      when 'DeliveryPeriod'
+      when "DeliveryPeriod"
         n.delivery_period = Integer(e.content, 10) if e.content.present?
-      when 'DeliveryPeriodEnd'
+      when "DeliveryPeriodEnd"
         n.delivery_period_end_at = e.content.in_time_zone if e.content.present?
       else
         raise ParseError
@@ -209,15 +209,15 @@ class EdeskMessageParser
 
     d.children.each do |e|
       case e.name
-      when 'MessageID'
+      when "MessageID"
         c.message_id = e.content&.downcase
-      when 'MessageSubject'
+      when "MessageSubject"
         c.message_subject = e.content
-      when 'MessageType'
+      when "MessageType"
         c.message_type = e.content
-      when 'Note'
+      when "Note"
         c.note = e.content
-      when 'Attachments'
+      when "Attachments"
         e.children.each do |a|
           build_consignment_attachment_from_attachment(a, c)
         end
@@ -232,9 +232,9 @@ class EdeskMessageParser
 
     d.children.each do |e|
       case e.name
-      when 'AttachmentId'
+      when "AttachmentId"
         a.id = e.content
-      when 'AttachmentName'
+      when "AttachmentName"
         a.name = e.content
       else
         raise ParseError

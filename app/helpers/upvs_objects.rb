@@ -21,7 +21,7 @@ module UpvsObjects
 
   def to_ruby_object(object)
     return object.to_a.map { |e| to_ruby_object(e) } if object.is_a?(java.util.Collection)
-    return object.to_h.map { |k, v| [to_ruby_key(k), to_ruby_object(v)] }.to_h if object.is_a?(java.util.Map)
+    return object.to_h.map { |k, v| [ to_ruby_key(k), to_ruby_object(v) ] }.to_h if object.is_a?(java.util.Map)
     object
   end
 

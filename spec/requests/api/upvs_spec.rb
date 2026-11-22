@@ -5,7 +5,7 @@ RSpec.describe 'UPVS API' do
     allow_api_token_with_obo_token!
     skip_upvs_subject_verification!
 
-    let(:token) { api_token_with_obo_token(scopes: ['upvs/assertion', 'upvs/identity']) }
+    let(:token) { api_token_with_obo_token(scopes: [ 'upvs/assertion', 'upvs/identity' ]) }
     let(:upvs) { upvs_proxy_double }
 
     describe 'GET /api/upvs/assertion' do

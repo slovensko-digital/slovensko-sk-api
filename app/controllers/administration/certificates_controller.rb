@@ -2,7 +2,7 @@ class Administration::CertificatesController < ApiController
   before_action { authenticate(allow_plain: true) }
 
   before_action(only: :create) { head :conflict if UpvsEnvironment.subject?(params[:id]) }
-  before_action(only: [:show, :destroy]) { head :not_found unless UpvsEnvironment.subject?(params[:id]) }
+  before_action(only: [ :show, :destroy ]) { head :not_found unless UpvsEnvironment.subject?(params[:id]) }
 
   def create
     UpvsEnvironment.create_subject(params[:id], **params.permit(:cin).to_options)

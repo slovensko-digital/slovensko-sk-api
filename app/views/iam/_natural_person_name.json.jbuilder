@@ -15,5 +15,5 @@ end
 json.legal_name natural_person.legal_name
 json.other_name natural_person.other_name
 
-json.prefixes natural_person.affix.select { |a| a.position.to_s == 'Prefix' }, partial: 'iam/affix'
-json.suffixes natural_person.affix.select { |a| a.position.to_s == 'Postfix' }, partial: 'iam/affix'
+json.prefixes natural_person.affix.select { |a| a.position.to_s == "Prefix" }, partial: "iam/affix"
+json.suffixes natural_person.affix.select { |a| a.position.to_s == "Postfix" }, partial: "iam/affix"

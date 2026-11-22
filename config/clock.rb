@@ -1,4 +1,4 @@
-require_relative 'environment'
+require_relative "environment"
 
 Rails.application.load_tasks
 
@@ -13,5 +13,5 @@ module Clockwork
     Rake::Task[name].invoke
   end
 
-  every(1.day, 'eform:sync', at: '5:00') if ENV.key?('EFORM_SYNC_SUBJECT')
+  every(1.day, "eform:sync", at: "5:00") if ENV.key?("EFORM_SYNC_SUBJECT")
 end

@@ -9,6 +9,6 @@ class CreateFormTemplateRelatedDocuments < ActiveRecord::Migration[5.2]
       t.timestamps
     end
 
-    add_index :form_template_related_documents, [:form_template_id, :language, :document_type], unique: true, name: 'index_related_documents_on_template_id_and_language_and_type'
+    add_index :form_template_related_documents, [ :form_template_id, :language, :document_type ], unique: true, name: 'index_related_documents_on_template_id_and_language_and_type'
   end
 end

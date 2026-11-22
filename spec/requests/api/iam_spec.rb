@@ -205,7 +205,7 @@ RSpec.describe 'IAM API' do
   describe 'POST /api/iam/identities/search' do
     let(:params) do
       {
-        ids: ['...']
+        ids: [ '...' ]
       }
     end
 

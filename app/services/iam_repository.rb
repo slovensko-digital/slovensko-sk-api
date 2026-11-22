@@ -14,7 +14,7 @@ class IamRepository
     @upvs.iam.get_identity(request).identity_data
   end
 
-  def search(match: 'exact', page: 1, per_page: 20, **identity)
+  def search(match: "exact", page: 1, per_page: 20, **identity)
     request = factory.create_get_edesk_info2_request
     request.search_type = SearchType.from_value(MATCHES.fetch(match)) if match
     request.identity_request = new_identity_request(**identity)
@@ -27,11 +27,11 @@ class IamRepository
 
   private
 
-  ADDRESS_TYPES = { 'contact' => 'CONTACTADDRESS', 'resident' => 'STREETADDRESS' }
-  IDENTITY_TYPES = { 'natural_person' => 1, 'corporate_body' => 2, 'technical_account' => 3, 'employee_of_public_administration' => 5, 'institution_of_public_administration' => 6 }
+  ADDRESS_TYPES = { "contact" => "CONTACTADDRESS", "resident" => "STREETADDRESS" }
+  IDENTITY_TYPES = { "natural_person" => 1, "corporate_body" => 2, "technical_account" => 3, "employee_of_public_administration" => 5, "institution_of_public_administration" => 6 }
   # CORPORATE_BODY_LEGAL_FORMS = {} # TODO
   # NATURAL_PERSON_TYPES = {} # TODO
-  MATCHES = { 'exact' => 'EXACT', 'prefix' => 'BEGINWITH', 'infix' => 'INMIDDLE' }
+  MATCHES = { "exact" => "EXACT", "prefix" => "BEGINWITH", "infix" => "INMIDDLE" }
 
   mattr_reader :factory, default: sk.gov.schemas.identity.service._1.ObjectFactory.new
 

@@ -4,7 +4,7 @@ class EformController < ApiController
   rescue_from(ActiveRecord::RecordNotFound) { render_not_found(:template) }
   rescue_from(Nokogiri::XML::SyntaxError) { render_bad_request(:invalid, :form) }
 
-  rescue_from_soap_fault { |code| render_not_found(:template) if code == '06000798' }
+  rescue_from_soap_fault { |code| render_not_found(:template) if code == "06000798" }
 
   def status
     identifier, version = params.require(:identifier), params.require(:version)
@@ -16,7 +16,7 @@ class EformController < ApiController
     identifier, version, form = params.require(:identifier), params.require(:version), params.require(:form)
 
     # TODO remove -> see notes in FormTemplate model
-    version_major, version_minor = version.split('.', 2)
+    version_major, version_minor = version.split(".", 2)
 
     template = FormTemplate.find_by!(identifier: identifier, version_major: version_major, version_minor: version_minor)
 
@@ -36,7 +36,7 @@ class EformController < ApiController
     identifier, version, type = params.require(:identifier), params.require(:version), params.require(:type)
 
     # TODO remove -> see notes in FormTemplate model
-    version_major, version_minor = *version.split('.', 2)
+    version_major, version_minor = *version.split(".", 2)
 
     document = FormTemplate.find_by!(identifier: identifier, version_major: version_major, version_minor: version_minor).related_document(type)
 
@@ -54,9 +54,9 @@ class EformController < ApiController
 
     form_package_data = eform_service(**upvs_identity).fetch_form_package(identifier, version)
 
-    render json: { data: Base64.strict_encode64(String.from_java_bytes(form_package_data).force_encoding('UTF-8')) }
+    render json: { data: Base64.strict_encode64(String.from_java_bytes(form_package_data).force_encoding("UTF-8")) }
   rescue Java::JavaxXmlWsSoap::SOAPFaultException => e
-    if e.message == 'Nie je možné vygenerovať vzor formulára.'
+    if e.message == "Nie je možné vygenerovať vzor formulára."
       render_not_found(:template)
     else
       raise e

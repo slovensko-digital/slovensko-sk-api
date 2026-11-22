@@ -2,11 +2,11 @@
 
 class OboTokenAuthenticator
   DECODE_OPTIONS = {
-    algorithm: 'RS256',
+    algorithm: "RS256",
     verify_expiration: false,
     verify_not_before: false,
     verify_iat: false,
-    verify_jti: true,
+    verify_jti: true
   }
 
   # Subset of OneLogin::RubySaml::Response used to generate tokens from plain SAML assertions
@@ -22,15 +22,15 @@ class OboTokenAuthenticator
   def generate_token(response, scopes: [])
     assertion = parse_assertion(response)
 
-    sub = response.attributes['SubjectID'].to_s
+    sub = response.attributes["SubjectID"].to_s
     exp = response.not_on_or_after.to_i
     nbf = response.not_before.to_i
-    iat = assertion.attributes['IssueInstant'].to_time.to_i
+    iat = assertion.attributes["IssueInstant"].to_time.to_i
 
-    name = response.attributes['Subject.FormattedName'].to_s
+    name = response.attributes["Subject.FormattedName"].to_s
     actor = {
-      "name": response.attributes['Actor.FormattedName'].to_s,
-      "sub": response.attributes['ActorID'].to_s
+      "name": response.attributes["Actor.FormattedName"].to_s,
+      "sub": response.attributes["ActorID"].to_s
     }
     scopes = scopes.to_a
 
@@ -53,24 +53,24 @@ class OboTokenAuthenticator
     # TODO parse STS token expiration from assertion
     token_expiration = Time.now.to_i + 120.minutes.to_i
 
-    payload['exp'] = token_expiration
-    payload['scopes'] = scopes
+    payload["exp"] = token_expiration
+    payload["scopes"] = scopes
 
-    assertion = @assertion_store.read(payload['jti'])
+    assertion = @assertion_store.read(payload["jti"])
 
     save_to_assertion_store(assertion, payload.symbolize_keys)
   end
 
   def invalidate_token(token)
     verify_token(token, verify_expiration: false) do |payload, _|
-      result = @assertion_store.delete(payload['jti'])
-      result && result.to_s != '0'
+      result = @assertion_store.delete(payload["jti"])
+      result && result.to_s != "0"
     end
   end
 
   def verify_token(token, scope: nil, verify_expiration: true)
     payload, header = JWT.decode(token, @key_pair.public_key, true, DECODE_OPTIONS)
-    exp, nbf, iat, jti = payload['exp'], payload['nbf'], payload['iat'], payload['jti']
+    exp, nbf, iat, jti = payload["exp"], payload["nbf"], payload["iat"], payload["jti"]
 
     raise JWT::InvalidPayload, :exp unless exp.is_a?(Integer)
     raise JWT::InvalidPayload, :nbf unless nbf.is_a?(Integer)
@@ -82,7 +82,7 @@ class OboTokenAuthenticator
     raise JWT::ImmatureSignature, :nbf if nbf > now
     raise JWT::InvalidIatError, :iat if iat > nbf
 
-    scopes = payload['scopes'].to_a
+    scopes = payload["scopes"].to_a
 
     raise JWT::InvalidPayload, :scope if scope && scopes.exclude?(scope)
 
@@ -92,7 +92,7 @@ class OboTokenAuthenticator
 
     return yield payload, header if block_given?
 
-    [@proxy_subject, ass]
+    [ @proxy_subject, ass ]
   end
 
   def create_obo_token_from_assertion(assertion_string, scopes)
@@ -115,7 +115,7 @@ class OboTokenAuthenticator
       next unless @assertion_store.write(jti, assertion, expires_in: exp_in, unless_exist: true)
 
       begin
-        return JWT.encode(payload, @key_pair, 'RS256')
+        return JWT.encode(payload, @key_pair, "RS256")
       rescue => error
         @assertion_store.delete(jti) and raise(error)
       end
@@ -124,12 +124,12 @@ class OboTokenAuthenticator
 
   def parse_assertion(response)
     document = response.decrypted_document|| response.document
-    assertion = REXML::XPath.first(document, '//saml:Assertion')
+    assertion = REXML::XPath.first(document, "//saml:Assertion")
 
     raise ArgumentError unless assertion
 
     # force namespaces directly on element, otherwise they are not present
-    assertion.namespaces.slice('dsig', 'saml', 'xsi').each do |prefix, uri|
+    assertion.namespaces.slice("dsig", "saml", "xsi").each do |prefix, uri|
       assertion.add_namespace(prefix, uri)
     end
 
@@ -142,7 +142,7 @@ class OboTokenAuthenticator
   def assertion_to_s(assertion)
     formatter = REXML::Formatters::Pretty.new(0)
     formatter.compact = true
-    formatter.write(assertion, buffer = '')
+    formatter.write(assertion, buffer = "")
     buffer.remove("\n")
   end
 
@@ -151,16 +151,16 @@ class OboTokenAuthenticator
 
     SamlAssertion.new(
       attributes: {
-        'IssueInstant' => document.root.attributes['IssueInstant'],
-        'SubjectID' => REXML::XPath.first(document, '//*[@Name="SubjectID"]/saml:AttributeValue/text()'),
-        'Subject.FormattedName' => REXML::XPath.first(document, '//*[@Name="Subject.FormattedName"]/saml:AttributeValue/text()'),
-        'ActorID' => REXML::XPath.first(document, '//*[@Name="ActorID"]/saml:AttributeValue/text()'),
-        'Actor.FormattedName' => REXML::XPath.first(document, '//*[@Name="Actor.FormattedName"]/saml:AttributeValue/text()')
+        "IssueInstant" => document.root.attributes["IssueInstant"],
+        "SubjectID" => REXML::XPath.first(document, '//*[@Name="SubjectID"]/saml:AttributeValue/text()'),
+        "Subject.FormattedName" => REXML::XPath.first(document, '//*[@Name="Subject.FormattedName"]/saml:AttributeValue/text()'),
+        "ActorID" => REXML::XPath.first(document, '//*[@Name="ActorID"]/saml:AttributeValue/text()'),
+        "Actor.FormattedName" => REXML::XPath.first(document, '//*[@Name="Actor.FormattedName"]/saml:AttributeValue/text()')
       },
       document: document,
       decrypted_document: nil,
-      not_on_or_after: REXML::XPath.first(document, '//saml:Conditions').attributes['NotOnOrAfter'].to_time,
-      not_before: REXML::XPath.first(document, '//saml:Conditions').attributes['NotBefore'].to_time
+      not_on_or_after: REXML::XPath.first(document, "//saml:Conditions").attributes["NotOnOrAfter"].to_time,
+      not_before: REXML::XPath.first(document, "//saml:Conditions").attributes["NotBefore"].to_time
     )
   end
 end

@@ -35,7 +35,7 @@ RSpec.describe DownloadFormTemplateJob, :sts do
       let(:identifier) { 'App.UnknownAgenda' }
 
       it 'does not download form template' do
-        expect { suppress(javax.xml.ws.soap.SOAPFaultException) { subject.perform(identifier, 1, 0) }}.not_to change { FormTemplate.count }
+        expect { suppress(javax.xml.ws.soap.SOAPFaultException) { subject.perform(identifier, 1, 0) } }.not_to change { FormTemplate.count }
       end
 
       it 'raises error' do

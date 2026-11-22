@@ -7,7 +7,7 @@ RSpec.describe ApiTokenAuthenticator do
 
   let(:identifier_store) { redis_cache_store_in_ruby_memory }
   let(:public_key) { api_token_key_pair.public_key }
-  let(:subject_verifier) { -> (sub) { sub == 'CIN-11190868' || sub == 'CIN-83130022' }}
+  let(:subject_verifier) { ->(sub) { sub == 'CIN-11190868' || sub == 'CIN-83130022' } }
   let(:obo_token_authenticator) { OboTokenAuthenticator.new(assertion_store: obo_token_assertion_store, key_pair: obo_token_key_pair, proxy_subject: obo_token_proxy_subject) }
 
   let(:obo_token_assertion) { file_fixture('oam/sso_response_success_assertion.xml').read.strip }
@@ -52,17 +52,17 @@ RSpec.describe ApiTokenAuthenticator do
 
       context 'allow all token types' do
         it 'returns nil and nil for tokens with no identity' do
-          expect(subject.verify_token(token, allow_plain: true, allow_sub: true, allow_obo_token: true)).to eq([nil, nil])
+          expect(subject.verify_token(token, allow_plain: true, allow_sub: true, allow_obo_token: true)).to eq([ nil, nil ])
         end
 
         it 'returns SUB claim and nil for tokens with SUB identifier' do
-          expect(subject.verify_token(token_with_sub, allow_plain: true, allow_sub: true, allow_obo_token: true)).to eq(['CIN-11190868', nil])
+          expect(subject.verify_token(token_with_sub, allow_plain: true, allow_sub: true, allow_obo_token: true)).to eq([ 'CIN-11190868', nil ])
         end
 
         pending 'returns SUB claim and OBO identifier for tokens with SUB identifier + OBO identifier'
 
         it 'returns SUB proxy and OBO assertion for tokens with CTY header + OBO token' do
-          expect(subject.verify_token(token_with_obo_token, allow_plain: true, allow_sub: true, allow_obo_token: true)).to eq([obo_token_proxy_subject, obo_token_assertion])
+          expect(subject.verify_token(token_with_obo_token, allow_plain: true, allow_sub: true, allow_obo_token: true)).to eq([ obo_token_proxy_subject, obo_token_assertion ])
         end
 
         context 'without OBO token support' do
@@ -76,7 +76,7 @@ RSpec.describe ApiTokenAuthenticator do
 
       context 'allow only tokens with no identity' do
         it 'returns nil and nil for tokens with no identity' do
-          expect(subject.verify_token(token, allow_plain: true)).to eq([nil, nil])
+          expect(subject.verify_token(token, allow_plain: true)).to eq([ nil, nil ])
         end
 
         it 'raises error for tokens with SUB identifier' do
@@ -104,11 +104,11 @@ RSpec.describe ApiTokenAuthenticator do
         end
 
         it 'returns SUB claim and nil for tokens with SUB identifier' do
-          expect(subject.verify_token(token_with_sub, allow_sub: true)).to eq(['CIN-11190868', nil])
+          expect(subject.verify_token(token_with_sub, allow_sub: true)).to eq([ 'CIN-11190868', nil ])
         end
 
         it 'returns SUB claim and OBOID for tokens with SUB identifier + OBO identifier' do
-          expect(subject.verify_token(token_with_obo_id, allow_sub: true)).to eq(['CIN-11190868', obo_id])
+          expect(subject.verify_token(token_with_obo_id, allow_sub: true)).to eq([ 'CIN-11190868', obo_id ])
         end
 
         it 'raises error for tokens with CTY header + OBO token' do
@@ -150,7 +150,7 @@ RSpec.describe ApiTokenAuthenticator do
         end
 
         it 'returns SUB proxy and OBO assertion for tokens with CTY header + OBO token' do
-          expect(subject.verify_token(token_with_obo_token, allow_obo_token: true)).to eq([obo_token_proxy_subject, obo_token_assertion])
+          expect(subject.verify_token(token_with_obo_token, allow_obo_token: true)).to eq([ obo_token_proxy_subject, obo_token_assertion ])
         end
 
         context 'without OBO token support' do
@@ -194,7 +194,7 @@ RSpec.describe ApiTokenAuthenticator do
 
       it 'returns nil and nil' do
         token = generate_token
-        expect(subject.verify_token(token, allow_plain: true)).to eq([nil, nil])
+        expect(subject.verify_token(token, allow_plain: true)).to eq([ nil, nil ])
       end
 
       it 'verifies format' do
@@ -334,7 +334,7 @@ RSpec.describe ApiTokenAuthenticator do
 
       it 'returns SUB claim and nil' do
         token = generate_token(sub: 'CIN-11190868')
-        expect(subject.verify_token(token, allow_sub: true)).to eq(['CIN-11190868', nil])
+        expect(subject.verify_token(token, allow_sub: true)).to eq([ 'CIN-11190868', nil ])
       end
 
       it 'verifies format' do
@@ -485,7 +485,7 @@ RSpec.describe ApiTokenAuthenticator do
       end
 
       context 'subject verifier failure' do
-        let(:subject_verifier) { double.tap { |o| expect(o).to receive(:call).and_raise(RuntimeError) }}
+        let(:subject_verifier) { double.tap { |o| expect(o).to receive(:call).and_raise(RuntimeError) } }
         let(:identifier_store) { double(:unreachable) }
 
         it 'raises error' do
@@ -537,7 +537,7 @@ RSpec.describe ApiTokenAuthenticator do
 
       it 'returns SUB proxy and OBO assertion' do
         token = generate_token
-        expect(subject.verify_token(token, allow_obo_token: true)).to eq([obo_token_proxy_subject, obo_token_assertion])
+        expect(subject.verify_token(token, allow_obo_token: true)).to eq([ obo_token_proxy_subject, obo_token_assertion ])
       end
 
       it 'verifies format' do
@@ -642,7 +642,7 @@ RSpec.describe ApiTokenAuthenticator do
         end
 
         it 'verifies OBO token scope if given' do
-          obo_token = generate_obo_token(scopes: ['edesk/authorize'])
+          obo_token = generate_obo_token(scopes: [ 'edesk/authorize' ])
           token = generate_token(obo: obo_token)
           expect(obo_token_authenticator).to receive(:verify_token).with(obo_token, scope: 'sktalk/receive', verify_expiration: true).and_call_original
           expect { subject.verify_token(token, allow_obo_token: true, require_obo_token_scope: 'sktalk/receive') }.to raise_error(JWT::InvalidPayload, 'obo') do |error|
@@ -655,13 +655,13 @@ RSpec.describe ApiTokenAuthenticator do
         it 'verifies SUB proxy presence if obo_support?' do
           token = generate_token
           expect(UpvsEnvironment).to receive(:obo_support?).and_return(true)
-          expect(obo_token_authenticator).to receive(:verify_token).and_return([nil, obo_token_assertion])
+          expect(obo_token_authenticator).to receive(:verify_token).and_return([ nil, obo_token_assertion ])
           expect { subject.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::InvalidSubError, 'obo')
         end
 
         it 'verifies SUB proxy value' do
           token = generate_token
-          expect(obo_token_authenticator).to receive(:verify_token).and_return(['CIN-00000000', obo_token_assertion])
+          expect(obo_token_authenticator).to receive(:verify_token).and_return([ 'CIN-00000000', obo_token_assertion ])
           expect { subject.verify_token(token, allow_obo_token: true) }.to raise_error(JWT::InvalidSubError, 'obo')
         end
       end
@@ -718,7 +718,7 @@ RSpec.describe ApiTokenAuthenticator do
       end
 
       context 'OBO token authenticator failure' do
-        let(:obo_token_authenticator) { double.tap { |o| expect(o).to receive(:verify_token).and_raise(RuntimeError) }}
+        let(:obo_token_authenticator) { double.tap { |o| expect(o).to receive(:verify_token).and_raise(RuntimeError) } }
         let(:obo_token_assertion_store) { double(:unreachable) }
         let(:subject_verifier) { double(:unreachable) }
         let(:identifier_store) { double(:unreachable) }
@@ -739,7 +739,7 @@ RSpec.describe ApiTokenAuthenticator do
       end
 
       context 'subject verifier failure' do
-        let(:subject_verifier) { double.tap { |o| expect(o).to receive(:call).and_raise(RuntimeError) }}
+        let(:subject_verifier) { double.tap { |o| expect(o).to receive(:call).and_raise(RuntimeError) } }
         let(:identifier_store) { double(:unreachable) }
 
         it 'raises error' do

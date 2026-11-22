@@ -16,7 +16,7 @@ module ApiRequests
     let(:headers) { respond_to?(:token) ? Hash['Authorization' => 'Bearer ' + token] : Hash.new } unless method_defined?(:headers)
     let(:params) { Hash.new } unless method_defined?(:params)
 
-    define_method(:set_upvs_expectations) {} unless method_defined?(:set_upvs_expectations)
+    define_method(:set_upvs_expectations) { } unless method_defined?(:set_upvs_expectations)
 
     # TODO rename to #params_format and reuse #require_request_body? -> this here is pure internal helper
     let(:format) { :json if method_to_path.keys.first != :get && params.any? }
@@ -52,7 +52,7 @@ end
 shared_examples 'API request media types' do |accept:, require_request_body: nil, expect_response_body: true, **method_to_path|
   method, path = setup_api_requests(method_to_path)
 
-  require_request_body = method.in?([:post, :patch, :put]) if require_request_body.nil?
+  require_request_body = method.in?([ :post, :patch, :put ]) if require_request_body.nil?
 
   # TODO also check Accept-Charset / Content-Type charset -> only utf-8 is allowed
 
@@ -206,7 +206,7 @@ shared_examples 'API request authentication' do |allow_plain: false, allow_sub: 
   it 'allows authentication via tokens with CTY header + OBO token', if: obo_support? do
     set_upvs_expectations
 
-    send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [obo_token_scope(method, path)])), params: params, as: format
+    send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [ obo_token_scope(method, path) ])), params: params, as: format
 
     expect(response).to be_successful
   end if allow_obo_token
@@ -214,7 +214,7 @@ shared_examples 'API request authentication' do |allow_plain: false, allow_sub: 
   it 'allows authentication via tokens with CTY header + OBO token', if: sso_support? do
     set_upvs_expectations
 
-    send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [obo_token_scope(method, path)])), params: params, as: format
+    send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [ obo_token_scope(method, path) ])), params: params, as: format
 
     expect(response).to be_successful
   end if allow_obo_token
@@ -272,28 +272,28 @@ shared_examples 'API request authentication' do |allow_plain: false, allow_sub: 
   end if allow_sub
 
   it 'responds with 401 if authenticating via token with CTY header + OBO token', if: obo_support? do
-    send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [obo_token_scope(method, path)])), params: params, as: format
+    send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [ obo_token_scope(method, path) ])), params: params, as: format
 
     expect(response.status).to eq(401)
     expect(response.object).to eq(message: 'Bad credentials')
   end unless allow_obo_token
 
   it 'responds with 401 if authenticating via token with CTY header + OBO token', if: sso_support? do
-    send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [obo_token_scope(method, path)])), params: params, as: format
+    send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [ obo_token_scope(method, path) ])), params: params, as: format
 
     expect(response.status).to eq(401)
     expect(response.object).to eq(message: 'Bad credentials')
   end unless allow_obo_token
 
   it 'responds with 401 if authenticating via token with CTY header + OBO token with invalid scope', if: obo_support? do
-    send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: ['?'])), params: params, as: format
+    send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [ '?' ])), params: params, as: format
 
     expect(response.status).to eq(401)
     expect(response.object).to eq(message: 'Bad credentials')
   end if allow_obo_token
 
   it 'responds with 401 if authenticating via token with CTY header + OBO token with invalid scope', if: sso_support? do
-    send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: ['?'])), params: params, as: format
+    send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [ '?' ])), params: params, as: format
 
     expect(response.status).to eq(401)
     expect(response.object).to eq(message: 'Bad credentials')
@@ -361,7 +361,7 @@ shared_examples 'UPVS proxy initialization' do |allow_plain: false, allow_sub: f
       2.times do
         set_upvs_expectations
 
-        send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [obo_token_scope(method, path)])), params: params, as: format
+        send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [ obo_token_scope(method, path) ])), params: params, as: format
 
         expect(response).to be_successful
       end
@@ -372,7 +372,7 @@ shared_examples 'UPVS proxy initialization' do |allow_plain: false, allow_sub: f
       expect(UpvsProxy).not_to receive(:new)
 
       2.times do
-        send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [obo_token_scope(method, path)])), params: params, as: format
+        send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [ obo_token_scope(method, path) ])), params: params, as: format
 
         expect(response).not_to be_successful
       end
@@ -383,7 +383,7 @@ shared_examples 'UPVS proxy initialization' do |allow_plain: false, allow_sub: f
       expect(UpvsProxy).not_to receive(:new)
 
       2.times do
-        send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [obo_token_scope(method, path)])), params: params, as: format
+        send method, path, headers: headers.merge('Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [ obo_token_scope(method, path) ])), params: params, as: format
 
         expect(response).not_to be_successful
       end

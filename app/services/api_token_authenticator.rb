@@ -14,7 +14,7 @@ class ApiTokenAuthenticator
 
   def invalidate_token(token, allow_plain: false, allow_sub: false, allow_obo_token: false)
     verify_token(token, allow_plain: allow_plain, allow_sub: allow_sub, allow_obo_token: allow_obo_token, verify_obo_expiration: false) do |payload, header|
-      @obo_token_authenticator.invalidate_token(payload['obo']) if header['cty'] && payload['obo']
+      @obo_token_authenticator.invalidate_token(payload["obo"]) if header["cty"] && payload["obo"]
     end
   end
 
@@ -23,19 +23,19 @@ class ApiTokenAuthenticator
     raise ArgumentError if !allow_obo_token && require_obo_token_scope
 
     options = {
-      algorithm: 'RS256',
+      algorithm: "RS256",
       verify_expiration: false,
       verify_not_before: false,
-      verify_jti: -> (jti) { jti =~ JTI_PATTERN },
+      verify_jti: ->(jti) { jti =~ JTI_PATTERN }
     }
 
     payload, header = JWT.decode(token, @public_key, true, options)
-    cty, sub, obo = header['cty'], payload['sub'], payload['obo']
+    cty, sub, obo = header["cty"], payload["sub"], payload["obo"]
 
     if cty && obo
       raise JWT::DecodeError unless obo_token_support?
       raise JWT::InvalidPayload unless allow_obo_token
-      raise JWT::InvalidPayload if cty != 'JWT'
+      raise JWT::InvalidPayload if cty != "JWT"
 
       begin
         proxy_sub, obo = @obo_token_authenticator.verify_token(obo, scope: require_obo_token_scope, verify_expiration: verify_obo_expiration)
@@ -44,7 +44,7 @@ class ApiTokenAuthenticator
         raise JWT::InvalidPayload, :obo
       end
 
-      raise JWT::InvalidSubError, :obo if (UpvsEnvironment.obo_support? && !sub)
+      raise JWT::InvalidSubError, :obo if UpvsEnvironment.obo_support? && !sub
     # elsif sub && obo
     #   raise JWT::InvalidPayload unless allow_obo_id
     #   raise JWT::InvalidPayload if cty
@@ -60,7 +60,7 @@ class ApiTokenAuthenticator
       raise JWT::InvalidPayload if obo
     end
 
-    exp, jti = payload['exp'], payload['jti']
+    exp, jti = payload["exp"], payload["jti"]
 
     raise JWT::InvalidSubError, (obo ? :obo : nil) if sub && !@subject_verifier.call(sub)
     raise JWT::InvalidPayload, :exp unless exp.is_a?(Integer)
@@ -69,24 +69,24 @@ class ApiTokenAuthenticator
 
     raise JWT::ExpiredSignature, :exp if exp <= now
     raise JWT::InvalidPayload, :exp if exp > (now + MAX_EXP_IN)
-    raise JWT::InvalidJtiError unless @identifier_store.write([sub, jti], true, expires_in: MAX_EXP_IN, unless_exist: true)
+    raise JWT::InvalidJtiError unless @identifier_store.write([ sub, jti ], true, expires_in: MAX_EXP_IN, unless_exist: true)
 
     return yield payload, header if block_given?
 
-    [sub, obo]
+    [ sub, obo ]
   end
 
   def generate_long_lasting_token(token, scopes)
     options = {
-      algorithm: 'RS256',
+      algorithm: "RS256",
       verify_expiration: false,
       verify_not_before: false,
-      verify_jti: -> (jti) { jti =~ JTI_PATTERN },
+      verify_jti: ->(jti) { jti =~ JTI_PATTERN }
     }
 
     payload, header = JWT.decode(token, @public_key, true, options)
 
-    @obo_token_authenticator.generate_long_lasting_token(payload['obo'], scopes)
+    @obo_token_authenticator.generate_long_lasting_token(payload["obo"], scopes)
   end
 
   private

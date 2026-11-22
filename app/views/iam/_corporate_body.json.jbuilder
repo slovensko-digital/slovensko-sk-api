@@ -1,13 +1,13 @@
-json.cin identity.id.find { |id| id.identifier_type.id == '7' }&.identifier_value
-json.tin identity.id.find { |id| id.identifier_type.id == '8' }&.identifier_value
+json.cin identity.id.find { |id| id.identifier_type.id == "7" }&.identifier_value
+json.tin identity.id.find { |id| id.identifier_type.id == "8" }&.identifier_value
 
 json.organization_id corporate_body.org_id
 json.organization_units corporate_body.organization_unit
 
-json.partial! 'iam/corporate_body_name', corporate_body: corporate_body
+json.partial! "iam/corporate_body_name", corporate_body: corporate_body
 json.alternative_names corporate_body.corporate_body_alternative_name
 
-json.legal_form { json.partial! 'iam/enumeration', value: corporate_body.legal_form }
+json.legal_form { json.partial! "iam/enumeration", value: corporate_body.legal_form }
 json.legal_facts corporate_body.other_legal_facts
 
 json.activities corporate_body.activities

@@ -3,7 +3,7 @@
 class KeyStore
   Error = Class.new(StandardError)
 
-  def initialize(file, password, type: 'JKS')
+  def initialize(file, password, type: "JKS")
     @keystore = java.security.KeyStore.get_instance(type)
     @keystore.load(java.io.FileInputStream.new(file), password.chars.to_java(:char))
     # TODO is this a bug? file not closed!

@@ -8,13 +8,13 @@ class Edesk::MessagesController < ApiController
 
   before_action { authenticate(allow_sub: true) }
 
-  before_action(only: [:index, :search]) { set_page }
-  before_action(only: [:index, :search]) { set_per_page(default: 50, range: 10..5000) }
+  before_action(only: [ :index, :search ]) { set_page }
+  before_action(only: [ :index, :search ]) { set_per_page(default: 50, range: 10..5000) }
 
   before_action(only: :index) { render_bad_request(:invalid, :folder_id) unless match_positive?(params[:folder_id]) }
   before_action(only: :update) { render_bad_request(:invalid, :folder_id) if params.require(:folder_id).to_i <= 0 }
   before_action(only: :search) { render_bad_request(:invalid, :correlation_id) unless UUID_PATTERN.match?(params.require(:correlation_id)) }
-  before_action(except: [:index, :search]) { render_bad_request(:invalid, :message_id) unless match_positive?(params[:id]) }
+  before_action(except: [ :index, :search ]) { render_bad_request(:invalid, :message_id) unless match_positive?(params[:id]) }
 
   def index
     @messages = edesk_service(**upvs_identity).messages(params[:folder_id].to_i, page: page, per_page: per_page)
@@ -49,7 +49,7 @@ class Edesk::MessagesController < ApiController
   UUID_PATTERN = /\A[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\z/i
 
   def require_request_body?
-    super && action_name != 'authorize'
+    super && action_name != "authorize"
   end
 
   def search_params

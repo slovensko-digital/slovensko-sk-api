@@ -1,20 +1,20 @@
 Rails.application.routes.draw do
   scope format: false do
     namespace :administration do
-      resources :certificates, only: [:create, :show, :destroy]
+      resources :certificates, only: [ :create, :show, :destroy ]
 
       namespace :eform do
         get :synchronize
       end
     end
 
-    get :health, to: 'health#index'
+    get :health, to: "health#index"
 
     if UpvsEnvironment.sso_support?
-      get :login, to: 'upvs#login'
-      get :logout, to: 'upvs#logout'
+      get :login, to: "upvs#login"
+      get :logout, to: "upvs#logout"
 
-      scope 'auth/saml', as: :upvs, controller: :upvs do
+      scope "auth/saml", as: :upvs, controller: :upvs do
         get :login
         get :logout
 
@@ -23,7 +23,7 @@ Rails.application.routes.draw do
     end
 
     if UpvsEnvironment.obo_support?
-      post :login, to: 'upvs#login_with_saml_assertion'
+      post :login, to: "upvs#login_with_saml_assertion"
     end
 
     scope :api do
@@ -32,11 +32,11 @@ Rails.application.routes.draw do
       end
 
       namespace :edesk do
-        resources :folders, only: [:index] do
-          resources :messages, only: [:index]
+        resources :folders, only: [ :index ] do
+          resources :messages, only: [ :index ]
         end
 
-        resources :messages, only: [:show, :update, :destroy] do
+        resources :messages, only: [ :show, :update, :destroy ] do
           collection do
             get :search
           end
@@ -46,7 +46,7 @@ Rails.application.routes.draw do
           end
         end
       end
-      
+
       namespace :eform do
         get :status
         post :validate
@@ -56,7 +56,7 @@ Rails.application.routes.draw do
       end
 
       namespace :iam do
-        resources :identities, only: [:show] do
+        resources :identities, only: [ :show ] do
           collection do
             get :lookup
             post :search
@@ -79,6 +79,6 @@ Rails.application.routes.draw do
       end
     end
 
-    match '500', to: 'errors#internal_server_error', via: :all
+    match "500", to: "errors#internal_server_error", via: :all
   end
 end

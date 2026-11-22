@@ -11,8 +11,8 @@
 # end
 
 ActiveSupport::Inflector.inflections(:en) do |inflect|
-  inflect.acronym 'ID'
-  inflect.acronym 'URI'
+  inflect.acronym "ID"
+  inflect.acronym "URI"
 
   inflect.human /_id$/i, '\1 identifier'
 end

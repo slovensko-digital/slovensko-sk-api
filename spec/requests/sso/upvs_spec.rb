@@ -6,7 +6,7 @@ RSpec.describe 'UPVS SSO' do
   end
 
   def mock_idp_response(response)
-    OmniAuth.config.add_mock(:saml, extra: { response_object: OneLogin::RubySaml::Response.new(response, {skip_conditions: true}) })
+    OmniAuth.config.add_mock(:saml, extra: { response_object: OneLogin::RubySaml::Response.new(response, { skip_conditions: true }) })
   end
 
   before do
@@ -128,7 +128,6 @@ RSpec.describe 'UPVS SSO' do
         before(:each) { allow_any_instance_of(ActionDispatch::Request).to receive(:host_with_port) { 'slovensko-sk-api.slovensko.digital' } }
 
         it 'redirects to IDP with response' do
-
           get '/auth/saml/logout' + idp_request_query
 
           expect(response.status).to eq(302)
@@ -211,7 +210,7 @@ RSpec.describe 'UPVS SSO' do
         end
 
         context 'with response' do
-          before(:example) { get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token }}
+          before(:example) { get '/auth/saml/logout', headers: { 'Authorization' => 'Bearer ' + token } }
 
           it 'redirects to internal action with logout callback location' do
             get '/auth/saml/logout', params: { SAMLResponse: 'RESPONSE' }

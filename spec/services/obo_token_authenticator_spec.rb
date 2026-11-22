@@ -20,7 +20,7 @@ RSpec.describe OboTokenAuthenticator do
 
   describe '#generate_token' do
     it 'returns token' do
-      token = subject.generate_token(response, scopes: ['sktalk/receive'])
+      token = subject.generate_token(response, scopes: [ 'sktalk/receive' ])
 
       payload, header = JWT.decode(token, key_pair.public_key, false)
 
@@ -39,7 +39,7 @@ RSpec.describe OboTokenAuthenticator do
           'name' => 'Janko Tisíci',
           'sub' => 'rc://sk/8314451337_tisici_janko'
         },
-        'scopes' => ['sktalk/receive'],
+        'scopes' => [ 'sktalk/receive' ],
       )
     end
 
@@ -124,7 +124,7 @@ RSpec.describe OboTokenAuthenticator do
     end
 
     context 'response that is expiring just about now' do
-      before(:example) { expect(assertion_store).to receive(:write).and_wrap_original { travel_to(response.not_on_or_after) and false }}
+      before(:example) { expect(assertion_store).to receive(:write).and_wrap_original { travel_to(response.not_on_or_after) and false } }
 
       it 'raises argument error' do
         expect { subject.generate_token(response) }.to raise_error(ArgumentError, 'exp')
@@ -206,7 +206,7 @@ qQIDAQAB
 -----END PUBLIC KEY-----
 KEY
         key_pair = OpenSSL::PKey::RSA.new(private_key)
-        
+
         expect(key_pair.public_key.to_pem).to eq(public_key)
       end
     end
@@ -273,7 +273,7 @@ KEY
     end
 
     it 'returns subject and assertion' do
-      expect(subject.verify_token(generate_token)).to eq([proxy_subject, assertion])
+      expect(subject.verify_token(generate_token)).to eq([ proxy_subject, assertion ])
     end
 
     it 'verifies format' do
@@ -389,7 +389,7 @@ KEY
     end
 
     it 'verifies SCOPES claim value' do
-      token = generate_token(scopes: ['edesk/authorize'])
+      token = generate_token(scopes: [ 'edesk/authorize' ])
       expect { subject.verify_token(token, scope: 'sktalk/receive') }.to raise_error(JWT::InvalidPayload, 'scope')
     end
 

@@ -1,4 +1,4 @@
-require 'active_support/core_ext/integer/time'
+require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -17,9 +17,9 @@ Rails.application.configure do
 
   # Enable/disable Action Controller caching. By default Action Controller caching is disabled.
   # Run rails dev:cache to toggle Action Controller caching.
-  if Rails.root.join('tmp/caching-dev.txt').exist?
+  if Rails.root.join("tmp/caching-dev.txt").exist?
     config.action_controller.perform_caching = true
-    config.public_file_server.headers = { 'cache-control' => "public, max-age=#{2.days.to_i}" }
+    config.public_file_server.headers = { "cache-control" => "public, max-age=#{2.days.to_i}" }
     config.cache_store = :memory_store
   else
     config.action_controller.perform_caching = false

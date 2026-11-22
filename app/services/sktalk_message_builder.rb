@@ -4,11 +4,11 @@ class SktalkMessageBuilder
   end
 
   def initialize(class:, posp_id: nil, posp_version: nil, message_id: uuid, correlation_id: uuid, reference_id: nil, business_id: nil) # TODO channel_info: nil, channel_info_reply: nil, security_method: nil, security_token: nil, identity: nil
-    Nokogiri::XML::Builder.new(encoding: 'utf-8') { |m|
+    Nokogiri::XML::Builder.new(encoding: "utf-8") { |m|
       @builder = m
       m.SKTalkMessage {
-        m.parent[:xmlns] = 'http://gov.sk/SKTalkMessage'
-        m.EnvelopeVersion '3.0'
+        m.parent[:xmlns] = "http://gov.sk/SKTalkMessage"
+        m.EnvelopeVersion "3.0"
         m.Header {
           m.MessageInfo {
             m.Class binding.local_variable_get(:class)
@@ -42,8 +42,8 @@ class SktalkMessageBuilder
   def message_container(sender_uri:, recipient_uri:, message_type:, message_subject: nil, sender_business_reference: nil, recipient_business_reference: nil)
     @builder.tap do |m|
       m.MessageContainer {
-        m.parent[:xmlns] = 'http://schemas.gov.sk/core/MessageContainer/1.0'
-        m.MessageId @builder.doc.at_xpath('/SKTalkMessage/Header/MessageInfo/MessageID').content
+        m.parent[:xmlns] = "http://schemas.gov.sk/core/MessageContainer/1.0"
+        m.MessageId @builder.doc.at_xpath("/SKTalkMessage/Header/MessageInfo/MessageID").content
         m.SenderId sender_uri
         m.RecipientId recipient_uri
         m.MessageType message_type
@@ -73,12 +73,12 @@ class SktalkMessageBuilder
 
   def form_object(**args, &block)
     raise ArgumentError if args.key?(:class)
-    object(**args.merge(class: 'FORM').reverse_merge(mime_type: 'application/x-eform-xml', encoding: 'XML'), &block)
+    object(**args.merge(class: "FORM").reverse_merge(mime_type: "application/x-eform-xml", encoding: "XML"), &block)
   end
 
   def attachment_object(**args, &block)
     raise ArgumentError if args.key?(:class)
-    object(**args.merge(class: 'ATTACHMENT').reverse_merge(encoding: 'Base64'), &block)
+    object(**args.merge(class: "ATTACHMENT").reverse_merge(encoding: "Base64"), &block)
   end
 
   def <<(value)
@@ -92,10 +92,10 @@ class SktalkMessageBuilder
 
   # internal support for builders which set SKTalk class or POSP later according to SKTalk body structure
 
-  CLASS_PATH = '/SKTalkMessage/Header/MessageInfo/Class'
-  POSP_ID_PATH = '/SKTalkMessage/Header/MessageInfo/PospID'
-  POSP_VERSION_PATH = '/SKTalkMessage/Header/MessageInfo/PospVersion'
-  MESSAGE_TYPE_PATH = '/SKTalkMessage/Body/MessageContainer/MessageType'
+  CLASS_PATH = "/SKTalkMessage/Header/MessageInfo/Class"
+  POSP_ID_PATH = "/SKTalkMessage/Header/MessageInfo/PospID"
+  POSP_VERSION_PATH = "/SKTalkMessage/Header/MessageInfo/PospVersion"
+  MESSAGE_TYPE_PATH = "/SKTalkMessage/Body/MessageContainer/MessageType"
 
   def set_class(c)
     @builder.doc.at_xpath(CLASS_PATH).content = c

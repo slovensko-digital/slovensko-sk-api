@@ -1,4 +1,4 @@
-require 'active_support/core_ext/integer/time'
+require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -25,11 +25,11 @@ Rails.application.configure do
   # config.force_ssl = true
 
   # Log to STDOUT with the current request id as a default log tag.
-  config.log_tags = [:request_id]
+  config.log_tags = [ :request_id ]
   config.logger = ActiveSupport::TaggedLogging.logger(STDOUT)
 
   # Use the lowest log level by default to ensure availability of diagnostic information when problems arise.
-  config.log_level = ENV.fetch('LOG_LEVEL', 'debug')
+  config.log_level = ENV.fetch("LOG_LEVEL", "debug")
 
   # Don't log any deprecations.
   config.active_support.report_deprecations = false
@@ -42,5 +42,5 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Only use :id for inspections in production.
-  config.active_record.attributes_for_inspect = [:id]
+  config.active_record.attributes_for_inspect = [ :id ]
 end

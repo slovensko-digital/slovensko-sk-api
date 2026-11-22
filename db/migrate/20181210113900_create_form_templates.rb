@@ -8,6 +8,6 @@ class CreateFormTemplates < ActiveRecord::Migration[5.2]
       t.timestamps
     end
 
-    add_index :form_templates, [:identifier, :version_major, :version_minor], unique: true, name: 'index_form_templates_on_identifier_and_version'
+    add_index :form_templates, [ :identifier, :version_major, :version_minor ], unique: true, name: 'index_form_templates_on_identifier_and_version'
   end
 end

@@ -6,7 +6,7 @@ RSpec.describe UpvsEnvironment do
   pending '.upvs_properties'
 
   describe '.upvs_proxy' do
-    before(:example) { allow(UpvsProxy).to receive(:new).and_wrap_original { Object.new }}
+    before(:example) { allow(UpvsProxy).to receive(:new).and_wrap_original { Object.new } }
 
     before(:example) { UpvsEnvironment.upvs_proxy_cache.invalidate_all }
 

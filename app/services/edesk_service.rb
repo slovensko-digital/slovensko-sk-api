@@ -57,8 +57,8 @@ class EdeskService
 
     filter_params.each do |key, value|
       case key.to_s
-      when 'correlation_id'
-        filter_item = build_filter_item('CorrelationId', value)
+      when "correlation_id"
+        filter_item = build_filter_item("CorrelationId", value)
         array_of_filter_items.get_filter_item().add(filter_item)
       end
     end
@@ -80,7 +80,7 @@ class EdeskService
 
     fault = factory.create_edesk_fault
     fault.code = org.datacontract.schemas._2004._07.anasoft_edesk.FaultCodes::MESSAGE_NOT_EXIST
-    fault.reason = factory.create_edesk_fault_reason('Správa neexistuje.')
+    fault.reason = factory.create_edesk_fault_reason("Správa neexistuje.")
 
     type.new(fault.reason.value, fault)
   end

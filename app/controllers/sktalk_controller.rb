@@ -27,12 +27,12 @@ class SktalkController < ApiController
 
   # allow sending invalid sktalk to cache token for SSO
   def prepare_for_later_receive(message_builder: SktalkMessageBuilder)
-    message = message_builder.new(class: 'EGOV_APPLICATION', posp_id: 'App.GeneralAgenda', posp_version: '1.9')
+    message = message_builder.new(class: "EGOV_APPLICATION", posp_id: "App.GeneralAgenda", posp_version: "1.9")
 
     sktalk_receiver(**upvs_identity).receive(message.to_xml)
 
     long_lasting_obo_token = Environment.api_token_authenticator.generate_long_lasting_token(authenticity_token, PREPARE_FOR_LATER_RECEIVE_SCOPES)
 
-    render status: :ok, json: {"token": long_lasting_obo_token}
+    render status: :ok, json: { "token": long_lasting_obo_token }
   end
 end

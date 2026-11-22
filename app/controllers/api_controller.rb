@@ -3,7 +3,7 @@ class ApiController < ActionController::API
 
   include ActionController::MimeResponds
 
-  class_attribute :soap_fault_handler, default: Proc.new {}
+  class_attribute :soap_fault_handler, default: Proc.new { }
 
   def self.rescue_from_soap_fault(&handler)
     self.soap_fault_handler = handler
@@ -28,7 +28,7 @@ class ApiController < ActionController::API
   rescue_from JWT::DecodeError do |error|
     logger.debug { error.full_message }
 
-    if error.message == 'Nil JSON web token'
+    if error.message == "Nil JSON web token"
       render_bad_request(:missing, :credentials)
     else
       render_unauthorized
@@ -76,7 +76,7 @@ class ApiController < ActionController::API
   end
 
   def action_scope
-    [controller_path, action_name].join('/')
+    [ controller_path, action_name ].join("/")
   end
 
   def set_default_format(value = :json)
@@ -91,7 +91,7 @@ class ApiController < ActionController::API
   end
 
   def require_request_body?
-    request.method_symbol.in?([:post, :patch, :put])
+    request.method_symbol.in?([ :post, :patch, :put ])
   end
 
   def verify_request_body
@@ -101,7 +101,7 @@ class ApiController < ActionController::API
       # TODO apparently Rails test framework always sends application/x-www-form-urlencoded with no body (params: {}, as: nil) in non-get requests which is just weird and hence ignored here
       return if request.form_data? && request.raw_post.empty? if Rails.env.test?
       return render_bad_request(:redundant, :body) unless request.raw_post.to_s.empty?
-      return render_bad_request(:redundant, 'Content-Type') if request.content_type
+      render_bad_request(:redundant, "Content-Type") if request.content_type
     end
   end
 
@@ -109,15 +109,15 @@ class ApiController < ActionController::API
   def process_action(*)
     super
   rescue ActionDispatch::Http::Parameters::ParseError
-    render_bad_request(:invalid, 'JSON')
+    render_bad_request(:invalid, "JSON")
   end
 
   def upvs_identity
-    @upvs_identity || raise('Not authenticated')
+    @upvs_identity || raise("Not authenticated")
   end
 
   def upvs_identity=(value)
-    raise('Already authenticated') if @upvs_identity
+    raise("Already authenticated") if @upvs_identity
     @upvs_identity = { sub: value.first, obo: value.last }
   end
 
@@ -128,7 +128,7 @@ class ApiController < ActionController::API
     when org.datacontract.schemas._2004._07.anasoft_edesk.EDeskFault then { code: fault.code&.value, reason: fault.code&.reason }
     when sk.gov.schemas.identity.service._1.IamFault then { code: fault.fault_code.to_a.first, reason: fault.fault_message.to_a.first }
     else
-      raise 'Unknown fault'
+      raise "Unknown fault"
     end
   end
 
@@ -140,7 +140,7 @@ class ApiController < ActionController::API
   end
 
   def render_unauthorized
-    self.headers['WWW-Authenticate'] = 'Token realm="API"'
+    self.headers["WWW-Authenticate"] = 'Token realm="API"'
     render status: :unauthorized, json: { message: translate(:unauthorized) }
   end
 

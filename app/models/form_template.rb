@@ -3,7 +3,7 @@
 
 class FormTemplate < ApplicationRecord
   # TODO remove class_name once FormTemplateRelatedDocument is renamed just to RelatedDocument
-  has_many :related_documents, class_name: 'FormTemplateRelatedDocument'
+  has_many :related_documents, class_name: "FormTemplateRelatedDocument"
 
   # TODO remove but consider moving #version_major and #version_minor here as #version string
   def version
@@ -12,7 +12,7 @@ class FormTemplate < ApplicationRecord
 
   # TODO rename to just schema: "xsd_schema" reads "XML schema definition schema" which is weird
   def xsd_schema
-    related_document('CLS_F_XSD_EDOC')
+    related_document("CLS_F_XSD_EDOC")
   end
 
   def related_document(type)

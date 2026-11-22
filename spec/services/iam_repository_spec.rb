@@ -53,14 +53,14 @@ RSpec.describe IamRepository, :sts do
     end
 
     it 'finds identity by ID' do
-      identities = subject.search(ids: ['6d9dc77b-70ed-432f-abaa-5de8753c967c'])
+      identities = subject.search(ids: [ '6d9dc77b-70ed-432f-abaa-5de8753c967c' ])
 
       expect(identities.count).to eq(1)
       expect(identities.first.general_data.egov_identifier[0].identifier).to eq('6D9DC77B-70ED-432F-ABAA-5DE8753C967C')
     end
 
     it 'finds identity by URI' do
-      identities = subject.search(uris: ['ico://sk/42156424'])
+      identities = subject.search(uris: [ 'ico://sk/42156424' ])
 
       expect(identities.count).to eq(1)
       expect(identities.first.general_data.uri).to eq('ico://sk/42156424')
@@ -86,7 +86,7 @@ RSpec.describe IamRepository, :sts do
       identities = subject.search(phone: '+422232780700')
 
       expect(identities.count).to be > 0
-      expect(identities.map { |identity| identity.telephone_address.map { |address| address.telephone_number.formatted_number.value }}).to all include('+422232780700')
+      expect(identities.map { |identity| identity.telephone_address.map { |address| address.telephone_number.formatted_number.value } }).to all include('+422232780700')
     end
 
     pending 'finds identity by address'

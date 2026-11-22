@@ -91,7 +91,7 @@ RSpec.describe 'eForm API' do
       post '/api/eform/validate', headers: headers, params: params.merge(form: '<GeneralAgenda/>'), as: :json
 
       expect(response.status).to eq(200)
-      expect(response.object).to eq(valid: false, errors: ["-1:-1: ERROR: cvc-elt.1.a: Cannot find the declaration of element 'GeneralAgenda'."])
+      expect(response.object).to eq(valid: false, errors: [ "-1:-1: ERROR: cvc-elt.1.a: Cannot find the declaration of element 'GeneralAgenda'." ])
     end
 
     pending 'validates invalid form with largest possible payload'
@@ -160,7 +160,6 @@ RSpec.describe 'eForm API' do
     before(:example) { create(:form_template_related_document, :general_agenda_xsd_schema) }
 
     it 'returns form related document' do
-
       get '/api/eform/form_template_related_document', headers: headers, params: params
 
       expect(response.status).to eq(200)

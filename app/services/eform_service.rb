@@ -35,7 +35,7 @@ class EformService
 
     request.form_template = factory.create_get_related_document_by_type_req_form_template(form_template_id(identifier, version))
     request.related_document_type = factory.create_get_related_document_by_type_req_related_document_type(type)
-    request.related_document_language = factory.create_get_related_document_by_type_req_related_document_language('sk')
+    request.related_document_language = factory.create_get_related_document_by_type_req_related_document_language("sk")
 
     @upvs.ez.call_service(service, request).related_document.value
   end
@@ -65,7 +65,7 @@ class EformService
   java_import sk.gov.schemas.servicebus.service._1.ServiceClassEnum
 
   def form_template_id(identifier, version)
-    major, minor = version.split('.', 2).map { |n| Integer(n, 10) }
+    major, minor = version.split(".", 2).map { |n| Integer(n, 10) }
 
     form_template_id = factory.create_form_template_id
     form_template_id.identifier = factory.create_form_template_id_identifier(identifier)

@@ -9,32 +9,32 @@ class HealthController < ApiController
   def index
     status = :ok
     health = {
-      description: 'slovensko.sk API',
-      version: '3.9.0',
-      status: 'pass',
+      description: "slovensko.sk API",
+      version: "3.9.0",
+      status: "pass",
       checks: {
-        'environment:variables' => environment_variables,
-        'postgresql:connection' => postgresql_connection,
-        'redis:connection' => redis_connection,
-        'authenticator:api' => authenticator_api,
-        'authenticator:obo' => authenticator_obo,
-        'eform:sync_certificate' => eform_sync_certificate,
-        'eform:sync_task' => eform_sync_task,
-        'sso:sp_certificate' => sso_sp_certificate,
-        'sso:proxy_certificate' => sso_proxy_certificate,
-        'sts:certificate' => sts_certificate,
-        'sts:creation_time' => sts_creation_time,
-        'sts:response_time' => sts_response_time,
-      }.compact.transform_values { |v| [v] },
+        "environment:variables" => environment_variables,
+        "postgresql:connection" => postgresql_connection,
+        "redis:connection" => redis_connection,
+        "authenticator:api" => authenticator_api,
+        "authenticator:obo" => authenticator_obo,
+        "eform:sync_certificate" => eform_sync_certificate,
+        "eform:sync_task" => eform_sync_task,
+        "sso:sp_certificate" => sso_sp_certificate,
+        "sso:proxy_certificate" => sso_proxy_certificate,
+        "sts:certificate" => sts_certificate,
+        "sts:creation_time" => sts_creation_time,
+        "sts:response_time" => sts_response_time
+      }.compact.transform_values { |v| [ v ] },
       links: {
-        installation: URI.join(request.base_url, 'install.md'),
-        documentation: URI.join(request.base_url, 'openapi.yaml'),
+        installation: URI.join(request.base_url, "install.md"),
+        documentation: URI.join(request.base_url, "openapi.yaml")
       }
     }
 
     objects = health[:checks].values.flatten
-    status, health[:status] = :ok, 'warn' if objects.any? { |o| o[:status] == 'warn' }
-    status, health[:status] = :service_unavailable, 'fail' if objects.any? { |o| o[:status] == 'fail' }
+    status, health[:status] = :ok, "warn" if objects.any? { |o| o[:status] == "warn" }
+    status, health[:status] = :service_unavailable, "fail" if objects.any? { |o| o[:status] == "fail" }
 
     render status: status, content_type: Mime[:health], json: health
   end
@@ -42,123 +42,123 @@ class HealthController < ApiController
   private
 
   def environment_variables(keys = [])
-    keys += %w(DATABASE_URL REDIS_URL SECRET_KEY_BASE) if Rails.env.production? || Rails.env.staging?
-    keys += %w(UPVS_KS_SALT UPVS_PK_SALT) if Upvs.env.prod?
-    keys += %w(SSO_PROXY_SUBJECT) if UpvsEnvironment.obo_support?
-    keys += %w(SSO_SP_SUBJECT LOGIN_CALLBACK_URL LOGOUT_CALLBACK_URL) if UpvsEnvironment.sso_support?
+    keys += %w[DATABASE_URL REDIS_URL SECRET_KEY_BASE] if Rails.env.production? || Rails.env.staging?
+    keys += %w[UPVS_KS_SALT UPVS_PK_SALT] if Upvs.env.prod?
+    keys += %w[SSO_PROXY_SUBJECT] if UpvsEnvironment.obo_support?
+    keys += %w[SSO_SP_SUBJECT LOGIN_CALLBACK_URL LOGOUT_CALLBACK_URL] if UpvsEnvironment.sso_support?
     unset = keys.select { |v| ENV[v].blank? }
     raise "Unset environment variables #{unset.to_sentence}" if unset.any?
-    { status: 'pass' }
+    { status: "pass" }
   rescue => error
-    { status: 'fail', output: error.message }
+    { status: "fail", output: error.message }
   end
 
   def postgresql_connection
     ActiveRecord::Base.connection.reconnect!
-    raise 'Unable to establish connection' unless ActiveRecord::Base.connected?
-    { status: 'pass' }
+    raise "Unable to establish connection" unless ActiveRecord::Base.connected?
+    { status: "pass" }
   rescue => error
-    { status: 'fail', output: error.message }
+    { status: "fail", output: error.message }
   end
 
   def redis_connection
-    raise 'Unable to establish connection' unless ActiveSupport::Cache::RedisCacheStore.new(url: ENV['REDIS_URL'] || 'redis://localhost:6379/0', pool: false).redis.ping
-    { status: 'pass' }
+    raise "Unable to establish connection" unless ActiveSupport::Cache::RedisCacheStore.new(url: ENV["REDIS_URL"] || "redis://localhost:6379/0", pool: false).redis.ping
+    { status: "pass" }
   rescue => error
-    { status: 'fail', output: error.message }
+    { status: "fail", output: error.message }
   end
 
   def authenticator_api
     Environment.api_token_authenticator
-    { status: 'pass' }
+    { status: "pass" }
   rescue => error
-    { status: 'fail', output: error.message }
+    { status: "fail", output: error.message }
   end
 
   def authenticator_obo
-    return unless (UpvsEnvironment.obo_support? || UpvsEnvironment.sso_support?)
+    return unless UpvsEnvironment.obo_support? || UpvsEnvironment.sso_support?
     Environment.obo_token_authenticator
-    { status: 'pass' }
+    { status: "pass" }
   rescue => error
-    { status: 'fail', output: error.message }
+    { status: "fail", output: error.message }
   end
 
-  def eform_sync_certificate(sub = ENV['EFORM_SYNC_SUBJECT'])
+  def eform_sync_certificate(sub = ENV["EFORM_SYNC_SUBJECT"])
     return unless sub.present?
     not_after = UpvsEnvironment.subject(sub)[:not_after].in_time_zone
-    certificate_verification('eForm synchronization', not_after)
+    certificate_verification("eForm synchronization", not_after)
   rescue => error
-    { status: 'fail', output: error.message }
+    { status: "fail", output: error.message }
   end
 
-  def eform_sync_task(sub = ENV['EFORM_SYNC_SUBJECT'])
+  def eform_sync_task(sub = ENV["EFORM_SYNC_SUBJECT"])
     return unless sub.present?
     updated_at = Heartbeat.find_by(name: DownloadFormTemplatesJob.name)&.updated_at
-    task_verification('eForm synchronization', updated_at)
+    task_verification("eForm synchronization", updated_at)
   rescue => error
-    { status: 'fail', output: error.message }
+    { status: "fail", output: error.message }
   end
 
   def sso_sp_certificate
     return unless UpvsEnvironment.sso_support?
     not_after = OpenSSL::X509::Certificate.new(Base64.decode64(UpvsEnvironment.sso_settings[:certificate].to_s)).not_after.in_time_zone
-    certificate_verification('SSO SP', not_after)
+    certificate_verification("SSO SP", not_after)
   rescue => error
-    { status: 'fail', output: error.message }
+    { status: "fail", output: error.message }
   end
 
   def sso_proxy_certificate
     return unless UpvsEnvironment.obo_support?
     not_after = UpvsEnvironment.subject(UpvsEnvironment.sso_proxy_subject)[:not_after].in_time_zone
-    certificate_verification('SSO proxy', not_after)
+    certificate_verification("SSO proxy", not_after)
   rescue => error
-    { status: 'fail', output: error.message }
+    { status: "fail", output: error.message }
   end
 
-  def sts_certificate(sub = ENV['STS_HEALTH_SUBJECT'])
+  def sts_certificate(sub = ENV["STS_HEALTH_SUBJECT"])
     return unless sub.present?
     not_after = UpvsEnvironment.subject(sub)[:not_after].in_time_zone
-    certificate_verification('STS health', not_after)
+    certificate_verification("STS health", not_after)
   rescue => error
-    { status: 'fail', output: error.message }
+    { status: "fail", output: error.message }
   end
 
-  def sts_creation_time(sub = ENV['STS_HEALTH_SUBJECT'])
+  def sts_creation_time(sub = ENV["STS_HEALTH_SUBJECT"])
     return unless sub.present?
-    upvs_properties = UpvsEnvironment.upvs_properties(sub: sub).merge('upvs.log.level' => 'off')
+    upvs_properties = UpvsEnvironment.upvs_properties(sub: sub).merge("upvs.log.level" => "off")
     time = Benchmark.realtime { UpvsProxy.new(upvs_properties) }
-    { status: 'pass', observed_value: (time * 1000).round(2), observed_unit: 'ms' }
+    { status: "pass", observed_value: (time * 1000).round(2), observed_unit: "ms" }
   rescue => error
-    { status: 'fail', output: error.message }
+    { status: "fail", output: error.message }
   end
 
-  def sts_response_time(sub = ENV['STS_HEALTH_SUBJECT'])
+  def sts_response_time(sub = ENV["STS_HEALTH_SUBJECT"])
     return unless sub.present?
     eform_service = UpvsEnvironment.eform_service(sub: sub)
-    time = Benchmark.realtime { eform_service.fetch_form_template_status('App.GeneralAgenda', '1.9') }
-    { status: 'pass', observed_value: (time * 1000).round(2), observed_unit: 'ms' }
+    time = Benchmark.realtime { eform_service.fetch_form_template_status("App.GeneralAgenda", "1.9") }
+    { status: "pass", observed_value: (time * 1000).round(2), observed_unit: "ms" }
   rescue => error
-    { status: 'fail', output: error.message }
+    { status: "fail", output: error.message }
   end
 
   private
 
   def certificate_verification(name, not_after)
     if not_after <= Time.current
-      status, output = 'fail', "#{name} certificate has expired"
+      status, output = "fail", "#{name} certificate has expired"
     elsif not_after < 2.months.from_now
-      status, output = 'warn', "#{name} certificate expires in less than 2 months"
+      status, output = "warn", "#{name} certificate expires in less than 2 months"
     else
-      status, output = 'pass', nil
+      status, output = "pass", nil
     end
 
-    { status: status, observed_value: not_after, observed_unit: 'time', output: output }.compact
+    { status: status, observed_value: not_after, observed_unit: "time", output: output }.compact
   end
 
   def task_verification(name, updated_at)
     late = updated_at && updated_at < 28.hours.ago
-    status = late ? 'warn' : 'pass'
+    status = late ? "warn" : "pass"
     output = late ? "#{name} not performed in last 28 hours" : nil
-    { status: status, observed_value: updated_at, observed_unit: 'time', output: output }.tap { |check| check.delete(:output) unless output }
+    { status: status, observed_value: updated_at, observed_unit: "time", output: output }.tap { |check| check.delete(:output) unless output }
   end
 end

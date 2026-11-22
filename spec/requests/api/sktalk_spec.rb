@@ -257,7 +257,7 @@ RSpec.describe 'SKTalk API' do
   describe 'POST /api/sktalk/prepare_for_later_receive' do
     before(:example) { travel_to(sso_response_issued_at) }
 
-    let(:headers) { respond_to?(:token) ? Hash['Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: ['sktalk/prepare_for_later_receive'])] : Hash.new }
+    let(:headers) { respond_to?(:token) ? Hash['Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [ 'sktalk/prepare_for_later_receive' ])] : Hash.new }
 
     let(:template) do
       file_fixture('sktalk/egov_application_empty_general_agenda.xml').read

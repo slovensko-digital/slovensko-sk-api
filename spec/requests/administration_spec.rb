@@ -9,11 +9,11 @@ RSpec.describe 'Administration' do
     let(:params) do
       {
         id: 'iscep_00956852_10236',
-        cin: '00956852_10236',
+        cin: '00956852_10236'
       }
     end
 
-    after(:example) { suppress(SystemCallError) { UpvsEnvironment.delete_subject('iscep_00956852_10236') }}
+    after(:example) { suppress(SystemCallError) { UpvsEnvironment.delete_subject('iscep_00956852_10236') } }
 
     it 'creates certificate' do
       post '/administration/certificates', headers: headers, params: params, as: :json
@@ -68,7 +68,7 @@ RSpec.describe 'Administration' do
   describe 'GET /administration/certificates/{id}' do
     before(:example) { UpvsEnvironment.create_subject('iscep_00956852_10236', cin: '00956852_10236') }
 
-    after(:example) { suppress(SystemCallError) { UpvsEnvironment.delete_subject('iscep_00956852_10236') }}
+    after(:example) { suppress(SystemCallError) { UpvsEnvironment.delete_subject('iscep_00956852_10236') } }
 
     it 'gets certificate' do
       get '/administration/certificates/iscep_00956852_10236', headers: headers
@@ -100,7 +100,7 @@ RSpec.describe 'Administration' do
   describe 'DELETE /administration/certificates/{id}' do
     before(:example) { UpvsEnvironment.create_subject('iscep_00956852_10236', cin: '00956852_10236') }
 
-    after(:example) { suppress(SystemCallError) { UpvsEnvironment.delete_subject('iscep_00956852_10236') }}
+    after(:example) { suppress(SystemCallError) { UpvsEnvironment.delete_subject('iscep_00956852_10236') } }
 
     it 'deletes certificate' do
       delete '/administration/certificates/iscep_00956852_10236', headers: headers
