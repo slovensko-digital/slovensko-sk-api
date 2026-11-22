@@ -37,6 +37,9 @@ group :development, :test do
   gem 'mock_redis'
   gem 'pry-rails'
   gem 'rspec-rails'
+
+  # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
+  gem 'rubocop-rails-omakase', require: false
   gem 'super_diff'
 end
 
