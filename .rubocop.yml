@@ -1,8 +1,38 @@
 # Omakase Ruby styling for Rails
 inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 
+# JRuby 10.1 is Ruby 4.0 compatible, RuboCop can not infer it from .ruby-version
+AllCops:
+  TargetRubyVersion: 4.0
+
 # Overwrite or add rules to create your own house style
 #
 # # Use `[a, [b, c]]` not `[ a, [ b, c ] ]`
 # Layout/SpaceInsideArrayLiteralBrackets:
 #   Enabled: false
+
+# Prefer modern Ruby idioms on top of omakase
+Style/HashSyntax:
+  EnforcedShorthandSyntax: always
+
+Style/ArgumentsForwarding:
+  Enabled: true
+
+Naming/BlockForwarding:
+  Enabled: true
+
+Rails/HttpStatusNameConsistency:
+  Enabled: true
+
+# Omakase targets test/, this project keeps its specs in spec/
+Style/StringLiterals:
+  Include:
+    - "app/**/*"
+    - "config/**/*"
+    - "lib/**/*"
+    - "spec/**/*"
+    - "Gemfile"
+
+Performance:
+  Exclude:
+    - "spec/**/*"

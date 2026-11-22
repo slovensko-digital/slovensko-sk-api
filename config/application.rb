@@ -52,7 +52,7 @@ module SlovenskoSkApi
     config.active_job.queue_adapter = :delayed_job
 
     # Set error handler
-    config.exceptions_app = self.routes
+    config.exceptions_app = routes
 
     # Set static files server
     config.public_file_server.headers = { "access-control-allow-origin" => "*" }

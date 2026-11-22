@@ -3,15 +3,15 @@ class Iam::IdentitiesController < ApiController
 
   before_action { authenticate(allow_sub: true) }
 
-  before_action(only: :search) { set_page }
-  before_action(only: :search) { set_per_page(default: 10, range: 10..100) }
+  before_action :set_page, only: :search
+  before_action -> { set_per_page(default: 10, range: 10..100) }, only: :search
 
-  before_action(only: :search) { render_bad_request(:missing, :query) if request.request_parameters.blank? }
+  before_action -> { render_bad_request(:missing, :query) if request.request_parameters.blank? }, only: :search
 
-  rescue_from(sk.gov.schemas.identity.service._1_7.GetIdentityFault, with: :render_identity_fault)
-  rescue_from(sk.gov.schemas.identity.service._1_7.GetEdeskInfo2Fault) { |error| render_bad_request(:invalid, :query, upvs_fault(error)) }
+  rescue_from sk.gov.schemas.identity.service._1_7.GetIdentityFault, with: :render_identity_fault
+  rescue_from sk.gov.schemas.identity.service._1_7.GetEdeskInfo2Fault, with: ->(error) { render_bad_request(:invalid, :query, upvs_fault(error)) }
 
-  CODE_LIST_ATTRIBUTES = [ :id, :name ]
+  CODE_LIST_ATTRIBUTES = [ :id, :name ].freeze
 
   def show
     @identity = iam_repository(**upvs_identity).identity(params[:id])
@@ -48,7 +48,7 @@ class Iam::IdentitiesController < ApiController
       natural_person: [ :given_name, :family_name, :date_of_birth, :place_of_birth ],
     )
 
-    @identities = iam_repository(**upvs_identity).search(**query.to_options, page: page, per_page: per_page)
+    @identities = iam_repository(**upvs_identity).search(**query.to_options, page:, per_page:)
   end
 
   private

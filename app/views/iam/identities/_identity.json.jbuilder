@@ -41,11 +41,11 @@ json.upvs do
 end
 
 if identity.corporate_body
-  json.corporate_body { json.partial! "corporate_body", identity: identity, corporate_body: identity.corporate_body }
+  json.corporate_body { json.partial! "corporate_body", identity:, corporate_body: identity.corporate_body }
 end
 
 if identity.physical_person
-  json.natural_person { json.partial! "natural_person", identity: identity, natural_person: identity.physical_person }
+  json.natural_person { json.partial! "natural_person", identity:, natural_person: identity.physical_person }
 end
 
 json.addresses identity.physical_address do |a|

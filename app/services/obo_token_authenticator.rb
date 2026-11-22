@@ -7,7 +7,7 @@ class OboTokenAuthenticator
     verify_not_before: false,
     verify_iat: false,
     verify_jti: true
-  }
+  }.freeze
 
   # Subset of OneLogin::RubySaml::Response used to generate tokens from plain SAML assertions
   SamlAssertion = Data.define(:attributes, :document, :decrypted_document, :not_on_or_after, :not_before)
@@ -29,8 +29,8 @@ class OboTokenAuthenticator
 
     name = response.attributes["Subject.FormattedName"].to_s
     actor = {
-      "name": response.attributes["Actor.FormattedName"].to_s,
-      "sub": response.attributes["ActorID"].to_s
+      name: response.attributes["Actor.FormattedName"].to_s,
+      sub: response.attributes["ActorID"].to_s
     }
     scopes = scopes.to_a
 
@@ -42,13 +42,13 @@ class OboTokenAuthenticator
 
     ass = assertion_to_s(assertion)
 
-    payload = { sub: sub, exp: exp, nbf: nbf, iat: iat, name: name, actor: actor,  scopes: scopes }
+    payload = { sub:, exp:, nbf:, iat:, name:, actor:,  scopes: }
 
     save_to_assertion_store(ass, payload)
   end
 
   def generate_long_lasting_token(token, scopes)
-    payload, header = JWT.decode(token, @key_pair.public_key, true, DECODE_OPTIONS)
+    payload, _ = JWT.decode(token, @key_pair.public_key, true, DECODE_OPTIONS)
 
     # TODO parse STS token expiration from assertion
     token_expiration = Time.now.to_i + 120.minutes.to_i
@@ -97,7 +97,7 @@ class OboTokenAuthenticator
 
   def create_obo_token_from_assertion(assertion_string, scopes)
     assertion = parse_saml_assertion_string(assertion_string)
-    generate_token(assertion, scopes: scopes)
+    generate_token(assertion, scopes:)
   end
 
   private
@@ -157,7 +157,7 @@ class OboTokenAuthenticator
         "ActorID" => REXML::XPath.first(document, '//*[@Name="ActorID"]/saml:AttributeValue/text()'),
         "Actor.FormattedName" => REXML::XPath.first(document, '//*[@Name="Actor.FormattedName"]/saml:AttributeValue/text()')
       },
-      document: document,
+      document:,
       decrypted_document: nil,
       not_on_or_after: REXML::XPath.first(document, "//saml:Conditions").attributes["NotOnOrAfter"].to_time,
       not_before: REXML::XPath.first(document, "//saml:Conditions").attributes["NotBefore"].to_time

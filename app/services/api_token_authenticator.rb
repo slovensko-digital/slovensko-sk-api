@@ -13,7 +13,7 @@ class ApiTokenAuthenticator
   end
 
   def invalidate_token(token, allow_plain: false, allow_sub: false, allow_obo_token: false)
-    verify_token(token, allow_plain: allow_plain, allow_sub: allow_sub, allow_obo_token: allow_obo_token, verify_obo_expiration: false) do |payload, header|
+    verify_token(token, allow_plain:, allow_sub:, allow_obo_token:, verify_obo_expiration: false) do |payload, header|
       @obo_token_authenticator.invalidate_token(payload["obo"]) if header["cty"] && payload["obo"]
     end
   end
@@ -84,7 +84,7 @@ class ApiTokenAuthenticator
       verify_jti: ->(jti) { jti =~ JTI_PATTERN }
     }
 
-    payload, header = JWT.decode(token, @public_key, true, options)
+    payload, _ = JWT.decode(token, @public_key, true, options)
 
     @obo_token_authenticator.generate_long_lasting_token(payload["obo"], scopes)
   end

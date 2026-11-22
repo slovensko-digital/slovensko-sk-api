@@ -15,7 +15,7 @@ module UpvsObjects
     to_ruby_object(digital.slovensko.upvs.UpvsObjects.to_structure(object))
   end
 
-  alias_method :to_struct, :to_structure
+  alias to_struct to_structure
 
   private
 

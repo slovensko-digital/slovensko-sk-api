@@ -27,7 +27,7 @@ class EdeskService
 
   def delete_message(message_id, force: true)
     # fix non-existing message as UPVS returns nothing in case of deletion
-    self.message(message_id) unless force
+    message(message_id) unless force
     @upvs.eks.delete_message(message_id)
   rescue GET_FAULT
     raise build_fault(DELETE_FAULT)

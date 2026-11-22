@@ -1,7 +1,8 @@
 # TODO remove in favor of PKCS -> replace Java Keystores with PKCS in pure OpenSSL Ruby library
 
 class KeyStore
-  Error = Class.new(StandardError)
+  class Error < StandardError
+  end
 
   def initialize(file, password, type: "JKS")
     @keystore = java.security.KeyStore.get_instance(type)

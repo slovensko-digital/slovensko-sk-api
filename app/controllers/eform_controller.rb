@@ -1,28 +1,28 @@
 class EformController < ApiController
   before_action { authenticate(allow_sub: true) }
 
-  rescue_from(ActiveRecord::RecordNotFound) { render_not_found(:template) }
-  rescue_from(Nokogiri::XML::SyntaxError) { render_bad_request(:invalid, :form) }
+  rescue_from ActiveRecord::RecordNotFound, with: -> { render_not_found(:template) }
+  rescue_from Nokogiri::XML::SyntaxError, with: -> { render_bad_request(:invalid, :form) }
 
   rescue_from_soap_fault { |code| render_not_found(:template) if code == "06000798" }
 
   def status
-    identifier, version = params.require(:identifier), params.require(:version)
+    identifier, version = params.require([ :identifier, :version ])
 
     render json: { status: eform_service(**upvs_identity).fetch_form_template_status(identifier, version) }
   end
 
   def validate
-    identifier, version, form = params.require(:identifier), params.require(:version), params.require(:form)
+    identifier, version, form = params.require([ :identifier, :version, :form ])
 
     # TODO remove -> see notes in FormTemplate model
     version_major, version_minor = version.split(".", 2)
 
-    template = FormTemplate.find_by!(identifier: identifier, version_major: version_major, version_minor: version_minor)
+    template = FormTemplate.find_by!(identifier:, version_major:, version_minor:)
 
     if template.xsd_schema.present?
       schema = Nokogiri::XML::Schema(template.xsd_schema)
-      document = Nokogiri::XML(form) { |config| config.strict }
+      document = Nokogiri::XML(form, &:strict)
 
       errors = schema.validate(document)
 
@@ -33,24 +33,28 @@ class EformController < ApiController
   end
 
   def form_template_related_document
-    identifier, version, type = params.require(:identifier), params.require(:version), params.require(:type)
+    identifier, version, type = params.require([ :identifier, :version, :type ])
 
     # TODO remove -> see notes in FormTemplate model
     version_major, version_minor = *version.split(".", 2)
 
-    document = FormTemplate.find_by!(identifier: identifier, version_major: version_major, version_minor: version_minor).related_document(type)
+    document = FormTemplate.find_by!(identifier:, version_major:, version_minor:).related_document(type)
 
-    document.present? ? (render status: :ok, json: { "document": Base64.encode64(document) }) : render_not_found(:template_related_document)
+    if document.present?
+      render json: { document: Base64.encode64(document) }
+    else
+      render_not_found(:template_related_document)
+    end
   end
 
   def form_template_metadata
-    identifier, version = params.require(:identifier), params.require(:version)
+    identifier, version = params.require([ :identifier, :version ])
 
     @response = eform_service(**upvs_identity).fetch_form_template_metadata(identifier, version)
   end
 
   def form_package
-    identifier, version = params.require(:identifier), params.require(:version)
+    identifier, version = params.require([ :identifier, :version ])
 
     form_package_data = eform_service(**upvs_identity).fetch_form_package(identifier, version)
 

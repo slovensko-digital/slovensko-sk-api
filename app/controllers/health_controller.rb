@@ -1,7 +1,7 @@
 # See https://tools.ietf.org/id/draft-inadarei-api-health-check-04.html
 
 class HealthController < ApiController
-  skip_before_action(:verify_format)
+  skip_before_action :verify_format
 
   before_action { set_default_format(:health) }
   before_action { respond_to(:health) }
@@ -36,7 +36,7 @@ class HealthController < ApiController
     status, health[:status] = :ok, "warn" if objects.any? { |o| o[:status] == "warn" }
     status, health[:status] = :service_unavailable, "fail" if objects.any? { |o| o[:status] == "fail" }
 
-    render status: status, content_type: Mime[:health], json: health
+    render status:, content_type: Mime[:health], json: health
   end
 
   private
@@ -62,7 +62,7 @@ class HealthController < ApiController
   end
 
   def redis_connection
-    raise "Unable to establish connection" unless ActiveSupport::Cache::RedisCacheStore.new(url: ENV["REDIS_URL"] || "redis://localhost:6379/0", pool: false).redis.ping
+    raise "Unable to establish connection" unless ActiveSupport::Cache::RedisCacheStore.new(url: Environment.redis_url, pool: false).redis.ping
     { status: "pass" }
   rescue => error
     { status: "fail", output: error.message }
@@ -84,7 +84,7 @@ class HealthController < ApiController
   end
 
   def eform_sync_certificate(sub = ENV["EFORM_SYNC_SUBJECT"])
-    return unless sub.present?
+    return if sub.blank?
     not_after = UpvsEnvironment.subject(sub)[:not_after].in_time_zone
     certificate_verification("eForm synchronization", not_after)
   rescue => error
@@ -92,7 +92,7 @@ class HealthController < ApiController
   end
 
   def eform_sync_task(sub = ENV["EFORM_SYNC_SUBJECT"])
-    return unless sub.present?
+    return if sub.blank?
     updated_at = Heartbeat.find_by(name: DownloadFormTemplatesJob.name)&.updated_at
     task_verification("eForm synchronization", updated_at)
   rescue => error
@@ -116,7 +116,7 @@ class HealthController < ApiController
   end
 
   def sts_certificate(sub = ENV["STS_HEALTH_SUBJECT"])
-    return unless sub.present?
+    return if sub.blank?
     not_after = UpvsEnvironment.subject(sub)[:not_after].in_time_zone
     certificate_verification("STS health", not_after)
   rescue => error
@@ -124,8 +124,8 @@ class HealthController < ApiController
   end
 
   def sts_creation_time(sub = ENV["STS_HEALTH_SUBJECT"])
-    return unless sub.present?
-    upvs_properties = UpvsEnvironment.upvs_properties(sub: sub).merge("upvs.log.level" => "off")
+    return if sub.blank?
+    upvs_properties = UpvsEnvironment.upvs_properties(sub:).merge("upvs.log.level" => "off")
     time = Benchmark.realtime { UpvsProxy.new(upvs_properties) }
     { status: "pass", observed_value: (time * 1000).round(2), observed_unit: "ms" }
   rescue => error
@@ -133,15 +133,14 @@ class HealthController < ApiController
   end
 
   def sts_response_time(sub = ENV["STS_HEALTH_SUBJECT"])
-    return unless sub.present?
-    eform_service = UpvsEnvironment.eform_service(sub: sub)
+    return if sub.blank?
+    eform_service = UpvsEnvironment.eform_service(sub:)
     time = Benchmark.realtime { eform_service.fetch_form_template_status("App.GeneralAgenda", "1.9") }
     { status: "pass", observed_value: (time * 1000).round(2), observed_unit: "ms" }
   rescue => error
     { status: "fail", output: error.message }
   end
 
-  private
 
   def certificate_verification(name, not_after)
     if not_after <= Time.current
@@ -152,13 +151,13 @@ class HealthController < ApiController
       status, output = "pass", nil
     end
 
-    { status: status, observed_value: not_after, observed_unit: "time", output: output }.compact
+    { status:, observed_value: not_after, observed_unit: "time", output: }.compact
   end
 
   def task_verification(name, updated_at)
     late = updated_at && updated_at < 28.hours.ago
     status = late ? "warn" : "pass"
     output = late ? "#{name} not performed in last 28 hours" : nil
-    { status: status, observed_value: updated_at, observed_unit: "time", output: output }.tap { |check| check.delete(:output) unless output }
+    { status:, observed_value: updated_at, observed_unit: "time", output: }.tap { |check| check.delete(:output) unless output }
   end
 end

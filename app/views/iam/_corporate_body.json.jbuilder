@@ -4,7 +4,7 @@ json.tin identity.id.find { |id| id.identifier_type.id == "8" }&.identifier_valu
 json.organization_id corporate_body.org_id
 json.organization_units corporate_body.organization_unit
 
-json.partial! "iam/corporate_body_name", corporate_body: corporate_body
+json.partial!("iam/corporate_body_name", corporate_body:)
 json.alternative_names corporate_body.corporate_body_alternative_name
 
 json.legal_form { json.partial! "iam/enumeration", value: corporate_body.legal_form }

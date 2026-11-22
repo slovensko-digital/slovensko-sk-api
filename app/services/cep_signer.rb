@@ -11,7 +11,6 @@ class CepSigner
     @upvs.ez.call_service(ServiceClassEnum::DITEC_CEP_ZISTI_TYP_A_FORMU_PODPISU_2, request)
   end
 
-  private
 
   mattr_reader :factory, default: sk.gov.schemas.servicebusserviceprovider.ditec.cepprovider._1.ObjectFactory.new
 

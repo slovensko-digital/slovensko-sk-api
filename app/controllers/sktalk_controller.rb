@@ -6,12 +6,12 @@ class SktalkController < ApiController
 
   before_action { authenticate(allow_sub: true, allow_obo_token: true, require_obo_token_scope: action_scope) }
 
-  before_action(except: :prepare_for_later_receive) { params.require(:message) }
+  before_action -> { params.require(:message) }, except: :prepare_for_later_receive
 
-  rescue_from(SktalkReceiver::ReceiveMessageFormatError) { render_bad_request(:invalid, :message) }
-  rescue_from(SktalkReceiver::ReceiveAsSaveToFolderError) { render_unprocessable_entity(:received_as_being_saved_to_folder) }
+  rescue_from SktalkReceiver::ReceiveMessageFormatError, with: -> { render_bad_request(:invalid, :message) }
+  rescue_from SktalkReceiver::ReceiveAsSaveToFolderError, with: -> { render_unprocessable_entity(:received_as_being_saved_to_folder) }
 
-  PREPARE_FOR_LATER_RECEIVE_SCOPES = %w[sktalk/receive sktalk/receive_and_save_to_outbox sktalk/save_to_outbox]
+  PREPARE_FOR_LATER_RECEIVE_SCOPES = %w[sktalk/receive sktalk/receive_and_save_to_outbox sktalk/save_to_outbox].freeze
 
   def receive
     render json: { receive_result: sktalk_receiver(**upvs_identity).receive(params[:message]) }
@@ -33,6 +33,6 @@ class SktalkController < ApiController
 
     long_lasting_obo_token = Environment.api_token_authenticator.generate_long_lasting_token(authenticity_token, PREPARE_FOR_LATER_RECEIVE_SCOPES)
 
-    render status: :ok, json: { "token": long_lasting_obo_token }
+    render json: { token: long_lasting_obo_token }
   end
 end

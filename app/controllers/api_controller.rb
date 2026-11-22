@@ -1,17 +1,17 @@
 class ApiController < ActionController::API
-  self.abstract!
+  abstract!
 
   include ActionController::MimeResponds
 
-  class_attribute :soap_fault_handler, default: Proc.new { }
+  class_attribute :soap_fault_handler, default: proc { }
 
   def self.rescue_from_soap_fault(&handler)
     self.soap_fault_handler = handler
   end
 
-  before_action(:set_default_format)
-  before_action(:verify_request_body)
-  before_action(:verify_format)
+  before_action :set_default_format
+  before_action :verify_request_body
+  before_action :verify_format
 
   rescue_from ActionController::ParameterMissing do |error|
     render_bad_request(:missing, error.param)
@@ -38,7 +38,7 @@ class ApiController < ActionController::API
   rescue_from java.io.IOException do |error|
     logger.debug { error.full_message }
 
-    if error.message =~ /keystore resource/i
+    if /keystore resource/i.match?(error.message)
       render_service_unavailable_error(:sts)
     else
       render_internal_server_error
@@ -66,8 +66,8 @@ class ApiController < ActionController::API
 
   private
 
-  def authenticate(**options)
-    self.upvs_identity = Environment.api_token_authenticator.verify_token(authenticity_token, **options)
+  def authenticate(**)
+    self.upvs_identity = Environment.api_token_authenticator.verify_token(authenticity_token, **)
   end
 
   # TODO drop support of params[:token]
@@ -136,11 +136,11 @@ class ApiController < ActionController::API
 
   def render_bad_request(key, param, fault = nil)
     param = param.to_s.humanize(capitalize: false, keep_id_suffix: true) if param.is_a?(Symbol)
-    render status: :bad_request, json: { message: translate("bad_request.#{key}", param: param).upcase_first, fault: fault }.compact
+    render status: :bad_request, json: { message: translate("bad_request.#{key}", param:).upcase_first, fault: }.compact
   end
 
   def render_unauthorized
-    self.headers["WWW-Authenticate"] = 'Token realm="API"'
+    headers["WWW-Authenticate"] = 'Token realm="API"'
     render status: :unauthorized, json: { message: translate(:unauthorized) }
   end
 
@@ -149,7 +149,7 @@ class ApiController < ActionController::API
   end
 
   def render_unpermitted_params(params)
-    render status: :unprocessable_entity, json: { message: translate(:unpermitted_params, value: params[:value]).upcase_first }
+    render status: :unprocessable_content, json: { message: translate(:unpermitted_params, value: params[:value]).upcase_first }
   end
 
   def render_not_acceptable
@@ -165,7 +165,7 @@ class ApiController < ActionController::API
   end
 
   def render_payload_too_large
-    render status: :payload_too_large, json: { message: translate(:payload_too_large) }
+    render status: :content_too_large, json: { message: translate(:payload_too_large) }
   end
 
   def render_unsupported_media_type
@@ -173,7 +173,7 @@ class ApiController < ActionController::API
   end
 
   def render_unprocessable_entity(key)
-    render status: :unprocessable_entity, json: { message: translate("unprocessable_entity.#{key}") }
+    render status: :unprocessable_content, json: { message: translate("unprocessable_entity.#{key}") }
   end
 
   def render_too_many_requests
@@ -185,7 +185,7 @@ class ApiController < ActionController::API
   end
 
   def render_service_unavailable_error(key, fault = nil)
-    render status: :service_unavailable, json: { message: translate("service_unavailable.#{key}"), fault: fault }.compact
+    render status: :service_unavailable, json: { message: translate("service_unavailable.#{key}"), fault: }.compact
   end
 
   delegate :translate, to: I18n

@@ -3,8 +3,10 @@ class SktalkReceiver
     @upvs = proxy
   end
 
-  ReceiveMessageFormatError = Class.new(ArgumentError)
-  ReceiveAsSaveToFolderError = Class.new(ArgumentError)
+  class ReceiveMessageFormatError < ArgumentError
+  end
+  class ReceiveAsSaveToFolderError < ArgumentError
+  end
 
   ReceiveAndSaveToOutboxResults = Struct.new(:receive_result, :receive_timeout, :save_to_outbox_result, :save_to_outbox_timeout, keyword_init: true)
 
@@ -55,8 +57,8 @@ class SktalkReceiver
 
   private
 
-  SAVE_TO_DRAFTS_CLASS = "EDESK_SAVE_APPLICATION_TO_DRAFTS"
-  SAVE_TO_OUTBOX_CLASS = "EDESK_SAVE_APPLICATION_TO_OUTBOX"
+  SAVE_TO_DRAFTS_CLASS = "EDESK_SAVE_APPLICATION_TO_DRAFTS".freeze
+  SAVE_TO_OUTBOX_CLASS = "EDESK_SAVE_APPLICATION_TO_OUTBOX".freeze
 
   def parse(message)
     object = SktalkMessages.from_xml(message)

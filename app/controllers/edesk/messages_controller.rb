@@ -8,16 +8,16 @@ class Edesk::MessagesController < ApiController
 
   before_action { authenticate(allow_sub: true) }
 
-  before_action(only: [ :index, :search ]) { set_page }
-  before_action(only: [ :index, :search ]) { set_per_page(default: 50, range: 10..5000) }
+  before_action :set_page, only: [ :index, :search ]
+  before_action -> { set_per_page(default: 50, range: 10..5000) }, only: [ :index, :search ]
 
-  before_action(only: :index) { render_bad_request(:invalid, :folder_id) unless match_positive?(params[:folder_id]) }
-  before_action(only: :update) { render_bad_request(:invalid, :folder_id) if params.require(:folder_id).to_i <= 0 }
-  before_action(only: :search) { render_bad_request(:invalid, :correlation_id) unless UUID_PATTERN.match?(params.require(:correlation_id)) }
-  before_action(except: [ :index, :search ]) { render_bad_request(:invalid, :message_id) unless match_positive?(params[:id]) }
+  before_action -> { render_bad_request(:invalid, :folder_id) unless match_positive?(params[:folder_id]) }, only: :index
+  before_action -> { render_bad_request(:invalid, :folder_id) if params.require(:folder_id).to_i <= 0 }, only: :update
+  before_action -> { render_bad_request(:invalid, :correlation_id) unless UUID_PATTERN.match?(params.require(:correlation_id)) }, only: :search
+  before_action -> { render_bad_request(:invalid, :message_id) unless match_positive?(params[:id]) }, except: [ :index, :search ]
 
   def index
-    @messages = edesk_service(**upvs_identity).messages(params[:folder_id].to_i, page: page, per_page: per_page)
+    @messages = edesk_service(**upvs_identity).messages(params[:folder_id].to_i, page:, per_page:)
   end
 
   def show
@@ -25,7 +25,7 @@ class Edesk::MessagesController < ApiController
   end
 
   def search
-    @messages = edesk_service(**upvs_identity).filter_messages(search_params, page: page, per_page: per_page)
+    @messages = edesk_service(**upvs_identity).filter_messages(search_params, page:, per_page:)
   end
 
   def update
@@ -57,12 +57,10 @@ class Edesk::MessagesController < ApiController
   end
 
   def raise_on_unpermitted_parameters
-    begin
       ActionController::Parameters.action_on_unpermitted_parameters = :raise
       yield
     ensure
       ActionController::Parameters.action_on_unpermitted_parameters = :log
-    end
   end
 
   delegate :match_positive?, to: Integers

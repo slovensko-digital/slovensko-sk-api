@@ -1,12 +1,12 @@
 class UpvsController < ApiController
-  skip_before_action(:verify_request_body, except: [ :login_with_saml_assertion, :assertion, :identity ])
-  skip_before_action(:verify_format, except: :identity)
+  skip_before_action :verify_request_body, except: [ :login_with_saml_assertion, :assertion, :identity ]
+  skip_before_action :verify_format, except: :identity
 
-  before_action(only: :assertion) { respond_to(:saml) }
-  before_action(only: [ :assertion, :identity ]) { authenticate(allow_obo_token: true, require_obo_token_scope: action_scope) }
-  before_action(only: :login_with_saml_assertion) { authenticate(allow_sub: true) }
+  before_action -> { respond_to(:saml) }, only: :assertion
+  before_action -> { authenticate(allow_obo_token: true, require_obo_token_scope: action_scope) }, only: [ :assertion, :identity ]
+  before_action -> { authenticate(allow_sub: true) }, only: :login_with_saml_assertion
 
-  before_action(only: :login_with_saml_assertion) { params.require(:saml_assertion) }
+  before_action -> { params.require(:saml_assertion) }, only: :login_with_saml_assertion
 
   def login
     redirect_to "/auth/saml"
@@ -16,7 +16,7 @@ class UpvsController < ApiController
     saml_assertion = decode_base64(params[:saml_assertion])
     token = Environment.obo_token_authenticator.create_obo_token_from_assertion(saml_assertion, Environment.obo_token_scopes)
 
-    render json: { token: token }
+    render json: { token: }
   rescue ArgumentError => error
     render_bad_request(:invalid, error.message)
   end
@@ -48,7 +48,7 @@ class UpvsController < ApiController
     render partial: "iam/identity", locals: { identity: iam_repository(**upvs_identity).identity(obo_subject_id(upvs_identity[:obo])) }
   end
 
-  rescue_from(sk.gov.schemas.identity.service._1_7.GetIdentityFault) { |error| render_bad_request(:invalid, :identity_id, upvs_fault(error)) }
+  rescue_from sk.gov.schemas.identity.service._1_7.GetIdentityFault, with: ->(error) { render_bad_request(:invalid, :identity_id, upvs_fault(error)) }
 
   private
 
@@ -58,7 +58,7 @@ class UpvsController < ApiController
 
   def callback_url_with_sp_callback(callback_url)
     uri = URI.parse(callback_url)
-    params = URI.decode_www_form(uri.query || "") + { 'callback': slo_callback }.to_a
+    params = URI.decode_www_form(uri.query.to_s) << [ "callback", slo_callback ]
     uri.query = URI.encode_www_form(params)
     uri.to_s
   end
@@ -72,7 +72,7 @@ class UpvsController < ApiController
   end
 
   def slo_callback
-    "#{request.protocol + request.host_with_port}/auth/saml/slo?#{slo_request_params.to_query}"
+    "#{request.protocol}#{request.host_with_port}/auth/saml/slo?#{slo_request_params.to_query}"
   end
 
   def obo_subject_id(assertion)

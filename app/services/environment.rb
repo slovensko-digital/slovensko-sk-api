@@ -11,12 +11,16 @@ module Environment
     @logout_callback_url ||= ENV.fetch("LOGOUT_CALLBACK_URL")
   end
 
+  def redis_url
+    ENV.fetch("REDIS_URL", "redis://localhost:6379/0")
+  end
+
   def api_token_authenticator
     @api_token_authenticator ||= ApiTokenAuthenticator.new(
       identifier_store: api_token_identifier_store,
-      public_key: OpenSSL::PKey::RSA.new(File.read(Rails.root.join("security", "api_token_#{Rails.env}.public.pem"))),
+      public_key: OpenSSL::PKey::RSA.new(Rails.root.join("security", "api_token_#{Rails.env}.public.pem").read),
       subject_verifier: ->(sub) { UpvsEnvironment.subject?(sub) },
-      obo_token_authenticator: obo_token_authenticator,
+      obo_token_authenticator:,
     )
   end
 
@@ -25,25 +29,29 @@ module Environment
       namespace: "api-token-identifiers",
       error_handler: REDIS_CONNECTION_ENFORCER,
       compress: false,
-      url: ENV["REDIS_URL"] || "redis://localhost:6379/0"
+      url: redis_url
     )
   end
 
   def obo_token_authenticator
-    @obo_token_authenticator ||= OboTokenAuthenticator.new(
-      assertion_store: obo_token_assertion_store,
-      key_pair: OpenSSL::PKey::RSA.new(File.read(Rails.root.join("security", "obo_token_#{Rails.env}.private.pem"))),
-      proxy_subject: UpvsEnvironment.sso_proxy_subject,
-    ) if UpvsEnvironment.obo_support? || UpvsEnvironment.sso_support?
+    if UpvsEnvironment.obo_support? || UpvsEnvironment.sso_support?
+      @obo_token_authenticator ||= OboTokenAuthenticator.new(
+        assertion_store: obo_token_assertion_store,
+        key_pair: OpenSSL::PKey::RSA.new(Rails.root.join("security", "obo_token_#{Rails.env}.private.pem").read),
+        proxy_subject: UpvsEnvironment.sso_proxy_subject,
+      )
+    end
   end
 
   def obo_token_assertion_store
-    @obo_token_assertion_store ||= ActiveSupport::Cache::RedisCacheStore.new(
-      namespace: "obo-token-assertions",
-      error_handler: REDIS_CONNECTION_ENFORCER,
-      compress: true,
-      url: ENV["REDIS_URL"] || "redis://localhost:6379/0"
-    ) if UpvsEnvironment.obo_support? || UpvsEnvironment.sso_support?
+    if UpvsEnvironment.obo_support? || UpvsEnvironment.sso_support?
+      @obo_token_assertion_store ||= ActiveSupport::Cache::RedisCacheStore.new(
+        namespace: "obo-token-assertions",
+        error_handler: REDIS_CONNECTION_ENFORCER,
+        compress: true,
+        url: redis_url
+      )
+    end
   end
 
   def obo_token_scopes
@@ -51,7 +59,8 @@ module Environment
   end
 
   # RedisCacheStore ignores standard errors
-  RedisConnectionError = Class.new(Exception)
+  class RedisConnectionError < Exception
+  end
 
   REDIS_CONNECTION_ENFORCER = ->(*) { raise RedisConnectionError }
 end

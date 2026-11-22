@@ -4,13 +4,13 @@ class SktalkMessageBuilder
   end
 
   def initialize(class:, posp_id: nil, posp_version: nil, message_id: uuid, correlation_id: uuid, reference_id: nil, business_id: nil) # TODO channel_info: nil, channel_info_reply: nil, security_method: nil, security_token: nil, identity: nil
-    Nokogiri::XML::Builder.new(encoding: "utf-8") { |m|
+    Nokogiri::XML::Builder.new(encoding: "utf-8") do |m|
       @builder = m
-      m.SKTalkMessage {
+      m.SKTalkMessage do
         m.parent[:xmlns] = "http://gov.sk/SKTalkMessage"
         m.EnvelopeVersion "3.0"
-        m.Header {
-          m.MessageInfo {
+        m.Header do
+          m.MessageInfo do
             m.Class binding.local_variable_get(:class)
             m.PospID posp_id if posp_id
             m.PospVersion posp_version if posp_version
@@ -21,7 +21,7 @@ class SktalkMessageBuilder
             # TODO support channel info
             # m.ChannelInfo channel_info if channel_info
             # m.ChannelInfoReply channel_info_reply if channel_info_reply
-          }
+          end
           # TODO support sender info
           # m.SenderInfo {
           #   m.SecurityMethod security_method if security_method
@@ -31,17 +31,17 @@ class SktalkMessageBuilder
           # TODO support routing info
           # m.RoutingInfo {
           # }
-        }
-        m.Body {
+        end
+        m.Body do
           yield self if block_given?
-        }
-      }
-    }
+        end
+      end
+    end
   end
 
   def message_container(sender_uri:, recipient_uri:, message_type:, message_subject: nil, sender_business_reference: nil, recipient_business_reference: nil)
     @builder.tap do |m|
-      m.MessageContainer {
+      m.MessageContainer do
         m.parent[:xmlns] = "http://schemas.gov.sk/core/MessageContainer/1.0"
         m.MessageId @builder.doc.at_xpath("/SKTalkMessage/Header/MessageInfo/MessageID").content
         m.SenderId sender_uri
@@ -51,13 +51,13 @@ class SktalkMessageBuilder
         m.SenderBusinessReference sender_business_reference if sender_business_reference
         m.RecipientBusinessReference recipient_business_reference if recipient_business_reference
         yield self if block_given?
-      }
+      end
     end
   end
 
   def object(id: uuid, name: nil, description: nil, class:, signed: false, mime_type:, encoding:)
     @builder.tap do |m|
-      m.Object {
+      m.Object do
         # TODO fix: attributes in resulting XML are not in order as defined here
         m.parent[:Id] = id
         m.parent[:Name] = name if name
@@ -67,18 +67,18 @@ class SktalkMessageBuilder
         m.parent[:MimeType] = mime_type
         m.parent[:Encoding] = encoding
         yield self if block_given?
-      }
+      end
     end
   end
 
-  def form_object(**args, &block)
+  def form_object(**args, &)
     raise ArgumentError if args.key?(:class)
-    object(**args.merge(class: "FORM").reverse_merge(mime_type: "application/x-eform-xml", encoding: "XML"), &block)
+    object(**args.merge(class: "FORM").reverse_merge(mime_type: "application/x-eform-xml", encoding: "XML"), &)
   end
 
-  def attachment_object(**args, &block)
+  def attachment_object(**args, &)
     raise ArgumentError if args.key?(:class)
-    object(**args.merge(class: "ATTACHMENT").reverse_merge(encoding: "Base64"), &block)
+    object(**args.merge(class: "ATTACHMENT").reverse_merge(encoding: "Base64"), &)
   end
 
   def <<(value)
@@ -92,10 +92,10 @@ class SktalkMessageBuilder
 
   # internal support for builders which set SKTalk class or POSP later according to SKTalk body structure
 
-  CLASS_PATH = "/SKTalkMessage/Header/MessageInfo/Class"
-  POSP_ID_PATH = "/SKTalkMessage/Header/MessageInfo/PospID"
-  POSP_VERSION_PATH = "/SKTalkMessage/Header/MessageInfo/PospVersion"
-  MESSAGE_TYPE_PATH = "/SKTalkMessage/Body/MessageContainer/MessageType"
+  CLASS_PATH = "/SKTalkMessage/Header/MessageInfo/Class".freeze
+  POSP_ID_PATH = "/SKTalkMessage/Header/MessageInfo/PospID".freeze
+  POSP_VERSION_PATH = "/SKTalkMessage/Header/MessageInfo/PospVersion".freeze
+  MESSAGE_TYPE_PATH = "/SKTalkMessage/Body/MessageContainer/MessageType".freeze
 
   def set_class(c)
     @builder.doc.at_xpath(CLASS_PATH).content = c

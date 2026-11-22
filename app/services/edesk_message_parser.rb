@@ -1,5 +1,6 @@
 class EdeskMessageParser
-  ParseError = Class.new(RuntimeError)
+  class ParseError < RuntimeError
+  end
 
   def parse(edesk_message)
     m = Message.new
@@ -34,7 +35,7 @@ class EdeskMessageParser
   private
 
   def build_message(m)
-    d = Nokogiri::XML.parse(m.original_xml) { |config| config.noblanks }
+    d = Nokogiri::XML.parse(m.original_xml, &:noblanks)
 
     build_message_from_sktalk_message(d, m)
   end

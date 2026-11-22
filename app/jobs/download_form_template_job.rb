@@ -3,7 +3,7 @@ class DownloadFormTemplateJob < ApplicationJob
     eform_service = UpvsEnvironment.eform_service(sub: ENV.fetch("EFORM_SYNC_SUBJECT"))
 
     FormTemplate.transaction do
-      template = FormTemplate.find_or_create_by(identifier: identifier, version_major: version_major, version_minor: version_minor)
+      template = FormTemplate.find_or_create_by(identifier:, version_major:, version_minor:)
 
       xsd_schema = eform_service.fetch_form_related_document(identifier, "#{version_major}.#{version_minor}", "CLS_F_XSD_EDOC")
       create_form_template_related_document(xsd_schema, template)
@@ -17,7 +17,7 @@ class DownloadFormTemplateJob < ApplicationJob
   end
 
   def create_form_template_related_document(document, template)
-    return unless document.present?
+    return if document.blank?
 
     FormTemplateRelatedDocument.create_with(data: fix_document_data(document.data.value.to_s)).find_or_create_by(
       form_template: template,

@@ -63,7 +63,7 @@ module UpvsEnvironment
       -destkeypass #{generate_pass(:pk, sub)}
     ]
   ensure
-    File.delete(sts_keystore_file(sub) + ".pkcs12")
+    File.delete("#{sts_keystore_file(sub)}.pkcs12")
   end
 
   def delete_subject(sub)
@@ -71,7 +71,7 @@ module UpvsEnvironment
   end
 
   def subjects
-    Dir[Rails.root.join("security", "sts", "*_#{Upvs.env}.keystore")].map { |f| File.basename(f, ".*").rpartition("_").first }
+    Rails.root.glob("security/sts/*_#{Upvs.env}.keystore").map { |f| File.basename(f, ".*").rpartition("_").first }
   end
 
   def subject(sub)
@@ -162,7 +162,7 @@ module UpvsEnvironment
   end
 
   # TODO remove in favor of #upvs_properties
-  alias :properties :upvs_properties
+  alias properties upvs_properties
 
   def upvs_proxy(**args)
     upvs_properties = upvs_properties(**args)
