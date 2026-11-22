@@ -1,18 +1,33 @@
+# == Schema Information
+#
+# Table name: form_templates
+#
+#  id            :bigint           not null, primary key
+#  identifier    :string           not null
+#  version_major :integer          not null
+#  version_minor :integer          not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
+# Indexes
+#
+#  index_form_templates_on_identifier_and_version  (identifier,version_major,version_minor) UNIQUE
+#
 FactoryBot.define do
   factory :form_template do
-    identifier { 'App.GeneralAgenda' }
+    identifier { "App.GeneralAgenda" }
     version_major { 1 }
     version_minor { 9 }
   end
 
   factory :form_template_related_document do
     form_template
-    language { 'sk' }
-    document_type { 'CLS_F_XSD_EDOC' }
+    language { "sk" }
+    document_type { "CLS_F_XSD_EDOC" }
     data { '<?xml version="1.0" encoding="utf-8"?>' }
 
     trait :general_agenda_xsd_schema do
-      association :form_template, identifier: 'App.GeneralAgenda', version_major: 1, version_minor: 9
+      association :form_template, identifier: "App.GeneralAgenda", version_major: 1, version_minor: 9
       data do
         <<~HEREDOC
         <?xml version="1.0" encoding="utf-8"?>

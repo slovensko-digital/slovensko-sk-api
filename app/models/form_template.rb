@@ -1,6 +1,20 @@
-# TODO add annotate gem
 # TODO replace version_major/version_minor with single version field
 
+# == Schema Information
+#
+# Table name: form_templates
+#
+#  id            :bigint           not null, primary key
+#  identifier    :string           not null
+#  version_major :integer          not null
+#  version_minor :integer          not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
+# Indexes
+#
+#  index_form_templates_on_identifier_and_version  (identifier,version_major,version_minor) UNIQUE
+#
 class FormTemplate < ApplicationRecord
   # TODO remove class_name once FormTemplateRelatedDocument is renamed just to RelatedDocument
   has_many :related_documents, class_name: "FormTemplateRelatedDocument"
@@ -16,6 +30,6 @@ class FormTemplate < ApplicationRecord
   end
 
   def related_document(type)
-    related_documents.where(document_type: type).where("lower(language) = 'sk'")&.first&.data
+    related_documents.where(document_type: type).where("lower(language) = 'sk'").first&.data
   end
 end
