@@ -20,6 +20,6 @@ RSpec.configure do |config|
   # skip all examples related to NASES UAT by default
   config.filter_run_excluding(uat: true) unless config.inclusion_or_exclusion_filter?(:uat)
 
-  warn 'WARNING: Please consider running examples in UPVS FIX environment' unless Upvs.env.fix?
-  abort 'ERROR: Unable to run examples in UPVS PROD environment' if Upvs.env.prod?
+  warn "WARNING: Please consider running examples in UPVS FIX environment" unless Upvs.env.fix?
+  abort "ERROR: Unable to run examples in UPVS PROD environment" if Upvs.env.prod?
 end

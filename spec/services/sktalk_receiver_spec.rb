@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 # NOTE: requires UPVS technical account with UIR access
 
@@ -10,11 +10,11 @@ RSpec.describe SktalkReceiver, :sts do
 
   before(:example) { allow_upvs_expectations! }
 
-  def sktalk_message(class: 'EGOV_APPLICATION', subject: 'Všeobecný predmet', body: 'Všeobecný text')
+  def sktalk_message(class: "EGOV_APPLICATION", subject: "Všeobecný predmet", body: "Všeobecný text")
     EgovMessageBuilder.new_application { |m|
-      m.message_container(sender_uri: 'ico://sk/6501017042', recipient_uri: 'ico://sk/8311237188') {
+      m.message_container(sender_uri: "ico://sk/6501017042", recipient_uri: "ico://sk/8311237188") {
         m.form_object {
-          m.general_agenda(subject: subject, body: body)
+          m.general_agenda(subject:, body:)
         }
       }
     }.instance_exec {
@@ -56,226 +56,226 @@ RSpec.describe SktalkReceiver, :sts do
   #   end
   # end
 
-  describe '#receive' do
+  describe "#receive" do
     let(:message) { sktalk_message }
 
-    it 'receives message' do
-      expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class('EGOV_APPLICATION')).and_call_original
+    it "receives message" do
+      expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class("EGOV_APPLICATION")).and_call_original
 
       expect(subject.receive(message)).to eq(0)
     end
 
-    context 'with invalid message' do
-      let(:message) { 'INVALID' }
+    context "with invalid message" do
+      let(:message) { "INVALID" }
 
-      it 'does not receive message' do
+      it "does not receive message" do
         expect(upvs.sktalk).not_to receive(:receive)
 
         suppress(SktalkReceiver::ReceiveMessageFormatError) { subject.receive(message) }
       end
 
-      it 'raises error' do
+      it "raises error" do
         expect { subject.receive(message) }.to raise_error(SktalkReceiver::ReceiveMessageFormatError)
       end
     end
 
-    context 'with message being saved to drafts' do
-      let(:message) { sktalk_message(class: 'EDESK_SAVE_APPLICATION_TO_DRAFTS') }
+    context "with message being saved to drafts" do
+      let(:message) { sktalk_message(class: "EDESK_SAVE_APPLICATION_TO_DRAFTS") }
 
-      it 'does not receive message' do
+      it "does not receive message" do
         expect(upvs.sktalk).not_to receive(:receive)
 
         suppress(SktalkReceiver::ReceiveAsSaveToFolderError) { subject.receive(message) }
       end
 
-      it 'raises error' do
+      it "raises error" do
         expect { subject.receive(message) }.to raise_error(SktalkReceiver::ReceiveAsSaveToFolderError)
       end
     end
 
-    context 'with message being saved to outbox' do
-      let(:message) { sktalk_message(class: 'EDESK_SAVE_APPLICATION_TO_OUTBOX') }
+    context "with message being saved to outbox" do
+      let(:message) { sktalk_message(class: "EDESK_SAVE_APPLICATION_TO_OUTBOX") }
 
-      it 'does not receive message' do
+      it "does not receive message" do
         expect(upvs.sktalk).not_to receive(:receive)
 
         suppress(SktalkReceiver::ReceiveAsSaveToFolderError) { subject.receive(message) }
       end
 
-      it 'raises error' do
+      it "raises error" do
         expect { subject.receive(message) }.to raise_error(SktalkReceiver::ReceiveAsSaveToFolderError)
       end
     end
 
-    context 'with message returning non-zero result' do
+    context "with message returning non-zero result" do
       let(:message) { sktalk_message(class: nil) }
 
-      it 'receives message' do
+      it "receives message" do
         expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class(nil)).and_call_original
 
         expect(subject.receive(message)).to eq(3100119)
       end
     end
 
-    include_examples 'UPVS proxy internals', -> { subject.receive(message) }
+    include_examples "UPVS proxy internals", -> { subject.receive(message) }
   end
 
-  describe '#receive!' do
+  describe "#receive!" do
     pending # TODO
   end
 
-  describe '#receive_and_save_to_outbox!' do
+  describe "#receive_and_save_to_outbox!" do
     let(:message) { sktalk_message }
 
-    it 'receives message and saves it to outbox' do
-      expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class('EGOV_APPLICATION')).and_call_original
-      expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class('EDESK_SAVE_APPLICATION_TO_OUTBOX')).and_call_original
+    it "receives message and saves it to outbox" do
+      expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class("EGOV_APPLICATION")).and_call_original
+      expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class("EDESK_SAVE_APPLICATION_TO_OUTBOX")).and_call_original
 
       expect(subject.receive_and_save_to_outbox!(message)).to have_attributes(receive_result: 0, receive_timeout: false, save_to_outbox_result: 0, save_to_outbox_timeout: false)
     end
 
-    context 'with invalid message' do
-      let(:message) { 'INVALID' }
+    context "with invalid message" do
+      let(:message) { "INVALID" }
 
-      it 'does not receive message or save it to outbox' do
+      it "does not receive message or save it to outbox" do
         expect(upvs.sktalk).not_to receive(:receive)
 
         suppress(SktalkReceiver::ReceiveMessageFormatError) { subject.receive_and_save_to_outbox!(message) }
       end
 
-      it 'raises error' do
+      it "raises error" do
         expect { subject.receive_and_save_to_outbox!(message) }.to raise_error(SktalkReceiver::ReceiveMessageFormatError)
       end
     end
 
-    context 'with message being saved to drafts' do
-      let(:message) { sktalk_message(class: 'EDESK_SAVE_APPLICATION_TO_DRAFTS') }
+    context "with message being saved to drafts" do
+      let(:message) { sktalk_message(class: "EDESK_SAVE_APPLICATION_TO_DRAFTS") }
 
-      it 'does not receive message or save it to outbox' do
+      it "does not receive message or save it to outbox" do
         expect(upvs.sktalk).not_to receive(:receive)
 
         suppress(SktalkReceiver::ReceiveAsSaveToFolderError) { subject.receive_and_save_to_outbox!(message) }
       end
 
-      it 'raises error' do
+      it "raises error" do
         expect { subject.receive_and_save_to_outbox!(message) }.to raise_error(SktalkReceiver::ReceiveAsSaveToFolderError)
       end
     end
 
-    context 'with message being saved to outbox' do
-      let(:message) { sktalk_message(class: 'EDESK_SAVE_APPLICATION_TO_OUTBOX') }
+    context "with message being saved to outbox" do
+      let(:message) { sktalk_message(class: "EDESK_SAVE_APPLICATION_TO_OUTBOX") }
 
-      it 'does not receive message or save it to outbox' do
+      it "does not receive message or save it to outbox" do
         expect(upvs.sktalk).not_to receive(:receive)
 
         suppress(SktalkReceiver::ReceiveAsSaveToFolderError) { subject.receive_and_save_to_outbox!(message) }
       end
 
-      it 'raises error' do
+      it "raises error" do
         expect { subject.receive_and_save_to_outbox!(message) }.to raise_error(SktalkReceiver::ReceiveAsSaveToFolderError)
       end
     end
 
-    context 'with message returning non-zero result on receive' do
-      it 'does not receive message or save it to outbox' do
-        expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class('EGOV_APPLICATION')).and_return(3100119)
-        expect(upvs.sktalk).not_to receive(:receive).with(sktalk_message_of_class('EDESK_SAVE_APPLICATION_TO_OUTBOX'))
+    context "with message returning non-zero result on receive" do
+      it "does not receive message or save it to outbox" do
+        expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class("EGOV_APPLICATION")).and_return(3100119)
+        expect(upvs.sktalk).not_to receive(:receive).with(sktalk_message_of_class("EDESK_SAVE_APPLICATION_TO_OUTBOX"))
 
         expect(subject.receive_and_save_to_outbox!(message)).to have_attributes(receive_result: 3100119, receive_timeout: false, save_to_outbox_result: nil, save_to_outbox_timeout: nil)
       end
     end
 
-    context 'with timeout on receive' do
-      it 'timeouts on receiving message and does not save it to outbox' do
-        expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class('EGOV_APPLICATION')).and_raise(soap_timeout_exception)
-        expect(upvs.sktalk).not_to receive(:receive).with(sktalk_message_of_class('EDESK_SAVE_APPLICATION_TO_OUTBOX'))
+    context "with timeout on receive" do
+      it "timeouts on receiving message and does not save it to outbox" do
+        expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class("EGOV_APPLICATION")).and_raise(soap_timeout_exception)
+        expect(upvs.sktalk).not_to receive(:receive).with(sktalk_message_of_class("EDESK_SAVE_APPLICATION_TO_OUTBOX"))
 
         expect(subject.receive_and_save_to_outbox!(message)).to have_attributes(receive_result: nil, receive_timeout: true, save_to_outbox_result: nil, save_to_outbox_timeout: nil)
       end
     end
 
-    context 'with message returning non-zero result on save to outbox' do
-      it 'receives message but does not save it to outbox' do
-        expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class('EGOV_APPLICATION')).and_return(0)
-        expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class('EDESK_SAVE_APPLICATION_TO_OUTBOX')).and_return(3100119)
+    context "with message returning non-zero result on save to outbox" do
+      it "receives message but does not save it to outbox" do
+        expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class("EGOV_APPLICATION")).and_return(0)
+        expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class("EDESK_SAVE_APPLICATION_TO_OUTBOX")).and_return(3100119)
 
         expect(subject.receive_and_save_to_outbox!(message)).to have_attributes(receive_result: 0, receive_timeout: false, save_to_outbox_result: 3100119, save_to_outbox_timeout: false)
       end
     end
 
-    context 'with timeout on save to outbox' do
-      it 'receives message but timeouts on saving it to outbox' do
-        expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class('EGOV_APPLICATION')).and_return(0)
-        expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class('EDESK_SAVE_APPLICATION_TO_OUTBOX')).and_raise(soap_timeout_exception)
+    context "with timeout on save to outbox" do
+      it "receives message but timeouts on saving it to outbox" do
+        expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class("EGOV_APPLICATION")).and_return(0)
+        expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class("EDESK_SAVE_APPLICATION_TO_OUTBOX")).and_raise(soap_timeout_exception)
 
         expect(subject.receive_and_save_to_outbox!(message)).to have_attributes(receive_result: 0, receive_timeout: false, save_to_outbox_result: nil, save_to_outbox_timeout: true)
       end
     end
 
-    include_examples 'UPVS proxy internals', -> { subject.receive_and_save_to_outbox!(message) }, exclude_timeout_examples: true
+    include_examples "UPVS proxy internals", -> { subject.receive_and_save_to_outbox!(message) }, exclude_timeout_examples: true
   end
 
-  describe '#save_to_outbox' do
+  describe "#save_to_outbox" do
     let(:message) { sktalk_message }
 
-    it 'saves message to outbox' do
-      expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class('EDESK_SAVE_APPLICATION_TO_OUTBOX')).and_call_original
+    it "saves message to outbox" do
+      expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class("EDESK_SAVE_APPLICATION_TO_OUTBOX")).and_call_original
 
       expect(subject.save_to_outbox(message)).to eq(0)
     end
 
-    context 'with invalid message' do
-      let(:message) { 'INVALID' }
+    context "with invalid message" do
+      let(:message) { "INVALID" }
 
-      it 'does not save message to outbox' do
+      it "does not save message to outbox" do
         expect(upvs.sktalk).not_to receive(:receive)
 
         suppress(SktalkReceiver::ReceiveMessageFormatError) { subject.save_to_outbox(message) }
       end
 
-      it 'raises error' do
+      it "raises error" do
         expect { subject.save_to_outbox(message) }.to raise_error(SktalkReceiver::ReceiveMessageFormatError)
       end
     end
 
-    context 'with message being saved to drafts' do
-      let(:message) { sktalk_message(class: 'EDESK_SAVE_APPLICATION_TO_DRAFTS') }
+    context "with message being saved to drafts" do
+      let(:message) { sktalk_message(class: "EDESK_SAVE_APPLICATION_TO_DRAFTS") }
 
-      it 'does not save message to outbox' do
+      it "does not save message to outbox" do
         expect(upvs.sktalk).not_to receive(:receive)
 
         suppress(SktalkReceiver::ReceiveAsSaveToFolderError) { subject.save_to_outbox(message) }
       end
 
-      it 'raises error' do
+      it "raises error" do
         expect { subject.save_to_outbox(message) }.to raise_error(SktalkReceiver::ReceiveAsSaveToFolderError)
       end
     end
 
-    context 'with message being saved to outbox' do
-      let(:message) { sktalk_message(class: 'EDESK_SAVE_APPLICATION_TO_OUTBOX') }
+    context "with message being saved to outbox" do
+      let(:message) { sktalk_message(class: "EDESK_SAVE_APPLICATION_TO_OUTBOX") }
 
-      it 'does not save message to outbox' do
+      it "does not save message to outbox" do
         expect(upvs.sktalk).not_to receive(:receive)
 
         suppress(SktalkReceiver::ReceiveAsSaveToFolderError) { subject.save_to_outbox(message) }
       end
 
-      it 'raises error' do
+      it "raises error" do
         expect { subject.save_to_outbox(message) }.to raise_error(SktalkReceiver::ReceiveAsSaveToFolderError)
       end
     end
 
-    context 'with message returning non-zero result' do
+    context "with message returning non-zero result" do
       let(:message) { sktalk_message(class: nil) }
 
-      it 'does not save message to outbox' do
+      it "does not save message to outbox" do
         expect(upvs.sktalk).to receive(:receive).with(sktalk_message_of_class(nil)).and_call_original
 
         expect(subject.save_to_outbox(message)).to eq(3100119)
       end
     end
 
-    include_examples 'UPVS proxy internals', -> { subject.save_to_outbox(message) }
+    include_examples "UPVS proxy internals", -> { subject.save_to_outbox(message) }
   end
 end

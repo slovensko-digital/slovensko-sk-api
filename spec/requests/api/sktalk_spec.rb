@@ -1,6 +1,6 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe 'SKTalk API' do
+RSpec.describe "SKTalk API" do
   allow_api_token_with_obo_token!
   allow_fixed_sktalk_identifiers!
   skip_upvs_subject_verification!
@@ -8,91 +8,91 @@ RSpec.describe 'SKTalk API' do
   let(:token) { api_token_with_subject }
   let(:upvs) { upvs_proxy_double }
 
-  describe 'POST /api/sktalk/receive' do
+  describe "POST /api/sktalk/receive" do
     let(:params) do
-      { message: file_fixture('sktalk/egov_application_general_agenda.xml').read }
+      { message: file_fixture("sktalk/egov_application_general_agenda.xml").read }
     end
 
     let(:template) do
-      file_fixture('sktalk/egov_application_general_agenda.xml').read
+      file_fixture("sktalk/egov_application_general_agenda.xml").read
     end
 
     def set_upvs_expectations
       expect(upvs.sktalk).to receive(:receive).with(sktalk_message_matching(template)).and_return(0)
     end
 
-    it 'receives message' do
+    it "receives message" do
       set_upvs_expectations
 
-      post '/api/sktalk/receive', headers: headers, params: params, as: :json
+      post "/api/sktalk/receive", headers:, params:, as: :json
 
       expect(response.status).to eq(200)
       expect(response.object).to eq(receive_result: 0)
     end
 
-    it 'does not receive message if URP returns non-zero result' do
+    it "does not receive message if URP returns non-zero result" do
       expect(upvs.sktalk).to receive(:receive).with(sktalk_message_matching(template)).and_return(3100119)
 
-      post '/api/sktalk/receive', headers: headers, params: params, as: :json
+      post "/api/sktalk/receive", headers:, params:, as: :json
 
       expect(response.status).to eq(200)
       expect(response.object).to eq(receive_result: 3100119)
     end
 
-    include_examples 'API request media types', post: '/api/sktalk/receive', accept: 'application/json'
-    include_examples 'API request authentication', post: '/api/sktalk/receive', allow_sub: true, allow_obo_token: true
+    include_examples "API request media types", post: "/api/sktalk/receive", accept: "application/json"
+    include_examples "API request authentication", post: "/api/sktalk/receive", allow_sub: true, allow_obo_token: true
 
-    it 'responds with 400 if request does not contain message' do
-      post '/api/sktalk/receive', headers: headers, params: params.except(:message), as: :json
-
-      expect(response.status).to eq(400)
-      expect(response.object).to eq(message: 'No message')
-    end
-
-    it 'responds with 400 if request contains invalid message' do
-      expect(upvs.sktalk).to be
-
-      post '/api/sktalk/receive', headers: headers, params: params.merge(message: 'INVALID'), as: :json
+    it "responds with 400 if request does not contain message" do
+      post "/api/sktalk/receive", headers:, params: params.except(:message), as: :json
 
       expect(response.status).to eq(400)
-      expect(response.object).to eq(message: 'Invalid message')
+      expect(response.object).to eq(message: "No message")
     end
 
-    include_examples 'URP request timeout', post: '/api/sktalk/receive', receive: true
-
-    pending 'responds with 413 if payload is too large'
-
-    it 'responds with 422 if request contains message being saved to drafts' do
+    it "responds with 400 if request contains invalid message" do
       expect(upvs.sktalk).to be
 
-      post '/api/sktalk/receive', headers: headers, params: params.merge(message: file_fixture('sktalk/edesk_save_application_to_drafts_general_agenda.xml').read), as: :json
+      post "/api/sktalk/receive", headers:, params: params.merge(message: "INVALID"), as: :json
 
-      expect(response.status).to eq(422)
-      expect(response.object).to eq(message: 'Message should not be received as being saved to folder')
+      expect(response.status).to eq(400)
+      expect(response.object).to eq(message: "Invalid message")
     end
 
-    it 'responds with 422 if request contains message being saved to outbox' do
+    include_examples "URP request timeout", post: "/api/sktalk/receive", receive: true
+
+    pending "responds with 413 if payload is too large"
+
+    it "responds with 422 if request contains message being saved to drafts" do
       expect(upvs.sktalk).to be
 
-      post '/api/sktalk/receive', headers: headers, params: params.merge(message: file_fixture('sktalk/edesk_save_application_to_outbox_general_agenda.xml').read), as: :json
+      post "/api/sktalk/receive", headers:, params: params.merge(message: file_fixture("sktalk/edesk_save_application_to_drafts_general_agenda.xml").read), as: :json
 
       expect(response.status).to eq(422)
-      expect(response.object).to eq(message: 'Message should not be received as being saved to folder')
+      expect(response.object).to eq(message: "Message should not be received as being saved to folder")
     end
 
-    pending 'responds with 429 if request rate limit exceeds'
+    it "responds with 422 if request contains message being saved to outbox" do
+      expect(upvs.sktalk).to be
 
-    include_examples 'URP request failure', post: '/api/sktalk/receive', receive: true
-    include_examples 'UPVS proxy initialization', post: '/api/sktalk/receive', allow_sub: true, allow_obo_token: true
+      post "/api/sktalk/receive", headers:, params: params.merge(message: file_fixture("sktalk/edesk_save_application_to_outbox_general_agenda.xml").read), as: :json
+
+      expect(response.status).to eq(422)
+      expect(response.object).to eq(message: "Message should not be received as being saved to folder")
+    end
+
+    pending "responds with 429 if request rate limit exceeds"
+
+    include_examples "URP request failure", post: "/api/sktalk/receive", receive: true
+    include_examples "UPVS proxy initialization", post: "/api/sktalk/receive", allow_sub: true, allow_obo_token: true
   end
 
-  describe 'POST /api/sktalk/receive_and_save_to_outbox' do
+  describe "POST /api/sktalk/receive_and_save_to_outbox" do
     let(:params) do
-      { message: file_fixture('sktalk/egov_application_general_agenda.xml').read }
+      { message: file_fixture("sktalk/egov_application_general_agenda.xml").read }
     end
 
     let(:template) do
-      file_fixture('sktalk/egov_application_general_agenda.xml').read
+      file_fixture("sktalk/egov_application_general_agenda.xml").read
     end
 
     def set_upvs_expectations
@@ -100,186 +100,186 @@ RSpec.describe 'SKTalk API' do
       expect(upvs.sktalk).to receive(:receive).with(sktalk_message_matching(template).saving_to_outbox).and_return(0)
     end
 
-    it 'receives message and saves it to outbox' do
+    it "receives message and saves it to outbox" do
       set_upvs_expectations
 
-      post '/api/sktalk/receive_and_save_to_outbox', headers: headers, params: params, as: :json
+      post "/api/sktalk/receive_and_save_to_outbox", headers:, params:, as: :json
 
       expect(response.status).to eq(200)
       expect(response.object).to eq(receive_result: 0, receive_timeout: false, save_to_outbox_result: 0, save_to_outbox_timeout: false)
     end
 
-    it 'does not receive message or save it to outbox if URP returns non-zero result on receiving' do
+    it "does not receive message or save it to outbox if URP returns non-zero result on receiving" do
       expect(upvs.sktalk).to receive(:receive).with(sktalk_message_matching(template)).and_return(3100119)
       expect(upvs.sktalk).not_to receive(:receive)
 
-      post '/api/sktalk/receive_and_save_to_outbox', headers: headers, params: params, as: :json
+      post "/api/sktalk/receive_and_save_to_outbox", headers:, params:, as: :json
 
       expect(response.status).to eq(200)
       expect(response.object).to eq(receive_result: 3100119, receive_timeout: false, save_to_outbox_result: nil, save_to_outbox_timeout: nil)
     end
 
-    it 'receives message but does not save it to outbox if URP returns non-zero result on saving to outbox' do
+    it "receives message but does not save it to outbox if URP returns non-zero result on saving to outbox" do
       expect(upvs.sktalk).to receive(:receive).with(sktalk_message_matching(template)).and_return(0)
       expect(upvs.sktalk).to receive(:receive).with(sktalk_message_matching(template).saving_to_outbox).and_return(3100119)
 
-      post '/api/sktalk/receive_and_save_to_outbox', headers: headers, params: params, as: :json
+      post "/api/sktalk/receive_and_save_to_outbox", headers:, params:, as: :json
 
       expect(response.status).to eq(200)
       expect(response.object).to eq(receive_result: 0, receive_timeout: false, save_to_outbox_result: 3100119, save_to_outbox_timeout: false)
     end
 
-    include_examples 'API request media types', post: '/api/sktalk/receive_and_save_to_outbox', accept: 'application/json'
-    include_examples 'API request authentication', post: '/api/sktalk/receive_and_save_to_outbox', allow_sub: true, allow_obo_token: true
+    include_examples "API request media types", post: "/api/sktalk/receive_and_save_to_outbox", accept: "application/json"
+    include_examples "API request authentication", post: "/api/sktalk/receive_and_save_to_outbox", allow_sub: true, allow_obo_token: true
 
-    it 'responds with 400 if request does not contain message' do
-      post '/api/sktalk/receive_and_save_to_outbox', headers: headers, params: params.except(:message), as: :json
-
-      expect(response.status).to eq(400)
-      expect(response.object).to eq(message: 'No message')
-    end
-
-    it 'responds with 400 if request contains invalid message' do
-      expect(upvs.sktalk).to be
-
-      post '/api/sktalk/receive_and_save_to_outbox', headers: headers, params: params.merge(message: 'INVALID'), as: :json
+    it "responds with 400 if request does not contain message" do
+      post "/api/sktalk/receive_and_save_to_outbox", headers:, params: params.except(:message), as: :json
 
       expect(response.status).to eq(400)
-      expect(response.object).to eq(message: 'Invalid message')
+      expect(response.object).to eq(message: "No message")
     end
 
-    include_examples 'URP request timeout', post: '/api/sktalk/receive_and_save_to_outbox', receive: true, save_to_outbox: true
-
-    pending 'responds with 413 if payload is too large'
-
-    it 'responds with 422 if request contains message being saved to drafts' do
+    it "responds with 400 if request contains invalid message" do
       expect(upvs.sktalk).to be
 
-      post '/api/sktalk/receive_and_save_to_outbox', headers: headers, params: params.merge(message: file_fixture('sktalk/edesk_save_application_to_drafts_general_agenda.xml').read), as: :json
+      post "/api/sktalk/receive_and_save_to_outbox", headers:, params: params.merge(message: "INVALID"), as: :json
 
-      expect(response.status).to eq(422)
-      expect(response.object).to eq(message: 'Message should not be received as being saved to folder')
+      expect(response.status).to eq(400)
+      expect(response.object).to eq(message: "Invalid message")
     end
 
-    it 'responds with 422 if request contains message being saved to outbox' do
+    include_examples "URP request timeout", post: "/api/sktalk/receive_and_save_to_outbox", receive: true, save_to_outbox: true
+
+    pending "responds with 413 if payload is too large"
+
+    it "responds with 422 if request contains message being saved to drafts" do
       expect(upvs.sktalk).to be
 
-      post '/api/sktalk/receive_and_save_to_outbox', headers: headers, params: params.merge(message: file_fixture('sktalk/edesk_save_application_to_outbox_general_agenda.xml').read), as: :json
+      post "/api/sktalk/receive_and_save_to_outbox", headers:, params: params.merge(message: file_fixture("sktalk/edesk_save_application_to_drafts_general_agenda.xml").read), as: :json
 
       expect(response.status).to eq(422)
-      expect(response.object).to eq(message: 'Message should not be received as being saved to folder')
+      expect(response.object).to eq(message: "Message should not be received as being saved to folder")
     end
 
-    pending 'responds with 429 if request rate limit exceeds'
+    it "responds with 422 if request contains message being saved to outbox" do
+      expect(upvs.sktalk).to be
 
-    include_examples 'URP request failure', post: '/api/sktalk/receive_and_save_to_outbox', receive: true, save_to_outbox: true
-    include_examples 'UPVS proxy initialization', post: '/api/sktalk/receive_and_save_to_outbox', allow_sub: true, allow_obo_token: true
+      post "/api/sktalk/receive_and_save_to_outbox", headers:, params: params.merge(message: file_fixture("sktalk/edesk_save_application_to_outbox_general_agenda.xml").read), as: :json
+
+      expect(response.status).to eq(422)
+      expect(response.object).to eq(message: "Message should not be received as being saved to folder")
+    end
+
+    pending "responds with 429 if request rate limit exceeds"
+
+    include_examples "URP request failure", post: "/api/sktalk/receive_and_save_to_outbox", receive: true, save_to_outbox: true
+    include_examples "UPVS proxy initialization", post: "/api/sktalk/receive_and_save_to_outbox", allow_sub: true, allow_obo_token: true
   end
 
-  describe 'POST /api/sktalk/save_to_outbox' do
+  describe "POST /api/sktalk/save_to_outbox" do
     let(:params) do
-      { message: file_fixture('sktalk/egov_application_general_agenda.xml').read }
+      { message: file_fixture("sktalk/egov_application_general_agenda.xml").read }
     end
 
     let(:template) do
-      file_fixture('sktalk/egov_application_general_agenda.xml').read
+      file_fixture("sktalk/egov_application_general_agenda.xml").read
     end
 
     def set_upvs_expectations
       expect(upvs.sktalk).to receive(:receive).with(sktalk_message_matching(template).saving_to_outbox).and_return(0)
     end
 
-    it 'saves message to outbox' do
+    it "saves message to outbox" do
       set_upvs_expectations
 
-      post '/api/sktalk/save_to_outbox', headers: headers, params: params, as: :json
+      post "/api/sktalk/save_to_outbox", headers:, params:, as: :json
 
       expect(response.status).to eq(200)
       expect(response.object).to eq(save_to_outbox_result: 0)
     end
 
-    it 'does not save message to outbox if URP returns non-zero result' do
+    it "does not save message to outbox if URP returns non-zero result" do
       expect(upvs.sktalk).to receive(:receive).with(sktalk_message_matching(template).saving_to_outbox).and_return(3100119)
 
-      post '/api/sktalk/save_to_outbox', headers: headers, params: params, as: :json
+      post "/api/sktalk/save_to_outbox", headers:, params:, as: :json
 
       expect(response.status).to eq(200)
       expect(response.object).to eq(save_to_outbox_result: 3100119)
     end
 
-    include_examples 'API request media types', post: '/api/sktalk/save_to_outbox', accept: 'application/json'
-    include_examples 'API request authentication', post: '/api/sktalk/save_to_outbox', allow_sub: true, allow_obo_token: true
+    include_examples "API request media types", post: "/api/sktalk/save_to_outbox", accept: "application/json"
+    include_examples "API request authentication", post: "/api/sktalk/save_to_outbox", allow_sub: true, allow_obo_token: true
 
-    it 'responds with 400 if request does not contain message' do
-      post '/api/sktalk/save_to_outbox', headers: headers, params: params.except(:message), as: :json
-
-      expect(response.status).to eq(400)
-      expect(response.object).to eq(message: 'No message')
-    end
-
-    it 'responds with 400 if request contains invalid message' do
-      expect(upvs.sktalk).to be
-
-      post '/api/sktalk/save_to_outbox', headers: headers, params: params.merge(message: 'INVALID'), as: :json
+    it "responds with 400 if request does not contain message" do
+      post "/api/sktalk/save_to_outbox", headers:, params: params.except(:message), as: :json
 
       expect(response.status).to eq(400)
-      expect(response.object).to eq(message: 'Invalid message')
+      expect(response.object).to eq(message: "No message")
     end
 
-    include_examples 'URP request timeout', post: '/api/sktalk/save_to_outbox', save_to_outbox: true
-
-    pending 'responds with 413 if payload is too large'
-
-    it 'responds with 422 if request contains message being saved to drafts' do
+    it "responds with 400 if request contains invalid message" do
       expect(upvs.sktalk).to be
 
-      post '/api/sktalk/save_to_outbox', headers: headers, params: params.merge(message: file_fixture('sktalk/edesk_save_application_to_drafts_general_agenda.xml').read), as: :json
+      post "/api/sktalk/save_to_outbox", headers:, params: params.merge(message: "INVALID"), as: :json
 
-      expect(response.status).to eq(422)
-      expect(response.object).to eq(message: 'Message should not be received as being saved to folder')
+      expect(response.status).to eq(400)
+      expect(response.object).to eq(message: "Invalid message")
     end
 
-    it 'responds with 422 if request contains message being saved to outbox' do
+    include_examples "URP request timeout", post: "/api/sktalk/save_to_outbox", save_to_outbox: true
+
+    pending "responds with 413 if payload is too large"
+
+    it "responds with 422 if request contains message being saved to drafts" do
       expect(upvs.sktalk).to be
 
-      post '/api/sktalk/save_to_outbox', headers: headers, params: params.merge(message: file_fixture('sktalk/edesk_save_application_to_outbox_general_agenda.xml').read), as: :json
+      post "/api/sktalk/save_to_outbox", headers:, params: params.merge(message: file_fixture("sktalk/edesk_save_application_to_drafts_general_agenda.xml").read), as: :json
 
       expect(response.status).to eq(422)
-      expect(response.object).to eq(message: 'Message should not be received as being saved to folder')
+      expect(response.object).to eq(message: "Message should not be received as being saved to folder")
     end
 
-    pending 'responds with 429 if request rate limit exceeds'
+    it "responds with 422 if request contains message being saved to outbox" do
+      expect(upvs.sktalk).to be
 
-    include_examples 'URP request failure', post: '/api/sktalk/save_to_outbox', save_to_outbox: true
-    include_examples 'UPVS proxy initialization', post: '/api/sktalk/save_to_outbox', allow_sub: true, allow_obo_token: true
+      post "/api/sktalk/save_to_outbox", headers:, params: params.merge(message: file_fixture("sktalk/edesk_save_application_to_outbox_general_agenda.xml").read), as: :json
+
+      expect(response.status).to eq(422)
+      expect(response.object).to eq(message: "Message should not be received as being saved to folder")
+    end
+
+    pending "responds with 429 if request rate limit exceeds"
+
+    include_examples "URP request failure", post: "/api/sktalk/save_to_outbox", save_to_outbox: true
+    include_examples "UPVS proxy initialization", post: "/api/sktalk/save_to_outbox", allow_sub: true, allow_obo_token: true
   end
 
-  describe 'POST /api/sktalk/prepare_for_later_receive' do
+  describe "POST /api/sktalk/prepare_for_later_receive" do
     before(:example) { travel_to(sso_response_issued_at) }
 
-    let(:headers) { respond_to?(:token) ? Hash['Authorization' => 'Bearer ' + api_token_with_obo_token(scopes: [ 'sktalk/prepare_for_later_receive' ])] : Hash.new }
+    let(:headers) { respond_to?(:token) ? Hash["Authorization" => "Bearer " + api_token_with_obo_token(scopes: [ "sktalk/prepare_for_later_receive" ])] : Hash.new }
 
     let(:template) do
-      file_fixture('sktalk/egov_application_empty_general_agenda.xml').read
+      file_fixture("sktalk/egov_application_empty_general_agenda.xml").read
     end
 
     def set_upvs_expectations
       expect(upvs.sktalk).to receive(:receive).with(sktalk_message_matching(template)).and_return(3100110)
     end
 
-    it 'returns long lasting OBO token', if: obo_support? do
+    it "returns long lasting OBO token", if: obo_support? do
       set_upvs_expectations
 
-      get "/api/sktalk/prepare_for_later_receive", headers: headers
+      get("/api/sktalk/prepare_for_later_receive", headers:)
 
       expect(response.status).to eq(200)
       expect(response.object[:token]).to be
     end
 
-    it 'returns long lasting OBO token', if: sso_support? do
+    it "returns long lasting OBO token", if: sso_support? do
       set_upvs_expectations
 
-      get "/api/sktalk/prepare_for_later_receive", headers: headers
+      get("/api/sktalk/prepare_for_later_receive", headers:)
 
       expect(response.status).to eq(200)
       expect(response.object[:token]).to be

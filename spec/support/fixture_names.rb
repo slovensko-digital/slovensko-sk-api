@@ -4,8 +4,8 @@ module FixtureNames
   end
 
   def fixture_name_to_human(name)
-    fixes = { 'ed' => 'ED', 'edesk' => 'eDesk', 'egov' => 'eGov' }
-    File.basename(name, '.*').remove('_response').split('_').map { |p| fixes[p] || p }.join(' ')
+    fixes = { "ed" => "ED", "edesk" => "eDesk", "egov" => "eGov" }
+    File.basename(name, ".*").remove("_response").split("_").map { |p| fixes[p] || p }.join(" ")
   end
 end
 

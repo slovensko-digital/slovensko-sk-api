@@ -1,11 +1,11 @@
 # TODO jobs should not be STS type specs -> eForm service is covered as STS spec in spec/services
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe DownloadFormTemplatesJob, :sts do
-  before(:example) { stub_const('ENV', ENV.to_h.merge('EFORM_SYNC_SUBJECT' => corporate_body_subject)) }
+  before(:example) { stub_const("ENV", ENV.to_h.merge("EFORM_SYNC_SUBJECT" => corporate_body_subject)) }
 
-  describe '#perform' do
+  describe "#perform" do
     before(:context) do
       @response = UpvsEnvironment.eform_service(sub: corporate_body_subject).fetch_all_form_template_ids.first(3)
     end
@@ -22,11 +22,11 @@ RSpec.describe DownloadFormTemplatesJob, :sts do
       )
     end
 
-    it 'enqueues DownloadFormTemplateJob for new templates by default' do
+    it "enqueues DownloadFormTemplateJob for new templates by default" do
       expect { subject.perform }.to have_enqueued_job(DownloadFormTemplateJob).exactly(2).times
     end
 
-    it 'enqueues DownloadFormTemplateJob for all templates when forced' do
+    it "enqueues DownloadFormTemplateJob for all templates when forced" do
       expect { subject.perform(force: true) }.to have_enqueued_job(DownloadFormTemplateJob).exactly(3).times
     end
   end

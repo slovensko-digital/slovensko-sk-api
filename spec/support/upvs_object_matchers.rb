@@ -8,7 +8,7 @@ module UpvsObjectMatchers
       expected_as_struct = UpvsObjects.to_structure(expected)
       actual_as_struct = UpvsObjects.to_structure(actual)
 
-      warn 'WARNING: Comparing two blank UPVS objects is unsafe' if expected_as_struct.blank? && actual_as_struct.blank?
+      warn "WARNING: Comparing two blank UPVS objects is unsafe" if expected_as_struct.blank? && actual_as_struct.blank?
 
       result = expected.instance_of?(actual.class) && values_match?(expected_as_struct, actual_as_struct)
 
@@ -32,7 +32,7 @@ module UpvsObjectMatchers
     end
 
     def failure_message_note
-      'compared using Upvs#to_struct(expected) == Upvs#to_struct(actual)'
+      "compared using Upvs#to_struct(expected) == Upvs#to_struct(actual)"
     end
 
     diffable

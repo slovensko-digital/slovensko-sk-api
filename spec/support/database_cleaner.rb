@@ -1,5 +1,5 @@
-require 'database_cleaner/active_record'
-require 'database_cleaner/redis'
+require "database_cleaner/active_record"
+require "database_cleaner/redis"
 
 RSpec.configure do |config|
   config.before(:suite) do

@@ -9,7 +9,7 @@ RSpec::Matchers.define :sktalk_message do
   end
 
   chain :saving_to_outbox do
-    @class = 'EDESK_SAVE_APPLICATION_TO_OUTBOX'
+    @class = "EDESK_SAVE_APPLICATION_TO_OUTBOX"
   end
 
   chain :with_class, :class
@@ -42,6 +42,6 @@ RSpec::Matchers.define :sktalk_message_matching do |content|
   end
 
   chain :saving_to_outbox do
-    @class = 'EDESK_SAVE_APPLICATION_TO_OUTBOX'
+    @class = "EDESK_SAVE_APPLICATION_TO_OUTBOX"
   end
 end

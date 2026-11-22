@@ -1,6 +1,6 @@
 class ActiveSupport::Cache::RedisCacheStore
   def keys
-    redis.with { |connection| connection.keys([ options[:namespace], '*' ].compact * ':') }
+    redis.with { |connection| connection.keys([ options[:namespace], "*" ].compact * ":") }
   end
 end
 
@@ -15,7 +15,7 @@ module RedisCacheStores
 
   def redis_cache_store_without_connection
     error_handler = ->(method:, **) { Environment::REDIS_CONNECTION_ENFORCER.call if method != :clear }
-    ActiveSupport::Cache::RedisCacheStore.new(url: 'redis://127.0.0.1:10', error_handler: error_handler)
+    ActiveSupport::Cache::RedisCacheStore.new(url: "redis://127.0.0.1:10", error_handler:)
   end
 end
 
